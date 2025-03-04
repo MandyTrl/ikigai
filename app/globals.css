@@ -26,4 +26,5 @@
 body {
 	font-family: var(--font-arima);
 	color: var(--primary);
+	background-color: #b6d4db4a;
 }
