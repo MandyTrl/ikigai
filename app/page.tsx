@@ -1,6 +1,12 @@
 import Image from "next/image"
-import { Button } from "./components/UI/Button"
+import {
+	Heart,
+	PersonSimpleThrow,
+	HandCoins,
+	Handshake,
+} from "@phosphor-icons/react/dist/ssr"
 import { Title } from "./components/UI/Title"
+import { Button } from "./components/UI/Button"
 
 export default function Home() {
 	return (
@@ -45,20 +51,9 @@ export default function Home() {
 
 				<div className="flex flex-col gap-y-4">
 					<p>
-						L&apos;ikigai repose sur <strong>quatre piliers</strong> :
-						<ul>
-							<li>Ce que vous aimez</li> <li>Ce en quoi vous excellez</li>
-							<li>Ce dont le monde a besoin</li>
-							<li>Ce pour quoi vous pouvez être rémunéré</li>
-						</ul>
-						Avec l&apos;appui de [Nom de l’IA], Ikig-ai analyse ces éléments
-						pour vous offrir une synthèse personnalisée et pertinente. Fini le
-						flou, place à une vision plus éclairée de votre avenir.
-						L&apos;intelligence artificielle permet d&apos;analyser ces éléments
-						de manière fine et objective, en vous proposant une synthèse
-						pertinente et des suggestions adaptées. Résultat ? Une vision plus
-						claire, un cap défini, et la liberté d&apos;explorer votre propre
-						chemin.
+						Il peut être difficile dans notre quotidien de faire une pause et de
+						comprendre ce qui nous motive vraiment. Pourtant, se poser les
+						bonnes questions est essentiel pour aller dans la bonne direction.
 					</p>
 
 					<p>
@@ -70,19 +65,77 @@ export default function Home() {
 			</section>
 
 			<section className="w-2/4 mb-5">
-				<Title content="S'aider d'Ikig-ai" />
+				<Title content="S'aider d'" logo />
 
 				<div className="flex flex-col gap-y-4">
 					<p>
-						Il peut être difficile dans notre quotidien de faire une pause et de
-						comprendre ce qui nous motive vraiment. Pourtant, se poser les
-						bonnes questions est essentiel pour aller dans la bonne direction.
+						L&apos;ikigai repose sur <strong>quatre piliers</strong> :
 					</p>
 
+					<ul className="*:mb-3">
+						<li className="flex items-center gap-x-3">
+							<Heart size={30} weight="light" color="#091c34" />
+							Ce que vous aimez
+						</li>
+						<li className="flex items-center gap-x-3">
+							<PersonSimpleThrow size={30} weight="light" color="#091c34" />
+							Ce en quoi vous excellez
+						</li>
+						<li className="flex items-center gap-x-3">
+							<HandCoins size={30} weight="light" color="#091c34" />
+							Ce pour quoi vous pouvez être rémunéré
+						</li>
+						<li className="flex items-center gap-x-3">
+							<Handshake size={30} weight="light" color="#091c34" />
+							Ce dont le monde a besoin
+						</li>
+					</ul>
 					<p>
-						Ikig-ai vous guide à travers un test structuré, analysant vos
-						réponses pour faire émerger votre <strong>propre ikigai</strong> et
-						vous proposer des pistes concrètes adaptées à vous.
+						Avec l&apos;appui d&apos;
+						<Image
+							src={"/assets/logos/OpenAI_logo_2025.png"}
+							alt="logo d'OpenAi"
+							width={80}
+							height={50}
+							priority
+							className="inline-block align-middle"
+						/>
+						, l&apos;intelligence artificielle analyse ces éléments pour vous
+						offrir une synthèse personnalisée et pertinente. Résultat ? Un cap
+						défini, et la liberté d&apos;explorer votre propre chemin.
+					</p>
+				</div>
+			</section>
+
+			<section className="w-2/4 mb-5">
+				<Title content="Ce que vous apporte l'ikigai" />
+
+				<div className="flex flex-col gap-y-4">
+					<ul className="*:mb-3">
+						<li className="border-b border-secondary">
+							<span className="uppercase font-semibold pr-3 mr-3 border-r border-secondary">
+								Plus de clarté
+							</span>
+							En ayant une meilleure compréhension de vos envies et de vos
+							forces.
+						</li>
+						<li className="border-b border-secondary">
+							<span className="uppercase font-semibold pr-3 mr-3 border-r border-secondary">
+								Une opportunité
+							</span>
+							De retrouver du sens dans son quotidien et dans ses choix.
+						</li>
+						<li className="border-b border-secondary">
+							<span className="uppercase font-semibold pr-3 mr-3 border-r border-secondary">
+								Un meilleur équilibre
+							</span>
+							Aligner vos aspirations personnelles et professionnelles.
+						</li>
+					</ul>
+					<p>
+						Que ce soit pour faire évoluer votre carrière ou simplement mieux
+						vous connaître, prendre le temps d&apos;y réfléchir est un véritable
+						atout.
 					</p>
 				</div>
 			</section>
