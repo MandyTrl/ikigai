@@ -12,8 +12,8 @@
 	--color-secondary: var(--secondary);
 	--color-tertiary: var(--tertiary);
 	--color-accent: var(--accent);
-	--font-sans: var(--font-andika);
-	--font-mono: var(--font-arima);
+	--font-andika: var(--font-andika);
+	--font-arima: var(--font-arima);
 }
 
 @media (prefers-color-scheme: dark) {
