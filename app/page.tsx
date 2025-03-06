@@ -140,7 +140,7 @@ export default function Home() {
 				</div>
 			</section>
 
-			<Button title="Commencer" />
+			<Button title="Découvrir Mon ikigai" isLink href="/votre-ikigai" />
 		</div>
 	)
 }

@@ -33,7 +33,7 @@ export default function RootLayout({
 			<link rel="icon" href="/assets/logos/favicon-ikigai.svg" />
 			<body
 				className={`${arima.variable} ${andika.variable} antialiased m-5 max-w-screen max-h-screen overflow-auto`}>
-				<div className="w-full bg-white rounded-t-xl inset-shadow-sm inset-shadow-secondary">
+				<div className="w-full bg-white rounded-t-xl inset-shadow-sm inset-shadow-primary/30">
 					<Navbar />
 					<main className="p-12">{children}</main>
 				</div>
