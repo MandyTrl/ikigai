@@ -3,7 +3,7 @@ import Image from "next/image"
 
 export const Navbar = () => {
 	return (
-		<header className="w-full p-4 border-b border-secondary/50 sticky">
+		<header className="w-full p-6 border-b border-secondary sticky">
 			<Link href="/">
 				<Image
 					src={"/assets/logos/icon-ikigai.svg"}

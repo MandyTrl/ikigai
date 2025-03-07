@@ -1,3 +1,6 @@
+import { useState } from "react"
+import clsx from "clsx"
+
 type CircleProps = {
 	cx: string
 	cy: string
@@ -10,10 +13,8 @@ type CircleProps = {
 	labelAlignment: string
 	label: string
 	labelSecondPart?: string
-	isHovered?: boolean
+	onHoverChange?: (id: string | null) => void
 	onClick?: () => void
-	onMouseEnter?: () => void
-	onMouseLeave?: () => void
 }
 
 export const Circle = ({
@@ -28,14 +29,27 @@ export const Circle = ({
 	labelAlignment,
 	label,
 	labelSecondPart,
-	isHovered,
+	onHoverChange,
 	onClick,
-	onMouseEnter,
-	onMouseLeave,
 }: CircleProps) => {
-	const circleStyle = isHovered
-		? "mix-blend-normal cursor-pointer opacity-90 transition-colors transition-opacity duration-300 ease-in-out"
-		: "mix-blend-multiply cursor-pointer transition-colors transition-opacity duration-300 ease-in-out"
+	const [isHovered, setIsHovered] = useState(false)
+
+	const handleMouseEnter = () => {
+		setIsHovered(true)
+		onHoverChange?.(label)
+	}
+
+	const handleMouseLeave = () => {
+		setIsHovered(false)
+		onHoverChange?.(null)
+	}
+
+	const circleStyle = clsx(
+		"cursor-pointer transition-all duration-300 ease-in-out",
+		isHovered
+			? "translate-y-[-5px] opacity-100 mix-blend-normal"
+			: "mix-blend-multiply"
+	)
 
 	return (
 		<>
@@ -47,8 +61,8 @@ export const Circle = ({
 				opacity="0.45"
 				onClick={onClick}
 				className={circleStyle}
-				onMouseEnter={onMouseEnter}
-				onMouseLeave={onMouseLeave}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
 			/>
 			<text
 				x={isHovered ? hoveredCxLabel : defaultCxLabel}

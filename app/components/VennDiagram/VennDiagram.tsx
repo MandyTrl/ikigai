@@ -11,51 +11,51 @@ const VennDiagram: React.FC = () => {
 		{
 			id: "love",
 			cx: "50%",
-			cy: "25%",
+			cy: "23%",
 			fill: "#b6d4db",
 			labelAlignment: "middle",
 			label: "Ce que vous aimez",
-			defaultCyLabel: "13%",
-			hoveredCyLabel: "27%",
+			defaultCyLabel: "14%",
+			hoveredCyLabel: "25%",
 			defaultCxLabel: "50%",
 			hoveredCxLabel: "50%",
 		},
 		{
 			id: "needs",
-			cx: "61%",
+			cx: "63%",
 			cy: "40%",
 			fill: "#ffefe5",
 			labelAlignment: "end",
 			label: "Ce dont le monde",
 			labelSecondPart: "a besoin",
-			defaultCxLabel: "74%",
-			hoveredCxLabel: "61%",
+			defaultCxLabel: "78%",
+			hoveredCxLabel: "63.5%",
 			defaultCyLabel: "40%",
-			hoveredCyLabel: "40%",
+			hoveredCyLabel: "41%",
 		},
 		{
 			id: "paid",
 			cx: "50%",
-			cy: "55%",
+			cy: "57%",
 			fill: "#c9def7",
 			labelAlignment: "middle",
 			label: "Ce pourquoi vous",
 			labelSecondPart: "pouvez être payé",
 			defaultCxLabel: "50%",
 			hoveredCxLabel: "50%",
-			defaultCyLabel: "67%",
-			hoveredCyLabel: "55%",
+			defaultCyLabel: "69%",
+			hoveredCyLabel: "58%",
 		},
 		{
 			id: "talent",
-			cx: "39%",
+			cx: "37%",
 			cy: "40%",
 			fill: "#eed2d7",
 			labelAlignment: "start",
 			label: "Ce pourquoi",
 			labelSecondPart: "vous êtes doué",
-			defaultCxLabel: "26%",
-			hoveredCxLabel: "39%",
+			defaultCxLabel: "22%",
+			hoveredCxLabel: "37%",
 			defaultCyLabel: "40%",
 			hoveredCyLabel: "40%",
 		},
@@ -79,11 +79,11 @@ const VennDiagram: React.FC = () => {
 		}
 	}
 
-	// Appliquer les positions dynamiques aux cercles
+	// cercles avec geston du positionnement des labels de façon dynamiques
 	const circles = baseCircles.map(getCircleWithDynamicLabels)
 
 	return (
-		<svg viewBox="0 0 400 300" className="w-full h-auto">
+		<svg viewBox="0 0 400 320" className="w-full h-auto">
 			{/* Cercles non survolés */}
 			{circles
 				.filter((circle) => !circle.isHovered)
@@ -93,12 +93,13 @@ const VennDiagram: React.FC = () => {
 						cx,
 						cy,
 						fill,
-						cxLabel,
-						cyLabel,
+						defaultCxLabel,
+						hoveredCxLabel,
+						defaultCyLabel,
+						hoveredCyLabel,
 						labelAlignment,
 						label,
 						labelSecondPart,
-						isHovered,
 					}) => (
 						<Circle
 							key={id}
@@ -106,15 +107,15 @@ const VennDiagram: React.FC = () => {
 							cy={cy}
 							r={radius}
 							fill={fill}
-							defaultCxLabel={cxLabel}
-							defaultCyLabel={cyLabel}
+							defaultCxLabel={defaultCxLabel}
+							hoveredCxLabel={hoveredCxLabel}
+							defaultCyLabel={defaultCyLabel}
+							hoveredCyLabel={hoveredCyLabel}
 							labelAlignment={labelAlignment}
 							label={label}
 							labelSecondPart={labelSecondPart}
-							isHovered={isHovered}
+							onHoverChange={setHoveredCircle}
 							onClick={() => setHoveredCircle(id)}
-							onMouseEnter={() => setHoveredCircle(id)}
-							onMouseLeave={() => setHoveredCircle(null)}
 						/>
 					)
 				)}
