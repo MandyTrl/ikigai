@@ -3,10 +3,9 @@ import React, { useState } from "react"
 import { Circle } from "./Circle"
 
 const VennDiagram: React.FC = () => {
-	const radius = "20%" //rayon en % pour le responsive
+	const radius = "20%" // Rayon en % pour le responsive
 	const [hoveredCircle, setHoveredCircle] = useState<string | null>(null)
 
-	// Définition de base des cercles
 	const baseCircles = [
 		{
 			id: "love",
@@ -61,75 +60,24 @@ const VennDiagram: React.FC = () => {
 		},
 	]
 
-	// Fonction pour déterminer la position du label en fonction de l'état de survol
-	const getCircleWithDynamicLabels = (circle) => {
-		const isHovered = hoveredCircle === circle.id
-
-		return {
-			...circle,
-			cxLabel:
-				isHovered && circle.hoveredCxLabel
-					? circle.hoveredCxLabel
-					: circle.defaultCxLabel || circle.cx,
-			cyLabel:
-				isHovered && circle.hoveredCyLabel
-					? circle.hoveredCyLabel
-					: circle.defaultCyLabel || circle.cy,
-			isHovered,
-		}
-	}
-
-	// cercles avec geston du positionnement des labels de façon dynamiques
-	const circles = baseCircles.map(getCircleWithDynamicLabels)
+	// réorganise les cercles pour que le survolé soit en dernier
+	const orderedCircles = [...baseCircles].sort((a, b) => {
+		if (a.id === hoveredCircle) return 1
+		if (b.id === hoveredCircle) return -1
+		return 0
+	})
 
 	return (
 		<svg viewBox="0 0 400 320" className="w-full h-auto">
-			{/* Cercles non survolés */}
-			{circles
-				.filter((circle) => !circle.isHovered)
-				.map(
-					({
-						id,
-						cx,
-						cy,
-						fill,
-						defaultCxLabel,
-						hoveredCxLabel,
-						defaultCyLabel,
-						hoveredCyLabel,
-						labelAlignment,
-						label,
-						labelSecondPart,
-					}) => (
-						<Circle
-							key={id}
-							cx={cx}
-							cy={cy}
-							r={radius}
-							fill={fill}
-							defaultCxLabel={defaultCxLabel}
-							hoveredCxLabel={hoveredCxLabel}
-							defaultCyLabel={defaultCyLabel}
-							hoveredCyLabel={hoveredCyLabel}
-							labelAlignment={labelAlignment}
-							label={label}
-							labelSecondPart={labelSecondPart}
-							onHoverChange={setHoveredCircle}
-							onClick={() => setHoveredCircle(id)}
-						/>
-					)
-				)}
-
-			{/* Cercle survolé (dessiné en dernier) */}
-			{hoveredCircle && (
+			{orderedCircles.map((circle) => (
 				<Circle
-					{...circles.find((circle) => circle.id === hoveredCircle)!}
+					key={circle.id}
+					{...circle}
 					r={radius}
-					onClick={() => setHoveredCircle(hoveredCircle)}
-					onMouseEnter={() => setHoveredCircle(hoveredCircle)}
+					onMouseEnter={() => setHoveredCircle(circle.id)}
 					onMouseLeave={() => setHoveredCircle(null)}
 				/>
-			)}
+			))}
 
 			{!hoveredCircle && (
 				<text
@@ -139,7 +87,8 @@ const VennDiagram: React.FC = () => {
 					fontSize="0.65vw"
 					fontWeight="bold"
 					fill="#091C34"
-					opacity={0.5}>
+					opacity={0.5}
+					className="cursor-pointer select-none">
 					Ikigai
 				</text>
 			)}

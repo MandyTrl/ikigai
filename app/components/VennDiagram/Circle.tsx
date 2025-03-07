@@ -13,8 +13,9 @@ type CircleProps = {
 	labelAlignment: string
 	label: string
 	labelSecondPart?: string
-	onHoverChange?: (id: string | null) => void
 	onClick?: () => void
+	onMouseEnter?: () => void
+	onMouseLeave?: () => void
 }
 
 export const Circle = ({
@@ -29,28 +30,26 @@ export const Circle = ({
 	labelAlignment,
 	label,
 	labelSecondPart,
-	onHoverChange,
 	onClick,
+	onMouseEnter,
+	onMouseLeave,
 }: CircleProps) => {
-	const [isHovered, setIsHovered] = useState(false)
+	const [isHovered, setIsHovered] = useState<boolean>(false)
 
 	const handleMouseEnter = () => {
 		setIsHovered(true)
-		onHoverChange?.(label)
+		onMouseEnter?.()
 	}
 
 	const handleMouseLeave = () => {
 		setIsHovered(false)
-		onHoverChange?.(null)
+		onMouseLeave?.()
 	}
 
 	const circleStyle = clsx(
-		"cursor-pointer transition-all duration-300 ease-in-out",
-		isHovered
-			? "translate-y-[-5px] opacity-100 mix-blend-normal"
-			: "mix-blend-multiply"
+		"cursor-pointer transition-opacity duration-300 ease-in-out stroke-[0.4] stroke-slate-400 mix-blend-multiply",
+		isHovered && "opacity-100 stroke-white mix-blend-normal"
 	)
-
 	return (
 		<>
 			<circle
@@ -71,7 +70,8 @@ export const Circle = ({
 				dy=".3em"
 				fill="#091C34"
 				fontSize={8}
-				fontWeight="semibold">
+				fontWeight="semibold"
+				className="cursor-pointer select-none">
 				<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
 					{label}
 				</tspan>
