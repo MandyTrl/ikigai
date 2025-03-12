@@ -5,6 +5,7 @@
 	--secondary: #b6d4db;
 	--tertiary: #c9def7;
 	--accent: #ffefe5;
+	--accent2: #eed2d7,
 }
 
 @theme inline {
@@ -12,6 +13,7 @@
 	--color-secondary: var(--secondary);
 	--color-tertiary: var(--tertiary);
 	--color-accent: var(--accent);
+	--color-accent2: var(--accent2)
 	--font-andika: var(--font-andika);
 	--font-arima: var(--font-arima);
 }

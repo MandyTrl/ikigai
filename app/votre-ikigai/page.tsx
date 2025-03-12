@@ -1,3 +1,4 @@
+import { MainstayList } from "../components/MainstayList"
 import { MainLayout } from "../components/UI/MainLayout"
 import VennDiagram from "../components/VennDiagram/VennDiagram"
 
@@ -9,8 +10,30 @@ export default function YourIkigai() {
 			</MainLayout>
 
 			<MainLayout hasNavbar>
-				<h1>Découvrez votre Ikigai</h1>
-				<p>Explication du test...</p>
+				<h1 className="text-2xl mb-5">
+					Bienvenue dans{" "}
+					<span className="text-3xl font-semibold">votre ikigai</span>,
+				</h1>
+
+				<h3 className="text-xl mb-1">
+					Comment commencer votre introspection ?
+				</h3>
+
+				<div className="flex flex-col gap-y-2">
+					<p>
+						Dans le panel qui se trouve à gauche vous avez la visualisation de
+						l&apos;ikigai dans son format le plus connu: le diagramme de Venn.
+						Il se compose des 4 piliers de l&apos;ikigai:
+					</p>
+
+					<MainstayList />
+
+					<p>
+						Chaque pilier est à explorer; cliquez sur celui par lequel vous
+						voulez débuter, lisez l&apos;explicatif et laissez-vous guider à la
+						prochaine étape.
+					</p>
+				</div>
 			</MainLayout>
 		</div>
 	)
