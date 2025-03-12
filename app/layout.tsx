@@ -1,14 +1,13 @@
 import type { Metadata } from "next"
 import { Arima, Andika } from "next/font/google"
 import "./globals.css"
-import { Navbar } from "./components/Navbar"
 
 const arima = Arima({
 	weight: ["100", "200", "300", "400", "500", "600", "700"],
 	style: ["normal"],
 	subsets: ["latin"],
 	variable: "--font-arima",
-	display: "swap", // permet d'éviter le FOUT ? (Flash of Unstyled Text) qui se produit lorsqu'une police met du temps à charger (switch de la police par défaut du navigateur à celle de notre app)
+	display: "swap", // permet d'éviter le FOUT (Flash of Unstyled Text) qui se produit lorsqu'une police met du temps à charger (switch de la police par défaut du navigateur à celle de notre app)
 })
 
 const andika = Andika({
@@ -32,11 +31,8 @@ export default function RootLayout({
 		<html lang="fr">
 			<link rel="icon" href="/assets/logos/favicon-ikigai.svg" />
 			<body
-				className={`${arima.variable} ${andika.variable} antialiased m-5 max-w-screen max-h-screen overflow-auto`}>
-				<div className="w-full rounded-t-xl border border-secondary border-b-transparent bg-white">
-					<Navbar />
-					<main className="p-12">{children}</main>
-				</div>
+				className={`${arima.variable} ${andika.variable} antialiased m-5  max-w-screen max-h-screen overflow-auto`}>
+				<main>{children}</main>
 			</body>
 		</html>
 	)
