@@ -1,17 +1,25 @@
 import { ReactNode } from "react"
 import { Navbar } from "../Navbar"
+import clsx from "clsx"
 
 type MainLayoutProps = {
 	children: ReactNode
-	navbar?: boolean
+	hasNavbar?: boolean
+	isVennDiagram?: boolean
 }
 
-export const MainLayout = ({ children, navbar = false }: MainLayoutProps) => {
+export const MainLayout = ({
+	children,
+	hasNavbar = false,
+	isVennDiagram = false,
+}: MainLayoutProps) => {
 	return (
-		<div className="w-full flex flex-col rounded-t-3xl bg-white shadow">
-			{navbar && <Navbar />}
+		<div className="w-full flex flex-col rounded-3xl bg-white shadow">
+			{hasNavbar && <Navbar />}
 
-			<div className="w-full p-12">{children}</div>
+			<div className={clsx(isVennDiagram ? "md:p-6" : "md:p-12", "w-full p-6")}>
+				{children}
+			</div>
 		</div>
 	)
 }

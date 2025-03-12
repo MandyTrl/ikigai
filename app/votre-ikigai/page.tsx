@@ -3,12 +3,12 @@ import VennDiagram from "../components/VennDiagram/VennDiagram"
 
 export default function YourIkigai() {
 	return (
-		<div className="w-full min-h-[calc(100svh-40px)] flex gap-x-2">
-			<MainLayout>
+		<div className="w-full min-h-[calc(100svh-40px)] flex flex-col md:flex-row gap-2">
+			<MainLayout isVennDiagram>
 				<VennDiagram />
 			</MainLayout>
 
-			<MainLayout navbar>
+			<MainLayout hasNavbar>
 				<h1>Découvrez votre Ikigai</h1>
 				<p>Explication du test...</p>
 			</MainLayout>

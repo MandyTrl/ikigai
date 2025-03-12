@@ -47,8 +47,8 @@ export const Circle = ({
 	}
 
 	const circleStyle = clsx(
-		"cursor-pointer transition-opacity duration-300 ease-in-out stroke-[0.4] stroke-slate-400 mix-blend-multiply",
-		isHovered && "opacity-100 stroke-white mix-blend-normal"
+		"cursor-pointer transition-opacity duration-300 ease-in-out mix-blend-multiply",
+		isHovered && "opacity-100 mix-blend-normal"
 	)
 	return (
 		<>
@@ -69,7 +69,7 @@ export const Circle = ({
 				textAnchor={isHovered ? "middle" : labelAlignment}
 				dy=".3em"
 				fill="#091C34"
-				fontSize={8}
+				fontSize={4}
 				fontWeight="semibold"
 				className="cursor-pointer select-none">
 				<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">

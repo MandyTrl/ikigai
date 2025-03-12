@@ -11,7 +11,7 @@ import { MainLayout } from "./components/UI/MainLayout"
 
 export default function Home() {
 	return (
-		<MainLayout navbar>
+		<MainLayout hasNavbar>
 			<div className="w-full p-12">
 				<Image
 					src={"/assets/logos/logo-ikigai.svg"}
