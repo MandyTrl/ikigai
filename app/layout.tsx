@@ -31,7 +31,7 @@ export default function RootLayout({
 		<html lang="fr">
 			<link rel="icon" href="/assets/logos/favicon-ikigai.svg" />
 			<body
-				className={`${arima.variable} ${andika.variable} antialiased m-5  max-w-screen max-h-screen overflow-auto`}>
+				className={`${arima.variable} ${andika.variable} antialiased max-w-screen m-5`}>
 				<main>{children}</main>
 			</body>
 		</html>

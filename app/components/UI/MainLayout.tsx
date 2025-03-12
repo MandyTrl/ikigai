@@ -8,9 +8,10 @@ type MainLayoutProps = {
 
 export const MainLayout = ({ children, navbar = false }: MainLayoutProps) => {
 	return (
-		<div className="w-full h-full flex flex-col rounded-t-3xl border border-secondary border-b-transparent bg-white">
+		<div className="w-full flex flex-col rounded-t-3xl bg-white shadow">
 			{navbar && <Navbar />}
-			<div className={navbar ? "w-full p-12" : "w-full"}>{children}</div>
+
+			<div className="w-full p-12">{children}</div>
 		</div>
 	)
 }
