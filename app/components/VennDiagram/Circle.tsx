@@ -34,8 +34,8 @@ export const Circle = ({
 	const isSelected = mainstay === id
 
 	const circleStyle = clsx(
-		"cursor-pointer transition-opacity duration-300 ease-in-out mix-blend-multiply",
-		isSelected && "opacity-100 mix-blend-normal"
+		"cursor-pointer transition-opacity duration-300 ease-in-out mix-blend-multiply stroke stroke-transparent",
+		isSelected && "opacity-100 mix-blend-normal stroke-white"
 	)
 
 	return (
