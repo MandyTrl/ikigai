@@ -10,7 +10,6 @@ type CircleProps = {
 	hoveredCxLabel?: string
 	defaultCyLabel: string
 	hoveredCyLabel?: string
-	labelAlignment: string
 	label: string
 	labelSecondPart?: string
 	onClick?: () => void
@@ -27,7 +26,6 @@ export const Circle = ({
 	hoveredCxLabel,
 	defaultCyLabel,
 	hoveredCyLabel,
-	labelAlignment,
 	label,
 	labelSecondPart,
 	onClick,
@@ -66,12 +64,13 @@ export const Circle = ({
 			<text
 				x={isHovered ? hoveredCxLabel : defaultCxLabel}
 				y={isHovered ? hoveredCyLabel : defaultCyLabel}
-				textAnchor={isHovered ? "middle" : labelAlignment}
+				textAnchor="middle"
 				dy=".3em"
 				fill="#091C34"
-				fontSize={4}
-				fontWeight="semibold"
-				className="cursor-pointer select-none">
+				fontSize={3.2}
+				opacity={0.7}
+				style={{ fontFamily: "var(--font-andika)" }}
+				className="cursor-pointer select-none font-light">
 				<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
 					{label}
 				</tspan>
