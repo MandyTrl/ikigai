@@ -16,7 +16,7 @@
 	--color-accentbis: var(--accentbis);
 	--font-andika: var(--font-andika);
 	--font-arima: var(--font-arima);
-	--shadow-custom: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	--shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
 }
 
 @media (prefers-color-scheme: dark) {
