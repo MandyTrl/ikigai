@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Arima, Andika } from "next/font/google"
 import "./globals.css"
+import { AppProviders } from "./context"
 
 const arima = Arima({
 	weight: ["100", "200", "300", "400", "500", "600", "700"],
@@ -30,10 +31,12 @@ export default function RootLayout({
 	return (
 		<html lang="fr">
 			<link rel="icon" href="/assets/logos/favicon-ikigai.svg" />
-			<body
-				className={`${arima.variable} ${andika.variable} antialiased max-w-screen m-5`}>
-				<main>{children}</main>
-			</body>
+			<AppProviders>
+				<body
+					className={`${arima.variable} ${andika.variable} antialiased max-w-screen m-5`}>
+					<main>{children}</main>
+				</body>
+			</AppProviders>
 		</html>
 	)
 }

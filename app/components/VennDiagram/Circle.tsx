@@ -1,7 +1,10 @@
-import { useState } from "react"
+"use client"
+import { useContext } from "react"
 import clsx from "clsx"
+import { MainstayContext, MainstayEnum } from "@/app/context/MainstayContext"
 
 type CircleProps = {
+	id: MainstayEnum
 	cx: string
 	cy: string
 	r?: string
@@ -12,12 +15,10 @@ type CircleProps = {
 	hoveredCyLabel?: string
 	label: string
 	labelSecondPart?: string
-	onClick?: () => void
-	onMouseEnter?: () => void
-	onMouseLeave?: () => void
 }
 
 export const Circle = ({
+	id,
 	cx,
 	cy,
 	r,
@@ -28,26 +29,15 @@ export const Circle = ({
 	hoveredCyLabel,
 	label,
 	labelSecondPart,
-	onClick,
-	onMouseEnter,
-	onMouseLeave,
 }: CircleProps) => {
-	const [isHovered, setIsHovered] = useState<boolean>(false)
-
-	const handleMouseEnter = () => {
-		setIsHovered(true)
-		onMouseEnter?.()
-	}
-
-	const handleMouseLeave = () => {
-		setIsHovered(false)
-		onMouseLeave?.()
-	}
+	const { mainstay } = useContext(MainstayContext)
+	const isSelected = mainstay === id
 
 	const circleStyle = clsx(
 		"cursor-pointer transition-opacity duration-300 ease-in-out mix-blend-multiply",
-		isHovered && "opacity-100 mix-blend-normal"
+		isSelected && "opacity-100 mix-blend-normal"
 	)
+
 	return (
 		<>
 			<circle
@@ -56,14 +46,11 @@ export const Circle = ({
 				r={r}
 				fill={fill}
 				opacity="0.50"
-				onClick={onClick}
 				className={circleStyle}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
 			/>
 			<text
-				x={isHovered ? hoveredCxLabel : defaultCxLabel}
-				y={isHovered ? hoveredCyLabel : defaultCyLabel}
+				x={isSelected ? hoveredCxLabel : defaultCxLabel}
+				y={isSelected ? hoveredCyLabel : defaultCyLabel}
 				textAnchor="middle"
 				dy=".3em"
 				fill="#091C34"
@@ -71,11 +58,11 @@ export const Circle = ({
 				opacity={0.7}
 				style={{ fontFamily: "var(--font-andika)" }}
 				className="cursor-pointer select-none font-light">
-				<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
+				<tspan x={isSelected ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
 					{label}
 				</tspan>
 				{labelSecondPart && (
-					<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="1.2em">
+					<tspan x={isSelected ? hoveredCxLabel : defaultCxLabel} dy="1.2em">
 						{labelSecondPart}
 					</tspan>
 				)}

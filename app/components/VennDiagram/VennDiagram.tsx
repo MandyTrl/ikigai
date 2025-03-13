@@ -1,14 +1,20 @@
 "use client"
-import React, { useState } from "react"
+import React, { useContext, useEffect } from "react"
 import { Circle } from "./Circle"
+import { MainstayContext, MainstayEnum } from "@/app/context/MainstayContext"
+
+const radius = "28%" //rayon en % pour le responsive
 
 const VennDiagram: React.FC = () => {
-	const radius = "28%" // Rayon en % pour le responsive
-	const [hoveredCircle, setHoveredCircle] = useState<string | null>(null)
+	const { mainstay } = useContext(MainstayContext)
+
+	useEffect(() => {
+		console.log("dans le diagram, voici le mainstay: ", mainstay)
+	}, [mainstay])
 
 	const baseCircles = [
 		{
-			id: "love",
+			id: MainstayEnum.LOVE,
 			cx: "50%",
 			cy: "29%",
 			fill: "#b6d4db",
@@ -19,7 +25,7 @@ const VennDiagram: React.FC = () => {
 			hoveredCxLabel: "50%",
 		},
 		{
-			id: "needs",
+			id: MainstayEnum.NEEDS,
 			cx: "70%",
 			cy: "50%",
 			fill: "#ffefe5",
@@ -31,7 +37,7 @@ const VennDiagram: React.FC = () => {
 			hoveredCyLabel: "50%",
 		},
 		{
-			id: "paid",
+			id: MainstayEnum.PAID,
 			cx: "50%",
 			cy: "71%",
 			fill: "#c9def7",
@@ -43,7 +49,7 @@ const VennDiagram: React.FC = () => {
 			hoveredCyLabel: "72%",
 		},
 		{
-			id: "talent",
+			id: MainstayEnum.TALENT,
 			cx: "30%",
 			cy: "50%",
 			fill: "#eed2d7",
@@ -58,8 +64,8 @@ const VennDiagram: React.FC = () => {
 
 	// réorganise les cercles pour que le survolé soit en dernier
 	const orderedCircles = [...baseCircles].sort((a, b) => {
-		if (a.id === hoveredCircle) return 1
-		if (b.id === hoveredCircle) return -1
+		if (a.id === mainstay) return 1
+		if (b.id === mainstay) return -1
 		return 0
 	})
 
@@ -71,16 +77,10 @@ const VennDiagram: React.FC = () => {
 					preserveAspectRatio="xMidYMid meet"
 					className="w-full h-auto">
 					{orderedCircles.map((circle) => (
-						<Circle
-							key={circle.id}
-							{...circle}
-							r={radius}
-							onMouseEnter={() => setHoveredCircle(circle.id)}
-							onMouseLeave={() => setHoveredCircle(null)}
-						/>
+						<Circle key={circle.id} {...circle} r={radius} />
 					))}
 
-					{!hoveredCircle && (
+					{!mainstay && (
 						<text
 							x="50%"
 							y="52%"
