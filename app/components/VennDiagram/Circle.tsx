@@ -1,7 +1,7 @@
 "use client"
 import { useContext } from "react"
 import clsx from "clsx"
-import { MainstayContext, MainstayEnum } from "@/app/context/MainstayContext"
+import { MainstayContext, MainstayEnum } from "@/app/context/IkigaiContext"
 
 type CircleProps = {
 	id: MainstayEnum

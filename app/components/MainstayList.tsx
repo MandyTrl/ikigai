@@ -1,6 +1,6 @@
 "use client"
 import { useContext, useState } from "react"
-import { MainstayContext, MainstayEnum } from "../context/MainstayContext"
+import { IkigaiContext, MainstayEnum } from "../context/IkigaiContext"
 import { Modal } from "./Modal/Modal"
 import { PillarIntroduction } from "./Modal/PillarIntroduction"
 
@@ -9,12 +9,12 @@ const spanStyle =
 	"inline-block w-3 h-3 rounded-full border-3 mr-2 bg-transparent transform-colors ease-in-out duration-200"
 
 export const MainstayList = () => {
-	const { handleMainstay } = useContext(MainstayContext)
+	const { selectMainstay } = useContext(IkigaiContext)
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	const handleClick = (mainstay: MainstayEnum) => {
 		setIsModalOpen(true)
-		handleMainstay(mainstay)
+		selectMainstay(mainstay)
 	}
 
 	return (
@@ -22,14 +22,14 @@ export const MainstayList = () => {
 			<Modal
 				isOpen={isModalOpen}
 				handleVisibility={() => setIsModalOpen(false)}>
-				<PillarIntroduction />
+				<PillarIntroduction onClose={() => setIsModalOpen(false)} />
 			</Modal>
 
 			<ul className="flex flex-col my-2 text-lg">
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.LOVE)}
-					onMouseEnter={() => handleMainstay(MainstayEnum.LOVE)}>
+					onMouseEnter={() => selectMainstay(MainstayEnum.LOVE)}>
 					<span
 						className={`${spanStyle} border-secondary group-hover:bg-secondary`}></span>
 					Ce que vous aimez
@@ -37,7 +37,7 @@ export const MainstayList = () => {
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.NEEDS)}
-					onMouseEnter={() => handleMainstay(MainstayEnum.NEEDS)}>
+					onMouseEnter={() => selectMainstay(MainstayEnum.NEEDS)}>
 					<span
 						className={`${spanStyle} border-accent group-hover:bg-accent`}></span>
 					Ce dont le monde a besoin
@@ -45,7 +45,7 @@ export const MainstayList = () => {
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.PAID)}
-					onMouseEnter={() => handleMainstay(MainstayEnum.PAID)}>
+					onMouseEnter={() => selectMainstay(MainstayEnum.PAID)}>
 					<span
 						className={`${spanStyle} border-tertiary group-hover:bg-tertiary`}></span>
 					Ce pourquoi vous pouvez être payé
@@ -53,7 +53,7 @@ export const MainstayList = () => {
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.TALENT)}
-					onMouseEnter={() => handleMainstay(MainstayEnum.TALENT)}>
+					onMouseEnter={() => selectMainstay(MainstayEnum.TALENT)}>
 					<span
 						className={`${spanStyle} border-accentbis group-hover:bg-accentbis`}></span>
 					Ce pourquoi vous êtes doué

@@ -13,6 +13,7 @@ type ButtonProps = {
 	isLink?: boolean
 	href?: string
 	size: ButtonSizeEnum
+	onClick?: () => void
 }
 
 export const Button = ({
@@ -20,6 +21,7 @@ export const Button = ({
 	isLink,
 	href,
 	size = ButtonSizeEnum.M,
+	onClick,
 }: ButtonProps) => {
 	const wrapperStyle = clsx(
 		size === ButtonSizeEnum.L
@@ -73,7 +75,9 @@ export const Button = ({
 
 	return (
 		<div className={wrapperStyle}>
-			<button className={buttonBaseStyle}>{buttonContent}</button>
+			<button className={buttonBaseStyle} onClick={onClick}>
+				{buttonContent}
+			</button>
 		</div>
 	)
 }

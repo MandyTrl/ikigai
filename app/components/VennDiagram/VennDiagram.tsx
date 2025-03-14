@@ -1,7 +1,7 @@
 "use client"
 import React, { useContext } from "react"
 import { Circle } from "./Circle"
-import { MainstayContext, MainstayEnum } from "@/app/context/MainstayContext"
+import { MainstayContext, MainstayEnum } from "@/app/context/IkigaiContext"
 
 const radius = "28%" //rayon en % pour le responsive
 

@@ -1,4 +1,4 @@
-import { MainstayEnum } from "../context/MainstayContext"
+import { MainstayEnum } from "../context/IkigaiContext"
 
 export type IkigayMainstay = {
 	mainstay: MainstayEnum
