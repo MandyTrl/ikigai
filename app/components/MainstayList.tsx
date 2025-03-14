@@ -1,7 +1,8 @@
 "use client"
-
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { MainstayContext, MainstayEnum } from "../context/MainstayContext"
+import { Modal } from "./Modal/Modal"
+import { PillarIntroduction } from "./Modal/PillarIntroduction"
 
 const listStyle = "group inline-block flex items-center hover:cursor-pointer"
 const spanStyle =
@@ -9,41 +10,55 @@ const spanStyle =
 
 export const MainstayList = () => {
 	const { handleMainstay } = useContext(MainstayContext)
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+	const handleClick = (mainstay: MainstayEnum) => {
+		setIsModalOpen(true)
+		handleMainstay(mainstay)
+	}
 
 	return (
-		<ul className="flex flex-col my-2 text-lg">
-			<li
-				className={listStyle}
-				onMouseEnter={() => handleMainstay(MainstayEnum.LOVE)}
-				onMouseLeave={() => handleMainstay(null)}>
-				<span
-					className={`${spanStyle} border-secondary group-hover:bg-secondary`}></span>
-				Ce que vous aimez
-			</li>
-			<li
-				className={listStyle}
-				onMouseEnter={() => handleMainstay(MainstayEnum.NEEDS)}
-				onMouseLeave={() => handleMainstay(null)}>
-				<span
-					className={`${spanStyle} border-accent group-hover:bg-accent`}></span>
-				Ce dont le monde a besoin
-			</li>
-			<li
-				className={listStyle}
-				onMouseEnter={() => handleMainstay(MainstayEnum.PAID)}
-				onMouseLeave={() => handleMainstay(null)}>
-				<span
-					className={`${spanStyle} border-tertiary group-hover:bg-tertiary`}></span>
-				Ce pourquoi vous pouvez être payé
-			</li>
-			<li
-				className={listStyle}
-				onMouseEnter={() => handleMainstay(MainstayEnum.TALENT)}
-				onMouseLeave={() => handleMainstay(null)}>
-				<span
-					className={`${spanStyle} border-accentbis group-hover:bg-accentbis`}></span>
-				Ce pourquoi vous êtes doué
-			</li>
-		</ul>
+		<>
+			<Modal
+				isOpen={isModalOpen}
+				handleVisibility={() => setIsModalOpen(false)}>
+				<PillarIntroduction />
+			</Modal>
+
+			<ul className="flex flex-col my-2 text-lg">
+				<li
+					className={listStyle}
+					onClick={() => handleClick(MainstayEnum.LOVE)}
+					onMouseEnter={() => handleMainstay(MainstayEnum.LOVE)}>
+					<span
+						className={`${spanStyle} border-secondary group-hover:bg-secondary`}></span>
+					Ce que vous aimez
+				</li>
+				<li
+					className={listStyle}
+					onClick={() => handleClick(MainstayEnum.NEEDS)}
+					onMouseEnter={() => handleMainstay(MainstayEnum.NEEDS)}>
+					<span
+						className={`${spanStyle} border-accent group-hover:bg-accent`}></span>
+					Ce dont le monde a besoin
+				</li>
+				<li
+					className={listStyle}
+					onClick={() => handleClick(MainstayEnum.PAID)}
+					onMouseEnter={() => handleMainstay(MainstayEnum.PAID)}>
+					<span
+						className={`${spanStyle} border-tertiary group-hover:bg-tertiary`}></span>
+					Ce pourquoi vous pouvez être payé
+				</li>
+				<li
+					className={listStyle}
+					onClick={() => handleClick(MainstayEnum.TALENT)}
+					onMouseEnter={() => handleMainstay(MainstayEnum.TALENT)}>
+					<span
+						className={`${spanStyle} border-accentbis group-hover:bg-accentbis`}></span>
+					Ce pourquoi vous êtes doué
+				</li>
+			</ul>
+		</>
 	)
 }

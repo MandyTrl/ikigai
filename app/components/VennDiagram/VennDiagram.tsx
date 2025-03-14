@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import { Circle } from "./Circle"
 import { MainstayContext, MainstayEnum } from "@/app/context/MainstayContext"
 
@@ -7,10 +7,6 @@ const radius = "28%" //rayon en % pour le responsive
 
 const VennDiagram: React.FC = () => {
 	const { mainstay } = useContext(MainstayContext)
-
-	useEffect(() => {
-		console.log("dans le diagram, voici le mainstay: ", mainstay)
-	}, [mainstay])
 
 	const baseCircles = [
 		{
@@ -89,7 +85,7 @@ const VennDiagram: React.FC = () => {
 							fontWeight="bold"
 							fill="#091C34"
 							opacity={0.5}
-							className="cursor-pointer select-none">
+							className="select-none">
 							Ikigai
 						</text>
 					)}

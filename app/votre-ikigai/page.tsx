@@ -1,12 +1,10 @@
 import { MainstayList } from "../components/MainstayList"
 import { MainLayout } from "../components/UI/MainLayout"
-import { Modal } from "../components/UI/Modal"
 import VennDiagram from "../components/VennDiagram/VennDiagram"
 
 export default function YourIkigai() {
 	return (
 		<div className="w-full min-h-[calc(100svh-40px)] flex flex-col md:flex-row gap-2">
-			<Modal content={"coucou ici on test"} />
 			<MainLayout isVennDiagram>
 				<VennDiagram />
 			</MainLayout>

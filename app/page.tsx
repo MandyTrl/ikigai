@@ -6,7 +6,7 @@ import {
 	Handshake,
 } from "@phosphor-icons/react/dist/ssr"
 import { Title } from "./components/UI/Title"
-import { Button } from "./components/UI/Button"
+import { Button, ButtonSizeEnum } from "./components/UI/Button"
 import { MainLayout } from "./components/UI/MainLayout"
 
 export default function Home() {
@@ -143,7 +143,12 @@ export default function Home() {
 					</div>
 				</section>
 
-				<Button title="Découvrir Mon ikigai" isLink href="/votre-ikigai" />
+				<Button
+					title="Découvrir Mon ikigai"
+					isLink
+					href="/votre-ikigai"
+					size={ButtonSizeEnum.L}
+				/>
 			</div>
 		</MainLayout>
 	)
