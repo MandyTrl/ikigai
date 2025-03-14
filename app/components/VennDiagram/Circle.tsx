@@ -1,7 +1,7 @@
 "use client"
 import { useContext } from "react"
 import clsx from "clsx"
-import { MainstayContext, MainstayEnum } from "@/app/context/IkigaiContext"
+import { IkigaiContext, MainstayEnum } from "@/app/context/IkigaiContext"
 
 type CircleProps = {
 	id: MainstayEnum
@@ -30,8 +30,8 @@ export const Circle = ({
 	label,
 	labelSecondPart,
 }: CircleProps) => {
-	const { mainstay } = useContext(MainstayContext)
-	const isSelected = mainstay === id
+	const { mainstaySelected } = useContext(IkigaiContext)
+	const isSelected = mainstaySelected === id
 
 	const circleStyle = clsx(
 		"transition-opacity duration-300 ease-in-out mix-blend-multiply stroke stroke-transparent",

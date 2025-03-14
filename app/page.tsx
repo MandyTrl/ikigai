@@ -7,7 +7,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr"
 import { Title } from "./components/UI/Title"
 import { Button, ButtonSizeEnum } from "./components/UI/Button"
-import { MainLayout } from "./components/UI/MainLayout"
+import { MainLayout } from "./components/Layouts/MainLayout"
 
 export default function Home() {
 	return (

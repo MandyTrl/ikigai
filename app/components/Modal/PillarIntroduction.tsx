@@ -1,6 +1,6 @@
 "use client"
 import { useContext } from "react"
-import { IkigaiContext } from "@/app/context/IkigaiContext"
+import { IkigaiContext, ProgressStateEnum } from "@/app/context/IkigaiContext"
 import { IkigayMainstay, ikigayMainstay } from "@/app/utils/ikigaiMainstay"
 import { Button, ButtonSizeEnum } from "../UI/Button"
 
@@ -9,13 +9,17 @@ type PillarIntroductionProps = {
 }
 
 export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
-	const { mainstaySelected } = useContext(IkigaiContext)
+	const { mainstaySelected, handleProgress } = useContext(IkigaiContext)
 
 	const mainstayFound: IkigayMainstay | undefined = ikigayMainstay.find(
 		(el: IkigayMainstay) => el.mainstay === mainstaySelected
 	)
-
 	if (!mainstayFound) return null
+
+	const handleClick = () => {
+		handleProgress(mainstaySelected!, ProgressStateEnum.IN_PROGRESS)
+		onClose()
+	}
 
 	return (
 		<div>
@@ -43,7 +47,7 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 			<Button
 				title={"Explorer ce pilier"}
 				size={ButtonSizeEnum.L}
-				onClick={onClose}
+				onClick={handleClick}
 			/>
 		</div>
 	)

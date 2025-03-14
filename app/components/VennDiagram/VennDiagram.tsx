@@ -1,12 +1,12 @@
 "use client"
 import React, { useContext } from "react"
 import { Circle } from "./Circle"
-import { MainstayContext, MainstayEnum } from "@/app/context/IkigaiContext"
+import { IkigaiContext, MainstayEnum } from "@/app/context/IkigaiContext"
 
 const radius = "28%" //rayon en % pour le responsive
 
 const VennDiagram: React.FC = () => {
-	const { mainstay } = useContext(MainstayContext)
+	const { mainstaySelected } = useContext(IkigaiContext)
 
 	const baseCircles = [
 		{
@@ -60,8 +60,8 @@ const VennDiagram: React.FC = () => {
 
 	// réorganise les cercles pour que le survolé soit en dernier
 	const orderedCircles = [...baseCircles].sort((a, b) => {
-		if (a.id === mainstay) return 1
-		if (b.id === mainstay) return -1
+		if (a.id === mainstaySelected) return 1
+		if (b.id === mainstaySelected) return -1
 		return 0
 	})
 
@@ -76,7 +76,7 @@ const VennDiagram: React.FC = () => {
 						<Circle key={circle.id} {...circle} r={radius} />
 					))}
 
-					{!mainstay && (
+					{!mainstaySelected && (
 						<text
 							x="50%"
 							y="52%"
