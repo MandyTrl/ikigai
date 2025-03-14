@@ -1,9 +1,10 @@
 import Image from "next/image"
 import {
-	Heart,
 	PersonSimpleThrow,
 	HandCoins,
-	Handshake,
+	ListHeart,
+	OpenAiLogo,
+	Users,
 } from "@phosphor-icons/react/dist/ssr"
 import { Title } from "./components/UI/Title"
 import { Button, ButtonSizeEnum } from "./components/UI/Button"
@@ -77,7 +78,7 @@ export default function Home() {
 
 						<ul className="*:mb-3">
 							<li className="flex items-center gap-x-3">
-								<Heart size={30} weight="light" color="#091c34" />
+								<ListHeart size={30} weight="light" color="#091c34" />
 								Ce que vous aimez
 							</li>
 							<li className="flex items-center gap-x-3">
@@ -89,23 +90,22 @@ export default function Home() {
 								Ce pour quoi vous pouvez être rémunéré
 							</li>
 							<li className="flex items-center gap-x-3">
-								<Handshake size={30} weight="light" color="#091c34" />
+								<Users size={30} weight="light" color="#091c34" />
 								Ce dont le monde a besoin
 							</li>
 						</ul>
 						<p>
 							Avec l&apos;appui d&apos;
-							<Image
-								src={"/assets/logos/OpenAI_logo_2025.png"}
-								alt="logo d'OpenAi"
-								width={80}
-								height={50}
-								priority
+							<OpenAiLogo
+								size={30}
+								weight="light"
+								color="#091c34"
 								className="inline-block align-middle"
 							/>
-							, l&apos;intelligence artificielle analyse ces éléments pour vous
-							offrir une synthèse personnalisée et pertinente. Résultat ? Un cap
-							défini, et la liberté d&apos;explorer votre propre chemin.
+							Open-ia, l&apos;intelligence artificielle analyse ces éléments
+							pour vous offrir une synthèse personnalisée et pertinente.
+							Résultat ? Un cap défini, et la liberté d&apos;explorer votre
+							propre chemin.
 						</p>
 					</div>
 				</section>
