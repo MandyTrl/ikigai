@@ -1,6 +1,10 @@
 "use client"
 import { useContext } from "react"
-import { IkigaiContext, ProgressStateEnum } from "@/app/context/IkigaiContext"
+import {
+	IkigaiContext,
+	IkigaiState,
+	ProgressStateEnum,
+} from "@/app/context/IkigaiContext"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import { Button, ButtonSizeEnum } from "../UI/Button"
 
@@ -9,12 +13,22 @@ type PillarIntroductionProps = {
 }
 
 export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
-	const { mainstaySelected, handleProgress } = useContext(IkigaiContext)
+	const { mainstaySelected, handleProgress, ikigaiState } =
+		useContext(IkigaiContext)
 
-	const mainstayFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
+	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
 		(el: IkigaiMainstay) => el.mainstay === mainstaySelected
 	)
-	if (!mainstayFound) return null
+
+	const selectedMainstay = ikigaiState.find(
+		(el: IkigaiState) => el.mainstay === mainstaySelected
+	)
+
+	const isInProgress =
+		selectedMainstay!.progressState === ProgressStateEnum.IS_SAVED &&
+		selectedMainstay!.value !== ""
+
+	if (!mainstayInfoFound) return null
 
 	const handleClick = () => {
 		handleProgress(mainstaySelected!, ProgressStateEnum.IN_PROGRESS)
@@ -23,15 +37,19 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 
 	return (
 		<div>
-			<h2 className="font-bold text-3xl mt-5 mb-2">{mainstayFound.title}</h2>
+			<h2 className="font-bold text-3xl mt-5 mb-2">
+				{mainstayInfoFound.title}
+			</h2>
 			<p className="bg-secondary/50 p-5 rounded-lg">
-				{mainstayFound.modalDescription}
+				{isInProgress
+					? "Vous avez déjà commencé à remplir cette partie. Vos données ont été sauvegardées, voulez-vous reprendre où vous vous en êtiez arrété ?"
+					: mainstayInfoFound.modalDescription}
 			</p>
 
 			<div className="mt-3 mb-8 border border-secondary rounded-lg p-5">
 				<p className="text-lg">Ce que vous allez faire :</p>
 				<ul className="*:indent-4">
-					{mainstayFound.modalGuidelines.map(
+					{mainstayInfoFound.modalGuidelines.map(
 						(guideline: string, index: number) => {
 							return (
 								<li key={index}>
@@ -45,7 +63,7 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 			</div>
 
 			<Button
-				title={"Explorer ce pilier"}
+				title={isInProgress ? "Continuer l'exploration" : "Explorer ce pilier"}
 				size={ButtonSizeEnum.L}
 				onClick={handleClick}
 			/>

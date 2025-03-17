@@ -1,15 +1,37 @@
 "use client"
 import { useContext, useState } from "react"
-import { IkigaiContext, MainstayEnum } from "../context/IkigaiContext"
+import {
+	IkigaiContext,
+	MainstayEnum,
+	ProgressStateEnum,
+} from "../context/IkigaiContext"
 import { Modal } from "./Modal/Modal"
 import { PillarIntroduction } from "./Modal/PillarIntroduction"
+import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr"
 
-const listStyle = "group inline-block flex items-center hover:cursor-pointer"
-const spanStyle =
-	"inline-block w-3 h-3 rounded-full border-3 mr-2 bg-transparent transform-colors ease-in-out duration-200"
+const listStyle = "group block flex items-center hover:cursor-pointer"
 
 export const MainstayList = () => {
-	const { selectMainstay } = useContext(IkigaiContext)
+	const { selectMainstay, ikigaiState } = useContext(IkigaiContext)
+
+	const hasData = (mainstay: MainstayEnum) => {
+		const mainstayFound = ikigaiState.find((el) => el.mainstay === mainstay)
+
+		return mainstayFound?.progressState === ProgressStateEnum.IS_SAVED
+	}
+
+	const getIcon = (mainstay: MainstayEnum, color: string) => {
+		const IconComponent = hasData(mainstay) ? CheckCircle : Circle
+		return (
+			<IconComponent
+				size={22}
+				color={color}
+				weight="duotone"
+				className="mr-2 group-hover:scale-110 transform-all duration-200 ease-in"
+			/>
+		)
+	}
+
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	const handleClick = (mainstay: MainstayEnum) => {
@@ -30,32 +52,28 @@ export const MainstayList = () => {
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.LOVE)}
 					onMouseEnter={() => selectMainstay(MainstayEnum.LOVE)}>
-					<span
-						className={`${spanStyle} border-secondary group-hover:bg-secondary`}></span>
+					{getIcon(MainstayEnum.LOVE, "#b6d4db")}
 					Ce que vous aimez
 				</li>
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.NEEDS)}
 					onMouseEnter={() => selectMainstay(MainstayEnum.NEEDS)}>
-					<span
-						className={`${spanStyle} border-accent group-hover:bg-accent`}></span>
+					{getIcon(MainstayEnum.NEEDS, "#b6d4db")}
 					Ce dont le monde a besoin
 				</li>
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.PAID)}
 					onMouseEnter={() => selectMainstay(MainstayEnum.PAID)}>
-					<span
-						className={`${spanStyle} border-tertiary group-hover:bg-tertiary`}></span>
+					{getIcon(MainstayEnum.PAID, "#b6d4db")}
 					Ce pourquoi vous pouvez être payé
 				</li>
 				<li
 					className={listStyle}
 					onClick={() => handleClick(MainstayEnum.TALENT)}
 					onMouseEnter={() => selectMainstay(MainstayEnum.TALENT)}>
-					<span
-						className={`${spanStyle} border-accentbis group-hover:bg-accentbis`}></span>
+					{getIcon(MainstayEnum.TALENT, "#b6d4db")}
 					Ce pourquoi vous êtes doué
 				</li>
 			</ul>

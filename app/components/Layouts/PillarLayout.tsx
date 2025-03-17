@@ -17,7 +17,7 @@ export const PillarLayout = () => {
 		(el: IkigaiMainstay) => el.mainstay === mainstaySelected
 	)
 	const selectedMainstay = ikigaiState.find(
-		(item: IkigaiState) => item.mainstay === mainstaySelected
+		(el: IkigaiState) => el.mainstay === mainstaySelected
 	)
 
 	const [textAreaValue, setTextAreaValue] = useState<string>(
@@ -29,7 +29,7 @@ export const PillarLayout = () => {
 	const handleClick = () => {
 		handleProgress(
 			selectedMainstay.mainstay,
-			ProgressStateEnum.FINISHED,
+			ProgressStateEnum.IS_SAVED,
 			textAreaValue
 		)
 	}
@@ -53,9 +53,7 @@ export const PillarLayout = () => {
 
 			<MainLayout>
 				<div className="relative group w-full h-full">
-					<label htmlFor={mainstayInfoFound.mainstay}>
-						Tell us your story:
-					</label>
+					<label htmlFor={mainstayInfoFound.mainstay}>Répondez ici:</label>
 
 					<textarea
 						name={mainstayInfoFound.mainstay}

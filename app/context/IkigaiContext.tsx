@@ -10,6 +10,7 @@ export enum MainstayEnum {
 export enum ProgressStateEnum {
 	NOT_STARTED = "not_started",
 	IN_PROGRESS = "in_progress",
+	IS_SAVED = "is_saved",
 	FINISHED = "finished",
 }
 
