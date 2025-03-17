@@ -1,45 +1,79 @@
 "use client"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { DynamicIcon } from "../UI/DynamicIcon"
 import { MainLayout } from "./MainLayout"
-import { IkigaiContext } from "@/app/context/IkigaiContext"
-import { IkigayMainstay, ikigayMainstay } from "@/app/utils/ikigaiMainstay"
+import {
+	IkigaiContext,
+	IkigaiState,
+	ProgressStateEnum,
+} from "@/app/context/IkigaiContext"
+import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 
 export const PillarLayout = () => {
-	const { mainstaySelected } = useContext(IkigaiContext)
+	const { mainstaySelected, ikigaiState, handleProgress } =
+		useContext(IkigaiContext)
 
-	const mainstayFound: IkigayMainstay | undefined = ikigayMainstay.find(
-		(el: IkigayMainstay) => el.mainstay === mainstaySelected
+	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
+		(el: IkigaiMainstay) => el.mainstay === mainstaySelected
+	)
+	const selectedMainstay = ikigaiState.find(
+		(item: IkigaiState) => item.mainstay === mainstaySelected
 	)
 
-	if (!mainstayFound) return null
+	const [textAreaValue, setTextAreaValue] = useState<string>(
+		selectedMainstay!.value
+	)
+
+	if (!mainstayInfoFound || !selectedMainstay) return null
+
+	const handleClick = () => {
+		handleProgress(
+			selectedMainstay.mainstay,
+			ProgressStateEnum.FINISHED,
+			textAreaValue
+		)
+	}
 
 	return (
 		<>
 			<MainLayout>
 				<div className="flex items-end pb-4 border-b border-secondary/80 mb-20">
-					<DynamicIcon name={mainstayFound.mainstay} size={35} weight="light" />
-					<h1 className="ml-4 text-4xl font-medium">{mainstayFound.title}</h1>
+					<DynamicIcon
+						name={mainstayInfoFound.mainstay}
+						size={35}
+						weight="light"
+					/>
+					<h1 className="ml-4 text-4xl font-medium">
+						{mainstayInfoFound.title}
+					</h1>
 				</div>
 
-				<p>{mainstayFound.title}</p>
+				<p>{mainstayInfoFound.title}</p>
 			</MainLayout>
 
 			<MainLayout>
 				<div className="relative group w-full h-full">
-					<label htmlFor={mainstayFound.mainstay}>Tell us your story:</label>
+					<label htmlFor={mainstayInfoFound.mainstay}>
+						Tell us your story:
+					</label>
 
 					<textarea
-						name={mainstayFound.mainstay}
-						id={mainstayFound.mainstay}
+						name={mainstayInfoFound.mainstay}
+						id={mainstayInfoFound.mainstay}
 						rows={10}
 						autoComplete="off"
 						autoCapitalize="sentences"
 						wrap="hard"
+						value={textAreaValue}
+						onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+							setTextAreaValue(event.target.value)
+						}
 						className="group w-full min-h-1/2 h-full  bg-slate-100 p-5 inset-shadow-lg  outline-secondary focus:outline-[1px] resize-none mt-5"
 					/>
 
-					<button className="btn__form absolute -bottom-[13.5%] left-[70%] bg-white border border-transparent pt-2 px-6 text-lg group-focus-within:border-secondary/80 group-focus-within:border-b-transparent">
+					<button
+						className="btn__form absolute -bottom-[13.5%] left-[70%] bg-white border border-transparent pt-2 px-6 text-lg group-focus-within:border-secondary/80 group-focus-within:border-b-transparent cursor-pointer"
+						onClick={handleClick}>
 						Sauvegarder
 					</button>
 				</div>

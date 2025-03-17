@@ -13,10 +13,26 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		null
 	)
 	const [ikigaiState, setIkigaiState] = useState<IkigaiState[]>([
-		{ mainstay: MainstayEnum.LOVE, progress: ProgressStateEnum.NOT_STARTED },
-		{ mainstay: MainstayEnum.NEEDS, progress: ProgressStateEnum.NOT_STARTED },
-		{ mainstay: MainstayEnum.PAID, progress: ProgressStateEnum.NOT_STARTED },
-		{ mainstay: MainstayEnum.TALENT, progress: ProgressStateEnum.NOT_STARTED },
+		{
+			mainstay: MainstayEnum.LOVE,
+			progressState: ProgressStateEnum.NOT_STARTED,
+			value: "",
+		},
+		{
+			mainstay: MainstayEnum.NEEDS,
+			progressState: ProgressStateEnum.NOT_STARTED,
+			value: "",
+		},
+		{
+			mainstay: MainstayEnum.PAID,
+			progressState: ProgressStateEnum.NOT_STARTED,
+			value: "",
+		},
+		{
+			mainstay: MainstayEnum.TALENT,
+			progressState: ProgressStateEnum.NOT_STARTED,
+			value: "",
+		},
 	])
 
 	const selectMainstay = (mainstay: MainstayEnum) => {
@@ -25,18 +41,32 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
 	const handleProgress = (
 		mainstay: MainstayEnum,
-		progressState: ProgressStateEnum
+		progressState?: ProgressStateEnum,
+		value?: string
 	) => {
 		setIkigaiState((prev) =>
 			prev.map((item) =>
-				item.mainstay === mainstay ? { ...item, progress: progressState } : item
+				item.mainstay === mainstay
+					? {
+							...item,
+							progressState:
+								progressState !== undefined
+									? progressState
+									: item.progressState,
+							value: value !== undefined ? value : item.value,
+					  }
+					: item
 			)
 		)
 	}
 
 	const resetIkigai = () => {
 		setIkigaiState((prev) =>
-			prev.map((item) => ({ ...item, progress: ProgressStateEnum.NOT_STARTED }))
+			prev.map((item) => ({
+				...item,
+				progressState: ProgressStateEnum.NOT_STARTED,
+				value: "",
+			}))
 		)
 	}
 	return (

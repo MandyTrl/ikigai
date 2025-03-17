@@ -1,13 +1,13 @@
 import { MainstayEnum } from "../context/IkigaiContext"
 
-export type IkigayMainstay = {
+export type IkigaiMainstay = {
 	mainstay: MainstayEnum
 	title: string
 	modalDescription: string
 	modalGuidelines: string[]
 }
 
-export const ikigayMainstay: IkigayMainstay[] = [
+export const ikigaiMainstay: IkigaiMainstay[] = [
 	{
 		mainstay: MainstayEnum.LOVE,
 		title: "Ce que vous aimez",

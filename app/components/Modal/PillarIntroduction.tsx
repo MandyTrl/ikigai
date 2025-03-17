@@ -1,7 +1,7 @@
 "use client"
 import { useContext } from "react"
 import { IkigaiContext, ProgressStateEnum } from "@/app/context/IkigaiContext"
-import { IkigayMainstay, ikigayMainstay } from "@/app/utils/ikigaiMainstay"
+import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import { Button, ButtonSizeEnum } from "../UI/Button"
 
 type PillarIntroductionProps = {
@@ -11,8 +11,8 @@ type PillarIntroductionProps = {
 export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 	const { mainstaySelected, handleProgress } = useContext(IkigaiContext)
 
-	const mainstayFound: IkigayMainstay | undefined = ikigayMainstay.find(
-		(el: IkigayMainstay) => el.mainstay === mainstaySelected
+	const mainstayFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
+		(el: IkigaiMainstay) => el.mainstay === mainstaySelected
 	)
 	if (!mainstayFound) return null
 

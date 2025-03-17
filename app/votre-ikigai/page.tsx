@@ -7,7 +7,7 @@ import { PillarLayout } from "../components/Layouts/PillarLayout"
 export default function YourIkigai() {
 	const { ikigaiState } = useContext(IkigaiContext)
 	const hasStart = ikigaiState.some(
-		(el) => el.progress === ProgressStateEnum.IN_PROGRESS
+		(el) => el.progressState === ProgressStateEnum.IN_PROGRESS
 	)
 
 	return (

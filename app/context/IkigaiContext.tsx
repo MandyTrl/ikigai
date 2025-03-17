@@ -15,7 +15,8 @@ export enum ProgressStateEnum {
 
 export type IkigaiState = {
 	mainstay: MainstayEnum
-	progress: ProgressStateEnum
+	progressState: ProgressStateEnum
+	value: string
 }
 
 export type IkigaiContextProps = {
@@ -24,7 +25,8 @@ export type IkigaiContextProps = {
 	selectMainstay: (mainstay: MainstayEnum) => void
 	handleProgress: (
 		mainstay: MainstayEnum,
-		progressState: ProgressStateEnum
+		progressState: ProgressStateEnum,
+		value?: string
 	) => void
 	resetIkigai: () => void
 }
