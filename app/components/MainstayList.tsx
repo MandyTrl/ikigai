@@ -17,7 +17,10 @@ export const MainstayList = () => {
 	const hasData = (mainstay: MainstayEnum) => {
 		const mainstayFound = ikigaiState.find((el) => el.mainstay === mainstay)
 
-		return mainstayFound?.progressState === ProgressStateEnum.IS_SAVED
+		return (
+			mainstayFound?.progressState === ProgressStateEnum.IS_SAVED &&
+			mainstayFound.value !== ""
+		)
 	}
 
 	const getIcon = (mainstay: MainstayEnum, color: string) => {
