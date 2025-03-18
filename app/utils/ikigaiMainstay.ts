@@ -1,5 +1,10 @@
 import { MainstayEnum } from "../context/IkigaiContext"
 
+export type InstructionType = {
+	question: string
+	details: string
+}
+
 export type IkigaiMainstay = {
 	mainstay: MainstayEnum
 	title: string
@@ -8,9 +13,9 @@ export type IkigaiMainstay = {
 	readingTime: string
 	reflectionTime: string
 	sectionDescription: string
-	questions: string[]
+	instructions: InstructionType[]
 	tips?: string
-	helpIfBlocked?: string[]
+	help?: string[]
 }
 
 export const ikigaiMainstay: IkigaiMainstay[] = [
@@ -28,13 +33,28 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		reflectionTime: "5 à 10 min",
 		sectionDescription:
 			"Ce pilier représente ce qui vous anime. En l'explorant, vous pourrez clarifier ce qui vous enthousiasme et vous donne envie d’avancer. Il ne s'agit pas seulement d’activités agréables, mais de celles qui vous procurent une véritable satisfaction et qui résonnent profondément en vous",
-		questions: [
-			"Quelles sont les activités qui vous captivent au point de perdre la notion du temps ? (Pensez aux moments où vous êtes totalement absorbé(e), où l’effort semble naturel et agréable.)",
-			"Si vous n'aviez aucune contrainte financière ou sociale, que feriez-vous de votre temps ? (Cette question aide à dissocier les plaisirs dictés par des attentes extérieures de ceux qui vous sont intrinsèquement chers.)",
-			"Dans votre quotidien, quelles tâches ou sujets vous procurent un sentiment de satisfaction et de plaisir durable ? (Cela permet d’affiner les réponses en évitant de confondre un simple passe-temps avec une réelle source de motivation profonde.)",
+		instructions: [
+			{
+				question:
+					"Quelles sont les activités qui vous captivent au point de perdre la notion du temps ?",
+				details:
+					"Pensez aux moments où vous êtes totalement absorbé(e), où l’effort semble naturel et agréable.",
+			},
+			{
+				question:
+					"Si vous n'aviez aucune contrainte financière ou sociale, que feriez-vous de votre temps ?",
+				details:
+					"Cette question aide à dissocier les plaisirs dictés par des attentes extérieures de ceux qui vous sont intrinsèquement chers.",
+			},
+			{
+				question:
+					"Dans votre quotidien, quelles tâches ou sujets vous procurent un sentiment de satisfaction et de plaisir durable ?",
+				details:
+					"Cela permet d’affiner les réponses en évitant de confondre un simple passe-temps avec une réelle source de motivation profonde.",
+			},
 		],
 		tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 3 et 5 activités ou tâches qui vous plaisent vraiment.",
-		helpIfBlocked: [
+		help: [
 			"Repensez à votre enfance ou adolescence : Quelles étaient les activités qui vous passionnaient spontanément ? Aviez-vous des centres d'intérêt que vous avez mis de côté avec le temps ?",
 			"Observez votre routine quotidienne : Y a-t-il des moments que vous appréciez particulièrement, même s’ils semblent anodins ? (Exemple : Vous aimez jardiner avec vos proches ? Ce n'est peut-être pas le jardinage en soi, mais plutôt le fait d’être en extérieur et d’échanger avec les autres.)",
 			"Demandez-vous ce qui vous attire chez les autres : Parfois, on admire certaines personnes ou métiers sans oser imaginer qu’ils pourraient faire partie de notre propre trajectoire.",
@@ -54,13 +74,28 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		reflectionTime: "5 à 10 min",
 		sectionDescription:
 			"Ce pilier vous invite à réfléchir à l'impact que vous souhaitez avoir sur le monde. Il ne s'agit pas nécessairement d'une cause humanitaire ou d'un engagement, mais plutôt de la manière dont vous pouvez contribuer, à votre échelle. Il peut s’agir d’améliorer le quotidien des gens, de répondre à un besoin spécifique ou encore d’apporter une solution à un problème que vous jugez important.",
-		questions: [
-			"Quels types de services ou d’aides appréciez-vous recevoir de la part des autres ? (Cela peut vous donner des pistes sur la valeur que vous aimeriez apporter à votre tour.)",
-			"Dans quels domaines ou situations avez-vous déjà été sollicité(e) pour aider ou donner votre avis ? (On est souvent reconnu naturellement pour certaines compétences ou sensibilités.)",
-			"Quelles améliorations aimeriez-vous voir dans votre environnement ou votre secteur d’activité ? (Sans forcément vouloir 'changer le monde', quelles choses aimeriez-vous voir évoluer ?)",
+		instructions: [
+			{
+				question:
+					"Quels types de services ou d’aides appréciez-vous recevoir de la part des autres ?",
+				details:
+					"Cela peut vous donner des pistes sur la valeur que vous aimeriez apporter à votre tour.",
+			},
+			{
+				question:
+					"Dans quels domaines ou situations avez-vous déjà été sollicité(e) pour aider ou donner votre avis ?",
+				details:
+					"On est souvent reconnu naturellement pour certaines compétences ou sensibilités.",
+			},
+			{
+				question:
+					"Quelles améliorations aimeriez-vous voir dans votre environnement ou votre secteur d’activité ?",
+				details:
+					"Sans forcément vouloir 'changer le monde', quelles choses aimeriez-vous voir évoluer ?",
+			},
 		],
 		tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 2 et 4 besoins qui résonnent avec vous.",
-		helpIfBlocked: [
+		help: [
 			"Pensez aux problèmes qui vous frustrent : Quels aspects du quotidien vous semblent inefficaces ou pourraient être améliorés ? Parfois, ce qui nous dérange est aussi une opportunité d’action.",
 			"Observez comment vous aidez naturellement : Quand on vous demande un service ou un conseil, quel type d’aide donnez-vous instinctivement ?",
 			"Réfléchissez à des causes qui vous touchent : Si vous souhaitez aller plus loin, y a-t-il des enjeux sociétaux, culturels, écologiques ou technologiques qui résonnent particulièrement avec vous ?",
@@ -80,13 +115,28 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		reflectionTime: "5 à 10 min",
 		sectionDescription:
 			"Il est essentiel de réfléchir aux compétences et aux savoir-faire qui peuvent se transformer en opportunités professionnelles. Il ne s'agit pas uniquement de trouver un métier stable, mais de comprendre où vos compétences et vos intérêts peuvent rencontrer un besoin sur le marché du travail. L’objectif est d'explorer les différentes façons de monétiser vos talents, que ce soit à travers un emploi, une activité indépendante ou un projet entrepreneurial.",
-		questions: [
-			"Quelles compétences ou connaissances avez-vous qui sont monnayables sur le marché du travail ? (Cela peut être un savoir-faire technique, créatif, ou une expertise spécifique.)",
-			"Y a-t-il des services ou produits que vous pourriez proposer et pour lesquels des personnes seraient prêtes à payer ? (Pensez aux freelances, entrepreneurs ou experts dans certains domaines.)",
-			"Quels types de métiers ou secteurs vous intéressent et offrent des opportunités professionnelles viables ? (Une passion peut devenir un métier si elle rencontre une demande.)",
+		instructions: [
+			{
+				question:
+					"Quelles compétences ou connaissances avez-vous qui sont monnayables sur le marché du travail ?",
+				details:
+					"Cela peut être un savoir-faire technique, créatif, ou une expertise spécifique.",
+			},
+			{
+				question:
+					"Y a-t-il des services ou produits que vous pourriez proposer et pour lesquels des personnes seraient prêtes à payer ?",
+				details:
+					"Pensez aux freelances, entrepreneurs ou experts dans certains domaines.",
+			},
+			{
+				question:
+					"Quels types de métiers ou secteurs vous intéressent et offrent des opportunités professionnelles viables ?",
+				details:
+					"Une passion peut devenir un métier si elle rencontre une demande.",
+			},
 		],
 		tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 2 et 4 domaines ou compétences qui pourraient vous permettre d’être rémunéré(e).",
-		helpIfBlocked: [
+		help: [
 			"Regardez votre parcours et vos expériences passées : Y a-t-il des tâches que vous avez déjà effectuées et qui pourraient être valorisées financièrement ?",
 			"Étudiez les tendances du marché : Quels sont les métiers émergents ou les secteurs en croissance qui pourraient correspondre à vos compétences ?",
 			"Explorez des modèles alternatifs : Il existe de nombreuses façons de gagner sa vie (emploi salarié, entrepreneuriat, freelancing, monétisation de contenu, etc.). Quel modèle pourrait vous convenir ?",
@@ -106,13 +156,28 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		reflectionTime: "5 à 10 min",
 		sectionDescription:
 			"Nous avons tous des talents ou des compétences que nous avons développées avec le temps, que ce soit par l'expérience, l’apprentissage ou la pratique. Ce pilier vous permet d’identifier les domaines dans lesquels vous êtes particulièrement à l’aise et efficace. Il s'agit de repérer ces compétences que vous utilisez naturellement et qui peuvent représenter une véritable force dans votre parcours professionnel.",
-		questions: [
-			"Dans quels domaines recevez-vous régulièrement des compliments ou de la reconnaissance ? (Vos proches, collègues ou amis mettent-ils en avant certaines de vos qualités ou compétences ?)",
-			"Quelles tâches ou activités vous semblent faciles alors que d’autres les trouvent plus complexes ? (Un talent est souvent quelque chose qui vous semble naturel mais qui impressionne les autres.)",
-			"Quels sont les domaines où vous progressez rapidement sans trop d’efforts ? (Lorsque vous apprenez quelque chose de nouveau, dans quels sujets ou compétences êtes-vous le plus à l’aise ?)",
+		instructions: [
+			{
+				question:
+					"Dans quels domaines recevez-vous régulièrement des compliments ou de la reconnaissance ?",
+				details:
+					"Vos proches, collègues ou amis mettent-ils en avant certaines de vos qualités ou compétences ?",
+			},
+			{
+				question:
+					"Quelles tâches ou activités vous semblent faciles alors que d’autres les trouvent plus complexes ?",
+				details:
+					"Un talent est souvent quelque chose qui vous semble naturel mais qui impressionne les autres.",
+			},
+			{
+				question:
+					"Quels sont les domaines où vous progressez rapidement sans trop d’efforts ?",
+				details:
+					"Lorsque vous apprenez quelque chose de nouveau, dans quels sujets ou compétences êtes-vous le plus à l’aise ?",
+			},
 		],
 		tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 3 et 5 compétences ou aptitudes dans lesquelles vous vous sentez à l’aise et compétent(e).",
-		helpIfBlocked: [
+		help: [
 			"Observez votre parcours : Y a-t-il des tâches ou des missions que vous avez accomplies facilement et avec succès dans vos expériences passées ?",
 			"Demandez à votre entourage : Parfois, les autres perçoivent mieux nos forces que nous-mêmes. Demandez à des collègues, amis ou proches quelles sont, selon eux, vos compétences naturelles.",
 			"Analysez ce pour quoi on fait appel à vous : Si l’on vient régulièrement vous demander de l’aide sur un sujet précis, c’est peut-être une compétence clé que vous sous-estimez.",
