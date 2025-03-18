@@ -2,7 +2,7 @@
 import { useContext } from "react"
 import { YourIkigaiLayout } from "../components/Layouts/YourIkigaiLayout"
 import { IkigaiContext, ProgressStateEnum } from "../context/IkigaiContext"
-import { PillarLayout } from "../components/Layouts/PillarLayout"
+import { FormLayout } from "../components/Layouts/FormLayout"
 
 export default function YourIkigai() {
 	const { ikigaiState } = useContext(IkigaiContext)
@@ -12,7 +12,7 @@ export default function YourIkigai() {
 
 	return (
 		<div className="w-full min-h-[calc(100svh-40px)] flex flex-col md:flex-row gap-2">
-			{!hasStart ? <YourIkigaiLayout /> : <PillarLayout />}
+			{!hasStart ? <YourIkigaiLayout /> : <FormLayout />}
 		</div>
 	)
 }
