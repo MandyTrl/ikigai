@@ -34,7 +34,7 @@ body {
 
 /* Works on Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
-	width: 15px;
+	width: 18px;
 }
 
 /* Track (fond) */
@@ -51,15 +51,15 @@ body {
 /* Scrollbar thumb (barre) */
 ::-webkit-scrollbar-thumb {
 	background: var(--secondary);
-	border-radius: 8px;
-	border: 4px solid white;
+	border-radius: 12px;
+	border: 6px solid white;
 	height: 20px;
 }
 
 /* Active/scrolling effect */
 ::-webkit-scrollbar-thumb:active {
 	background: var(--secondary);
-	border: 2px solid white;
+	border: 4px solid white;
 }
 
 .btn__form {
