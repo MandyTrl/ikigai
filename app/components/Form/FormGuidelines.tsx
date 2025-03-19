@@ -24,7 +24,7 @@ export const FormGuidelines = () => {
 	if (!mainstayInfoFound || !selectedMainstay) return null
 	return (
 		<MainLayout className="flex-5">
-			<section className="flex items-end mb-5">
+			<section className="flex items-end mb-4">
 				<DynamicIcon
 					name={mainstayInfoFound.mainstay}
 					size={28}
@@ -36,7 +36,7 @@ export const FormGuidelines = () => {
 
 			<p className="text-slate-700">{mainstayInfoFound.sectionDescription}</p>
 
-			<section className="flex gap-x-5 text-slate-700 gap-x-5 my-3 text-sm">
+			<section className="flex gap-x-5 text-slate-700 gap-x-5 my-4 text-sm">
 				<div className="flex items-center gap-x-1">
 					<Clock size={20} color="#62748e" weight="bold" />
 					<p>Temps de lecture: {mainstayInfoFound.readingTime}</p>
@@ -47,9 +47,9 @@ export const FormGuidelines = () => {
 				</div>
 			</section>
 
-			<section className="mt-8 mb-2">
-				{/* <h2 className="text-xl mt-8 mb-2">Questions de réflexions</h2> */}
-				<ul className="flex flex-col gap-y-2">
+			<section className="my-10">
+				{/* <h2 className="text-xl mb-2">Les questions clés</h2> */}
+				<ul className="flex flex-col gap-y-3">
 					{mainstayInfoFound.instructions.map(
 						(el: InstructionType, index: number) => (
 							<li key={index} className="flex flex-col">

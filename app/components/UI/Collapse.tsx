@@ -13,14 +13,14 @@ export const Collapse = ({ items }: CollapseProps) => {
 	return (
 		<div
 			className={clsx(
-				!open && "hover:bg-slate-200/20",
-				"w-full border border-primary/15 rounded-md mt-6 duration-200 ease-in transition-colors"
+				!open && "hover:bg-slate-200/15",
+				"w-full border border-primary/15 rounded-xl duration-200 ease-in transition-colors"
 			)}>
 			<div
 				onClick={() => setOpen((prevState) => !prevState)}
 				className={clsx(
-					open && "bg-slate-200/20",
-					"group flex items-center justify-between cursor-pointer px-4 py-2"
+					open && "bg-slate-200/30",
+					"group flex items-center justify-between cursor-pointer px-4 py-3"
 				)}>
 				<p className="font-semibold tracking-wide">Besoin d&apos;aide ?</p>
 				<CaretDown
@@ -37,10 +37,14 @@ export const Collapse = ({ items }: CollapseProps) => {
 			<ul
 				className={clsx(
 					open ? "h-fit max-h-96 px-4 py-2 opacity-100" : "max-h-0 opacity-0",
-					"space-y-2 pl-6 list-disc text-sm text-muted-foreground duration-300 ease-in-out transition-all overflow-hidden transition-discrete"
+					"space-y-2 pl-6 duration-300 ease-in-out transition-all overflow-hidden transition-discrete"
 				)}>
 				{items.map((item: string, index: number) => {
-					return <li key={index}>{item}</li>
+					return (
+						<li key={index}>
+							<span className="font-bold text-primary/40">+</span> {item}
+						</li>
+					)
 				})}
 			</ul>
 		</div>
