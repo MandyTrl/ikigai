@@ -40,7 +40,7 @@ export const DynamicIcon = ({
 
 	return (
 		<div
-			className="w-fit h-fit rounded-2xl p-2 bg-primary"
+			className="w-fit h-fit rounded-full p-2 bg-primary"
 			// style={{ backgroundColor: colorMap[name] }}
 		>
 			<IconComponent

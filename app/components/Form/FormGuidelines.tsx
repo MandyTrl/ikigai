@@ -9,6 +9,7 @@ import {
 	InstructionType,
 } from "@/app/utils/ikigaiMainstay"
 import { Clock } from "@phosphor-icons/react/dist/ssr"
+import { Collapse } from "../UI/Collapse"
 
 export const FormGuidelines = () => {
 	const { mainstaySelected, ikigaiState } = useContext(IkigaiContext)
@@ -62,6 +63,8 @@ export const FormGuidelines = () => {
 					)}
 				</ul>
 			</section>
+
+			<Collapse items={mainstayInfoFound.help} />
 		</MainLayout>
 	)
 }

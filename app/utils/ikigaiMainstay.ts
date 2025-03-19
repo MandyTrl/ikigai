@@ -15,7 +15,7 @@ export type IkigaiMainstay = {
 	sectionDescription: string
 	instructions: InstructionType[]
 	tips?: string
-	help?: string[]
+	help: string[]
 }
 
 export const ikigaiMainstay: IkigaiMainstay[] = [
