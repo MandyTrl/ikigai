@@ -23,7 +23,7 @@ export const FormGuidelines = () => {
 
 	if (!mainstayInfoFound || !selectedMainstay) return null
 	return (
-		<MainLayout className="flex-5">
+		<MainLayout className="flex-5 relative">
 			<section className="flex items-end mb-4">
 				<DynamicIcon
 					name={mainstayInfoFound.mainstay}

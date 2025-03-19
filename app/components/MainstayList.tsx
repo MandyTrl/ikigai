@@ -27,7 +27,7 @@ export const MainstayList = () => {
 		const IconComponent = hasData(mainstay) ? CheckCircle : Circle
 		return (
 			<IconComponent
-				size={22}
+				size={hasData(mainstay) ? 22 : 12}
 				color={color}
 				weight="duotone"
 				className="mr-2 group-hover:scale-110 transform-all duration-200 ease-in"

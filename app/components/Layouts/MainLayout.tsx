@@ -17,10 +17,14 @@ export const MainLayout = ({
 }: MainLayoutProps) => {
 	return (
 		<div
-			className={`w-full max-h-[calc(100vh-2.5rem)] overflow-y-auto flex flex-col rounded-3xl bg-white shadow ${className}`}>
+			className={`w-full max-h-[calc(100vh-2.5rem)] overflow-hidden flex flex-col rounded-3xl bg-white shadow ${className}`}>
 			{hasNavbar && <Navbar />}
 
-			<div className={clsx(isVennDiagram ? "md:p-6" : "md:p-12", "w-full p-6")}>
+			<div
+				className={clsx(
+					isVennDiagram ? "md:p-6" : "md:p-12",
+					"w-full p-6 overflow-y-auto"
+				)}>
 				{children}
 			</div>
 		</div>

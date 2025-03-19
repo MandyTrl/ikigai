@@ -1,10 +1,11 @@
 "use client"
+import { InstructionType } from "@/app/utils/ikigaiMainstay"
 import { CaretDown } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { useState } from "react"
 
 type CollapseProps = {
-	items: string[]
+	items: InstructionType[]
 }
 
 export const Collapse = ({ items }: CollapseProps) => {
@@ -39,10 +40,17 @@ export const Collapse = ({ items }: CollapseProps) => {
 					open ? "h-fit max-h-96 px-4 py-2 opacity-100" : "max-h-0 opacity-0",
 					"space-y-2 pl-6 duration-300 ease-in-out transition-all overflow-hidden transition-discrete"
 				)}>
-				{items.map((item: string, index: number) => {
+				{items.map((item: InstructionType, index: number) => {
 					return (
-						<li key={index}>
-							<span className="font-bold text-primary/40">+</span> {item}
+						<li key={index} className="flex flex-col">
+							<span>
+								<span className="font-bold text-primary/40">+</span>{" "}
+								<span className="underline decoration-slate-200 underline-offset-2">
+									{item.question}
+								</span>
+							</span>
+
+							<span>{item.details}</span>
 						</li>
 					)
 				})}
