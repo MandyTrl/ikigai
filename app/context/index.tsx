@@ -35,8 +35,8 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		},
 	])
 
-	const selectMainstay = (mainstay: MainstayEnum) => {
-		setMainstaySelected(mainstay)
+	const selectMainstay = (mainstay?: MainstayEnum) => {
+		setMainstaySelected(mainstay ? mainstay : null)
 	}
 
 	const handleProgress = (

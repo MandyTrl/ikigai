@@ -37,8 +37,8 @@ export const Collapse = ({ items }: CollapseProps) => {
 
 			<ul
 				className={clsx(
-					open ? "h-fit max-h-96 px-4 py-2 opacity-100" : "max-h-0 opacity-0",
-					"space-y-2 pl-6 duration-300 ease-in-out transition-all overflow-hidden transition-discrete"
+					open ? "h-fit max-h-96 px-4 py-3 opacity-100" : "max-h-0 opacity-0",
+					"space-y-3 pl-6 duration-300 ease-in-out transition-all overflow-hidden transition-discrete"
 				)}>
 				{items.map((item: InstructionType, index: number) => {
 					return (

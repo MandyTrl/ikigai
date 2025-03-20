@@ -26,9 +26,8 @@ export const YourIkigaiLayout = () => {
 					<MainstayList />
 
 					<p>
-						Chaque pilier est à explorer; cliquez sur celui par lequel vous
-						voulez débuter, lisez l&apos;explicatif et laissez-vous guider à la
-						prochaine étape.
+						Choisissez le pilier par lequel vous voulez débuter, lisez
+						l&apos;explicatif et laissez-vous guider à la prochaine étape.
 					</p>
 				</div>
 			</MainLayout>

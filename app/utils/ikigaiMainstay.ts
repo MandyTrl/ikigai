@@ -48,7 +48,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 			},
 			{
 				question:
-					"Dans votre quotidien, quelles tâches ou sujets vous procurent un sentiment de satisfaction et de plaisir durable ?",
+					"Quelles activités de votre quotidien vous apportent une satisfaction profonde et durable ?",
 				details:
 					"Cela permet d’affiner les réponses en évitant de confondre un simple passe-temps avec une réelle source de motivation profonde.",
 			},
@@ -95,7 +95,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 			},
 			{
 				question:
-					"Dans quels domaines ou situations avez-vous déjà été sollicité(e) pour aider ou donner votre avis ?",
+					"Quels sont les sujets sur lesquels on vient naturellement vous demander conseil ?",
 				details:
 					"On est souvent reconnu naturellement pour certaines compétences ou sensibilités.",
 			},
@@ -154,7 +154,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 			},
 			{
 				question:
-					"Quels types de métiers ou secteurs vous intéressent et offrent des opportunités professionnelles viables ?",
+					"Quels métiers ou secteurs vous attirent et offrent des opportunités professionnelles viables ?",
 				details:
 					"Une passion peut devenir un métier si elle rencontre une demande.",
 			},
@@ -201,7 +201,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 			},
 			{
 				question:
-					"Quelles tâches ou activités vous semblent faciles alors que d’autres les trouvent plus complexes ?",
+					"Quelles activités vous paraissent naturelles tandis que d'autres les trouvent difficiles ?",
 				details:
 					"Un talent est souvent quelque chose qui vous semble naturel mais qui impressionne les autres.",
 			},

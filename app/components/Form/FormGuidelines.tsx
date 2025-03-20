@@ -54,8 +54,8 @@ export const FormGuidelines = () => {
 						(el: InstructionType, index: number) => (
 							<li key={index} className="flex flex-col">
 								<p className="flex">
-									<span>{index + 1}.</span>
-									<span className="font-medium pl-2">{el.question}</span>
+									<span className="pr-2">{index + 1}.</span>
+									<span className="font-medium">{el.question}</span>
 								</p>
 								<span className="text-slate-700 text-sm">{el.details}</span>
 							</li>

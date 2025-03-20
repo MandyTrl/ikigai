@@ -23,7 +23,7 @@ export type IkigaiState = {
 export type IkigaiContextProps = {
 	ikigaiState: IkigaiState[]
 	mainstaySelected: MainstayEnum | null
-	selectMainstay: (mainstay: MainstayEnum) => void
+	selectMainstay: (mainstay?: MainstayEnum) => void
 	handleProgress: (
 		mainstay: MainstayEnum,
 		progressState: ProgressStateEnum,

@@ -7,10 +7,11 @@ import {
 } from "@/app/context/IkigaiContext"
 import { MainLayout } from "../Layouts/MainLayout"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
-import { LightbulbFilament } from "@phosphor-icons/react/dist/ssr"
+import { ArrowUUpLeft, LightbulbFilament } from "@phosphor-icons/react/dist/ssr"
+import clsx from "clsx"
 
 export const FormTextArea = () => {
-	const { mainstaySelected, ikigaiState, handleProgress } =
+	const { mainstaySelected, selectMainstay, ikigaiState, handleProgress } =
 		useContext(IkigaiContext)
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
@@ -21,8 +22,10 @@ export const FormTextArea = () => {
 	)
 
 	const [textAreaValue, setTextAreaValue] = useState<string>(
-		selectedMainstay!.value
+		selectedMainstay ? selectedMainstay.value : ""
 	)
+
+	const isTyping = textAreaValue !== ""
 
 	if (!mainstayInfoFound || !selectedMainstay) return null
 
@@ -37,6 +40,27 @@ export const FormTextArea = () => {
 	return (
 		<MainLayout className="flex-4">
 			<div className="relative group w-full">
+				<div className="flex gap-x-3">
+					<button
+						className="group cursor-pointer rounded-full p-3 border border-transparent bg-secondary/20 hover:border-secondary ease-in-out duration-200 transition-colors"
+						onClick={() => selectMainstay()}>
+						<ArrowUUpLeft
+							size={20}
+							weight="regular"
+							className="text-primary/50 group-hover:text-sky-700/70 ease-in-out duration-200 transition-all"
+						/>
+					</button>
+
+					<button
+						className={clsx(
+							isTyping ? "flex" : "hidden",
+							"hover:cursor-pointer group rounded-2xl text-primary/50 hover:text-sky-700/70  flex items-center px-4 border border-transparent bg-secondary/20 hover:border-secondary ease-in-out duration-200 transition-colors text-sm font-medium"
+						)}
+						onClick={handleClick}>
+						Sauvegarder
+					</button>
+				</div>
+
 				<textarea
 					name={mainstayInfoFound.mainstay}
 					id={mainstayInfoFound.mainstay}
@@ -49,14 +73,8 @@ export const FormTextArea = () => {
 					onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
 						setTextAreaValue(event.target.value)
 					}
-					className="group w-full min-h-1/2 h-full p-5 inset-shadow-lg border border-secondary outline-secondary focus:outline resize-none mt-5 rounded-2xl"
+					className="w-full min-h-1/2 h-full p-5 inset-shadow-lg border border-secondary/80 focus:border-secondary focus:outline-none focus:bg-secondary/3 resize-none mt-5 rounded-2xl duration-200 ease-in-out transition-all selection:bg-secondary/40 active::bg-secondary/40"
 				/>
-
-				<button
-					className="btn__form absolute top-[86.5%] left-[70%] bg-white border-1 border-secondary border-b-transparent pt-2 px-4 group-focus-within:border-2 group-focus-within:border-secondary/80 group-focus-within:border-b-transparent cursor-pointer"
-					onClick={handleClick}>
-					Sauvegarder
-				</button>
 			</div>
 
 			<section className="w-full flex flex-col bg-slate-200/50 rounded-xl px-4 py-2 mt-8 font-andika">

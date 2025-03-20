@@ -30,7 +30,7 @@ export const MainstayList = () => {
 				size={hasData(mainstay) ? 22 : 12}
 				color={color}
 				weight="duotone"
-				className="mr-2 group-hover:scale-110 transform-all duration-200 ease-in"
+				className="mr-2 group-hover:scale-120 transform-all duration-200 ease-in"
 			/>
 		)
 	}
