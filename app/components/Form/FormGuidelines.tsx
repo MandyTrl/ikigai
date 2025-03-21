@@ -2,7 +2,7 @@
 import { useContext } from "react"
 import { DynamicIcon } from "../UI/DynamicIcon"
 import { MainLayout } from "../Layouts/MainLayout"
-import { IkigaiContext, IkigaiState } from "@/app/context/IkigaiContext"
+import { IkigaiContext } from "@/app/context/IkigaiContext"
 import {
 	IkigaiMainstay,
 	ikigaiMainstay,
@@ -10,15 +10,16 @@ import {
 } from "@/app/utils/ikigaiMainstay"
 import { Clock } from "@phosphor-icons/react/dist/ssr"
 import { Collapse } from "../UI/Collapse"
+import { isMainstay } from "@/app/utils/typeguards"
 
 export const FormGuidelines = () => {
-	const { mainstaySelected, ikigaiState } = useContext(IkigaiContext)
+	const { currentStep, ikigaiForm } = useContext(IkigaiContext)
+
+	if (!isMainstay(currentStep)) return null
+	const selectedMainstay = ikigaiForm[currentStep]
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
-		(el: IkigaiMainstay) => el.mainstay === mainstaySelected
-	)
-	const selectedMainstay = ikigaiState.find(
-		(el: IkigaiState) => el.mainstay === mainstaySelected
+		(el) => el.mainstay === currentStep
 	)
 
 	if (!mainstayInfoFound || !selectedMainstay) return null

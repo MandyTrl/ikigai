@@ -7,35 +7,67 @@ export enum MainstayEnum {
 	TALENT = "talent",
 }
 
-export enum ProgressStateEnum {
+export enum PillarStateEnum {
 	NOT_STARTED = "not_started",
+	IS_HOVERED = "is_hovered",
 	IN_PROGRESS = "in_progress",
 	IS_SAVED = "is_saved",
 	FINISHED = "finished",
 }
 
-export type IkigaiState = {
+export enum IkigaiStepEnum {
+	INITIAL = "initial",
+	LOVE = "love",
+	NEEDS = "needs",
+	PAID = "paid",
+	TALENT = "talent",
+	IKIGAI_RESUME = "ikigai_resume",
+}
+
+export type IkigaiForm = {
 	mainstay: MainstayEnum
-	progressState: ProgressStateEnum
+	progressState: PillarStateEnum
 	value: string
 }
 
 export type IkigaiContextProps = {
-	ikigaiState: IkigaiState[]
-	mainstaySelected: MainstayEnum | null
-	selectMainstay: (mainstay?: MainstayEnum) => void
-	handleProgress: (
+	ikigaiForm: IkigaiForm[]
+	currentStep: IkigaiStepEnum | MainstayEnum
+	setStep: (step: IkigaiStepEnum | MainstayEnum) => void
+	updateForm: (
 		mainstay: MainstayEnum,
-		progressState: ProgressStateEnum,
-		value?: string
+		field: Partial<Omit<IkigaiForm, "mainstay">>
 	) => void
 	resetIkigai: () => void
 }
 
+export const initialIkigaiForm = [
+	{
+		mainstay: MainstayEnum.LOVE,
+		progressState: PillarStateEnum.NOT_STARTED,
+		value: "",
+	},
+	{
+		mainstay: MainstayEnum.NEEDS,
+		progressState: PillarStateEnum.NOT_STARTED,
+		value: "",
+	},
+	{
+		mainstay: MainstayEnum.PAID,
+		progressState: PillarStateEnum.NOT_STARTED,
+		value: "",
+	},
+	{
+		mainstay: MainstayEnum.TALENT,
+		progressState: PillarStateEnum.NOT_STARTED,
+		value: "",
+	},
+]
+
 export const IkigaiContext = createContext<IkigaiContextProps>({
-	ikigaiState: [],
-	mainstaySelected: null,
-	selectMainstay: () => {},
-	handleProgress: () => {},
+	ikigaiForm: initialIkigaiForm,
+	currentStep: IkigaiStepEnum.INITIAL,
+	setStep: () => {},
+	updateForm: () => {},
 	resetIkigai: () => {},
 })

@@ -1,7 +1,11 @@
 "use client"
 import { useContext } from "react"
 import clsx from "clsx"
-import { IkigaiContext, MainstayEnum } from "@/app/context/IkigaiContext"
+import {
+	IkigaiContext,
+	MainstayEnum,
+	PillarStateEnum,
+} from "@/app/context/IkigaiContext"
 
 type CircleProps = {
 	id: MainstayEnum
@@ -30,12 +34,13 @@ export const Circle = ({
 	label,
 	labelSecondPart,
 }: CircleProps) => {
-	const { mainstaySelected } = useContext(IkigaiContext)
-	const isSelected = mainstaySelected === id
+	const { ikigaiForm } = useContext(IkigaiContext)
+	const mainstayFind = ikigaiForm.find((el) => el.mainstay === id)
+	const isHovered = mainstayFind?.progressState === PillarStateEnum.IS_HOVERED
 
 	const circleStyle = clsx(
 		"transition-opacity duration-300 ease-in-out mix-blend-multiply stroke stroke-transparent",
-		isSelected && "opacity-100 mix-blend-normal stroke-white"
+		isHovered && "opacity-100 mix-blend-normal stroke-white"
 	)
 
 	return (
@@ -49,8 +54,8 @@ export const Circle = ({
 				className={circleStyle}
 			/>
 			<text
-				x={isSelected ? hoveredCxLabel : defaultCxLabel}
-				y={isSelected ? hoveredCyLabel : defaultCyLabel}
+				x={isHovered ? hoveredCxLabel : defaultCxLabel}
+				y={isHovered ? hoveredCyLabel : defaultCyLabel}
 				textAnchor="middle"
 				dy=".3em"
 				fill="#091C34"
@@ -58,11 +63,11 @@ export const Circle = ({
 				opacity={0.7}
 				style={{ fontFamily: "var(--font-andika)" }}
 				className="cursor-pointer select-none font-light">
-				<tspan x={isSelected ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
+				<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
 					{label}
 				</tspan>
 				{labelSecondPart && (
-					<tspan x={isSelected ? hoveredCxLabel : defaultCxLabel} dy="1.2em">
+					<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="1.2em">
 						{labelSecondPart}
 					</tspan>
 				)}

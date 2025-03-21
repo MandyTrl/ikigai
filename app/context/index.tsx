@@ -1,83 +1,49 @@
 "use client"
-import { ReactNode, useState } from "react"
+import { ReactNode, useMemo, useState } from "react"
 import {
 	IkigaiContext,
-	IkigaiState,
+	IkigaiForm,
+	IkigaiStepEnum,
+	initialIkigaiForm,
 	MainstayEnum,
-	ProgressStateEnum,
 } from "./IkigaiContext"
 
 // Provider pour encapsuler la logique de gestion des états
 export const AppProviders = ({ children }: { children: ReactNode }) => {
-	const [mainstaySelected, setMainstaySelected] = useState<MainstayEnum | null>(
-		null
+	const [ikigaiForm, setIkigaiForm] = useState<IkigaiForm[]>(initialIkigaiForm)
+	const [currentStep, setCurrentStep] = useState<IkigaiStepEnum | MainstayEnum>(
+		IkigaiStepEnum.INITIAL
 	)
-	const [ikigaiState, setIkigaiState] = useState<IkigaiState[]>([
-		{
-			mainstay: MainstayEnum.LOVE,
-			progressState: ProgressStateEnum.NOT_STARTED,
-			value: "",
-		},
-		{
-			mainstay: MainstayEnum.NEEDS,
-			progressState: ProgressStateEnum.NOT_STARTED,
-			value: "",
-		},
-		{
-			mainstay: MainstayEnum.PAID,
-			progressState: ProgressStateEnum.NOT_STARTED,
-			value: "",
-		},
-		{
-			mainstay: MainstayEnum.TALENT,
-			progressState: ProgressStateEnum.NOT_STARTED,
-			value: "",
-		},
-	])
 
-	const selectMainstay = (mainstay?: MainstayEnum) => {
-		setMainstaySelected(mainstay ? mainstay : null)
-	}
-
-	const handleProgress = (
+	const updateForm = (
 		mainstay: MainstayEnum,
-		progressState?: ProgressStateEnum,
-		value?: string
+		field: Partial<Omit<IkigaiForm, "mainstay">>
 	) => {
-		setIkigaiState((prev) =>
-			prev.map((item) =>
-				item.mainstay === mainstay
-					? {
-							...item,
-							progressState:
-								progressState !== undefined
-									? progressState
-									: item.progressState,
-							value: value !== undefined ? value : item.value,
-					  }
-					: item
+		setIkigaiForm((prev) =>
+			prev.map((entry) =>
+				entry.mainstay === mainstay ? { ...entry, ...field } : entry
 			)
 		)
 	}
 
 	const resetIkigai = () => {
-		setIkigaiState((prev) =>
-			prev.map((item) => ({
-				...item,
-				progressState: ProgressStateEnum.NOT_STARTED,
-				value: "",
-			}))
-		)
+		setIkigaiForm(initialIkigaiForm)
+		setCurrentStep(IkigaiStepEnum.INITIAL)
 	}
+
+	const contextValue = useMemo(
+		() => ({
+			ikigaiForm,
+			currentStep,
+			setStep: setCurrentStep,
+			updateForm,
+			resetIkigai,
+		}),
+		[ikigaiForm, currentStep]
+	)
+
 	return (
-		<IkigaiContext.Provider
-			value={{
-				ikigaiState,
-				mainstaySelected,
-				selectMainstay,
-				handleProgress,
-				resetIkigai,
-			}}>
+		<IkigaiContext.Provider value={contextValue}>
 			{children}
 		</IkigaiContext.Provider>
 	)

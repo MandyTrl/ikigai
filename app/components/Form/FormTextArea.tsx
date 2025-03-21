@@ -1,40 +1,49 @@
 "use client"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
 	IkigaiContext,
-	IkigaiState,
-	ProgressStateEnum,
+	IkigaiStepEnum,
+	MainstayEnum,
+	PillarStateEnum,
 } from "@/app/context/IkigaiContext"
+import clsx from "clsx"
 import { MainLayout } from "../Layouts/MainLayout"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import { ArrowUUpLeft, LightbulbFilament } from "@phosphor-icons/react/dist/ssr"
-import clsx from "clsx"
+import { isMainstay } from "@/app/utils/typeguards"
 
 export const FormTextArea = () => {
-	const { mainstaySelected, selectMainstay, ikigaiState, handleProgress } =
+	const { currentStep, setStep, ikigaiForm, updateForm } =
 		useContext(IkigaiContext)
-
-	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
-		(el: IkigaiMainstay) => el.mainstay === mainstaySelected
-	)
-	const selectedMainstay = ikigaiState.find(
-		(el: IkigaiState) => el.mainstay === mainstaySelected
+	const [textAreaValue, setTextAreaValue] = useState<string>("")
+	const [selectedMainstay, setSelectedMainstay] = useState<MainstayEnum | null>(
+		null
 	)
 
-	const [textAreaValue, setTextAreaValue] = useState<string>(
-		selectedMainstay ? selectedMainstay.value : ""
-	)
+	useEffect(() => {
+		if (isMainstay(currentStep)) {
+			setSelectedMainstay(currentStep)
+
+			const mainstayData = ikigaiForm.find(
+				(entry) => entry.mainstay === currentStep
+			)
+
+			setTextAreaValue(mainstayData!.value)
+		}
+	}, [currentStep, ikigaiForm])
 
 	const isTyping = textAreaValue !== ""
 
-	if (!mainstayInfoFound || !selectedMainstay) return null
+	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
+		(el) => el.mainstay === currentStep
+	)
+	if (!mainstayInfoFound) return null
 
 	const handleClick = () => {
-		handleProgress(
-			selectedMainstay.mainstay,
-			ProgressStateEnum.IS_SAVED,
-			textAreaValue
-		)
+		updateForm(currentStep as MainstayEnum, {
+			progressState: PillarStateEnum.IS_SAVED,
+			value: textAreaValue,
+		})
 	}
 
 	return (
@@ -43,7 +52,7 @@ export const FormTextArea = () => {
 				<div className="flex gap-x-3">
 					<button
 						className="group cursor-pointer rounded-full p-3 border border-transparent bg-secondary/20 hover:border-secondary ease-in-out duration-200 transition-colors"
-						onClick={() => selectMainstay()}>
+						onClick={() => setStep(IkigaiStepEnum.INITIAL)}>
 						<ArrowUUpLeft
 							size={20}
 							weight="regular"
