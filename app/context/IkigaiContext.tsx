@@ -17,13 +17,29 @@ export enum IkigaiStepEnum {
 	RESUME = "resume",
 }
 
-const mainstaySchema = z.nativeEnum(MainstayEnum)
 const ikigaiStepSchema = z.nativeEnum(IkigaiStepEnum)
 
+// <Record<Clé, Valeur>
+// Partial<T> rend les attributs obsolètes
+
+const ikigaiToMainstayMap: Partial<Record<IkigaiStepEnum, MainstayEnum>> = {
+	[IkigaiStepEnum.LOVE]: MainstayEnum.LOVE,
+	[IkigaiStepEnum.NEEDS]: MainstayEnum.NEEDS,
+	[IkigaiStepEnum.PAID]: MainstayEnum.PAID,
+	[IkigaiStepEnum.TALENT]: MainstayEnum.TALENT,
+}
+
 export const convertIkigaiToMainstay = (step: IkigaiStepEnum): MainstayEnum => {
-	//vérifie que la valeur est bien dans l'ENUM avant de la convertir
-	const parsedStep = ikigaiStepSchema.parse(step)
-	return MainstayEnum[parsedStep.toUpperCase() as keyof typeof MainstayEnum]
+	const validatedStep = ikigaiStepSchema.parse(step)
+	const mainstay = ikigaiToMainstayMap[validatedStep]
+
+	if (!mainstay) {
+		throw new Error(
+			`Ikigai step ${validatedStep} does not map to a MainstayEnum value.`
+		)
+	}
+
+	return mainstay
 }
 
 export enum PillarStateEnum {
