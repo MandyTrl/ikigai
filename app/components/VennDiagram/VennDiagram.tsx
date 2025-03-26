@@ -2,7 +2,7 @@
 import React, { useContext } from "react"
 import { Circle } from "./Circle"
 import { IkigaiStepEnum } from "@/app/context/IkigaiContext"
-import { HoverContext } from "@/app/context/hoverContext"
+import { HoverContext } from "@/app/context/HoverContext"
 
 const radius = "28%" //rayon en % pour le responsive
 
