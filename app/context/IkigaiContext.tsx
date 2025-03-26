@@ -1,12 +1,4 @@
 import { createContext } from "react"
-import { z } from "zod"
-
-export enum MainstayEnum {
-	LOVE = "love",
-	NEEDS = "needs",
-	PAID = "paid",
-	TALENT = "talent",
-}
 
 export enum IkigaiStepEnum {
 	INITIAL = "initial",
@@ -17,30 +9,8 @@ export enum IkigaiStepEnum {
 	RESUME = "resume",
 }
 
-const ikigaiStepSchema = z.nativeEnum(IkigaiStepEnum)
-
 // <Record<Clé, Valeur>
 // Partial<T> rend les attributs obsolètes
-
-const ikigaiToMainstayMap: Partial<Record<IkigaiStepEnum, MainstayEnum>> = {
-	[IkigaiStepEnum.LOVE]: MainstayEnum.LOVE,
-	[IkigaiStepEnum.NEEDS]: MainstayEnum.NEEDS,
-	[IkigaiStepEnum.PAID]: MainstayEnum.PAID,
-	[IkigaiStepEnum.TALENT]: MainstayEnum.TALENT,
-}
-
-export const convertIkigaiToMainstay = (step: IkigaiStepEnum): MainstayEnum => {
-	const validatedStep = ikigaiStepSchema.parse(step)
-	const mainstay = ikigaiToMainstayMap[validatedStep]
-
-	if (!mainstay) {
-		throw new Error(
-			`Ikigai step ${validatedStep} does not map to a MainstayEnum value.`
-		)
-	}
-
-	return mainstay
-}
 
 export enum PillarStateEnum {
 	NOT_STARTED = "not_started",
@@ -51,7 +21,7 @@ export enum PillarStateEnum {
 }
 
 export type IkigaiForm = {
-	mainstay: MainstayEnum
+	mainstay: IkigaiStepEnum
 	progressState: PillarStateEnum
 	value: string
 }
@@ -61,7 +31,7 @@ export type IkigaiContextProps = {
 	currentStep: IkigaiStepEnum
 	setStep: (step: IkigaiStepEnum) => void
 	updateForm: (
-		mainstay: MainstayEnum,
+		mainstay: IkigaiStepEnum,
 		field: Partial<Omit<IkigaiForm, "mainstay">>
 	) => void
 	resetIkigai: () => void
@@ -69,22 +39,22 @@ export type IkigaiContextProps = {
 
 export const initialIkigaiForm = [
 	{
-		mainstay: MainstayEnum.LOVE,
+		mainstay: IkigaiStepEnum.LOVE,
 		progressState: PillarStateEnum.NOT_STARTED,
 		value: "",
 	},
 	{
-		mainstay: MainstayEnum.NEEDS,
+		mainstay: IkigaiStepEnum.NEEDS,
 		progressState: PillarStateEnum.NOT_STARTED,
 		value: "",
 	},
 	{
-		mainstay: MainstayEnum.PAID,
+		mainstay: IkigaiStepEnum.PAID,
 		progressState: PillarStateEnum.NOT_STARTED,
 		value: "",
 	},
 	{
-		mainstay: MainstayEnum.TALENT,
+		mainstay: IkigaiStepEnum.TALENT,
 		progressState: PillarStateEnum.NOT_STARTED,
 		value: "",
 	},

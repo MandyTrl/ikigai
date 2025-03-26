@@ -5,9 +5,8 @@ import {
 	IkigaiForm,
 	IkigaiStepEnum,
 	initialIkigaiForm,
-	MainstayEnum,
 } from "./IkigaiContext"
-import { HoverContext } from "./hoverContext"
+import { HoverContext } from "./HoverContext"
 
 // Provider pour encapsuler la logique de gestion des états
 export const AppProviders = ({ children }: { children: ReactNode }) => {
@@ -18,7 +17,10 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
 	//mémoïze fct to prevent recreating between re-renders
 	const updateForm = useCallback(
-		(mainstay: MainstayEnum, field: Partial<Omit<IkigaiForm, "mainstay">>) => {
+		(
+			mainstay: IkigaiStepEnum,
+			field: Partial<Omit<IkigaiForm, "mainstay">>
+		) => {
 			setIkigaiForm((prev) =>
 				prev.map((entry) =>
 					entry.mainstay === mainstay ? { ...entry, ...field } : entry
@@ -45,7 +47,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		[ikigaiForm, currentStep, updateForm, resetIkigai]
 	)
 
-	const [hoveredMainstay, setHoveredMainstay] = useState<MainstayEnum | null>(
+	const [hoveredMainstay, setHoveredMainstay] = useState<IkigaiStepEnum | null>(
 		null
 	)
 

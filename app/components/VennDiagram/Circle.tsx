@@ -1,11 +1,11 @@
 "use client"
 import { useContext } from "react"
 import clsx from "clsx"
-import { MainstayEnum } from "@/app/context/IkigaiContext"
+import { IkigaiStepEnum } from "@/app/context/IkigaiContext"
 import { HoverContext } from "@/app/context/hoverContext"
 
 type CircleProps = {
-	id: MainstayEnum
+	id: IkigaiStepEnum
 	cx: string
 	cy: string
 	r?: string

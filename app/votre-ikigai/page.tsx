@@ -2,7 +2,6 @@
 import { useContext } from "react"
 import { YourIkigaiLayout } from "../components/Layouts/YourIkigaiLayout"
 import {
-	convertIkigaiToMainstay,
 	IkigaiContext,
 	IkigaiStepEnum,
 	PillarStateEnum,
@@ -12,20 +11,17 @@ import { FormLayout } from "../components/Layouts/FormLayout"
 export default function YourIkigai() {
 	const { currentStep, ikigaiForm } = useContext(IkigaiContext)
 
-	const mainstayEnumConverted = convertIkigaiToMainstay(currentStep)
-	const selectedMainstay = ikigaiForm.find(
-		(el) => el.mainstay === mainstayEnumConverted
-	)
+	const selectedMainstay = ikigaiForm.find((el) => el.mainstay === currentStep)
 
 	const isMainstaySelectionPending =
 		selectedMainstay?.progressState === PillarStateEnum.IS_SELECTED
 
 	return (
 		<div className="w-full min-h-[calc(100svh-40px)] flex flex-col md:flex-row gap-2">
-			{selectedMainstay && !isMainstaySelectionPending ? (
-				<FormLayout />
-			) : currentStep === IkigaiStepEnum.INITIAL ? (
+			{currentStep === IkigaiStepEnum.INITIAL ? (
 				<YourIkigaiLayout />
+			) : selectedMainstay && !isMainstaySelectionPending ? (
+				<FormLayout />
 			) : null}
 		</div>
 	)

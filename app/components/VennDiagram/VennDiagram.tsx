@@ -1,7 +1,7 @@
 "use client"
 import React, { useContext } from "react"
 import { Circle } from "./Circle"
-import { MainstayEnum } from "@/app/context/IkigaiContext"
+import { IkigaiStepEnum } from "@/app/context/IkigaiContext"
 import { HoverContext } from "@/app/context/hoverContext"
 
 const radius = "28%" //rayon en % pour le responsive
@@ -11,7 +11,7 @@ const VennDiagram: React.FC = () => {
 
 	const baseCircles = [
 		{
-			id: MainstayEnum.LOVE,
+			id: IkigaiStepEnum.LOVE,
 			cx: "50%",
 			cy: "29%",
 			fill: "#b6d4db",
@@ -22,7 +22,7 @@ const VennDiagram: React.FC = () => {
 			hoveredCxLabel: "50%",
 		},
 		{
-			id: MainstayEnum.NEEDS,
+			id: IkigaiStepEnum.NEEDS,
 			cx: "70%",
 			cy: "50%",
 			fill: "#ffefe5",
@@ -34,7 +34,7 @@ const VennDiagram: React.FC = () => {
 			hoveredCyLabel: "50%",
 		},
 		{
-			id: MainstayEnum.PAID,
+			id: IkigaiStepEnum.PAID,
 			cx: "50%",
 			cy: "71%",
 			fill: "#c9def7",
@@ -46,7 +46,7 @@ const VennDiagram: React.FC = () => {
 			hoveredCyLabel: "72%",
 		},
 		{
-			id: MainstayEnum.TALENT,
+			id: IkigaiStepEnum.TALENT,
 			cx: "30%",
 			cy: "50%",
 			fill: "#eed2d7",

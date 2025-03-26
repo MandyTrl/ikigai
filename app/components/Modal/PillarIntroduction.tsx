@@ -27,6 +27,8 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 		selectedMainstay?.progressState === PillarStateEnum.IS_SAVED &&
 		selectedMainstay?.value.trim() !== ""
 
+	console.log(isInProgress)
+
 	if (!mainstayInfoFound || !selectedMainstay) return null
 
 	const handleClick = () => {

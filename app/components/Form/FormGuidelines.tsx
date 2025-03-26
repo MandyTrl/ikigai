@@ -2,11 +2,7 @@
 import { useContext } from "react"
 import { DynamicIcon } from "../UI/DynamicIcon"
 import { MainLayout } from "../Layouts/MainLayout"
-import {
-	convertIkigaiToMainstay,
-	IkigaiContext,
-	IkigaiStepEnum,
-} from "@/app/context/IkigaiContext"
+import { IkigaiContext, IkigaiForm } from "@/app/context/IkigaiContext"
 import {
 	IkigaiMainstay,
 	ikigaiMainstay,
@@ -18,12 +14,12 @@ import { Collapse } from "../UI/Collapse"
 export const FormGuidelines = () => {
 	const { currentStep, ikigaiForm } = useContext(IkigaiContext)
 
-	const selectedMainstay: IkigaiStepEnum | undefined = ikigaiForm.find(
-		(el) => el.mainstay === convertIkigaiToMainstay(currentStep)
+	const selectedMainstay: IkigaiForm | undefined = ikigaiForm.find(
+		(el) => el.mainstay === currentStep
 	)
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
-		(el) => el.mainstay === convertIkigaiToMainstay(currentStep)
+		(el) => el.mainstay === currentStep
 	)
 
 	if (!mainstayInfoFound || !selectedMainstay) return null

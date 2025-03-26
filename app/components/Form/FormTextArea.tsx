@@ -1,10 +1,8 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
 import {
-	convertIkigaiToMainstay,
 	IkigaiContext,
 	IkigaiStepEnum,
-	MainstayEnum,
 	PillarStateEnum,
 } from "@/app/context/IkigaiContext"
 import clsx from "clsx"
@@ -19,7 +17,7 @@ export const FormTextArea = () => {
 
 	useEffect(() => {
 		const mainstayData = ikigaiForm.find(
-			(entry) => entry.mainstay === convertIkigaiToMainstay(currentStep)
+			(entry) => entry.mainstay === currentStep
 		)
 
 		setTextAreaValue(mainstayData!.value)
@@ -28,13 +26,13 @@ export const FormTextArea = () => {
 	const isTyping = textAreaValue !== ""
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
-		(el) => el.mainstay === convertIkigaiToMainstay(currentStep)
+		(el) => el.mainstay === currentStep
 	)
 
 	if (!mainstayInfoFound) return null
 
 	const handleClick = () => {
-		updateForm(currentStep as unknown as MainstayEnum, {
+		updateForm(currentStep, {
 			progressState: PillarStateEnum.IS_SAVED,
 			value: textAreaValue,
 		})

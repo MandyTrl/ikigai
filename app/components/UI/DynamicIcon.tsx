@@ -1,4 +1,4 @@
-import { MainstayEnum } from "@/app/context/IkigaiContext"
+import { IkigaiStepEnum } from "@/app/context/IkigaiContext"
 import {
 	PersonSimpleThrow,
 	HandCoins,
@@ -6,22 +6,22 @@ import {
 	ListHeart,
 } from "@phosphor-icons/react/dist/ssr"
 
-const iconMap: Record<MainstayEnum, React.ElementType> = {
-	[MainstayEnum.LOVE]: ListHeart,
-	[MainstayEnum.TALENT]: PersonSimpleThrow,
-	[MainstayEnum.PAID]: HandCoins,
-	[MainstayEnum.NEEDS]: Users,
+const iconMap: Record<IkigaiStepEnum, React.ElementType> = {
+	[IkigaiStepEnum.LOVE]: ListHeart,
+	[IkigaiStepEnum.TALENT]: PersonSimpleThrow,
+	[IkigaiStepEnum.PAID]: HandCoins,
+	[IkigaiStepEnum.NEEDS]: Users,
 }
 
-const colorMap: Record<MainstayEnum, string> = {
-	[MainstayEnum.LOVE]: "#b6d4db",
-	[MainstayEnum.NEEDS]: "#ffefe5",
-	[MainstayEnum.PAID]: "#c9def7",
-	[MainstayEnum.TALENT]: "#eed2d7",
+const colorMap: Record<IkigaiStepEnum, string> = {
+	[IkigaiStepEnum.LOVE]: "#b6d4db",
+	[IkigaiStepEnum.NEEDS]: "#ffefe5",
+	[IkigaiStepEnum.PAID]: "#c9def7",
+	[IkigaiStepEnum.TALENT]: "#eed2d7",
 }
 
 type DynamicIconProps = {
-	name: MainstayEnum
+	name: IkigaiStepEnum
 	size?: number
 	color?: string
 	weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone"

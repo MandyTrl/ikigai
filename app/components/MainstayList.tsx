@@ -2,13 +2,13 @@
 import { useContext, useState } from "react"
 import {
 	IkigaiContext,
-	MainstayEnum,
+	IkigaiStepEnum,
 	PillarStateEnum,
 } from "../context/IkigaiContext"
+import { HoverContext } from "../context/HoverContext"
 import { Modal } from "./Modal/Modal"
 import { PillarIntroduction } from "./Modal/PillarIntroduction"
 import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr"
-import { HoverContext } from "../context/hoverContext"
 
 const listStyle = "group block flex items-center hover:cursor-pointer"
 
@@ -23,7 +23,7 @@ export const MainstayList = () => {
 		(el) => el.progressState === PillarStateEnum.IS_SELECTED
 	)
 
-	const hasData = (mainstay: MainstayEnum) => {
+	const hasData = (mainstay: IkigaiStepEnum) => {
 		const mainstayData = ikigaiForm.find((el) => el.mainstay === mainstay)
 		return (
 			mainstayData?.progressState === PillarStateEnum.IS_SAVED &&
@@ -31,7 +31,7 @@ export const MainstayList = () => {
 		)
 	}
 
-	const getIcon = (mainstay: MainstayEnum, color: string) => {
+	const getIcon = (mainstay: IkigaiStepEnum, color: string) => {
 		const IconComponent = hasData(mainstay) ? CheckCircle : Circle
 		return (
 			<IconComponent
@@ -43,7 +43,7 @@ export const MainstayList = () => {
 		)
 	}
 
-	const handleClick = (mainstay: MainstayEnum) => {
+	const handleClick = (mainstay: IkigaiStepEnum) => {
 		const mainstayData = ikigaiForm.find((el) => el.mainstay === mainstay)
 
 		if (mainstayData) {
@@ -51,8 +51,6 @@ export const MainstayList = () => {
 		}
 
 		updateForm(mainstay, { progressState: PillarStateEnum.IS_SELECTED })
-		console.log("Clicked on:", mainstay)
-		console.log("Updated ikigaiForm:", ikigaiForm)
 		setIsModalOpen(true)
 	}
 
@@ -72,7 +70,7 @@ export const MainstayList = () => {
 			</Modal>
 
 			<ul className="flex flex-col my-2 text-lg">
-				{Object.values(MainstayEnum).map((mainstay) => (
+				{ikigaiForm.map(({ mainstay }) => (
 					<li
 						key={mainstay}
 						className={listStyle}
@@ -80,11 +78,11 @@ export const MainstayList = () => {
 						onMouseEnter={() => setHoveredMainstay(mainstay)}
 						onMouseLeave={() => setHoveredMainstay(null)}>
 						{getIcon(mainstay, "#b6d4db")}
-						{mainstay === MainstayEnum.LOVE && "Ce que vous aimez"}
-						{mainstay === MainstayEnum.NEEDS && "Ce dont le monde a besoin"}
-						{mainstay === MainstayEnum.PAID &&
+						{mainstay === IkigaiStepEnum.LOVE && "Ce que vous aimez"}
+						{mainstay === IkigaiStepEnum.NEEDS && "Ce dont le monde a besoin"}
+						{mainstay === IkigaiStepEnum.PAID &&
 							"Ce pourquoi vous pouvez être payé"}
-						{mainstay === MainstayEnum.TALENT && "Ce pourquoi vous êtes doué"}
+						{mainstay === IkigaiStepEnum.TALENT && "Ce pourquoi vous êtes doué"}
 					</li>
 				))}
 			</ul>
