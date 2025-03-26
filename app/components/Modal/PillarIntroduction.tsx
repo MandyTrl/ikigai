@@ -2,36 +2,45 @@
 import { useContext } from "react"
 import {
 	IkigaiContext,
-	MainstayEnum,
+	IkigaiStepEnum,
 	PillarStateEnum,
 } from "@/app/context/IkigaiContext"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import { Button, ButtonSizeEnum } from "../UI/Button"
-import { isMainstay } from "@/app/utils/typeguards"
 
 type PillarIntroductionProps = {
 	onClose: () => void
 }
 
 export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
-	const { currentStep, ikigaiForm, updateForm } = useContext(IkigaiContext)
+	const { setStep, ikigaiForm, updateForm } = useContext(IkigaiContext)
 
-	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
-		(el) => el.mainstay === currentStep
+	const selectedMainstay = ikigaiForm.find(
+		(el) => el.progressState === PillarStateEnum.IS_SELECTED
 	)
 
-	const selectedMainstay = ikigaiForm.find((el) => el.mainstay === currentStep)
+	console.log(selectedMainstay)
+
+	const mainstayInfoFound: IkigaiMainstay | undefined = selectedMainstay
+		? ikigaiMainstay.find((el) => el.mainstay === selectedMainstay.mainstay)
+		: undefined
 
 	const isInProgress =
 		selectedMainstay?.progressState === PillarStateEnum.IS_SAVED &&
 		selectedMainstay?.value.trim() !== ""
 
-	if (!mainstayInfoFound) return null
+	console.log("selectedMainstay:", selectedMainstay)
+	console.log("mainstayInfoFound:", mainstayInfoFound)
+
+	if (!mainstayInfoFound || !selectedMainstay) return null
 
 	const handleClick = () => {
-		updateForm(currentStep as MainstayEnum, {
+		updateForm(selectedMainstay.mainstay, {
 			progressState: PillarStateEnum.IN_PROGRESS,
 		})
+
+		setStep(selectedMainstay.mainstay as unknown as IkigaiStepEnum)
+
 		onClose()
 	}
 

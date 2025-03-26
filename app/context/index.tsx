@@ -1,5 +1,5 @@
 "use client"
-import { ReactNode, useMemo, useState } from "react"
+import { ReactNode, useCallback, useMemo, useState } from "react"
 import {
 	IkigaiContext,
 	IkigaiForm,
@@ -7,31 +7,34 @@ import {
 	initialIkigaiForm,
 	MainstayEnum,
 } from "./IkigaiContext"
+import { HoverContext } from "./hoverContext"
 
 // Provider pour encapsuler la logique de gestion des états
 export const AppProviders = ({ children }: { children: ReactNode }) => {
 	const [ikigaiForm, setIkigaiForm] = useState<IkigaiForm[]>(initialIkigaiForm)
-	const [currentStep, setCurrentStep] = useState<IkigaiStepEnum | MainstayEnum>(
+	const [currentStep, setCurrentStep] = useState<IkigaiStepEnum>(
 		IkigaiStepEnum.INITIAL
 	)
 
-	const updateForm = (
-		mainstay: MainstayEnum,
-		field: Partial<Omit<IkigaiForm, "mainstay">>
-	) => {
-		setIkigaiForm((prev) =>
-			prev.map((entry) =>
-				entry.mainstay === mainstay ? { ...entry, ...field } : entry
+	//mémoïze fct to prevent recreating between re-renders
+	const updateForm = useCallback(
+		(mainstay: MainstayEnum, field: Partial<Omit<IkigaiForm, "mainstay">>) => {
+			setIkigaiForm((prev) =>
+				prev.map((entry) =>
+					entry.mainstay === mainstay ? { ...entry, ...field } : entry
+				)
 			)
-		)
-	}
+		},
+		[]
+	)
 
-	const resetIkigai = () => {
+	const resetIkigai = useCallback(() => {
 		setIkigaiForm(initialIkigaiForm)
 		setCurrentStep(IkigaiStepEnum.INITIAL)
-	}
+	}, [])
 
-	const contextValue = useMemo(
+	//mémoïze results (objects, array..) to prevent re-renders
+	const ikigaiContextValue = useMemo(
 		() => ({
 			ikigaiForm,
 			currentStep,
@@ -39,12 +42,26 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 			updateForm,
 			resetIkigai,
 		}),
-		[ikigaiForm, currentStep]
+		[ikigaiForm, currentStep, updateForm, resetIkigai]
+	)
+
+	const [hoveredMainstay, setHoveredMainstay] = useState<MainstayEnum | null>(
+		null
+	)
+
+	const hoverContextValue = useMemo(
+		() => ({
+			hoveredMainstay,
+			setHoveredMainstay,
+		}),
+		[hoveredMainstay]
 	)
 
 	return (
-		<IkigaiContext.Provider value={contextValue}>
-			{children}
+		<IkigaiContext.Provider value={ikigaiContextValue}>
+			<HoverContext.Provider value={hoverContextValue}>
+				{children}
+			</HoverContext.Provider>
 		</IkigaiContext.Provider>
 	)
 }

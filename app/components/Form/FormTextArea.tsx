@@ -1,6 +1,7 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
 import {
+	convertIkigaiToMainstay,
 	IkigaiContext,
 	IkigaiStepEnum,
 	MainstayEnum,
@@ -10,37 +11,30 @@ import clsx from "clsx"
 import { MainLayout } from "../Layouts/MainLayout"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import { ArrowUUpLeft, LightbulbFilament } from "@phosphor-icons/react/dist/ssr"
-import { isMainstay } from "@/app/utils/typeguards"
 
 export const FormTextArea = () => {
 	const { currentStep, setStep, ikigaiForm, updateForm } =
 		useContext(IkigaiContext)
 	const [textAreaValue, setTextAreaValue] = useState<string>("")
-	const [selectedMainstay, setSelectedMainstay] = useState<MainstayEnum | null>(
-		null
-	)
 
 	useEffect(() => {
-		if (isMainstay(currentStep)) {
-			setSelectedMainstay(currentStep)
+		const mainstayData = ikigaiForm.find(
+			(entry) => entry.mainstay === convertIkigaiToMainstay(currentStep)
+		)
 
-			const mainstayData = ikigaiForm.find(
-				(entry) => entry.mainstay === currentStep
-			)
-
-			setTextAreaValue(mainstayData!.value)
-		}
+		setTextAreaValue(mainstayData!.value)
 	}, [currentStep, ikigaiForm])
 
 	const isTyping = textAreaValue !== ""
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
-		(el) => el.mainstay === currentStep
+		(el) => el.mainstay === convertIkigaiToMainstay(currentStep)
 	)
+
 	if (!mainstayInfoFound) return null
 
 	const handleClick = () => {
-		updateForm(currentStep as MainstayEnum, {
+		updateForm(currentStep as unknown as MainstayEnum, {
 			progressState: PillarStateEnum.IS_SAVED,
 			value: textAreaValue,
 		})

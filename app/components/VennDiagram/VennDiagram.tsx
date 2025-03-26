@@ -1,20 +1,13 @@
 "use client"
 import React, { useContext } from "react"
 import { Circle } from "./Circle"
-import {
-	IkigaiContext,
-	MainstayEnum,
-	PillarStateEnum,
-} from "@/app/context/IkigaiContext"
+import { MainstayEnum } from "@/app/context/IkigaiContext"
+import { HoverContext } from "@/app/context/hoverContext"
 
 const radius = "28%" //rayon en % pour le responsive
 
 const VennDiagram: React.FC = () => {
-	const { ikigaiForm } = useContext(IkigaiContext)
-
-	const hoveredMainstay = ikigaiForm.find(
-		(entry) => entry.progressState === PillarStateEnum.IS_HOVERED
-	)?.mainstay
+	const { hoveredMainstay } = useContext(HoverContext)
 
 	const baseCircles = [
 		{

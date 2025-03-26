@@ -1,11 +1,8 @@
 "use client"
 import { useContext } from "react"
 import clsx from "clsx"
-import {
-	IkigaiContext,
-	MainstayEnum,
-	PillarStateEnum,
-} from "@/app/context/IkigaiContext"
+import { MainstayEnum } from "@/app/context/IkigaiContext"
+import { HoverContext } from "@/app/context/hoverContext"
 
 type CircleProps = {
 	id: MainstayEnum
@@ -34,9 +31,8 @@ export const Circle = ({
 	label,
 	labelSecondPart,
 }: CircleProps) => {
-	const { ikigaiForm } = useContext(IkigaiContext)
-	const mainstayFind = ikigaiForm.find((el) => el.mainstay === id)
-	const isHovered = mainstayFind?.progressState === PillarStateEnum.IS_HOVERED
+	const { hoveredMainstay } = useContext(HoverContext)
+	const isHovered = hoveredMainstay === id
 
 	const circleStyle = clsx(
 		"transition-opacity duration-300 ease-in-out mix-blend-multiply stroke stroke-transparent",

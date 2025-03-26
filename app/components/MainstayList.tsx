@@ -2,22 +2,29 @@
 import { useContext, useState } from "react"
 import {
 	IkigaiContext,
-	IkigaiStepEnum,
 	MainstayEnum,
 	PillarStateEnum,
 } from "../context/IkigaiContext"
 import { Modal } from "./Modal/Modal"
 import { PillarIntroduction } from "./Modal/PillarIntroduction"
 import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr"
+import { HoverContext } from "../context/hoverContext"
 
 const listStyle = "group block flex items-center hover:cursor-pointer"
 
 export const MainstayList = () => {
-	const { ikigaiForm, setStep, updateForm } = useContext(IkigaiContext)
+	const { ikigaiForm, updateForm } = useContext(IkigaiContext)
+	const { setHoveredMainstay } = useContext(HoverContext)
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+	const [previousProgressState, setPreviousProgressState] =
+		useState<PillarStateEnum | null>(null)
+
+	const selectedMainstay = ikigaiForm.find(
+		(el) => el.progressState === PillarStateEnum.IS_SELECTED
+	)
 
 	const hasData = (mainstay: MainstayEnum) => {
 		const mainstayData = ikigaiForm.find((el) => el.mainstay === mainstay)
-
 		return (
 			mainstayData?.progressState === PillarStateEnum.IS_SAVED &&
 			mainstayData.value.trim() !== ""
@@ -36,86 +43,50 @@ export const MainstayList = () => {
 		)
 	}
 
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+	const handleClick = (mainstay: MainstayEnum) => {
+		const mainstayData = ikigaiForm.find((el) => el.mainstay === mainstay)
 
-	const handleClick = (mainstay: IkigaiStepEnum) => {
-		setStep(mainstay)
+		if (mainstayData) {
+			setPreviousProgressState(mainstayData.progressState)
+		}
+
+		updateForm(mainstay, { progressState: PillarStateEnum.IS_SELECTED })
+		console.log("Clicked on:", mainstay)
+		console.log("Updated ikigaiForm:", ikigaiForm)
 		setIsModalOpen(true)
+	}
+
+	const handleClose = () => {
+		if (selectedMainstay && previousProgressState !== null) {
+			updateForm(selectedMainstay.mainstay, {
+				progressState: previousProgressState,
+			})
+		}
+		setIsModalOpen(false)
 	}
 
 	return (
 		<>
-			<Modal
-				isOpen={isModalOpen}
-				handleVisibility={() => setIsModalOpen(false)}>
-				<PillarIntroduction onClose={() => setIsModalOpen(false)} />
+			<Modal isOpen={isModalOpen} handleVisibility={handleClose}>
+				<PillarIntroduction onClose={handleClose} />
 			</Modal>
 
 			<ul className="flex flex-col my-2 text-lg">
-				<li
-					className={listStyle}
-					onClick={() => handleClick(IkigaiStepEnum.LOVE)}
-					onMouseEnter={() =>
-						updateForm(MainstayEnum.LOVE, {
-							progressState: PillarStateEnum.IS_HOVERED,
-						})
-					}
-					onMouseLeave={() =>
-						updateForm(MainstayEnum.LOVE, {
-							progressState: PillarStateEnum.NOT_STARTED,
-						})
-					}>
-					{getIcon(MainstayEnum.LOVE, "#b6d4db")}
-					Ce que vous aimez
-				</li>
-				<li
-					className={listStyle}
-					onClick={() => handleClick(IkigaiStepEnum.NEEDS)}
-					onMouseEnter={() =>
-						updateForm(MainstayEnum.NEEDS, {
-							progressState: PillarStateEnum.IS_HOVERED,
-						})
-					}
-					onMouseLeave={() =>
-						updateForm(MainstayEnum.NEEDS, {
-							progressState: PillarStateEnum.NOT_STARTED,
-						})
-					}>
-					{getIcon(MainstayEnum.NEEDS, "#b6d4db")}
-					Ce dont le monde a besoin
-				</li>
-				<li
-					className={listStyle}
-					onClick={() => handleClick(IkigaiStepEnum.PAID)}
-					onMouseEnter={() =>
-						updateForm(MainstayEnum.PAID, {
-							progressState: PillarStateEnum.IS_HOVERED,
-						})
-					}
-					onMouseLeave={() =>
-						updateForm(MainstayEnum.PAID, {
-							progressState: PillarStateEnum.NOT_STARTED,
-						})
-					}>
-					{getIcon(MainstayEnum.PAID, "#b6d4db")}
-					Ce pourquoi vous pouvez être payé
-				</li>
-				<li
-					className={listStyle}
-					onClick={() => handleClick(IkigaiStepEnum.TALENT)}
-					onMouseEnter={() =>
-						updateForm(MainstayEnum.TALENT, {
-							progressState: PillarStateEnum.IS_HOVERED,
-						})
-					}
-					onMouseLeave={() =>
-						updateForm(MainstayEnum.TALENT, {
-							progressState: PillarStateEnum.NOT_STARTED,
-						})
-					}>
-					{getIcon(MainstayEnum.TALENT, "#b6d4db")}
-					Ce pourquoi vous êtes doué
-				</li>
+				{Object.values(MainstayEnum).map((mainstay) => (
+					<li
+						key={mainstay}
+						className={listStyle}
+						onClick={() => handleClick(mainstay)}
+						onMouseEnter={() => setHoveredMainstay(mainstay)}
+						onMouseLeave={() => setHoveredMainstay(null)}>
+						{getIcon(mainstay, "#b6d4db")}
+						{mainstay === MainstayEnum.LOVE && "Ce que vous aimez"}
+						{mainstay === MainstayEnum.NEEDS && "Ce dont le monde a besoin"}
+						{mainstay === MainstayEnum.PAID &&
+							"Ce pourquoi vous pouvez être payé"}
+						{mainstay === MainstayEnum.TALENT && "Ce pourquoi vous êtes doué"}
+					</li>
+				))}
 			</ul>
 		</>
 	)
