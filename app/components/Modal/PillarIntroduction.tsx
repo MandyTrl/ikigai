@@ -1,12 +1,9 @@
 "use client"
 import { useContext } from "react"
-import {
-	IkigaiContext,
-	IkigaiStepEnum,
-	PillarStateEnum,
-} from "@/app/context/IkigaiContext"
+import { IkigaiContext, PillarStateEnum } from "@/app/context/IkigaiContext"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import { Button, ButtonSizeEnum } from "../UI/Button"
+import clsx from "clsx"
 
 type PillarIntroductionProps = {
 	onClose: () => void
@@ -23,20 +20,16 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 		? ikigaiMainstay.find((el) => el.mainstay === selectedMainstay.mainstay)
 		: undefined
 
-	const isInProgress =
-		selectedMainstay?.progressState === PillarStateEnum.IS_SAVED &&
-		selectedMainstay?.value.trim() !== ""
-
-	console.log(isInProgress)
-
 	if (!mainstayInfoFound || !selectedMainstay) return null
+
+	const isInProgress = selectedMainstay.value.trim()
 
 	const handleClick = () => {
 		updateForm(selectedMainstay.mainstay, {
 			progressState: PillarStateEnum.IN_PROGRESS,
 		})
 
-		setStep(selectedMainstay.mainstay as unknown as IkigaiStepEnum)
+		setStep(selectedMainstay.mainstay)
 
 		onClose()
 	}
@@ -46,23 +39,30 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 			<h2 className="font-bold text-3xl mt-5 mb-2">
 				{mainstayInfoFound.title}
 			</h2>
-			<p className="bg-secondary/50 p-5 rounded-lg">
+
+			<p
+				className={clsx(
+					ikigaiMainstay && "mb-8",
+					"bg-secondary/50 p-5 rounded-lg"
+				)}>
 				{isInProgress
-					? "Vous avez déjà commencé à remplir cette partie. Vos données ont été sauvegardées, voulez-vous reprendre où vous vous en êtiez arrêtée ?"
+					? "Vous avez déjà commencé à remplir cette partie. Vos données ont été sauvegardées, voulez-vous reprendre où vous vous en êtiez arrêté ?"
 					: mainstayInfoFound.modalDescription}
 			</p>
 
-			<div className="mt-3 mb-8 border border-secondary rounded-lg p-5">
-				<p className="text-lg">Ce que vous allez faire :</p>
-				<ul className="*:indent-4">
-					{mainstayInfoFound.modalGuidelines.map((guideline, index) => (
-						<li key={index}>
-							<span className="mr-2">✓</span>
-							{guideline}
-						</li>
-					))}
-				</ul>
-			</div>
+			{!isInProgress && (
+				<div className="mt-3 mb-8 border border-secondary rounded-lg p-5">
+					<p className="text-lg">Ce que vous allez faire :</p>
+					<ul className="*:indent-4">
+						{mainstayInfoFound.modalGuidelines.map((guideline, index) => (
+							<li key={index}>
+								<span className="mr-2">✓</span>
+								{guideline}
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 
 			<Button
 				title={isInProgress ? "Continuer l'exploration" : "Explorer ce pilier"}
