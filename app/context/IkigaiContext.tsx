@@ -23,7 +23,6 @@ const ikigaiStepSchema = z.nativeEnum(IkigaiStepEnum)
 export const convertIkigaiToMainstay = (step: IkigaiStepEnum): MainstayEnum => {
 	//vérifie que la valeur est bien dans l'ENUM avant de la convertir
 	const parsedStep = ikigaiStepSchema.parse(step)
-	console.log(parsedStep)
 	return MainstayEnum[parsedStep.toUpperCase() as keyof typeof MainstayEnum]
 }
 

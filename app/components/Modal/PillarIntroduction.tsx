@@ -19,8 +19,6 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 		(el) => el.progressState === PillarStateEnum.IS_SELECTED
 	)
 
-	console.log(selectedMainstay)
-
 	const mainstayInfoFound: IkigaiMainstay | undefined = selectedMainstay
 		? ikigaiMainstay.find((el) => el.mainstay === selectedMainstay.mainstay)
 		: undefined
@@ -28,9 +26,6 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 	const isInProgress =
 		selectedMainstay?.progressState === PillarStateEnum.IS_SAVED &&
 		selectedMainstay?.value.trim() !== ""
-
-	console.log("selectedMainstay:", selectedMainstay)
-	console.log("mainstayInfoFound:", mainstayInfoFound)
 
 	if (!mainstayInfoFound || !selectedMainstay) return null
 

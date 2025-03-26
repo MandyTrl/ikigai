@@ -18,7 +18,9 @@ import { Collapse } from "../UI/Collapse"
 export const FormGuidelines = () => {
 	const { currentStep, ikigaiForm } = useContext(IkigaiContext)
 
-	const selectedMainstay: IkigaiStepEnum = ikigaiForm[currentStep]
+	const selectedMainstay: IkigaiStepEnum | undefined = ikigaiForm.find(
+		(el) => el.mainstay === convertIkigaiToMainstay(currentStep)
+	)
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
 		(el) => el.mainstay === convertIkigaiToMainstay(currentStep)

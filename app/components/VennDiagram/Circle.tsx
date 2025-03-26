@@ -33,6 +33,15 @@ export const Circle = ({
 }: CircleProps) => {
 	const { hoveredMainstay } = useContext(HoverContext)
 	const isHovered = hoveredMainstay === id
+	const isAnyHovered = hoveredMainstay !== null
+
+	const getFillColor = () => {
+		// if (!isAnyHovered) return fill
+		// if (isHovered) return fill
+		// return "#c1d1db"
+
+		return fill
+	}
 
 	const circleStyle = clsx(
 		"transition-opacity duration-300 ease-in-out mix-blend-multiply stroke stroke-transparent",
@@ -45,7 +54,7 @@ export const Circle = ({
 				cx={cx}
 				cy={cy}
 				r={r}
-				fill={fill}
+				fill={getFillColor()}
 				opacity="0.50"
 				className={circleStyle}
 			/>
