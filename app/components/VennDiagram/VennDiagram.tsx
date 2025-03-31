@@ -4,7 +4,7 @@ import { Circle } from "./Circle"
 import { IkigaiStepEnum } from "@/app/context/IkigaiContext"
 import { HoverContext } from "@/app/context/HoverContext"
 
-const radius = "28%" //rayon en % pour le responsive
+const radius = "26%" //rayon en % pour le responsive
 
 const VennDiagram: React.FC = () => {
 	const { hoveredMainstay } = useContext(HoverContext)
@@ -13,49 +13,49 @@ const VennDiagram: React.FC = () => {
 		{
 			id: IkigaiStepEnum.LOVE,
 			cx: "50%",
-			cy: "29%",
+			cy: "30%",
 			fill: "#b6d4db",
 			label: "Ce que vous aimez",
-			defaultCyLabel: "18%",
-			hoveredCyLabel: "32%",
+			defaultCyLabel: "19%",
+			hoveredCyLabel: "33%",
 			defaultCxLabel: "50%",
 			hoveredCxLabel: "50%",
 		},
 		{
 			id: IkigaiStepEnum.NEEDS,
 			cx: "70%",
-			cy: "50%",
+			cy: "51%",
 			fill: "#ffefe5",
 			label: "Ce dont le",
 			labelSecondPart: "monde a besoin",
-			defaultCxLabel: "84%",
+			defaultCxLabel: "82%",
 			hoveredCxLabel: "71%",
-			defaultCyLabel: "50%",
-			hoveredCyLabel: "50%",
+			defaultCyLabel: "51%",
+			hoveredCyLabel: "51%",
 		},
 		{
 			id: IkigaiStepEnum.PAID,
 			cx: "50%",
-			cy: "71%",
+			cy: "72%",
 			fill: "#c9def7",
 			label: "Ce pourquoi vous",
 			labelSecondPart: "pouvez être payé",
 			defaultCxLabel: "50%",
 			hoveredCxLabel: "50%",
-			defaultCyLabel: "85%",
-			hoveredCyLabel: "72%",
+			defaultCyLabel: "86%",
+			hoveredCyLabel: "73%",
 		},
 		{
 			id: IkigaiStepEnum.TALENT,
 			cx: "30%",
-			cy: "50%",
+			cy: "51%",
 			fill: "#eed2d7",
 			label: "Ce pourquoi",
 			labelSecondPart: "vous êtes doué",
-			defaultCxLabel: "16%",
+			defaultCxLabel: "18%",
 			hoveredCxLabel: "29%",
 			defaultCyLabel: "50%",
-			hoveredCyLabel: "50%",
+			hoveredCyLabel: "51%",
 		},
 	]
 
@@ -80,7 +80,7 @@ const VennDiagram: React.FC = () => {
 					{!hoveredMainstay && (
 						<text
 							x="50%"
-							y="52%"
+							y="52.5%"
 							textAnchor="middle"
 							fontSize="0.35vw"
 							fontWeight="bold"

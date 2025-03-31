@@ -35,6 +35,11 @@ export const Circle = ({
 	const isHovered = hoveredMainstay === id
 	const isAnyHovered = hoveredMainstay !== null
 
+	const cxLabel = isHovered ? hoveredCxLabel : defaultCxLabel
+	const cyLabel = isHovered ? hoveredCyLabel : defaultCyLabel
+
+	const scaleValue = isHovered ? 1.04 : 1
+
 	const getFillColor = () => {
 		// if (!isAnyHovered) return fill
 		// if (isHovered) return fill
@@ -42,42 +47,47 @@ export const Circle = ({
 
 		return fill
 	}
-
-	const circleStyle = clsx(
-		"transition-opacity duration-300 ease-in-out mix-blend-multiply stroke stroke-transparent",
-		isHovered && "opacity-100 mix-blend-normal stroke-white"
-	)
+	const circleStyle = clsx("transition-all duration-300 ease-in-out", {
+		"mix-blend-normal opacity-100": isHovered,
+		"mix-blend-multiply": !isAnyHovered,
+		"mix-blend-darken opacity-40": hoveredMainstay && !isHovered, //hovered, mais cercle différent
+	})
 
 	return (
-		<>
+		<g
+			transform={`scale(${scaleValue})`}
+			style={{
+				transformOrigin: `${cx} ${cy}`,
+				transition: "transform 0.4s cubic-bezier(0.33, 1, 0.68, 1)",
+			}}>
 			<circle
 				cx={cx}
 				cy={cy}
 				r={r}
 				fill={getFillColor()}
 				opacity="0.50"
-				strokeWidth={1}
 				className={circleStyle}
 			/>
+
 			<text
-				x={isHovered ? hoveredCxLabel : defaultCxLabel}
-				y={isHovered ? hoveredCyLabel : defaultCyLabel}
+				x={cxLabel}
+				y={cyLabel}
 				textAnchor="middle"
 				dy=".3em"
-				fill="#091C34"
-				fontSize={3.2}
-				opacity={0.7}
+				fill={"#091C34"}
+				fontSize={isHovered ? 3.8 : 3.2}
+				opacity={isHovered ? 0.8 : hoveredMainstay && !isHovered ? 0.45 : 0.7}
 				style={{ fontFamily: "var(--font-andika)" }}
 				className="cursor-pointer select-none font-light">
-				<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="-0.5em">
+				<tspan x={cxLabel} dy="-0.5em">
 					{label}
 				</tspan>
 				{labelSecondPart && (
-					<tspan x={isHovered ? hoveredCxLabel : defaultCxLabel} dy="1.2em">
+					<tspan x={cxLabel} dy="1.2em">
 						{labelSecondPart}
 					</tspan>
 				)}
 			</text>
-		</>
+		</g>
 	)
 }
