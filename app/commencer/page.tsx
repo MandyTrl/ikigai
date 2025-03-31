@@ -1,5 +1,5 @@
 "use client"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { YourIkigaiLayout } from "../components/Layouts/YourIkigaiLayout"
 import {
 	IkigaiContext,
@@ -15,6 +15,13 @@ export default function YourIkigai() {
 
 	const isMainstaySelectionPending =
 		selectedMainstay?.progressState === PillarStateEnum.IS_SELECTED
+
+	//génère une transition à chaque changement d'étape
+	useEffect(() => {
+		if ("startViewTransition" in document) {
+			document.startViewTransition(() => {})
+		}
+	}, [currentStep])
 
 	return (
 		<div className="w-full min-h-[calc(100svh-40px)] flex flex-col md:flex-row gap-2">

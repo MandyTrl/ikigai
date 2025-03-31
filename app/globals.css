@@ -32,6 +32,22 @@ body {
 	background-color: #bfd8da43;
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: fade 0.8s ease;
+}
+
+@keyframes fade {
+	from {
+		opacity: 0.5;
+		transform: scale(1.01);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
 /* Works on Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
 	width: 18px;
