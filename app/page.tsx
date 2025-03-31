@@ -147,7 +147,7 @@ export default function Home() {
 					title="Découvrir Mon ikigai"
 					isLink
 					href="/commencer"
-					size={ButtonSizeEnum.L}
+					size={ButtonSizeEnum.S}
 				/>
 			</div>
 		</MainLayout>

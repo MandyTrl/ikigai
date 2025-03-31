@@ -56,6 +56,7 @@ export const Circle = ({
 				r={r}
 				fill={getFillColor()}
 				opacity="0.50"
+				strokeWidth={1}
 				className={circleStyle}
 			/>
 			<text

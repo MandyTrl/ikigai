@@ -36,24 +36,20 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 
 	return (
 		<div>
-			<h2 className="font-bold text-3xl mt-5 mb-2">
+			<h2 className="font-bold text-3xl mt-5 mb-4">
 				{mainstayInfoFound.title}
 			</h2>
 
-			<p
-				className={clsx(
-					ikigaiMainstay && "mb-8",
-					"bg-secondary/50 p-5 rounded-lg"
-				)}>
+			<p className={clsx(ikigaiMainstay && "mb-10", "bg-secondary/30 p-5")}>
 				{isInProgress
 					? "Vous avez déjà commencé à remplir cette partie. Vos données ont été sauvegardées, voulez-vous reprendre où vous vous en êtiez arrêté ?"
 					: mainstayInfoFound.modalDescription}
 			</p>
 
 			{!isInProgress && (
-				<div className="mt-3 mb-8 border border-secondary rounded-lg p-5">
-					<p className="text-lg">Ce que vous allez faire :</p>
-					<ul className="*:indent-4">
+				<div className="mt-3 mb-8">
+					<p className="text-lg mb-2">Ce que vous allez faire :</p>
+					<ul className="border border-secondary rounded-lg p-5">
 						{mainstayInfoFound.modalGuidelines.map((guideline, index) => (
 							<li key={index}>
 								<span className="mr-2">✓</span>

@@ -28,35 +28,24 @@ export const Button = ({
 			? "w-full"
 			: size === ButtonSizeEnum.M
 			? "w-1/2"
-			: "w-auto",
-		"block" // Ceci garantit que le wrapper respecte les largeurs définies
+			: "w-fit",
+		"block" //garantit que le wrapper respecte les largeurs définies
 	)
 
-	const buttonBaseStyle = clsx(
-		"relative pl-6 py-1 group overflow-hidden bg-primary flex justify-between items-center hover:cursor-pointer w-full",
-		size === ButtonSizeEnum.L ? "rounded-xl" : "rounded-full"
-	)
+	const buttonBaseStyle =
+		"relative pl-6 py-1 group overflow-hidden bg-primary flex justify-between items-center hover:cursor-pointer w-full rounded-full"
 
-	const textStyle = clsx(
-		"relative z-20 font-semibold text-lg text-white transition-colors duration-[0.4s]",
-		"group-hover:text-primary"
-	)
-
-	const animationOverlay = clsx(
-		"absolute inset-0 scale-x-0 origin-left bg-secondary transition-all duration-[0.4s] ease-in-out z-10 group-hover:scale-x-100 w-[calc(90%-25px)]",
-		size === ButtonSizeEnum.L ? "rounded-xl" : "rounded-full"
-	)
+	const textStyle = "tracking-wide text-lg text-white"
 
 	const iconStyle =
-		"opacity-0 group-hover:opacity-100 ml-4 mr-1 transition-opacity duration-200 flex-shrink-0"
+		"min-w-0 w-0 opacity-0 group-hover:opacity-100 group-hover:min-w-[50px] ml-4 mr-1 transition-all duration-200 flex-shrink-0"
 
 	const buttonContent = (
 		<>
-			<span className={animationOverlay}></span>
 			<span className={textStyle}>{title}</span>
 			<ArrowCircleRight
 				size={50}
-				color="#b6d4db"
+				color="white"
 				weight="thin"
 				className={iconStyle}
 			/>

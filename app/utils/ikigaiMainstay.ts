@@ -23,7 +23,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		mainstay: IkigaiStepEnum.LOVE,
 		title: "Ce que vous aimez",
 		modalDescription:
-			"Ce pilier représente ce qui vous anime. En l'explorant, vous pourrez clarifier ce qui vous enthousiasme et vous donne envie d&apos;avancer.",
+			"Ce pilier représente ce qui vous anime. Vous pourrez clarifier ce qui vous enthousiasme et vous donne envie d’avancer.",
 		modalGuidelines: [
 			"Identifier ce qui vous motive profondément",
 			"Comprendre ce qui vous donne naturellement de l'énergie",
@@ -76,7 +76,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		mainstay: IkigaiStepEnum.NEEDS,
 		title: "Ce dont le monde a besoin",
 		modalDescription:
-			"Ce pilier vous aide à aligner vos actions avec ce qui est recherché chez les autres. En l'explorant, vous trouverez des domaines où vous compétences et intérêts peuvent répondre à un besoin.",
+			"Ce pilier vous aide à aligner vos actions avec ce qui est recherché chez les autres. Vous trouverez des domaines où vous compétences et intérêts peuvent répondre à un besoin.",
 		modalGuidelines: [
 			"Identifier les besoins et attentes dans votre environnement",
 			"Comprendre comment vous pouvez y répondre avec vos talents et vos valeurs",
@@ -129,7 +129,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		mainstay: IkigaiStepEnum.PAID,
 		title: "Ce pourquoi vous pouvez être payé",
 		modalDescription:
-			"Ce pilier vous aide à explorer différentes pistes qui peuvent vous apporter une source de revenus. En l'explorant, vous trouverez comment vos compétences, expériences ou intérêts peuvent répondre à des opportunités professionnelles.",
+			"Ce pilier vous aide à explorer différentes pistes qui peuvent vous apporter une source de revenus. Vous trouverez comment vos compétences, expériences ou intérêts peuvent répondre à des opportunités professionnelles.",
 		modalGuidelines: [
 			"Identifier les métiers, secteurs et activités où votre savoir-faire peut être valorisé économiquement",
 			"Explorer des pistes professionnelles viables et porteuses",
@@ -182,7 +182,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
 		mainstay: IkigaiStepEnum.TALENT,
 		title: "Ce pourquoi vous êtes doué",
 		modalDescription:
-			"Ce pilier vous aide à explorer différentes pistes qui peuvent vous apporter une source de revenus. En l'explorant, vous trouverez comment vos compétences, expériences ou intérêts peuvent répondre à des opportunités professionnelles.",
+			"Ce pilier vous aide à explorer différentes pistes qui peuvent vous apporter une source de revenus. Vous trouverez comment vos compétences, expériences ou intérêts peuvent répondre à des opportunités professionnelles.",
 		modalGuidelines: [
 			"Identifier vos talents et compétences clés",
 			"Comprendre vos points forts et déceler vos qualités",

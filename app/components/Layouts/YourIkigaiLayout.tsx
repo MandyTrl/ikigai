@@ -44,7 +44,7 @@ export const YourIkigaiLayout = () => {
 						title="Analyser mes réponses"
 						isLink
 						href="/votre-ikigai"
-						size={ButtonSizeEnum.L}
+						size={ButtonSizeEnum.S}
 					/>
 				)}
 			</MainLayout>
