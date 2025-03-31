@@ -47,11 +47,10 @@ export const Circle = ({
 
 		return fill
 	}
-	const circleStyle = clsx("transition-all duration-300 ease-in-out", {
-		"mix-blend-normal opacity-100": isHovered,
-		"mix-blend-multiply": !isAnyHovered,
-		"mix-blend-darken opacity-40": hoveredMainstay && !isHovered, //hovered, mais cercle différent
-	})
+	const circleStyle = clsx(
+		"transition-all duration-300 ease-in-out mix-blend-multiply",
+		isHovered && "mix-blend-normal"
+	)
 
 	return (
 		<g
@@ -64,8 +63,11 @@ export const Circle = ({
 				cx={cx}
 				cy={cy}
 				r={r}
-				fill={getFillColor()}
-				opacity="0.50"
+				fill={isHovered ? "white" : getFillColor()}
+				stroke={getFillColor()}
+				strokeWidth={0.2}
+				strokeOpacity={1}
+				fillOpacity={isHovered ? 1 : 0.3}
 				className={circleStyle}
 			/>
 
@@ -76,7 +78,7 @@ export const Circle = ({
 				dy=".3em"
 				fill={"#091C34"}
 				fontSize={isHovered ? 3.8 : 3.2}
-				opacity={isHovered ? 0.8 : hoveredMainstay && !isHovered ? 0.45 : 0.7}
+				opacity={hoveredMainstay && !isHovered ? 0.45 : 0.7}
 				style={{ fontFamily: "var(--font-andika)" }}
 				className="cursor-pointer select-none font-light">
 				<tspan x={cxLabel} dy="-0.5em">
