@@ -115,7 +115,7 @@ export const FormTextArea = () => {
 				<p
 					className={clsx(
 						errorMsg ? "opacity-100 translate-y-2" : "opacity-0 translate-y-0",
-						"text-red-600 font-andika text-sm ml-2 transition-all duration-300 ease-out"
+						"text-red-600 font-andika text-sm min-h-5 ml-2 transition-all duration-300 ease-out"
 					)}>
 					{errorMsg}
 				</p>

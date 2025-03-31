@@ -22,7 +22,7 @@ export default function Home() {
 					priority
 				/>
 
-				<div className="flex flex-col gap-y-5 text-5xl font-light my-10">
+				<div className="flex flex-col gap-y-5 text-5xl font-light my-14">
 					<p>Quelle est votre raison de vous lever chaque matin?</p>
 					<p>Vos activités, votre travail vous procurent-ils de la joie ? </p>
 					<p>
@@ -31,7 +31,7 @@ export default function Home() {
 					</p>
 				</div>
 
-				<section className="w-2/4 mb-5">
+				<section className="w-3/4 mb-5">
 					<Title content="Trouver son Ikigai" />
 
 					<div className="flex flex-col gap-y-4">
@@ -50,7 +50,7 @@ export default function Home() {
 					</div>
 				</section>
 
-				<section className="w-2/4 mb-5">
+				<section className="w-3/4 mb-5">
 					<Title content="Un moment pour soi" />
 
 					<div className="flex flex-col gap-y-4">
@@ -68,7 +68,7 @@ export default function Home() {
 					</div>
 				</section>
 
-				<section className="w-2/4 mb-5">
+				<section className="w-3/4 mb-5">
 					<Title content="S'aider d'" logo />
 
 					<div className="flex flex-col gap-y-4">
@@ -110,7 +110,7 @@ export default function Home() {
 					</div>
 				</section>
 
-				<section className="w-2/4 mb-5">
+				<section className="w-3/4 mb-5">
 					<Title content="Ce que vous apporte l'ikigai" />
 
 					<div className="flex flex-col gap-y-4">
@@ -146,7 +146,7 @@ export default function Home() {
 				<Button
 					title="Découvrir Mon ikigai"
 					isLink
-					href="/votre-ikigai"
+					href="/commencer"
 					size={ButtonSizeEnum.L}
 				/>
 			</div>

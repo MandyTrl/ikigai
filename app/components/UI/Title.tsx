@@ -7,7 +7,7 @@ type TitleProps = {
 
 export const Title = ({ content, logo }: TitleProps) => {
 	return (
-		<h2 className="text-6xl uppercase font-light mb-5 tracking-wider">
+		<h2 className="text-6xl uppercase font-light my-5">
 			{content}
 
 			{logo && (
