@@ -1,16 +1,11 @@
-import {
-	PersonSimpleThrow,
-	HandCoins,
-	ListHeart,
-	OpenAiLogo,
-	Users,
-} from "@phosphor-icons/react/dist/ssr"
+import Image from "next/image"
+import * as motion from "motion/react-client"
 import { Title } from "./components/UI/Title"
 import { HeroSection } from "./components/HeroSection"
 import { Button, ButtonSizeEnum } from "./components/UI/Button"
 import { MainLayout } from "./components/Layouts/MainLayout"
-import * as motion from "motion/react-client"
-import Image from "next/image"
+import { IntroSection } from "./components/IntroSection"
+import { PillarFlowSection } from "./components/PillarsFlowSection"
 
 export default function Home() {
 	return (
@@ -19,42 +14,7 @@ export default function Home() {
 				<HeroSection />
 
 				<div>
-					<section className="w-full flex flex-col content-between gap-y-22 text-5xl font-light my-22">
-						<motion.p
-							initial={{ opacity: 0, y: 40 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, ease: "easeOut" }}
-							viewport={{ once: true, amount: 0.4 }}
-							className="w-4/5">
-							L&apos;ikigai est une{" "}
-							<span className="underline underline-offset-2">philosophie</span>{" "}
-							japonaise qui repose sur l&apos;alignement avec soi-même en
-							identifiant ce qui vous anime réellement. Une fois trouvé, il
-							procure{" "}
-							<span className="underline underline-offset-2">clarté</span> et
-							joie au quotidien.
-						</motion.p>
-
-						<motion.div
-							initial={{ opacity: 0, y: 40 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8, ease: "easeOut" }}
-							viewport={{ once: true, amount: 0.4 }}
-							className="w-4/5 self-end flex items-center justify-end flex-wrap text-right">
-							<p>
-								Ikig-ai est un outil conçu pour aider à clarifier votre
-								réflexion, en combinant cette
-							</p>
-							<p className="w-fit border border-primary rounded-xl px-4 pt-2 pb-1">
-								méthode japonaise
-							</p>
-							<p className="mx-4">et</p>
-							<p className="w-fit border border-primary rounded-xl px-4 pt-2 pb-1 mr-1">
-								l&apos;intelligence artificielle
-							</p>
-							.
-						</motion.div>
-					</section>
+					<IntroSection />
 
 					<section className="w-full my-28">
 						<div className="flex gap-x-10">
@@ -90,49 +50,13 @@ export default function Home() {
 						</div>
 					</section>
 
-					<section className="w-3/4 mb-5">
-						<Title content="S'aider d'" logo />
+					<PillarFlowSection />
 
-						<div className="flex flex-col gap-y-4">
-							<p>
-								L&apos;ikigai repose sur <strong>quatre piliers</strong> :
-							</p>
-
-							<ul className="*:mb-3">
-								<li className="flex items-center gap-x-3">
-									<ListHeart size={30} weight="light" color="#091c34" />
-									Ce que vous aimez
-								</li>
-								<li className="flex items-center gap-x-3">
-									<PersonSimpleThrow size={30} weight="light" color="#091c34" />
-									Ce en quoi vous excellez
-								</li>
-								<li className="flex items-center gap-x-3">
-									<HandCoins size={30} weight="light" color="#091c34" />
-									Ce pour quoi vous pouvez être rémunéré
-								</li>
-								<li className="flex items-center gap-x-3">
-									<Users size={30} weight="light" color="#091c34" />
-									Ce dont le monde a besoin
-								</li>
-							</ul>
-							<p>
-								Avec l&apos;appui d&apos;
-								<OpenAiLogo
-									size={30}
-									weight="light"
-									color="#091c34"
-									className="inline-block align-middle"
-								/>
-								Open-ia, l&apos;intelligence artificielle analyse ces éléments
-								pour vous offrir une synthèse personnalisée et pertinente.
-								Résultat ? Un cap défini, et la liberté d&apos;explorer votre
-								propre chemin.
-							</p>
-						</div>
-					</section>
-
-					<section className="w-3/4 mb-5">
+					<motion.section
+						initial={{ opacity: 0 }}
+						whileInView={{ opacity: 1 }}
+						transition={{ duration: 0.6, delay: 0.6 }}
+						className="w-3/4 mb-5">
 						<Title content="Ce que vous apporte l'ikigai" />
 
 						<div className="flex flex-col gap-y-4">
@@ -163,7 +87,7 @@ export default function Home() {
 								véritable atout.
 							</p>
 						</div>
-					</section>
+					</motion.section>
 
 					<Button
 						title="Découvrir Mon ikigai"

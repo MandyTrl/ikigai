@@ -2,10 +2,10 @@
 
 :root {
 	--primary: #091c34;
-	--secondary: #b6d4db;
-	--tertiary: #c9def7;
-	--accent: #ffefe5;
-	--accentbis: #eed2d7;
+	--secondary: #d7defb;
+	--tertiary: #a9d6c5;
+	--accent: #b6d4db;
+	--accentbis: #ffefe5;
 }
 
 @theme inline {
