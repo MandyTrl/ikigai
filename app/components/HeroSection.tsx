@@ -34,11 +34,12 @@ export const HeroSection = () => {
 						width={120}
 						height={120}
 						priority
-						className="absolute bottom-7 right-7 p-5 rounded-3xl border border-violet-200"
+						aria-hidden
+						className="absolute bottom-7 right-7 p-5 rounded-3xl border border-violet-300/50 hover:inset-shadow-sm opacity-90 duration-150 ease-out transition-all hover:border-violet-300/70 hover:opacity-100"
 					/>
 					<Link
 						href="/commencer"
-						className="text-2xl absolute top-7 left-7 text-white font-bold border border-whiite rounded-full px-3 pb-1 pt-2 bg-white/10 hover:bg-black/10 cursor-pointer transition-colors duration-150 ease-out">
+						className="text-2xl absolute top-7 left-7 text-white font-bold border border-whiite rounded-full px-3 pb-1 pt-2 bg-white/10 hover:bg-black/10 cursor-pointer transition-colors duration-200 ease-out">
 						Trouver son ikigai
 					</Link>
 				</motion.div>
