@@ -1,7 +1,6 @@
 "use client"
 import { useContext } from "react"
 import { DynamicIcon } from "../UI/DynamicIcon"
-import { MainLayout } from "../Layouts/MainLayout"
 import { IkigaiContext, IkigaiForm } from "@/app/context/IkigaiContext"
 import {
 	IkigaiMainstay,
@@ -10,6 +9,7 @@ import {
 } from "@/app/utils/ikigaiMainstay"
 import { Clock } from "@phosphor-icons/react/dist/ssr"
 import { Collapse } from "../UI/Collapse"
+import { ContainerLayout } from "../Layouts/ContainerLayout"
 
 export const FormGuidelines = () => {
 	const { currentStep, ikigaiForm } = useContext(IkigaiContext)
@@ -24,7 +24,7 @@ export const FormGuidelines = () => {
 
 	if (!mainstayInfoFound || !selectedMainstay) return null
 	return (
-		<MainLayout className="flex-5 relative">
+		<ContainerLayout className="flex-5 relative">
 			<section className="flex items-end mb-4">
 				<DynamicIcon
 					name={mainstayInfoFound.mainstay}
@@ -66,6 +66,6 @@ export const FormGuidelines = () => {
 			</section>
 
 			<Collapse items={mainstayInfoFound.help} />
-		</MainLayout>
+		</ContainerLayout>
 	)
 }

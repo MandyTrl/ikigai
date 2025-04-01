@@ -29,12 +29,12 @@
 body {
 	font-family: var(--font-arima);
 	color: var(--primary);
-	background-color: #bfd8da43;
+	/* background-color: #bfd8da43; */
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-	animation: fade 0.8s ease;
+	animation: fade 0.5s ease;
 }
 
 @keyframes fade {
@@ -79,4 +79,11 @@ body {
 
 textarea {
 	caret-color: var(--secondary);
+}
+
+.hero-bg {
+	background-image: url("/assets/maxim-berg-ZePAAZDt4XU-unsplash.jpg");
+	background-repeat: no-repeat;
+	background-position: top;
+	background-size: cover;
 }

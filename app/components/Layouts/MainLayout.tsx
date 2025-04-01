@@ -1,29 +1,25 @@
 import { ReactNode } from "react"
 import { Navbar } from "../Navbar"
-import clsx from "clsx"
 
 type MainLayoutProps = {
 	children: ReactNode
 	hasNavbar?: boolean
-	isVennDiagram?: boolean
 	className?: string
 }
 
 export const MainLayout = ({
 	children,
 	hasNavbar = false,
-	isVennDiagram = false,
 	className,
 }: MainLayoutProps) => {
 	return (
-		<div
-			className={clsx(
-				isVennDiagram ? "md:p-0" : "md:p-8",
-				`w-full max-h-[calc(100vh-2.5rem)] overflow-hidden flex flex-col rounded-3xl bg-white shadow ${className}`
-			)}>
+		<div className="px-2">
 			{hasNavbar && <Navbar />}
 
-			<div className="w-full overflow-y-auto p-4">{children}</div>
+			<div
+				className={`w-full flex flex-col rounded-t-4xl bg-gradient-to-b from-white via-[#f6fbfc] via-[#d9e8ed] to-[#b6d4db] ${className}`}>
+				{children}
+			</div>
 		</div>
 	)
 }

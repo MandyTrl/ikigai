@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { IkigaiContext } from "@/app/context/IkigaiContext"
-import { MainLayout } from "./MainLayout"
 import { MainstayList } from "../MainstayList"
+import { ContainerLayout } from "./ContainerLayout"
 import VennDiagram from "../VennDiagram/VennDiagram"
 import { Button, ButtonSizeEnum } from "../UI/Button"
 import { canShowIkigaiResultButton } from "@/app/utils/validateForm"
@@ -11,11 +11,11 @@ export const YourIkigaiLayout = () => {
 
 	return (
 		<>
-			<MainLayout isVennDiagram>
+			<ContainerLayout isVennDiagram>
 				<VennDiagram />
-			</MainLayout>
+			</ContainerLayout>
 
-			<MainLayout hasNavbar>
+			<ContainerLayout hasNavbar>
 				<h1 className="text-2xl mb-5">
 					Bienvenue dans{" "}
 					<span className="text-3xl font-semibold">votre ikigai</span>,
@@ -47,7 +47,7 @@ export const YourIkigaiLayout = () => {
 						size={ButtonSizeEnum.S}
 					/>
 				)}
-			</MainLayout>
+			</ContainerLayout>
 		</>
 	)
 }

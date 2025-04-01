@@ -5,7 +5,6 @@ import {
 	IkigaiStepEnum,
 	PillarStateEnum,
 } from "@/app/context/IkigaiContext"
-import { MainLayout } from "../Layouts/MainLayout"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import {
 	ArrowUUpLeft,
@@ -14,6 +13,7 @@ import {
 	Trash,
 } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
+import { ContainerLayout } from "../Layouts/ContainerLayout"
 
 export const FormTextArea = () => {
 	const { currentStep, setStep, ikigaiForm, updateForm } =
@@ -56,7 +56,7 @@ export const FormTextArea = () => {
 	}
 
 	return (
-		<MainLayout className="flex-4">
+		<ContainerLayout className="flex-4">
 			<div className="relative w-full">
 				<div className="flex gap-x-3">
 					<button
@@ -136,6 +136,6 @@ export const FormTextArea = () => {
 					{mainstayInfoFound.tips}
 				</p>
 			</section>
-		</MainLayout>
+		</ContainerLayout>
 	)
 }
