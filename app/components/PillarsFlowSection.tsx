@@ -107,7 +107,7 @@ export const PillarFlowSection = () => {
 							}}
 							transition={{ duration: 0.4 }}
 							className="w-fit flex flex-col items-center gap-y-4 snap-center shrink-0 w-56 text-center">
-							<div className="w-18 h-18 rounded-full bg-white border-2 border-accent flex items-center justify-center shadow-md">
+							<div className="w-18 h-18 rounded-full bg-white flex items-center justify-center shadow-secondary shadow-md">
 								{item.icon}
 							</div>
 

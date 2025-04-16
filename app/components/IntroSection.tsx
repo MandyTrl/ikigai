@@ -25,8 +25,9 @@ export const IntroSection = () => {
 				className="w-4/5 self-end flex items-center justify-end flex-wrap text-right">
 				<p>
 					<span className="font-medium">Ikig-</span>
-					<span className="text-accent font-andika">ai</span> est un outil conçu
-					pour aider à clarifier votre réflexion, en combinant cette
+					<span className="text-secondary font-bold font-andika">ai</span> est
+					un outil conçu pour aider à clarifier votre réflexion, en combinant
+					cette
 				</p>
 				<p className="w-fit border border-primary rounded-xl px-4 pt-2 pb-1">
 					méthode japonaise
