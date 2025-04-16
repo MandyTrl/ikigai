@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-import Image from "next/image"
 import {
 	HandCoins,
 	ListHeart,
@@ -30,14 +29,16 @@ export const PillarFlowSection = () => {
 		},
 	]
 
-	const sectionRef = useRef(null)
-	const lineRef = useRef(null)
+	const sectionRef = useRef<HTMLDivElement>(null)
+	const lineRef = useRef<HTMLDivElement>(null)
 	const [activeIconIndex, setActiveIconIndex] = useState(-1)
 
 	useEffect(() => {
 		if (!lineRef.current || !sectionRef.current) return
 
 		const handleScroll = () => {
+			if (!lineRef.current || !sectionRef.current) return
+
 			const scrollPosition = window.scrollY
 			const sectionTop =
 				sectionRef.current.getBoundingClientRect().top + window.scrollY
@@ -52,7 +53,7 @@ export const PillarFlowSection = () => {
 			const triggerEnd = sectionHeight + viewportHeight * 0.5
 
 			//calculer de la progression du scroll dans la zone de déclenchement
-			const scrollProgress = Math.max(
+			const scrollProgress: number = Math.max(
 				0,
 				Math.min(
 					1,
@@ -60,7 +61,7 @@ export const PillarFlowSection = () => {
 				)
 			)
 
-			lineRef.current.style.width = `${scrollProgress * 100}%`
+			lineRef.current!.style.width = `${scrollProgress * 100}%`
 
 			//activer les icônes en fonction de la progression
 			//en divisant la progression totale en 4 segments (4 icônes)
