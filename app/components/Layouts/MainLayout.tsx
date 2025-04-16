@@ -17,7 +17,7 @@ export const MainLayout = ({
 			{hasNavbar && <Navbar />}
 
 			<div
-				className={`w-full flex flex-col rounded-t-4xl bg-gradient-to-b from-white via-[#f6fbfc] via-[#d9e8ed] to-[#f4f2e8] ${className}`}>
+				className={`w-full flex flex-col rounded-t-4xl bg-gradient-to-b from-white via-[#f6fbfc] via-secondary/30 to-[#f4f2e8] ${className}`}>
 				{children}
 			</div>
 		</div>
