@@ -84,18 +84,8 @@ export const PillarFlowSection = () => {
 	}, [])
 
 	return (
-		<section ref={sectionRef} className="mb-10">
-			<div className="text-7xl">
-				S&apos;aider d&apos;
-				<Image
-					src={"/assets/logos/submark-ikigai.svg"}
-					alt="logo d'Ikig-ai"
-					width={200}
-					height={50}
-					priority
-					className="inline-block align-middle mr-2"
-				/>
-			</div>
+		<section ref={sectionRef}>
+			<h3 className="text-7xl">Explorez les 4 pilliers de l&apos;Ikigai</h3>
 
 			<div className="w-[90%] mx-auto relative my-16 flex">
 				{/*ligne de connexion */}
@@ -129,7 +119,7 @@ export const PillarFlowSection = () => {
 			<p className="text-4xl">
 				Avec l&apos;appui d&apos;
 				<OpenAiLogo
-					size={30}
+					size={50}
 					weight="light"
 					color="#091c34"
 					className="inline-block align-middle mx-1"
