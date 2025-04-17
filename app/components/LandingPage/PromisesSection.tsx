@@ -1,5 +1,5 @@
 import * as motion from "motion/react-client"
-import { ikigaiPromises, IkigaiPromise } from "../utils/ikigaiPromises"
+import { ikigaiPromises, IkigaiPromise } from "../../utils/ikigaiPromises"
 import { PromiseCard } from "./PromiseCard"
 
 export const PromisesSection = () => {

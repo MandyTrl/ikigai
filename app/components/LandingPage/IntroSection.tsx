@@ -25,7 +25,7 @@ export const IntroSection = () => {
 				className="w-4/5 self-end flex items-center justify-end flex-wrap text-right">
 				<p>
 					<span className="font-medium">Ikig-</span>
-					<span className="text-secondary font-bold font-andika">ai</span> est
+					<span className="text-[#BEC7E3] font-bold font-andika">ai</span> est
 					un outil conçu pour aider à clarifier votre réflexion, en combinant
 					cette
 				</p>
