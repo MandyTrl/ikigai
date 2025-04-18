@@ -28,16 +28,16 @@ export const Button = ({
 
 	const textStyle = clsx(
 		size === ButtonSizeEnum.L
-			? "p-10 text-3xl"
+			? "px-10 py-8 text-3xl"
 			: size === ButtonSizeEnum.M
-			? "px-7 py-5 text-2xl"
+			? "px-8 py-5 text-2xl"
 			: "px-5 py-4 text-xl",
 		"tracking-wide text-white"
 	)
 
 	const iconStyle = clsx(
 		size === ButtonSizeEnum.L
-			? "p-10 text-3xl"
+			? "group-hover:min-w-[80px]"
 			: size === ButtonSizeEnum.M
 			? "group-hover:min-w-[60px]"
 			: "group-hover:min-w-[50px]",
@@ -48,7 +48,7 @@ export const Button = ({
 		<>
 			<span className={textStyle}>{title}</span>
 			<ArrowCircleRight
-				size={60}
+				size={80}
 				color="white"
 				weight="thin"
 				className={iconStyle}

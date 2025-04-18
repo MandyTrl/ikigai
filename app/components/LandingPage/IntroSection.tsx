@@ -2,6 +2,7 @@
 "use client"
 import { useRef, useEffect } from "react"
 import { AnimatedText } from "../UI/AnimatedText"
+import { WindowVideo } from "./WindowVideo"
 
 const firstParagraphe = [
 	"L’ikigai est une ",
@@ -42,17 +43,14 @@ export const IntroSection = () => {
 					<div>
 						<AnimatedText content={firstParagraphe} />
 					</div>
+
+					<WindowVideo />
+
 					<div className="text-right">
 						<AnimatedText content={secondParagraphe} globalIndex={155} />
 					</div>
 				</div>
 			</div>
-
-			{/* blur maks -window effect- */}
-			{/* <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-				<div className="h-32 bg-gradient-to-b from-white via-white/60 to-transparent" />
-				<div className="absolute bottom-0 h-32 w-full bg-gradient-to-t from-white via-white/60 to-transparent" />
-			</div> */}
 		</section>
 	)
 }

@@ -59,7 +59,7 @@ export const PillarSection = () => {
 					title="Commencer le test"
 					isLink
 					href="/commencer"
-					size={ButtonSizeEnum.S}
+					size={ButtonSizeEnum.M}
 				/>
 			</div>
 
