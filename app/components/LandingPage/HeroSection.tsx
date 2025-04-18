@@ -22,7 +22,7 @@ export const HeroSection = () => {
 				</div>
 			</div>
 
-			<div className="relative hero-bg w-full h-80 rounded-3xl my-7">
+			<div className="relative hero-bg w-full h-80 rounded-3xl mt-7">
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}

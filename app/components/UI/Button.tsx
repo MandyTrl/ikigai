@@ -23,28 +23,32 @@ export const Button = ({
 	size = ButtonSizeEnum.M,
 	onClick,
 }: ButtonProps) => {
-	const wrapperStyle = clsx(
+	const buttonStyle =
+		"relative flex items-center justify-between group overflow-hidden bg-primary flex justify-between items-center hover:cursor-pointer w-fit rounded-full"
+
+	const textStyle = clsx(
 		size === ButtonSizeEnum.L
-			? "w-full"
+			? "p-10 text-3xl"
 			: size === ButtonSizeEnum.M
-			? "w-1/2"
-			: "w-fit",
-		"block" //garantit que le wrapper respecte les largeurs définies
+			? "px-7 py-5 text-2xl"
+			: "px-5 py-4 text-xl",
+		"tracking-wide text-white"
 	)
 
-	const buttonBaseStyle =
-		"relative pl-6 py-1 group overflow-hidden bg-primary flex justify-between items-center hover:cursor-pointer w-full rounded-full"
-
-	const textStyle = "tracking-wide text-lg text-white"
-
-	const iconStyle =
-		"min-w-0 w-0 opacity-0 group-hover:opacity-100 group-hover:min-w-[50px] ml-4 mr-1 transition-all duration-200 flex-shrink-0"
+	const iconStyle = clsx(
+		size === ButtonSizeEnum.L
+			? "p-10 text-3xl"
+			: size === ButtonSizeEnum.M
+			? "group-hover:min-w-[60px]"
+			: "group-hover:min-w-[50px]",
+		"min-w-0 w-0 opacity-0 group-hover:opacity-100 mr-1 transition-all duration-200 flex-shrink-0"
+	)
 
 	const buttonContent = (
 		<>
 			<span className={textStyle}>{title}</span>
 			<ArrowCircleRight
-				size={50}
+				size={60}
 				color="white"
 				weight="thin"
 				className={iconStyle}
@@ -54,19 +58,15 @@ export const Button = ({
 
 	if (isLink && href) {
 		return (
-			<div className={wrapperStyle}>
-				<Link href={href} className={buttonBaseStyle}>
-					{buttonContent}
-				</Link>
-			</div>
+			<Link href={href} className={buttonStyle}>
+				{buttonContent}
+			</Link>
 		)
 	}
 
 	return (
-		<div className={wrapperStyle}>
-			<button className={buttonBaseStyle} onClick={onClick}>
-				{buttonContent}
-			</button>
-		</div>
+		<button className={buttonStyle} onClick={onClick}>
+			{buttonContent}
+		</button>
 	)
 }

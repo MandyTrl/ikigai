@@ -19,6 +19,13 @@
 	--shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
 }
 
+@layer utilities {
+	.mask-fade-bottom {
+		-webkit-mask-image: linear-gradient(to bottom, var(--primary), transparent);
+		mask-image: linear-gradient(to bottom, var(--primary), transparent);
+	}
+}
+
 @media (prefers-color-scheme: dark) {
 	:root {
 		--background: #0a0a0a;

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import * as motion from "motion/react-client"
-import { IkigaiPromise } from "../utils/ikigaiPromises"
+import { IkigaiPromise } from "../../utils/ikigaiPromises"
 
 type PromiseCardProps = {
 	promise: IkigaiPromise
