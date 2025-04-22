@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { MotionValue } from "motion"
 import * as motion from "motion/react-client"
 import {
 	HandCoins,
@@ -21,7 +22,7 @@ type CardVariants = {
 }
 
 export type PillarNoteCard = {
-	icon: ReactNode
+	icon: ReactNode | MotionValue<number> | MotionValue<string>
 	text: string
 	color: string
 	colorBG: string
