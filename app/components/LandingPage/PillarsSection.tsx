@@ -1,3 +1,4 @@
+import { ReactNode } from "react"
 import * as motion from "motion/react-client"
 import {
 	HandCoins,
@@ -6,10 +7,30 @@ import {
 	PersonSimpleThrow,
 	Users,
 } from "@phosphor-icons/react/dist/ssr"
+import { NoteCard } from "./NoteCard"
 import { Button, ButtonSizeEnum } from "../UI/Button"
 
+type FramerEffect = {
+	scale: number
+	y: number
+}
+
+type CardVariants = {
+	initial: FramerEffect
+	hover: FramerEffect
+}
+
+export type PillarNoteCard = {
+	icon: ReactNode
+	text: string
+	color: string
+	colorBG: string
+	rotate: number
+	cardVariants: CardVariants
+}
+
 export const PillarSection = () => {
-	const pilliars = [
+	const pilliars: PillarNoteCard[] = [
 		{
 			icon: <ListHeart size={120} weight="bold" color="#d7defb" />,
 			text: "Ce que vous aimez",
@@ -56,11 +77,6 @@ export const PillarSection = () => {
 		},
 	]
 
-	const iconVariants = {
-		initial: { rotate: 0 },
-		hover: { rotate: -8 },
-	}
-
 	return (
 		<motion.section
 			initial={{ opacity: 0 }}
@@ -89,51 +105,7 @@ export const PillarSection = () => {
 				{/* cards */}
 				<ul className="w-full h-[340px] flex gap-x-4 md:gap-x-6 place-content-center border-b border-slate-200 overflow-hidden relative">
 					{pilliars.map((item, index) => {
-						return (
-							<motion.div
-								key={index}
-								className="relative"
-								whileHover="hover"
-								whileInView="initial"
-								viewport={{ once: true }}
-								transition={{ duration: 1, delay: index * 0.1 }}
-								style={{
-									transform: `rotate(${item.rotate}deg)`,
-								}}
-								variants={{ initial: {}, hover: {} }}>
-								{/* front animated card */}
-								<motion.div
-									className="bg-white w-[300] md:w-[300] h-[250] rounded-xl overflow-hidden shadow-md z-30"
-									style={{
-										backgroundColor: item.colorBG,
-									}}
-									variants={item.cardVariants}
-									transition={{
-										type: "spring",
-										stiffness: 300,
-										damping: 20,
-									}}>
-									<div
-										className="w-full h-8"
-										style={{
-											backgroundColor: item.color,
-										}}></div>
-
-									<div className="p-5">
-										<motion.div
-											variants={iconVariants}
-											transition={{ duration: 0.3, ease: "easeInOut" }}
-											className="absolute bottom-4 right-4 mix-blend-multiply">
-											{item.icon}
-										</motion.div>
-
-										<p className="text-2xl font-light text-slate-800">
-											{item.text}
-										</p>
-									</div>
-								</motion.div>
-							</motion.div>
-						)
+						return <NoteCard pillar={item} key={index} index={index} />
 					})}
 				</ul>
 			</div>
