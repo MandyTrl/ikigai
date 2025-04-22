@@ -11,31 +11,50 @@ import { Button, ButtonSizeEnum } from "../UI/Button"
 export const PillarSection = () => {
 	const pilliars = [
 		{
-			icon: <ListHeart size={140} weight="bold" color="#d7defb" />,
+			icon: <ListHeart size={120} weight="bold" color="#d7defb" />,
 			text: "Ce que vous aimez",
 			color: "#d7defb",
+			colorBG: "#eff2ff",
+			rotate: 8,
+			cardVariants: {
+				initial: { scale: 1, y: 190 },
+				hover: { scale: 1.1, y: 100 },
+			},
 		},
 		{
-			icon: <PersonSimpleThrow size={140} weight="bold" color="#c9eadd" />,
+			icon: <PersonSimpleThrow size={120} weight="bold" color="#c9eadd" />,
 			text: "Ce en quoi vous excellez",
 			color: "#c9eadd",
+			colorBG: "#e6f4ee",
+			rotate: 2,
+			cardVariants: {
+				initial: { scale: 1, y: 240 },
+				hover: { scale: 1.1, y: 100 },
+			},
 		},
 		{
-			icon: <HandCoins size={140} weight="bold" color="#c9def7" />,
+			icon: <HandCoins size={120} weight="bold" color="#c9def7" />,
 			text: "Ce pour quoi vous pouvez être rémunéré",
 			color: "#c9def7",
+			colorBG: "#e5eff9",
+			rotate: -3,
+			cardVariants: {
+				initial: { scale: 1, y: 180 },
+				hover: { scale: 1.1, y: 100 },
+			},
 		},
 		{
-			icon: <Users size={140} weight="bold" color="#ffe2ce" />,
+			icon: <Users size={120} weight="bold" color="#ffe2ce" />,
 			text: "Ce dont le monde a besoin",
 			color: "#ffe2ce",
+			colorBG: "#fff4ed",
+			rotate: -8,
+			cardVariants: {
+				initial: { scale: 1, y: 200 },
+				hover: { scale: 1.1, y: 100 },
+			},
 		},
 	]
-
-	const cardVariants = {
-		initial: { scale: 1, y: 0 },
-		hover: { scale: 1.1, y: -10 },
-	}
 
 	const iconVariants = {
 		initial: { rotate: 0 },
@@ -46,65 +65,82 @@ export const PillarSection = () => {
 		<motion.section
 			initial={{ opacity: 0 }}
 			whileInView={{ opacity: 1 }}
-			transition={{ duration: 0.5, delay: 0.4 }}
-			className="px-10">
-			<div className="flex flex-col items-center smb-10">
-				<h3 className="text-7xl mt-10 mb-5">
-					Explorez les 4 pilliers de l&apos;Ikigai,
-				</h3>
-				<p className="text-4xl mb-10">
-					et découvrez ce qui donne du sens à votre vie.
-				</p>
-				<Button
-					title="Commencer le test"
-					isLink
-					href="/commencer"
-					size={ButtonSizeEnum.M}
-				/>
+			transition={{ duration: 0.5, delay: 0.4 }}>
+			<div className="relative overflow-hidden">
+				{/* dots background */}
+				<div className="absolute inset-0 -z-10 bg-[radial-gradient(#091c34,transparent_1.2px)] bg-[length:25px_25px] mask-fade-bottom" />
+
+				{/* header */}
+				<div className="flex flex-col items-center">
+					<h3 className="text-7xl mt-10 mb-5">
+						Explorez les 4 pilliers de l&apos;Ikigai,
+					</h3>
+					<p className="text-4xl mb-10">
+						et découvrez ce qui donne du sens à votre vie.
+					</p>
+					<Button
+						title="Commencer le test"
+						isLink
+						href="/commencer"
+						size={ButtonSizeEnum.M}
+					/>
+				</div>
+
+				{/* cards */}
+				<ul className="w-full h-[340px] flex gap-x-4 md:gap-x-6 place-content-center border-b border-slate-200 overflow-hidden relative">
+					{pilliars.map((item, index) => {
+						return (
+							<motion.div
+								key={index}
+								className="relative"
+								whileHover="hover"
+								whileInView="initial"
+								viewport={{ once: true }}
+								transition={{ duration: 1, delay: index * 0.1 }}
+								style={{
+									transform: `rotate(${item.rotate}deg)`,
+								}}
+								variants={{ initial: {}, hover: {} }}>
+								{/* front animated card */}
+								<motion.div
+									className="bg-white w-[300] md:w-[300] h-[250] rounded-xl overflow-hidden shadow-md z-30"
+									style={{
+										backgroundColor: item.colorBG,
+									}}
+									variants={item.cardVariants}
+									transition={{
+										type: "spring",
+										stiffness: 300,
+										damping: 20,
+									}}>
+									<div
+										className="w-full h-8"
+										style={{
+											backgroundColor: item.color,
+										}}></div>
+
+									<div className="p-5">
+										<motion.div
+											variants={iconVariants}
+											transition={{ duration: 0.3, ease: "easeInOut" }}
+											className="absolute bottom-4 right-4 mix-blend-multiply">
+											{item.icon}
+										</motion.div>
+
+										<p className="text-2xl font-light text-slate-800">
+											{item.text}
+										</p>
+									</div>
+								</motion.div>
+							</motion.div>
+						)
+					})}
+				</ul>
 			</div>
 
-			<ul className="w-fit shrink-0 grid grid-cols-2 gap-6 md:gap-8 my-12 mx-auto place-content-center place-items-center">
-				{pilliars.map((item, index) => {
-					return (
-						<motion.div
-							key={index}
-							className="relative"
-							whileHover="hover"
-							whileInView="initial"
-							viewport={{ once: true }}
-							transition={{ duration: 0.5, delay: index * 0.1 }}
-							variants={{ initial: {}, hover: {} }}>
-							{/* front animated card */}
-							<motion.div
-								className="relative bg-white w-[360] md:w-[460] h-[250] rounded-xl overflow-hidden shadow-md z-30"
-								style={{
-									backgroundColor: item.color,
-								}}
-								variants={cardVariants}
-								transition={{
-									type: "spring",
-									stiffness: 300,
-									damping: 20,
-								}}>
-								<div className="p-7">
-									<motion.div
-										variants={iconVariants}
-										transition={{ duration: 0.3, ease: "easeInOut" }}
-										className="absolute bottom-4 right-4 mix-blend-multiply">
-										{item.icon}
-									</motion.div>
-
-									<p className="text-2xl font-light text-slate-800">
-										{item.text}
-									</p>
-								</div>
-							</motion.div>
-						</motion.div>
-					)
-				})}
-			</ul>
+			{/* ia section */}
 			<motion.div
-				className="w-full h-fit flex items-start justify-between gap-x-12 bg-slate-200 rounded-2xl p-14 shadow-inset"
+				className="w-full h-fit flex items-center justify-between gap-x-12 bg-slate-200 rounded-2xl p-14 shadow-inset md:mt-14"
 				whileHover={{
 					translateY: -6,
 				}}
@@ -118,11 +154,12 @@ export const PillarSection = () => {
 					/>
 				</div>
 
-				<p className="text-4xl">
-					Avec l&apos;appui de l&apos;intelligence artificielle, Ikig-
+				<p className="text-2xl">
+					À travers un test structuré et avec l&apos;appui de
+					l&apos;intelligence artificielle, Ikig-
 					<span className="font-andika font-medium mr-2">ai</span>
 					analyse vos réponses pour vous offrir une synthèse personnalisée et
-					pertinente.
+					des pistes concrètes.
 				</p>
 			</motion.div>
 		</motion.section>

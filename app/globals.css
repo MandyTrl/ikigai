@@ -21,8 +21,8 @@
 
 @layer utilities {
 	.mask-fade-bottom {
-		-webkit-mask-image: linear-gradient(to bottom, var(--primary), transparent);
-		mask-image: linear-gradient(to bottom, var(--primary), transparent);
+		-webkit-mask-image: linear-gradient(to top, var(--primary), transparent);
+		mask-image: linear-gradient(to top, var(--primary), transparent);
 	}
 }
 

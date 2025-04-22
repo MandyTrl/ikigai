@@ -1,36 +1,47 @@
-import Image from "next/image"
+"use client"
+import { useEffect, useState } from "react"
+import * as motion from "motion/react-client"
 
 export const SelfMomentSection = () => {
+	const [videoHeight, setVideoHeight] = useState(0)
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const scrollTop = window.scrollY
+			const newHeight = Math.min(500, scrollTop * 1.8)
+			setVideoHeight(newHeight)
+		}
+
+		window.addEventListener("scroll", handleScroll)
+		return () => window.removeEventListener("scroll", handleScroll)
+	}, [])
+
 	return (
 		<section className="w-full">
-			<div className="flex gap-x-10">
-				<div className="relative w-[500px] h-[500px] rounded-3xl overflow-hidden mx-auto">
-					<Image
-						src="/assets/jeffery-erhunse-BQMZ5ligqps-unsplash.jpg"
-						alt="femme prenant l'air sur un balcon"
-						fill
-						priority
-						className="object-cover object-center"
+			<div className="flex flex-col gap-y-10">
+				<motion.div
+					style={{ height: videoHeight }}
+					className="relative w-full rounded-3xl overflow-hidden flex items-center justify-center border-12 border-white transition-all duration-300 ease-out">
+					<video
+						src="/videos/woman-typing-on-laptop.mp4"
+						autoPlay
+						loop
+						muted
+						playsInline
+						preload="auto"
+						className="w-full object-cover object-top"
 					/>
-				</div>
 
-				<div className="w-3/4 text-2xl">
-					<h2 className="bg-[url(/assets/svg/stacked-waves.svg)] text-transparent text-9xl font-black bg-clip-text bg-cover bg-center mb-10">
+					<h2 className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-xl text-center">
 						Un moment pour soi
 					</h2>
+				</motion.div>
 
-					<p className="mb-5">
-						Il peut être difficile dans notre quotidien de faire une pause et de
-						comprendre ce qui nous motive vraiment. Pourtant, se poser les
-						bonnes questions est essentiel pour aller dans la bonne direction.
-					</p>
-
-					<p>
-						Ikig-ai vous guide à travers un test structuré, analysant vos
-						réponses pour faire émerger votre <strong>propre ikigai</strong> et
-						vous proposer des pistes concrètes adaptées à vous.
-					</p>
-				</div>
+				<p className="text-3xl">
+					Il peut être difficile dans notre quotidien de faire une pause et de
+					comprendre ce qui nous motive vraiment. Pourtant, se poser les bonnes
+					questions est essentiel pour aller dans la bonne direction.
+				</p>
 			</div>
 		</section>
 	)

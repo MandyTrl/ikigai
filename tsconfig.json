@@ -30,7 +30,7 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"app/utils/convert.ts"
+		"app/utils/convertHexToRgba.ts"
 	],
 	"exclude": ["node_modules"]
 }
