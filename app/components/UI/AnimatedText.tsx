@@ -80,35 +80,18 @@ export const AnimatedText = ({
 						</span>
 					))
 				} else {
+					const style = styles[globalIndex++] || { opacity: 1 }
+
 					return (
-						<span
+						<motion.span
 							key={`el-${i}`}
-							className={`tracking-normal inline-block mr-1 ${part.props.className}`}>
-							{(part.props.children as string)
-								.split(" ")
-								.map((word, wordIndex) => (
-									<span
-										key={`word-${i}-${wordIndex}`}
-										className="tracking-normal inline-block mr-1">
-										{word.split("").map((char, letterIndex) => {
-											const style = styles[globalIndex++] || {
-												opacity: 1,
-											}
-											return (
-												<motion.span
-													key={`span-${i}-${wordIndex}-${letterIndex}`}
-													animate={style}
-													style={{
-														display: "tracking-normal inline-block",
-														opacity: style.opacity,
-													}}>
-													{char === " " ? "\u00A0" : char}
-												</motion.span>
-											)
-										})}
-									</span>
-								))}
-						</span>
+							animate={style}
+							style={{
+								display: "inline-block",
+								opacity: style.opacity,
+							}}>
+							{part}
+						</motion.span>
 					)
 				}
 			})}

@@ -20,6 +20,17 @@
 }
 
 @layer utilities {
+	@keyframes fade {
+		from {
+			opacity: 0.5;
+			transform: scale(1.01);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
 	.mask-fade-bottom {
 		-webkit-mask-image: linear-gradient(to top, var(--primary), transparent);
 		mask-image: linear-gradient(to top, var(--primary), transparent);
@@ -42,17 +53,6 @@ body {
 ::view-transition-old(root),
 ::view-transition-new(root) {
 	animation: fade 0.5s ease;
-}
-
-@keyframes fade {
-	from {
-		opacity: 0.5;
-		transform: scale(1.01);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
 }
 
 /* Works on Chrome, Edge, and Safari */
