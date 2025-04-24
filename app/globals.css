@@ -35,6 +35,15 @@
 		-webkit-mask-image: linear-gradient(to top, var(--primary), transparent);
 		mask-image: linear-gradient(to top, var(--primary), transparent);
 	}
+
+	.shadow-rainbow {
+		box-shadow: 0 -10px 30px var(--secondary), -10px 0 30px var(--tertiary),
+			0 10px 30px var(--accent), 10px 0 30px var(--accentbis);
+	}
+
+	.bg-rainbow {
+		background: linear-gradient(90deg, #d7defb, #a9d6c5, #b4d8e6, #fbd0af);
+	}
 }
 
 @media (prefers-color-scheme: dark) {

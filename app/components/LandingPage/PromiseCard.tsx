@@ -21,7 +21,7 @@ export const PromiseCard = ({ promise }: PromiseCardProps) => {
 				className="object-cover object-bottom"
 			/>
 
-			<div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-3rem)] max-h-[100px] group-hover:max-h-[250px] p-6 rounded-2xl overflow-hidden bg-white flex flex-col justify-start transition-all duration-300">
+			<div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-2.1rem)] max-h-[100px] group-hover:max-h-[250px] p-6 rounded-2xl overflow-hidden bg-white flex flex-col justify-start transition-all duration-300">
 				<p className="text-3xl mb-2">{promise.promise}</p>
 				<Image
 					src="/assets/svg/shape-circle-cutout-plus-shape.svg"

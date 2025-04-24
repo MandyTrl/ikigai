@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
-"use client"
+import Image from "next/image"
+import * as motion from "motion/react-client"
 import { AnimatedText } from "../UI/AnimatedText"
 import { WindowVideo } from "./WindowVideo"
 
@@ -27,13 +28,39 @@ export const IntroSection = () => {
 	]
 
 	return (
-		<section className="w-full">
-			<div className="w-[68%] font-light text-center mx-auto flex flex-col gap-y-14 text-5xl">
-				<p>Vos activités, votre travail vous procurent-ils de la joie ?</p>
+		<motion.section
+			initial={{ opacity: 0 }}
+			whileInView={{ opacity: 1 }}
+			transition={{ duration: 0.5, delay: 0.4 }}
+			className="w-full">
+			<div className="w-[50%] font-light text-center mx-auto flex flex-col text-5xl">
 				<p>
-					Êtes-vous en quête de sens ou en réflexion sur votre avenir
-					professionnel ?
+					Vos activités, votre travail vous procurent-ils de la{" "}
+					<span className="underline underline-offset-4 decoration-3 decoration-accentbis">
+						joie
+					</span>{" "}
+					?
 				</p>
+
+				<div className="w-full flex flex-col items-center justify-center">
+					<Image
+						src="/assets/svg/shape-circle-cutout-plus-shape.svg"
+						alt=""
+						width={20}
+						height={0}
+						priority
+						aria-hidden
+						className="my-10"
+					/>
+
+					<p>
+						Êtes-vous en quête de{" "}
+						<span className="underline underline-offset-4 decoration-3 decoration-secondary">
+							sens
+						</span>{" "}
+						ou en réflexion sur votre avenir professionnel ?
+					</p>
+				</div>
 			</div>
 
 			<WindowVideo />
@@ -42,6 +69,6 @@ export const IntroSection = () => {
 				<AnimatedText content={firstContent} />
 				<AnimatedText content={secondContent} />
 			</div>
-		</section>
+		</motion.section>
 	)
 }

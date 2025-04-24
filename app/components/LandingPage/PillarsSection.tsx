@@ -83,7 +83,7 @@ export const PillarSection = () => {
 			initial={{ opacity: 0 }}
 			whileInView={{ opacity: 1 }}
 			transition={{ duration: 0.5, delay: 0.4 }}>
-			<div className="relative overflow-hidden">
+			<div className="relative overflow-hidden bg-rainbow rounded-t-3xl pt-10">
 				{/* dots background */}
 				<div className="absolute inset-0 -z-10 bg-[radial-gradient(#091c34,transparent_1.2px)] bg-[length:25px_25px] mask-fade-bottom" />
 
@@ -118,7 +118,7 @@ export const PillarSection = () => {
 						size={50}
 						weight="light"
 						color="#091c34"
-						className="inline-block align-middl group-hover:scale-95 group-hover:fill-white ease-in duration-300 transition-all"
+						className="inline-block align-middle group-hover:scale-95 group-hover:fill-white ease-in duration-300 transition-all group-hover:rotate-90 rounded-full"
 					/>
 				</div>
 

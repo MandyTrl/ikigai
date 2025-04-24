@@ -4,6 +4,7 @@ import { IntroSection } from "./components/LandingPage/IntroSection"
 import { PillarSection } from "./components/LandingPage/PillarsSection"
 import { PromisesSection } from "./components/LandingPage/PromisesSection"
 import { SelfMomentSection } from "./components/LandingPage/SelfMomentSection"
+import { WhatYouGetSection } from "./components/LandingPage/WhatUGetSection"
 
 export default function Home() {
 	return (
@@ -18,6 +19,8 @@ export default function Home() {
 				<PillarSection />
 
 				<PromisesSection />
+
+				<WhatYouGetSection />
 			</div>
 		</MainLayout>
 	)

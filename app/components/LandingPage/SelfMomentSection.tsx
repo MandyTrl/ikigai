@@ -53,7 +53,11 @@ export const SelfMomentSection = () => {
 				<p className="text-xl md:text-3xl mx-auto font-light">
 					Il peut être difficile dans notre quotidien de faire une pause et de
 					comprendre ce qui nous motive vraiment. Pourtant, se poser les bonnes
-					questions est essentiel pour aller dans la bonne direction.
+					questions est essentiel pour aller dans la{" "}
+					<span className="underline underline-offset-4 decoration-3 decoration-tertiary">
+						bonne direction
+					</span>
+					.
 				</p>
 			</div>
 		</section>
