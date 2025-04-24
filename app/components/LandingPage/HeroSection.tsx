@@ -12,14 +12,6 @@ export const HeroSection = () => {
 				<h1 className="text-6xl font-light">
 					Quelle est votre raison de vous lever chaque matin?
 				</h1>
-
-				<div className="flex flex-col gap-y-2 text-2xl">
-					<p>Vos activités, votre travail vous procurent-ils de la joie ?</p>
-					<p>
-						Êtes-vous en quête de sens ou en réflexion sur votre avenir
-						professionnel ?
-					</p>
-				</div>
 			</div>
 
 			<div className="relative hero-bg w-full h-80 rounded-3xl mt-7">

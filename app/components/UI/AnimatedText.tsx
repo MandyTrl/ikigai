@@ -1,95 +1,64 @@
 "use client"
-import { useRef, useEffect, useState, JSX } from "react"
-import { motion, useScroll, useMotionValueEvent } from "framer-motion"
+import { JSX, useEffect, useState } from "react"
+import { motion } from "motion/react"
 
 type AnimatedTextProps = {
-	globalIndex?: number
 	content: (string | JSX.Element)[]
 	className?: string
-	animationDurationMs?: number // durée de blocage scroll
-}
-
-type Style = {
-	opacity: number
+	delay?: number
 }
 
 export const AnimatedText = ({
-	globalIndex = 0,
 	content,
 	className = "",
-	animationDurationMs = 3500, //default value = 3.5s
+	delay = 30,
 }: AnimatedTextProps) => {
-	const maxLetters = 600
-	const ref = useRef<HTMLParagraphElement>(null)
-	const { scrollY } = useScroll()
-
-	const [styles, setStyles] = useState<Style[]>(
-		Array.from({ length: maxLetters }, () => ({ opacity: 0 }))
-	)
+	const [visibleCount, setVisibleCount] = useState(0)
 
 	useEffect(() => {
-		ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+		let index = 0
+		const interval = setInterval(() => {
+			setVisibleCount(index++)
+			if (index >= 1000) clearInterval(interval)
+		}, delay)
 
-		//block scroll
-		document.body.style.overflow = "hidden"
-		const timeout = setTimeout(() => {
-			document.body.style.overflow = "auto"
-		}, animationDurationMs)
+		return () => clearInterval(interval)
+	}, [delay])
 
-		return () => clearTimeout(timeout)
-	}, [animationDurationMs])
-
-	// Animation scrollY → style lettres
-	useMotionValueEvent(scrollY, "change", (latest) => {
-		const updated = styles.map((_, i) => {
-			const start = i * 7
-			const end = start + 150
-			const progress = Math.min(
-				Math.max((latest - start) / (end - start), 0.3),
-				1
-			)
-			return {
-				opacity: progress,
-			}
-		})
-		setStyles(updated)
-	})
+	let index = 0
 
 	return (
-		<p ref={ref} className={`leading-snug whitespace-pre-wrap ${className}`}>
+		<p className={`leading-snug whitespace-pre-wrap ${className}`}>
 			{content.map((part, i) => {
 				if (typeof part === "string") {
 					return part.split(" ").map((word, wordIndex) => (
-						<span
-							key={`word-${i}-${wordIndex}`}
-							className="tracking-normal inline-block mr-1">
+						<span key={`word-${i}-${wordIndex}`} className="inline-block mr-1">
 							{word.split("").map((char, letterIndex) => {
-								const style = styles[globalIndex++] || { opacity: 1 }
+								const show = index < visibleCount
+								const currentIndex = index++
 								return (
 									<motion.span
 										key={`char-${i}-${wordIndex}-${letterIndex}`}
-										animate={style}
-										style={{
-											display: "inline-block",
-											opacity: style.opacity,
-										}}>
-										{char === " " ? "\u00A0" : char}
+										initial={{ opacity: 0 }}
+										animate={show ? { opacity: 1 } : { opacity: 0 }}
+										transition={{ duration: 0.5 }}
+										style={{ display: "inline-block" }}>
+										{char}
 									</motion.span>
 								)
 							})}
 						</span>
 					))
 				} else {
-					const style = styles[globalIndex++] || { opacity: 1 }
-
+					const show = index < visibleCount
+					index++
 					return (
 						<motion.span
 							key={`el-${i}`}
-							animate={style}
-							style={{
-								display: "inline-block",
-								opacity: style.opacity,
-							}}>
+							initial={{ opacity: 0 }}
+							animate={show ? { opacity: 1 } : { opacity: 0 }}
+							transition={{ duration: 0.6 }}
+							style={{ display: "inline-block" }}>
 							{part}
 						</motion.span>
 					)

@@ -112,12 +112,7 @@ export const PillarSection = () => {
 			</div>
 
 			{/* ia section */}
-			<motion.div
-				className="group w-full h-fit flex items-center justify-between gap-x-12 bg-slate-200 rounded-2xl p-14 shadow shadow-primary/10 md:mt-14"
-				whileHover={{
-					translateY: -6,
-				}}
-				transition={{ type: "spring", stiffness: 300, damping: 20 }}>
+			<div className="group w-full h-fit flex items-center justify-between gap-x-12 bg-slate-200 rounded-2xl p-14 shadow shadow-primary/10 md:mt-14">
 				<div className="flex items-center justify-center bg-white rounded-full w-20 h-20 flex-shrink-0 shadow-md group-hover:bg-primary ease-in duration-200 transition-all">
 					<OpenAiLogo
 						size={50}
@@ -134,7 +129,7 @@ export const PillarSection = () => {
 					analyse vos réponses pour vous offrir une synthèse personnalisée et
 					des pistes concrètes.
 				</p>
-			</motion.div>
+			</div>
 		</motion.section>
 	)
 }

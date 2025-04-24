@@ -1,45 +1,46 @@
 /* eslint-disable react/jsx-key */
 "use client"
-import { useRef, useEffect } from "react"
 import { AnimatedText } from "../UI/AnimatedText"
 import { WindowVideo } from "./WindowVideo"
 
-const content = [
-	"L’ikigai est une ",
-	<span className="underline underline-offset-2">philosophie</span>,
-	" japonaise qui repose sur l’alignement avec soi-même en identifiant ce qui vous anime réellement. Une fois trouvé, il procure ",
-	<span className="underline underline-offset-2">clarté</span>,
-	" et joie au quotidien.",
-	<WindowVideo />,
-	<span className="inline-block font-medium">Ikig-</span>,
-	<span className="text-[#BEC7E3] font-bold font-andika">ai</span>,
-	" est un outil conçu pour aider à clarifier votre réflexion, en combinant cette ",
-	<span className="inline-block w-fit border border-primary rounded-xl px-4 pt-1 my-1">
-		méthode japonaise
-	</span>,
-	" et ",
-	<span className="inline-block w-fit border border-primary rounded-xl px-4 pt-1 mr-1 my-1">
-		l’intelligence artificielle
-	</span>,
-	".",
-]
-
 export const IntroSection = () => {
-	const containerRef = useRef<HTMLDivElement>(null)
+	const firstContent = [
+		"L’ikigai est une ",
+		<strong>philosophie japonaise</strong>,
+		" qui repose sur l’alignement avec soi-même en identifiant ce qui vous anime réellement.",
+		"Une fois trouvé, il procure clarté et joie au quotidien.",
+		"\n\n",
+	]
 
-	//recentre au chargement (optionnel)
-	useEffect(() => {
-		containerRef.current?.scrollTo({ top: 0 })
-	}, [])
+	const secondContent = [
+		<strong>Ikig-</strong>,
+		<span className="text-[#BEC7E3] font-bold font-andika">ai</span>,
+		" est un outil conçu pour aider à clarifier votre réflexion, en combinant cette ",
+		<span className="inline-block bg-accent px-2 py-1 my-1 rounded-xl border-primary">
+			philosophie japonaise
+		</span>,
+		" à l’",
+		<span className="inline-block bg-secondary px-2 py-1 my-1 rounded-xl border-primary">
+			intelligence artificielle
+		</span>,
+		".",
+	]
 
 	return (
-		<section className="flex items-center justify-center">
-			<div
-				ref={containerRef}
-				className="relative z-20 w-full scroll-smooth px-5 py-10">
-				<div className="text-5xl font-light space-y-20">
-					<AnimatedText content={content} />
-				</div>
+		<section className="w-full">
+			<div className="w-[68%] font-light text-center mx-auto flex flex-col gap-y-14 text-5xl">
+				<p>Vos activités, votre travail vous procurent-ils de la joie ?</p>
+				<p>
+					Êtes-vous en quête de sens ou en réflexion sur votre avenir
+					professionnel ?
+				</p>
+			</div>
+
+			<WindowVideo />
+
+			<div className="w-full columns-1 md:columns-2 gap-12 px-6 md:px-20 text-justify text-2xl font-light leading-relaxed text-justify">
+				<AnimatedText content={firstContent} />
+				<AnimatedText content={secondContent} />
 			</div>
 		</section>
 	)
