@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-key */
-import Image from "next/image"
 import * as motion from "motion/react-client"
 import { AnimatedText } from "../UI/AnimatedText"
-import { WindowVideo } from "./WindowVideo"
 
 export const IntroSection = () => {
 	const firstContent = [
@@ -32,8 +30,8 @@ export const IntroSection = () => {
 			initial={{ opacity: 0 }}
 			whileInView={{ opacity: 1 }}
 			transition={{ duration: 0.5, delay: 0.4 }}
-			className="w-full">
-			<div className="w-[50%] font-light text-center mx-auto flex flex-col text-5xl">
+			className="w-full flex gap-14">
+			<div className="w-full font-light mx-auto flex flex-col gap-14 text-5xl">
 				<p>
 					Vos activités, votre travail vous procurent-ils de la{" "}
 					<span className="underline underline-offset-4 decoration-3 decoration-accentbis">
@@ -42,30 +40,16 @@ export const IntroSection = () => {
 					?
 				</p>
 
-				<div className="w-full flex flex-col items-center justify-center">
-					<Image
-						src="/assets/svg/shape-circle-cutout-plus-shape.svg"
-						alt=""
-						width={20}
-						height={0}
-						priority
-						aria-hidden
-						className="my-10"
-					/>
-
-					<p>
-						Êtes-vous en quête de{" "}
-						<span className="underline underline-offset-4 decoration-3 decoration-secondary">
-							sens
-						</span>{" "}
-						ou en réflexion sur votre avenir professionnel ?
-					</p>
-				</div>
+				<p>
+					Êtes-vous en quête de{" "}
+					<span className="underline underline-offset-4 decoration-3 decoration-secondary">
+						sens
+					</span>{" "}
+					ou en réflexion sur votre avenir professionnel ?
+				</p>
 			</div>
 
-			<WindowVideo />
-
-			<div className="w-full columns-1 md:columns-2 gap-12 px-6 md:px-20 text-justify text-2xl font-light leading-relaxed text-justify">
+			<div className="w-full flex flex-col gap-14 text-justify text-3xl font-light leading-relaxed text-justify">
 				<AnimatedText content={firstContent} />
 				<AnimatedText content={secondContent} />
 			</div>

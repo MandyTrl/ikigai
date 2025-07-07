@@ -35,7 +35,7 @@ export const HeroSection = () => {
 					/>
 					<Link
 						href="/commencer"
-						className="text-3xl absolute top-7 left-7 text-white font-bold border-2 border-white rounded-3xl px-4 pb-1 pt-2 hover:text-primary/80 hover:border-primary/80 hover:rounded-2xl cursor-pointer transition-all duration-200 ease-in-out">
+						className="text-3xl absolute top-7 left-7 text-white font-bold border-2 border-white rounded-3xl px-4 pb-1 pt-2 hover:text-primary/80 hover:border-primary/80 cursor-pointer transition-colors duration-200 ease-in-out">
 						Trouver son ikigai
 					</Link>
 				</motion.div>
