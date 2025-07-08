@@ -1,6 +1,6 @@
 import Link from "next/link"
 import clsx from "clsx"
-import { ArrowCircleRight } from "@phosphor-icons/react/dist/ssr/ArrowCircleRight"
+import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowCircleRight"
 
 export enum ButtonSizeEnum {
 	S = "s",
@@ -23,12 +23,15 @@ export const Button = ({
 	size = ButtonSizeEnum.M,
 	onClick,
 }: ButtonProps) => {
+	const iconSize =
+		size === ButtonSizeEnum.L ? 80 : size === ButtonSizeEnum.M ? 60 : 50
+
 	const buttonStyle =
-		"relative flex items-center justify-between group overflow-hidden bg-primary flex justify-between items-center hover:cursor-pointer w-fit rounded-full"
+		"relative flex items-center justify-between group overflow-hidden bg-primary hover:cursor-pointer w-fit rounded-full"
 
 	const textStyle = clsx(
 		size === ButtonSizeEnum.L
-			? "px-10 py-8 text-3xl"
+			? "mx-10 py-8 text-3xl"
 			: size === ButtonSizeEnum.M
 			? "px-8 py-5 text-2xl"
 			: "px-5 py-4 text-xl",
@@ -47,8 +50,8 @@ export const Button = ({
 	const buttonContent = (
 		<>
 			<span className={textStyle}>{title}</span>
-			<ArrowCircleRight
-				size={80}
+			<ArrowCircleRightIcon
+				size={iconSize}
 				color="white"
 				weight="thin"
 				className={iconStyle}

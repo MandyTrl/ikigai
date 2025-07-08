@@ -12,7 +12,7 @@ export const PromiseCard = ({ promise }: PromiseCardProps) => {
 		<motion.div
 			transition={{ duration: 0.2 }}
 			whileHover={{ flex: 3 }}
-			className="group flex-1 relative h-[600px] mx-auto transition-all duration-300 ease-in-out overflow-hidden rounded-3xl">
+			className="group flex-1 relative h-[620px] mx-auto transition-all duration-300 ease-in-out overflow-hidden rounded-3xl">
 			<Image
 				src={promise.img}
 				alt={promise.promise}
@@ -34,7 +34,7 @@ export const PromiseCard = ({ promise }: PromiseCardProps) => {
 				/>
 
 				<div className="relative h-[3.5rem] overflow-hidden">
-					<p className="text-xl ml-auto text-right max-w-[50%] opacity-0 group-hover:opacity-100 ">
+					<p className="text-xl opacity-0 group-hover:opacity-100 ">
 						{promise.details}
 					</p>
 				</div>
