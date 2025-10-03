@@ -1,6 +1,6 @@
 "use client"
 import { InstructionType } from "@/app/utils/ikigaiMainstay"
-import { CaretDown } from "@phosphor-icons/react/dist/ssr"
+import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { useState } from "react"
 
@@ -24,7 +24,7 @@ export const Collapse = ({ items }: CollapseProps) => {
 					"group flex items-center justify-between cursor-pointer px-4 py-3"
 				)}>
 				<p className="font-semibold tracking-wide">Besoin d&apos;aide ?</p>
-				<CaretDown
+				<CaretDownIcon
 					size={18}
 					color="#091C34"
 					weight="regular"

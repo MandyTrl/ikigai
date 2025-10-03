@@ -7,7 +7,7 @@ import {
 	ikigaiMainstay,
 	InstructionType,
 } from "@/app/utils/ikigaiMainstay"
-import { Clock } from "@phosphor-icons/react/dist/ssr"
+import { ClockIcon } from "@phosphor-icons/react/dist/ssr"
 import { Collapse } from "../UI/Collapse"
 import { ContainerLayout } from "../Layouts/ContainerLayout"
 
@@ -39,11 +39,11 @@ export const FormGuidelines = () => {
 
 			<section className="flex gap-x-5 text-slate-700 gap-x-5 my-4 text-sm">
 				<div className="flex items-center gap-x-1">
-					<Clock size={20} color="#62748e" weight="bold" />
+					<ClockIcon size={20} color="#62748e" weight="bold" />
 					<p>Temps de lecture: {mainstayInfoFound.readingTime}</p>
 				</div>
 				<div className="flex items-center gap-x-1">
-					<Clock size={20} color="#62748e" weight="bold" />
+					<ClockIcon size={20} color="#62748e" weight="bold" />
 					<p>Temps de réflection estimée: {mainstayInfoFound.reflectionTime}</p>
 				</div>
 			</section>

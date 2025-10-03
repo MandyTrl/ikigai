@@ -7,10 +7,10 @@ import {
 } from "@/app/context/IkigaiContext"
 import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay"
 import {
-	ArrowUUpLeft,
-	CheckCircle,
-	LightbulbFilament,
-	Trash,
+	ArrowUUpLeftIcon,
+	CheckCircleIcon,
+	LightbulbFilamentIcon,
+	TrashIcon,
 } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { ContainerLayout } from "../Layouts/ContainerLayout"
@@ -62,7 +62,7 @@ export const FormTextArea = () => {
 					<button
 						className="group cursor-pointer rounded-full p-3 border border-transparent bg-secondary/20 hover:border-secondary ease-in-out duration-200 transition-colors"
 						onClick={() => setStep(IkigaiStepEnum.INITIAL)}>
-						<ArrowUUpLeft
+						<ArrowUUpLeftIcon
 							size={20}
 							weight="regular"
 							className="text-primary/50 group-hover:text-sky-700/70 ease-in-out duration-200 transition-all"
@@ -72,7 +72,7 @@ export const FormTextArea = () => {
 					<button
 						className="group cursor-pointer rounded-full p-3 border border-transparent bg-secondary/20 hover:border-secondary ease-in-out duration-200 transition-colors"
 						onClick={() => setTextAreaValue("")}>
-						<Trash
+						<TrashIcon
 							size={20}
 							weight="regular"
 							className="text-primary/50 group-hover:text-sky-700/70 ease-in-out duration-200 transition-all"
@@ -86,7 +86,7 @@ export const FormTextArea = () => {
 						)}
 						onClick={handleClick}>
 						{isValidated ? (
-							<CheckCircle
+							<CheckCircleIcon
 								size={36}
 								weight="thin"
 								className="text-sky-700/70 ease-in-out duration-200 transition-all"
@@ -123,7 +123,7 @@ export const FormTextArea = () => {
 
 			<section className="w-full flex flex-col bg-slate-200/50 rounded-xl px-4 py-2 mt-8 font-andika">
 				<div className="w-full flex items-center">
-					<LightbulbFilament
+					<LightbulbFilamentIcon
 						size={22}
 						color="#62748e"
 						className="w-fit"

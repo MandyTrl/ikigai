@@ -8,7 +8,7 @@ import {
 import { HoverContext } from "../context/HoverContext"
 import { Modal } from "./Modal/Modal"
 import { PillarIntroduction } from "./Modal/PillarIntroduction"
-import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr"
+import { CheckCircleIcon, CircleIcon } from "@phosphor-icons/react/dist/ssr"
 
 const listStyle = "group block flex items-center hover:cursor-pointer"
 
@@ -32,7 +32,7 @@ export const MainstayList = () => {
 	}
 
 	const getIcon = (mainstay: IkigaiStepEnum, color: string) => {
-		const IconComponent = hasData(mainstay) ? CheckCircle : Circle
+		const IconComponent = hasData(mainstay) ? CheckCircleIcon : CircleIcon
 		return (
 			<IconComponent
 				size={hasData(mainstay) ? 22 : 12}

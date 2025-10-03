@@ -1,6 +1,6 @@
 "use client"
 import { ReactNode, useEffect, useState } from "react"
-import { X } from "@phosphor-icons/react/dist/ssr"
+import { XIcon } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 
 type ModalProps = {
@@ -36,7 +36,7 @@ export const Modal = ({
 				<button
 					className="absolute right-4 top-4 hover:cursor-pointer group rounded-full p-3 border border-transparent bg-secondary/20 hover:border-secondary ease-in-out duration-200 transition-colors"
 					onClick={handleVisibility}>
-					<X
+					<XIcon
 						size={20}
 						weight="regular"
 						className="text-primary/50 group-hover:text-sky-700/70 ease-in-out duration-200 transition-all"

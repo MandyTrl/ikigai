@@ -1,16 +1,16 @@
 import { IkigaiStepEnum } from "@/app/context/IkigaiContext"
 import {
-	PersonSimpleThrow,
-	HandCoins,
-	Users,
-	ListHeart,
+	PersonSimpleThrowIcon,
+	HandCoinsIcon,
+	UsersIcon,
+	ListHeartIcon,
 } from "@phosphor-icons/react/dist/ssr"
 
 const iconMap: Record<IkigaiStepEnum, React.ElementType> = {
-	[IkigaiStepEnum.LOVE]: ListHeart,
-	[IkigaiStepEnum.TALENT]: PersonSimpleThrow,
-	[IkigaiStepEnum.PAID]: HandCoins,
-	[IkigaiStepEnum.NEEDS]: Users,
+	[IkigaiStepEnum.LOVE]: ListHeartIcon,
+	[IkigaiStepEnum.TALENT]: PersonSimpleThrowIcon,
+	[IkigaiStepEnum.PAID]: HandCoinsIcon,
+	[IkigaiStepEnum.NEEDS]: UsersIcon,
 }
 
 const colorMap: Record<IkigaiStepEnum, string> = {

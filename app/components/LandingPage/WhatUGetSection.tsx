@@ -1,4 +1,8 @@
-import { FilePdf, Binoculars, LegoSmiley } from "@phosphor-icons/react/dist/ssr"
+import {
+	FilePdfIcon,
+	BinocularsIcon,
+	LegoSmileyIcon,
+} from "@phosphor-icons/react/dist/ssr"
 
 export const WhatYouGetSection = () => {
 	return (
@@ -10,7 +14,7 @@ export const WhatYouGetSection = () => {
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
 				<div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow">
 					<div className="flex items-start justify-center gap-x-2 mb-4">
-						<LegoSmiley size={30} color="#091c34" weight="light" />
+						<LegoSmileyIcon size={30} color="#091c34" weight="light" />
 						<p className="text-2xl font-semibold">Une synthèse personnalisée</p>
 					</div>
 
@@ -22,7 +26,7 @@ export const WhatYouGetSection = () => {
 
 				<div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow">
 					<div className="flex items-start justify-center gap-x-2 mb-4">
-						<Binoculars size={30} color="#091c34" weight="light" />
+						<BinocularsIcon size={30} color="#091c34" weight="light" />
 						<p className="text-2xl font-semibold">Des pistes de métiers</p>
 					</div>
 
@@ -34,7 +38,7 @@ export const WhatYouGetSection = () => {
 
 				<div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow">
 					<div className="flex items-start justify-center gap-x-2">
-						<FilePdf size={30} color="#091c34" weight="light" />
+						<FilePdfIcon size={30} color="#091c34" weight="light" />
 						<p className="text-2xl font-semibold mb-4">Un PDF téléchargeable</p>
 					</div>
 

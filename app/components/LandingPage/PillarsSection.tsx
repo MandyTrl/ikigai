@@ -2,11 +2,11 @@ import { ReactNode } from "react"
 import { MotionValue } from "motion"
 import * as motion from "motion/react-client"
 import {
-	HandCoins,
-	ListHeart,
-	OpenAiLogo,
-	PersonSimpleThrow,
-	Users,
+	HandCoinsIcon,
+	ListHeartIcon,
+	OpenAiLogoIcon,
+	PersonSimpleThrowIcon,
+	UsersIcon,
 } from "@phosphor-icons/react/dist/ssr"
 import { NoteCard } from "./NoteCard"
 import { Button, ButtonSizeEnum } from "../UI/Button"
@@ -33,7 +33,7 @@ export type PillarNoteCard = {
 export const PillarSection = () => {
 	const pilliars: PillarNoteCard[] = [
 		{
-			icon: <ListHeart size={120} weight="bold" color="#d7defb" />,
+			icon: <ListHeartIcon size={120} weight="bold" color="#d7defb" />,
 			text: "Ce que vous aimez",
 			color: "#d7defb",
 			colorBG: "#eff2ff",
@@ -44,7 +44,7 @@ export const PillarSection = () => {
 			},
 		},
 		{
-			icon: <PersonSimpleThrow size={120} weight="bold" color="#c9eadd" />,
+			icon: <PersonSimpleThrowIcon size={120} weight="bold" color="#c9eadd" />,
 			text: "Ce en quoi vous excellez",
 			color: "#c9eadd",
 			colorBG: "#e6f4ee",
@@ -55,7 +55,7 @@ export const PillarSection = () => {
 			},
 		},
 		{
-			icon: <HandCoins size={120} weight="bold" color="#c9def7" />,
+			icon: <HandCoinsIcon size={120} weight="bold" color="#c9def7" />,
 			text: "Ce pour quoi vous pouvez être rémunéré",
 			color: "#c9def7",
 			colorBG: "#e5eff9",
@@ -66,7 +66,7 @@ export const PillarSection = () => {
 			},
 		},
 		{
-			icon: <Users size={120} weight="bold" color="#ffe2ce" />,
+			icon: <UsersIcon size={120} weight="bold" color="#ffe2ce" />,
 			text: "Ce dont le monde a besoin",
 			color: "#ffe2ce",
 			colorBG: "#fff4ed",
@@ -114,7 +114,7 @@ export const PillarSection = () => {
 			{/* ia section */}
 			<div className="group w-full h-fit flex items-center justify-between gap-x-12 bg-slate-200 rounded-2xl p-14 shadow shadow-primary/10 md:mt-14">
 				<div className="flex items-center justify-center bg-white rounded-full w-20 h-20 flex-shrink-0 shadow-md group-hover:bg-primary ease-in duration-200 transition-all">
-					<OpenAiLogo
+					<OpenAiLogoIcon
 						size={50}
 						weight="light"
 						color="#091c34"
