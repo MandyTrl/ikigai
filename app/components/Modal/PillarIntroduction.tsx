@@ -62,8 +62,8 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 
 			<Button
 				title={isInProgress ? "Continuer l'exploration" : "Explorer ce pilier"}
-				size={ButtonSizeEnum.L}
 				onClick={handleClick}
+				size={ButtonSizeEnum.S}
 			/>
 		</div>
 	)

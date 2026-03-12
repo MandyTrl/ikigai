@@ -12,7 +12,7 @@ type ButtonProps = {
 	title: string
 	isLink?: boolean
 	href?: string
-	size: ButtonSizeEnum
+	size?: ButtonSizeEnum
 	onClick?: () => void
 }
 

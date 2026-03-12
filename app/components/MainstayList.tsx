@@ -10,7 +10,7 @@ import { Modal } from "./Modal/Modal"
 import { PillarIntroduction } from "./Modal/PillarIntroduction"
 import { CheckCircleIcon, CircleIcon } from "@phosphor-icons/react/dist/ssr"
 
-const listStyle = "group block flex items-center hover:cursor-pointer"
+const listStyle = "w-fit group block flex items-center hover:cursor-pointer transform-all duration-200 ease-in hover:translate-x-1"
 
 export const MainstayList = () => {
 	const { ikigaiForm, updateForm } = useContext(IkigaiContext)
@@ -38,7 +38,7 @@ export const MainstayList = () => {
 				size={hasData(mainstay) ? 22 : 12}
 				color={color}
 				weight="duotone"
-				className="mr-2 group-hover:scale-120 transform-all duration-200 ease-in"
+				className="mr-2 group-hover:scale-150 transform-all duration-200 ease-in"
 			/>
 		)
 	}

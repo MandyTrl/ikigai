@@ -109,7 +109,7 @@ export const FormTextArea = () => {
 					onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
 						setTextAreaValue(event.target.value)
 					}
-					className="w-full min-h-1/2 h-full p-5 inset-shadow-lg border border-secondary/80 focus:border-secondary focus:outline-none focus:bg-secondary/3 resize-none mt-5 rounded-2xl duration-200 ease-in-out transition-all selection:bg-secondary/40 active::bg-secondary/40"
+					className="w-full min-h-1/2 h-full p-5 inset-shadow-lg border border-secondary/80 focus:border-secondary focus:outline-none focus:bg-secondary/10 resize-none mt-5 rounded-2xl duration-200 ease-in-out transition-all selection:bg-secondary/40 active::bg-secondary/40"
 				/>
 
 				<p

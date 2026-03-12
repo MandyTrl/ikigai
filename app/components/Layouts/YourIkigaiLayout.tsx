@@ -28,7 +28,7 @@ export const YourIkigaiLayout = () => {
 					<p>
 						Dans le panel qui se trouve à gauche vous avez la visualisation de
 						l&apos;ikigai dans son format le plus connu: le diagramme de Venn.
-						Il se compose des 4 piliers de l&apos;ikigai:
+						Il se compose des <span className="underline underline-offset-2">4 piliers</span> de l&apos;ikigai:
 					</p>
 
 					<MainstayList />

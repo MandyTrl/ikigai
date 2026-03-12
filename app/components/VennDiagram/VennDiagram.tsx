@@ -68,7 +68,7 @@ const VennDiagram: React.FC = () => {
 
 	return (
 		<div className="flex justify-center items-center w-full h-full">
-			<div className="w-full max-w-[600px] aspect-square">
+			<div className="w-full flex justify-center items-center max-w-[600px] aspect-square">
 				<svg
 					viewBox="0 0 100 100"
 					preserveAspectRatio="xMidYMid meet"
