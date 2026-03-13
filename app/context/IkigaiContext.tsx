@@ -41,22 +41,22 @@ export const initialIkigaiForm = [
 	{
 		mainstay: IkigaiStepEnum.LOVE,
 		progressState: PillarStateEnum.NOT_STARTED,
-		answers: [],
+		answers: ["", "", ""]	
 	},
 	{
 		mainstay: IkigaiStepEnum.NEEDS,
 		progressState: PillarStateEnum.NOT_STARTED,
-		answers: [],
+		answers: ["", "", ""]	
 	},
 	{
 		mainstay: IkigaiStepEnum.PAID,
 		progressState: PillarStateEnum.NOT_STARTED,
-		answers: [],
+		answers: ["", "", ""]	
 	},
 	{
 		mainstay: IkigaiStepEnum.TALENT,
 		progressState: PillarStateEnum.NOT_STARTED,
-		answers: [],
+		answers: ["", "", ""]	
 	},
 ]
 
