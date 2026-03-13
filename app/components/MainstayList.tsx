@@ -27,7 +27,7 @@ export const MainstayList = () => {
 		const mainstayData = ikigaiForm.find((el) => el.mainstay === mainstay)
 		return (
 			mainstayData?.progressState === PillarStateEnum.IS_SAVED &&
-			mainstayData.value.trim() !== ""
+			mainstayData.answers.length > 0
 		)
 	}
 

@@ -23,7 +23,7 @@ export enum PillarStateEnum {
 export type IkigaiForm = {
 	mainstay: IkigaiStepEnum
 	progressState: PillarStateEnum
-	value: string
+	answers: string[]
 }
 
 export type IkigaiContextProps = {
@@ -41,22 +41,22 @@ export const initialIkigaiForm = [
 	{
 		mainstay: IkigaiStepEnum.LOVE,
 		progressState: PillarStateEnum.NOT_STARTED,
-		value: "",
+		answers: [],
 	},
 	{
 		mainstay: IkigaiStepEnum.NEEDS,
 		progressState: PillarStateEnum.NOT_STARTED,
-		value: "",
+		answers: [],
 	},
 	{
 		mainstay: IkigaiStepEnum.PAID,
 		progressState: PillarStateEnum.NOT_STARTED,
-		value: "",
+		answers: [],
 	},
 	{
 		mainstay: IkigaiStepEnum.TALENT,
 		progressState: PillarStateEnum.NOT_STARTED,
-		value: "",
+		answers: [],
 	},
 ]
 

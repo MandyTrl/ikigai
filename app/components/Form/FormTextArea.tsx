@@ -27,7 +27,7 @@ export const FormTextArea = () => {
 			(entry) => entry.mainstay === currentStep
 		)
 
-		setTextAreaValue(mainstayData!.value)
+		setTextAreaValue(mainstayData?.answers.join("\n") ?? "")
 	}, [currentStep, ikigaiForm])
 
 	const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
@@ -45,9 +45,12 @@ export const FormTextArea = () => {
 		} else {
 			updateForm(currentStep, {
 				progressState: PillarStateEnum.IS_SAVED,
-				value: textAreaValue,
+				answers: textAreaValue
+				.split("\n")
+				.map((v) => v.trim())
+				.filter(Boolean),			
 			})
-
+			
 			setIsValidated(true)
 			setTimeout(() => {
 				setIsValidated(false)

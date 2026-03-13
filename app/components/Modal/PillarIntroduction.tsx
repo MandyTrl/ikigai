@@ -22,8 +22,8 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 
 	if (!mainstayInfoFound || !selectedMainstay) return null
 
-	const isInProgress = selectedMainstay.value.trim()
-
+	const isInProgress = selectedMainstay.answers.length > 0
+		
 	const handleClick = () => {
 		updateForm(selectedMainstay.mainstay, {
 			progressState: PillarStateEnum.IN_PROGRESS,
