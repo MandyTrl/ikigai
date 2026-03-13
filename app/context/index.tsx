@@ -1,5 +1,5 @@
 "use client"
-import { ReactNode, useCallback, useMemo, useState } from "react"
+import { ReactNode, useCallback, useMemo, useState, useEffect } from "react"
 import {
 	IkigaiContext,
 	IkigaiForm,
@@ -15,7 +15,25 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		IkigaiStepEnum.INITIAL
 	)
 
-	//mémoïze fct to prevent recreating between re-renders
+	// get & save ikigaï-form in localStorage
+	useEffect(() => {
+		const saved = localStorage.getItem("ikigai-form")
+	  
+		if (saved) {
+		  try {
+			setIkigaiForm(JSON.parse(saved))
+		  } catch {
+			console.warn("Invalid ikigai localStorage data")
+		  }
+		}
+	  }, [])
+
+
+	  useEffect(() => {
+		localStorage.setItem("ikigai-form", JSON.stringify(ikigaiForm))
+	  }, [ikigaiForm])
+
+	// mémoïze fct to prevent recreating between re-renders
 	const updateForm = useCallback(
 		(
 			mainstay: IkigaiStepEnum,

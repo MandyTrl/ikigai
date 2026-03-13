@@ -65,7 +65,7 @@ export const FormTextArea = () => {
 						<ArrowUUpLeftIcon
 							size={20}
 							weight="regular"
-							className="text-primary/50 group-hover:text-sky-700/70 ease-in-out duration-200 transition-all"
+							className="text-primary/50 group-hover:text-indigo-300/70 ease-in-out duration-200 transition-all"
 						/>
 					</button>
 
@@ -75,21 +75,21 @@ export const FormTextArea = () => {
 						<TrashIcon
 							size={20}
 							weight="regular"
-							className="text-primary/50 group-hover:text-sky-700/70 ease-in-out duration-200 transition-all"
+							className="text-primary/50 group-hover:text-indigo-300/70 ease-in-out duration-200 transition-all"
 						/>
 					</button>
 
 					<button
 						className={clsx(
 							isValidated ? "rounded-full p-1" : "rounded-2xl px-4",
-							"hover:cursor-pointer group text-primary/50 hover:text-sky-700/70 bg-secondary/20 flex items-center border border-transparent hover:border-secondary ease-in-out duration-200 transition-colors text-sm font-medium"
+							"hover:cursor-pointer group text-primary/50 hover:text-indigo-300/70 bg-secondary/20 flex items-center border border-transparent hover:border-secondary ease-in-out duration-200 transition-colors text-sm font-medium"
 						)}
 						onClick={handleClick}>
 						{isValidated ? (
 							<CheckCircleIcon
 								size={36}
 								weight="thin"
-								className="text-sky-700/70 ease-in-out duration-200 transition-all"
+								className="text-indigo-300/70 ease-in-out duration-200 transition-all"
 							/>
 						) : (
 							"Sauvegarder"
