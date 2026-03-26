@@ -119,7 +119,7 @@ export const FormTextArea = ({
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 p-[2.5rem] pt-0">
       <div className="flex flex-col gap-1 text-slate-500">
         <p className="text-lg">{answeredCount}/3 réponses renseignées</p>
 

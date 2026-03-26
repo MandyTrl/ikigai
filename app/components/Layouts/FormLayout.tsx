@@ -35,7 +35,7 @@ export const FormLayout = () => {
 
       <div
         id="form-layout-container"
-        className="flex flex-col p-[2.5rem] gap-4 border border-secondary rounded-2xl bg-white"
+        className="flex flex-col gap-4 border border-secondary rounded-2xl bg-white"
       >
         <FormGuidelines />
         <FormTextArea

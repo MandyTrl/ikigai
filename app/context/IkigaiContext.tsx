@@ -9,6 +9,18 @@ export enum IkigaiStepEnum {
   RESUME = "resume",
 }
 
+export type IkigaiPillarStep = Exclude<
+  IkigaiStepEnum,
+  IkigaiStepEnum.INITIAL | IkigaiStepEnum.RESUME
+>;
+
+export const colorMap: Record<IkigaiPillarStep, string> = {
+  [IkigaiStepEnum.LOVE]: "#b6d4db",
+  [IkigaiStepEnum.NEEDS]: "#ffefe5",
+  [IkigaiStepEnum.PAID]: "#c9def7",
+  [IkigaiStepEnum.TALENT]: "#eed2d7",
+};
+
 // <Record<Clé, Valeur>
 // Partial<T> rend les attributs obsolètes
 
@@ -19,6 +31,17 @@ export enum PillarStateEnum {
   IS_SAVED = "is_saved",
   FINISHED = "finished",
 }
+
+export const isIkigaiPillarStep = (
+  step: IkigaiStepEnum,
+): step is IkigaiPillarStep => {
+  return (
+    step === IkigaiStepEnum.LOVE ||
+    step === IkigaiStepEnum.TALENT ||
+    step === IkigaiStepEnum.PAID ||
+    step === IkigaiStepEnum.NEEDS
+  );
+};
 
 export type IkigaiForm = {
   mainstay: IkigaiStepEnum;
