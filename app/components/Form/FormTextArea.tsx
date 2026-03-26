@@ -5,7 +5,10 @@ import {
   IkigaiStepEnum,
   PillarStateEnum,
 } from "@/app/context/IkigaiContext";
-import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay";
+import {
+  IkigaiMainstay,
+  ikigaiMainstay,
+} from "@/app/utils/datas/ikigaiMainstay";
 import {
   CheckCircleIcon,
   LightbulbFilamentIcon,

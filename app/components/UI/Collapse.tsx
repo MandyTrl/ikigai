@@ -1,5 +1,5 @@
 "use client";
-import { InstructionType } from "@/app/utils/ikigaiMainstay";
+import { InstructionType } from "@/app/utils/datas/ikigaiMainstay";
 import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import clsx from "clsx";
 import { useState } from "react";

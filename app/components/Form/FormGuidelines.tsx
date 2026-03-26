@@ -2,7 +2,10 @@
 import { useContext } from "react";
 import { DynamicIcon } from "../UI/DynamicIcon";
 import { IkigaiContext, IkigaiForm } from "@/app/context/IkigaiContext";
-import { IkigaiMainstay, ikigaiMainstay } from "@/app/utils/ikigaiMainstay";
+import {
+  IkigaiMainstay,
+  ikigaiMainstay,
+} from "@/app/utils/datas/ikigaiMainstay";
 import { ClockIcon } from "@phosphor-icons/react/dist/ssr";
 
 export const FormGuidelines = () => {
