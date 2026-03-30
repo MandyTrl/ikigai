@@ -1,10 +1,6 @@
 "use client";
 import { useContext, useEffect, useMemo, useState } from "react";
-import {
-  IkigaiContext,
-  IkigaiStepEnum,
-  PillarStateEnum,
-} from "@/app/context/IkigaiContext";
+import { IkigaiContext } from "@/app/context/IkigaiContext";
 import {
   IkigaiMainstay,
   ikigaiMainstay,
@@ -20,6 +16,7 @@ import {
   getFilledAnswersCount,
   isPillarCompleteForAnalysis,
 } from "@/app/utils/validateForm";
+import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
 
 export const EMPTY_ANSWERS = ["", "", ""];
 
@@ -78,7 +75,6 @@ export const FormTextArea = ({
   const answeredCount = getFilledAnswersCount(answers);
   const isLastQuestion =
     questionIndex === mainstayInfoFound.instructions.length - 1;
-  const isCurrentAnswerEmpty = answers[questionIndex].trim().length === 0;
   const isCurrentPillarComplete = mainstayData
     ? isPillarCompleteForAnalysis(mainstayData)
     : answeredCount >= 2;
@@ -92,10 +88,11 @@ export const FormTextArea = ({
       setErrorMsg(null);
     }
   };
+
   const handleNext = () => {
     const currentAnswer = answers[questionIndex].trim();
 
-    if (!currentAnswer) {
+    if (!currentAnswer && !isCurrentPillarComplete) {
       setErrorMsg("Veuillez écrire une réponse avant de continuer.");
       return;
     }
@@ -175,7 +172,7 @@ export const FormTextArea = ({
           className={
             "mt-4 px-5 py-3 bg-secondary rounded-xl cursor-pointer text-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-auto hover:opacity-85 transition-opacity duration-100 ease-in"
           }
-          disabled={isCurrentAnswerEmpty}
+          disabled={!isCurrentPillarComplete}
         >
           Terminer ce pilier
         </button>

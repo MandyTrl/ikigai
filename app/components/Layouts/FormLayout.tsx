@@ -1,10 +1,4 @@
-import {
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { FormGuidelines } from "../Form/FormGuidelines";
 import { EMPTY_ANSWERS, FormTextArea } from "../Form/FormTextArea";
 import { QuestionTabs } from "../Form/QuestionTabs";

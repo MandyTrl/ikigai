@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 import { gemini } from "@/lib/gemini";
 import { ikigaiPrompt } from "@/app/utils/ikigaiPrompt";
-import { cleanJsonString, isValidPayload } from "./utils";
+import { cleanJsonString, isValidIkigaiPayload } from "./utils";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    if (!isValidPayload(body)) {
+    if (!isValidIkigaiPayload(body)) {
       return NextResponse.json(
         {
           success: false,
           error: "Invalid payload",
         },
-        { status: 400 },
+        { status: 500 },
       );
     }
 

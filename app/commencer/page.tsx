@@ -1,12 +1,9 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { YourIkigaiLayout } from "../components/Layouts/YourIkigaiLayout";
-import {
-  IkigaiContext,
-  IkigaiStepEnum,
-  PillarStateEnum,
-} from "../context/IkigaiContext";
+import { IkigaiContext } from "../context/IkigaiContext";
 import { FormLayout } from "../components/Layouts/FormLayout";
+import { IkigaiStepEnum, PillarStateEnum } from "../types";
 
 export default function YourIkigai() {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);

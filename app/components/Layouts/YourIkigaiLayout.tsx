@@ -1,13 +1,59 @@
-import { useContext } from "react";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { MainstayList } from "../MainstayList";
 import { ContainerLayout } from "./ContainerLayout";
 import VennDiagram from "../VennDiagram/VennDiagram";
 import { Button, ButtonSizeEnum } from "../UI/Button";
 import { canAnalyzeIkigai } from "@/app/utils/validateForm";
+import { buildIkigaiPayload } from "@/app/api/analyze/utils";
 
 export const YourIkigaiLayout = () => {
+  const router = useRouter();
   const { ikigaiForm } = useContext(IkigaiContext);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleAnalyze = async () => {
+    try {
+      setIsAnalyzing(true);
+      setError(null);
+
+      const payload = buildIkigaiPayload(ikigaiForm);
+
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Analyse impossible");
+      }
+
+      sessionStorage.setItem(
+        "ikigai-analysis-result",
+        JSON.stringify(result.data),
+      );
+
+      router.push("/votre-ikigai");
+    } catch (err) {
+      console.error("Erreur lors de l'analyse :", err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Une erreur est survenue pendant l’analyse.",
+      );
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   return (
     <>
@@ -40,14 +86,23 @@ export const YourIkigaiLayout = () => {
             l&apos;explicatif et laissez-vous guider à la prochaine étape.
           </p>
         </div>
-
         {canAnalyzeIkigai(ikigaiForm) && (
-          <Button
-            title="Analyser mes réponses"
-            isLink
-            href="/votre-ikigai"
-            size={ButtonSizeEnum.S}
-          />
+          <div className="flex flex-col gap-3">
+            <Button
+              title={
+                isAnalyzing ? "Analyse en cours..." : "Analyser mes réponses"
+              }
+              onClick={handleAnalyze}
+              size={ButtonSizeEnum.S}
+              disabled={isAnalyzing}
+            />
+
+            {error && (
+              <p className="text-sm text-red-600" role="alert">
+                {error}
+              </p>
+            )}
+          </div>
         )}
       </ContainerLayout>
     </>

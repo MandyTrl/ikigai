@@ -1,4 +1,4 @@
-import { IkigaiStepEnum } from "../../context/IkigaiContext";
+import { IkigaiStepEnum } from "@/app/types";
 
 export type InstructionType = {
   question: string;

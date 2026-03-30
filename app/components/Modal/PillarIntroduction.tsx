@@ -1,12 +1,13 @@
 "use client";
 import { useContext } from "react";
-import { IkigaiContext, PillarStateEnum } from "@/app/context/IkigaiContext";
+import { IkigaiContext } from "@/app/context/IkigaiContext";
 import {
   IkigaiMainstay,
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
 import { Button, ButtonSizeEnum } from "../UI/Button";
 import clsx from "clsx";
+import { PillarStateEnum } from "@/app/types";
 
 type PillarIntroductionProps = {
   onClose: () => void;

@@ -1,14 +1,9 @@
 "use client";
 import { ReactNode, useCallback, useMemo, useState, useEffect } from "react";
-import {
-  IkigaiContext,
-  IkigaiForm,
-  IkigaiStepEnum,
-  initialIkigaiForm,
-  PillarStateEnum,
-} from "./IkigaiContext";
+import { IkigaiContext, IkigaiForm, initialIkigaiForm } from "./IkigaiContext";
 import { HoverContext } from "./HoverContext";
 import { getFilledAnswersCount } from "../utils/validateForm";
+import { IkigaiStepEnum, PillarStateEnum } from "../types";
 
 // Provider pour encapsuler la logique de gestion des états
 export const AppProviders = ({ children }: { children: ReactNode }) => {

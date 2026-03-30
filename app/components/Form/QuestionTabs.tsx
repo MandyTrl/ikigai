@@ -3,7 +3,8 @@
 import { useContext } from "react";
 import clsx from "clsx";
 import { CheckIcon, ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
-import { IkigaiContext, IkigaiStepEnum } from "@/app/context/IkigaiContext";
+import { IkigaiContext } from "@/app/context/IkigaiContext";
+import { IkigaiStepEnum } from "@/app/types";
 
 type QuestionTabsProps = {
   answers: string[];

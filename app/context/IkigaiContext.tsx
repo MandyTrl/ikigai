@@ -1,18 +1,5 @@
 import { createContext } from "react";
-
-export enum IkigaiStepEnum {
-  INITIAL = "initial",
-  LOVE = "love",
-  NEEDS = "needs",
-  PAID = "paid",
-  TALENT = "talent",
-  RESUME = "resume",
-}
-
-export type IkigaiPillarStep = Exclude<
-  IkigaiStepEnum,
-  IkigaiStepEnum.INITIAL | IkigaiStepEnum.RESUME
->;
+import { IkigaiPillarStep, IkigaiStepEnum, PillarStateEnum } from "../types";
 
 export const colorMap: Record<IkigaiPillarStep, string> = {
   [IkigaiStepEnum.LOVE]: "#b6d4db",
@@ -20,17 +7,6 @@ export const colorMap: Record<IkigaiPillarStep, string> = {
   [IkigaiStepEnum.PAID]: "#c9def7",
   [IkigaiStepEnum.TALENT]: "#eed2d7",
 };
-
-// <Record<Clé, Valeur>
-// Partial<T> rend les attributs obsolètes
-
-export enum PillarStateEnum {
-  NOT_STARTED = "not_started",
-  IS_SELECTED = "is_selected",
-  IN_PROGRESS = "in_progress",
-  IS_SAVED = "is_saved",
-  FINISHED = "finished",
-}
 
 export const isIkigaiPillarStep = (
   step: IkigaiStepEnum,

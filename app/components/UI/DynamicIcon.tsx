@@ -1,4 +1,4 @@
-import { IkigaiPillarStep, IkigaiStepEnum } from "@/app/context/IkigaiContext";
+import { IkigaiPillarStep, IkigaiStepEnum } from "@/app/types";
 import {
   PersonSimpleThrowIcon,
   HandCoinsIcon,
