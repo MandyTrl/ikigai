@@ -1,6 +1,6 @@
 import { IkigaiForm, IkigaiStepEnum } from "@/app/context/IkigaiContext";
 
-type IkigaiPayload = {
+export type IkigaiPayload = {
   love: string[];
   talent: string[];
   needs: string[];

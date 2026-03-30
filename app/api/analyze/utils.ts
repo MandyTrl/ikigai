@@ -1,9 +1,4 @@
-export type IkigaiPayload = {
-  love: string[];
-  talent: string[];
-  needs: string[];
-  paid: string[];
-};
+import { IkigaiPayload } from "@/app/utils/buildIkigaiPayload";
 
 export const isValidPayload = (body: unknown): body is IkigaiPayload => {
   if (!body || typeof body !== "object") return false;
