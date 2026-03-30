@@ -8,11 +8,20 @@ import { ContainerLayout } from "./ContainerLayout";
 import VennDiagram from "../VennDiagram/VennDiagram";
 import { Button, ButtonSizeEnum } from "../UI/Button";
 import { canAnalyzeIkigai } from "@/app/utils/validateForm";
-import { buildIkigaiPayload } from "@/app/api/analyze/utils";
+import {
+  buildIkigaiPayload,
+  getAnalysisCache,
+  getPayloadSignature,
+  saveAnalysisCache,
+} from "@/app/api/analyze/utils";
 
 export const YourIkigaiLayout = () => {
   const router = useRouter();
   const { ikigaiForm } = useContext(IkigaiContext);
+
+  const payload = buildIkigaiPayload(ikigaiForm);
+  const currentSignature = getPayloadSignature(payload);
+
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +30,12 @@ export const YourIkigaiLayout = () => {
       setIsAnalyzing(true);
       setError(null);
 
-      const payload = buildIkigaiPayload(ikigaiForm);
+      const cached = getAnalysisCache();
+
+      if (cached && cached.signature === currentSignature) {
+        router.push("/votre-ikigai");
+        return;
+      }
 
       const response = await fetch("/api/analyze", {
         method: "POST",
@@ -37,10 +51,7 @@ export const YourIkigaiLayout = () => {
         throw new Error(result.error || "Analyse impossible");
       }
 
-      sessionStorage.setItem(
-        "ikigai-analysis-result",
-        JSON.stringify(result.data),
-      );
+      saveAnalysisCache(currentSignature, result.data);
 
       router.push("/votre-ikigai");
     } catch (err) {
@@ -54,6 +65,10 @@ export const YourIkigaiLayout = () => {
       setIsAnalyzing(false);
     }
   };
+
+  const cached = typeof window !== "undefined" ? getAnalysisCache() : null;
+  const hasCachedCurrentAnalysis =
+    cached && cached.signature === currentSignature;
 
   return (
     <>
@@ -90,7 +105,11 @@ export const YourIkigaiLayout = () => {
           <div className="flex flex-col gap-3">
             <Button
               title={
-                isAnalyzing ? "Analyse en cours..." : "Analyser mes réponses"
+                hasCachedCurrentAnalysis
+                  ? "Voir mon analyse"
+                  : isAnalyzing
+                    ? "Analyse en cours..."
+                    : "Analyser mes réponses"
               }
               onClick={handleAnalyze}
               size={ButtonSizeEnum.S}

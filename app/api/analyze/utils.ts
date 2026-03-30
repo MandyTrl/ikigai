@@ -1,12 +1,6 @@
 import { IkigaiForm } from "@/app/context/IkigaiContext";
 import { IkigaiStepEnum } from "@/app/types";
-
-export type IkigaiPayload = {
-  love: string[];
-  talent: string[];
-  needs: string[];
-  paid: string[];
-};
+import { IkigaiPayload } from "./types/request";
 
 export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
   if (!body || typeof body !== "object") return false;
@@ -49,4 +43,44 @@ export const cleanJsonString = (value: string) => {
     .replace(/^```\s*/i, "")
     .replace(/\s*```$/, "")
     .trim();
+};
+
+const ANALYSIS_STORAGE_KEY = "ikigai-analysis-cache";
+
+export const normalizePayload = (payload: IkigaiPayload): IkigaiPayload => {
+  const normalizeArray = (values: string[]) =>
+    values.map((value) => value.trim()).filter(Boolean);
+
+  return {
+    love: normalizeArray(payload.love),
+    talent: normalizeArray(payload.talent),
+    needs: normalizeArray(payload.needs),
+    paid: normalizeArray(payload.paid),
+  };
+};
+
+export const getPayloadSignature = (payload: IkigaiPayload) => {
+  return JSON.stringify(normalizePayload(payload));
+};
+
+export type AnalysisCache = {
+  signature: string;
+  result: unknown;
+};
+
+export const saveAnalysisCache = (signature: string, result: unknown) => {
+  const cache: AnalysisCache = { signature, result };
+  sessionStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(cache));
+};
+
+export const getAnalysisCache = (): AnalysisCache | null => {
+  const raw = sessionStorage.getItem(ANALYSIS_STORAGE_KEY);
+
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as AnalysisCache;
+  } catch {
+    return null;
+  }
 };
