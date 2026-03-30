@@ -47,12 +47,10 @@ export default function IkigaiResultPage() {
     <MainLayout>
       <section className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
         <header className="space-y-3">
+          <h1 className="text-3xl font-semibold md:text-4xl">Votre Ikigai</h1>
           <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
-            Votre Ikigai
-          </p>
-          <h1 className="text-3xl font-semibold md:text-4xl">
             Une synthèse de votre profil et de vos pistes métiers
-          </h1>
+          </p>
         </header>
 
         <IkigaiSummary
@@ -60,8 +58,9 @@ export default function IkigaiResultPage() {
           recommendations={analysis.recommendations}
         />
 
-        <section className="space-y-4">
+        <section id="top-3-job" className="space-y-4">
           <h2 className="text-2xl font-semibold">Top 3 métiers</h2>
+
           <div className="grid gap-4 lg:grid-cols-3">
             {analysis.jobs.map((job, index) => (
               <JobCard key={job.title} job={job} rank={index + 1} />
