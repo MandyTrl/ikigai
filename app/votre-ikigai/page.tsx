@@ -1,45 +1,76 @@
 "use client";
-
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { IkigaiContext } from "../context/IkigaiContext";
-import { MainLayout } from "../components/Layouts/MainLayout";
-import { canAnalyzeIkigai } from "../utils/validateForm";
+import { IkigaiContext } from "@/app/context/IkigaiContext";
+import { MainLayout } from "@/app/components/Layouts/MainLayout";
+import { canAnalyzeIkigai } from "@/app/utils/validateForm";
+import {
+  buildIkigaiPayload,
+  getAnalysisCache,
+  getPayloadSignature,
+} from "@/app/api/analyze/utils";
+import { IkigaiAnalysisResult } from "../api/analyze/types/response";
+import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
+import { JobCard } from "../components/Analyze/JobCard";
+import { PillarAnalysis } from "../components/Analyze/PillarAnalysis";
 
-export default function YourIkigai() {
+export default function IkigaiResultPage() {
   const router = useRouter();
   const { ikigaiForm } = useContext(IkigaiContext);
-  const [analysis, setAnalysis] = useState<unknown>(null);
+
+  const payload = useMemo(() => buildIkigaiPayload(ikigaiForm), [ikigaiForm]);
+  const signature = useMemo(() => getPayloadSignature(payload), [payload]);
+
+  const [analysis, setAnalysis] = useState<IkigaiAnalysisResult | null>(null);
 
   useEffect(() => {
     if (!canAnalyzeIkigai(ikigaiForm)) {
-      router.push("/commencer");
+      router.replace("/commencer");
+      return;
     }
-  }, [ikigaiForm, router]);
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem("ikigai-analysis-result");
+    const cache = getAnalysisCache();
 
-    if (stored) {
-      setAnalysis(JSON.parse(stored));
+    if (!cache || cache.signature !== signature) {
+      router.replace("/votre-ikigai");
+      return;
     }
-  }, []);
 
-  if (!canAnalyzeIkigai(ikigaiForm)) {
-    return <p>Redirection en cours...</p>;
-  }
+    setAnalysis(cache.result as IkigaiAnalysisResult);
+  }, [ikigaiForm, router, signature]);
 
   if (!analysis) {
-    return <p>Aucune analyse disponible.</p>;
+    return <p>Chargement de votre analyse...</p>;
   }
 
   return (
     <MainLayout>
-      <h1>Votre Ikigai</h1>
+      <section className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10">
+        <header className="space-y-3">
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+            Votre Ikigai
+          </p>
+          <h1 className="text-3xl font-semibold md:text-4xl">
+            Une synthèse de votre profil et de vos pistes métiers
+          </h1>
+        </header>
 
-      <pre className="whitespace-pre-wrap rounded-xl bg-slate-100 p-4 text-sm">
-        {JSON.stringify(analysis, null, 2)}
-      </pre>
+        <IkigaiSummary
+          summary={analysis.summary}
+          recommendations={analysis.recommendations}
+        />
+
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">Top 3 métiers</h2>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {analysis.jobs.map((job, index) => (
+              <JobCard key={job.title} job={job} rank={index + 1} />
+            ))}
+          </div>
+        </section>
+
+        <PillarAnalysis analysis={analysis.analysis} />
+      </section>
     </MainLayout>
   );
 }
