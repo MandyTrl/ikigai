@@ -1,5 +1,6 @@
 import { WarningCircleIcon, SparkleIcon } from "@phosphor-icons/react/dist/ssr";
 import { PrintPdfButton } from "./PdfButton";
+import { IkigaiTags } from "@/app/api/analyze/types/response";
 
 type IkigaiSummaryProps = {
   summary: {
@@ -12,6 +13,8 @@ type IkigaiSummaryProps = {
     actions: string[];
     warning: string;
   };
+  confidence: number;
+  tags: IkigaiTags;
 };
 
 type SummaryListCardProps = {
@@ -39,6 +42,8 @@ const SummaryListCard = ({ title, items }: SummaryListCardProps) => {
 export const IkigaiSummary = ({
   summary,
   recommendations,
+  confidence,
+  tags,
 }: IkigaiSummaryProps) => {
   return (
     <section className="space-y-6">
@@ -62,8 +67,43 @@ export const IkigaiSummary = ({
           </p>
         </div>
 
-        <PrintPdfButton />
+        <div className="flex flex-col flex-1 gap-4">
+          <div className="flex flex-col gap-3">
+            <p className="text-2xl px-2 py-3 rounded-full bg-slate-100 whitespace-nowrap">
+              Score de fiabilité*{" "}
+              <span className="text-3xl font-medium font-andika">
+                {confidence}%
+              </span>
+            </p>
+
+            <p className="text-xs text-slate-500">
+              *Basé sur la cohérence de vos réponses
+            </p>
+          </div>
+
+          <PrintPdfButton />
+        </div>
       </article>
+
+      {Object.entries(tags).map(([pillar, values]) => (
+        <div key={pillar} className="mb-3">
+          <p className="text-xs text-slate-500 mb-1 capitalize">{pillar}</p>
+
+          <div className="flex flex-wrap gap-2">
+            {values.map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 text-sm rounded-full bg-secondary/30 text-primary"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+      <p className="text-xs text-slate-500 mb-3">
+        Ces mots-clés ont été identifiés à partir de vos réponses
+      </p>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <SummaryListCard title="Forces clés" items={summary.key_strengths} />

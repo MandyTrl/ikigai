@@ -56,6 +56,8 @@ export default function IkigaiResultPage() {
         <IkigaiSummary
           summary={analysis.summary}
           recommendations={analysis.recommendations}
+          confidence={analysis.confidence}
+          tags={analysis.tags}
         />
 
         <section id="top-3-job" className="space-y-4">

@@ -13,6 +13,13 @@ export type IkigaiJob = {
   ikigai_scores: IkigaiScores;
 };
 
+export type IkigaiTags = {
+  love: string[];
+  talent: string[];
+  needs: string[];
+  paid: string[];
+};
+
 export type IkigaiAnalysisResult = {
   summary: {
     profile: string;
@@ -29,4 +36,6 @@ export type IkigaiAnalysisResult = {
     actions: string[];
     warning: string;
   };
+  tags: IkigaiTags;
+  confidence: number;
 };
