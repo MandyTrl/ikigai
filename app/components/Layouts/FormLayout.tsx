@@ -20,7 +20,7 @@ export const FormLayout = () => {
   const answers = currentPillar?.answers ?? EMPTY_ANSWERS;
 
   return (
-    <div id="form-layout" className="max-w-[40rem] mx-auto w-full">
+    <div id="form-layout" className="max-w-[45rem] mx-auto w-full">
       <QuestionTabs
         answers={answers}
         currentQuestionIndex={questionIndex}
@@ -29,7 +29,7 @@ export const FormLayout = () => {
 
       <div
         id="form-layout-container"
-        className="flex flex-col gap-4 border border-secondary rounded-2xl bg-white"
+        className="flex flex-col gap-4 border border-secondary rounded-xs bg-white"
       >
         <FormGuidelines />
         <FormTextArea

@@ -14,6 +14,7 @@ import {
   getPayloadSignature,
   saveAnalysisCache,
 } from "@/app/api/analyze/utils";
+import { Title } from "../UI/Title";
 
 export const YourIkigaiLayout = () => {
   const router = useRouter();
@@ -77,13 +78,8 @@ export const YourIkigaiLayout = () => {
       </ContainerLayout>
 
       <ContainerLayout hasNavbar>
-        <h1 className="text-2xl mb-5">
-          Bienvenue dans{" "}
-          <span className="text-3xl font-semibold">votre ikigai</span>,
-        </h1>
-        <h3 className="text-xl mb-1">
-          Comment commencer votre introspection ?
-        </h3>
+        <Title as="h2" text="Bienvenue dans votre ikigai" />
+        <Title as="h3" text="Comment commencer votre introspection ?" />
 
         <div className="flex flex-col gap-y-2 mb-4">
           <p>

@@ -4,6 +4,7 @@ import {
   IkigaiPromise,
 } from "../../utils/datas/ikigaiPromises";
 import { PromiseCard } from "./PromiseCard";
+import { Title } from "../UI/Title";
 
 export const PromisesSection = () => {
   return (
@@ -13,9 +14,14 @@ export const PromisesSection = () => {
       transition={{ duration: 0.5, delay: 0.4 }}
       className="w-full mb-5"
     >
-      <h3 className="text-7xl mb-8">Ce que vous apporte l&apos;ikigai</h3>
+      <Title
+        as="h3"
+        variant="h2"
+        text="Ce que vous apporte l'ikigai"
+        className="mb-4"
+      />
 
-      <div className="w-full flex gap-x-6">
+      <div className="w-full flex gap-x-4">
         {ikigaiPromises.map((p: IkigaiPromise) => {
           return <PromiseCard promise={p} key={p.promise} />;
         })}

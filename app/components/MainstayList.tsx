@@ -76,7 +76,7 @@ export const MainstayList = () => {
             onMouseEnter={() => setHoveredMainstay(mainstay)}
             onMouseLeave={() => setHoveredMainstay(null)}
           >
-            {getIcon(mainstay, "#b6d4db")}
+            {getIcon(mainstay, "#8b9bb4")}
             {mainstay === IkigaiStepEnum.LOVE && "Ce que vous aimez"}
             {mainstay === IkigaiStepEnum.NEEDS && "Ce dont le monde a besoin"}
             {mainstay === IkigaiStepEnum.PAID &&

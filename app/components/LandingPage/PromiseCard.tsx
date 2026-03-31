@@ -12,7 +12,7 @@ export const PromiseCard = ({ promise }: PromiseCardProps) => {
     <motion.div
       transition={{ duration: 0.2 }}
       whileHover={{ flex: 3 }}
-      className="group flex-1 relative h-[620px] mx-auto transition-all duration-300 ease-in-out overflow-hidden rounded-3xl"
+      className="group flex-1 relative h-[600px] mx-auto transition-all duration-300 ease-in-out overflow-hidden rounded-sm"
     >
       <Image
         src={promise.img}
@@ -22,8 +22,9 @@ export const PromiseCard = ({ promise }: PromiseCardProps) => {
         className="object-cover object-bottom"
       />
 
-      <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-2.1rem)] max-h-[100px] group-hover:max-h-[250px] p-6 rounded-2xl overflow-hidden bg-white flex flex-col justify-start transition-all duration-300">
-        <p className="text-3xl mb-2">{promise.promise}</p>
+      <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-2.1rem)] max-h-[100px] group-hover:max-h-[250px] p-6 rounded-sm overflow-hidden bg-white flex flex-col justify-start transition-all duration-300 shadow-inner">
+        <p className="text-2xl mb-2">{promise.promise}</p>
+
         <Image
           src="/assets/svg/shape-circle-cutout-plus-shape.svg"
           alt=""

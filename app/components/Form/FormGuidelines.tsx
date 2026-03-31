@@ -12,6 +12,7 @@ import {
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
 import { ClockIcon } from "@phosphor-icons/react/dist/ssr";
+import { Title } from "../UI/Title";
 
 export const FormGuidelines = () => {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
@@ -43,7 +44,7 @@ export const FormGuidelines = () => {
             weight="regular"
             color="primary"
           />
-          <h1 className="text-2xl">{mainstayInfoFound.title}</h1>
+          <Title text={mainstayInfoFound.title} />
         </section>
 
         <section className="flex text-slate-700 gap-x-5 my-4 text-sm">

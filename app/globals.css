@@ -1,105 +1,177 @@
 @import "tailwindcss";
 
 :root {
-	--primary: #091c34;
-	--secondary: #d7defb;
-	--tertiary: #a9d6c5;
-	--accent: #b4d8e6;
-	--accentbis: #fbd0af;
+  --primary: #1a2332;
+  --secondary: #6b7a9e;
+  --tertiary: #d4a574;
+  --accent: #e8d5c4;
+  --accentbis: #8b9bb4;
+  --support: #f5f2ed;
+
+  --bg-body: linear-gradient(135deg, #f5f2ed 0%, #faf8f5 50%, #f0e6d8 100%);
+
+  /* Shadows minimalistes */
+  --shadow-sm: 0 2px 8px rgba(10, 14, 39, 0.04);
+  --shadow-md: 0 4px 16px rgba(10, 14, 39, 0.06);
+  --shadow-lg: 0 8px 24px rgba(10, 14, 39, 0.08);
 }
 
 @theme inline {
-	--color-primary: var(--primary);
-	--color-secondary: var(--secondary);
-	--color-tertiary: var(--tertiary);
-	--color-accent: var(--accent);
-	--color-accentbis: var(--accentbis);
-	--font-andika: var(--font-andika);
-	--font-arima: var(--font-arima);
-	--shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-accent: var(--accent);
+  --color-accentbis: var(--accentbis);
+  --color-support: var(--support);
+  --font-andika: var(--font-andika);
+  --font-arima: var(--font-arima);
+  --shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
 }
 
 @layer utilities {
-	@keyframes fade {
-		from {
-			opacity: 0.5;
-			transform: scale(1.01);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
+  @keyframes slideInFade {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-	.mask-fade-bottom {
-		-webkit-mask-image: linear-gradient(to top, var(--primary), transparent);
-		mask-image: linear-gradient(to top, var(--primary), transparent);
-	}
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
 
-	.shadow-rainbow {
-		box-shadow: 0 -10px 30px var(--secondary), -10px 0 30px var(--tertiary),
-			0 10px 30px var(--accent), 10px 0 30px var(--accentbis);
-	}
+  @keyframes glow {
+    0%,
+    100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
 
-	.bg-rainbow {
-		background: linear-gradient(90deg, #d7defb, #a9d6c5, #b4d8e6, #fbd0af);
-	}
+  @keyframes fade {
+    from {
+      opacity: 0.5;
+      transform: scale(1.01);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .mask-fade-bottom {
+    -webkit-mask-image: linear-gradient(to top, var(--primary), transparent);
+    mask-image: linear-gradient(to top, var(--primary), transparent);
+  }
+
+  .shadow-rainbow {
+    box-shadow:
+      0 -10px 30px var(--secondary),
+      -10px 0 30px var(--tertiary),
+      0 10px 30px var(--accent),
+      10px 0 30px var(--accentbis);
+  }
+
+  .bg-rainbow {
+    background: var(--bg-body);
+  }
+
+  .loader-pulse {
+    animation: shimmer 2s infinite;
+    background: linear-gradient(
+      90deg,
+      var(--support),
+      var(--accent),
+      var(--support)
+    );
+    background-size: 1000px 100%;
+  }
+
+  .glow-accent {
+    animation: glow 2s ease-in-out infinite;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
-	}
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-	font-family: var(--font-arima);
-	color: var(--primary);
-	/* background-color: #bfd8da43; */
+  font-family: var(--font-arima);
+  color: var(--primary);
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg-body);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+
+  background-image: url("/assets/nnnoise.svg");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-	animation: fade 0.5s ease;
+  animation: fade 0.5s ease;
 }
 
 /* Works on Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
-	width: 18px;
+  width: 18px;
 }
 
 /* Track (fond) */
 ::-webkit-scrollbar-track {
-	background: #ffffff;
-	border-radius: 8px;
+  background: #ffffff;
+  border-radius: 8px;
 }
 
 /* Hide default buttons */
 ::-webkit-scrollbar-button {
-	display: none;
+  display: none;
 }
 
 /* Scrollbar thumb (barre) */
 ::-webkit-scrollbar-thumb {
-	background: var(--secondary);
-	border-radius: 12px;
-	border: 6px solid white;
+  background: var(--secondary);
+  border-radius: 12px;
+  border: 6px solid white;
 }
 
 /* Active/scrolling effect */
 ::-webkit-scrollbar-thumb:active {
-	background: var(--secondary);
-	border: 4px solid white;
+  background: var(--secondary);
+  border: 4px solid white;
 }
 
 textarea {
-	caret-color: var(--secondary);
+  caret-color: var(--secondary);
 }
 
 .hero-bg {
-	background-image: url("/assets/maxim-berg-ZePAAZDt4XU-unsplash.jpg");
-	background-repeat: no-repeat;
-	background-position: top;
-	background-size: cover;
+  background-image: url("/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }

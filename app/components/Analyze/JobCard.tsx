@@ -1,4 +1,5 @@
 import { IkigaiJob } from "@/app/api/analyze/types/response";
+import { Title } from "../UI/Title";
 
 type JobCardProps = {
   job: IkigaiJob;
@@ -29,12 +30,12 @@ export const JobCard = ({ job, rank }: JobCardProps) => {
       <div className="mb-4 flex flex-col gap-2">
         <div className="flex justify-between">
           <p className="text-sm text-slate-500">Top {rank}</p>
-          <div className="rounded-full h-12 w-12 bg-slate-900 p-2 font-semibold text-white text-center">
+          <div className="rounded-full h-12 w-12 bg-slate-900 p-2 font-medium text-white text-center font-andika text-xl">
             {job.score}
           </div>
         </div>
 
-        <h3 className="text-xl font-semibold">{job.title}</h3>
+        <Title as="h3" text={job.title} />
       </div>
 
       <div className="space-y-3">

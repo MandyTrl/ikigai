@@ -19,7 +19,7 @@ export const ContainerLayout = ({
     <div
       className={clsx(
         isVennDiagram ? "md:p-0" : "md:p-8",
-        `w-full max-h-[calc(100vh-2.5rem)] overflow-hidden flex flex-col rounded-3xl bg-white shadow ${className}`,
+        `w-full max-h-[calc(100vh-2.5rem)] overflow-hidden flex flex-col bg-white shadow-sm ${className}`,
       )}
     >
       {hasNavbar && <Navbar />}

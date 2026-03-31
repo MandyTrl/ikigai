@@ -1,6 +1,7 @@
 import { WarningCircleIcon, SparkleIcon } from "@phosphor-icons/react/dist/ssr";
 import { PrintPdfButton } from "./PdfButton";
 import { IkigaiTags } from "@/app/api/analyze/types/response";
+import { Title } from "../UI/Title";
 
 type IkigaiSummaryProps = {
   summary: {
@@ -25,7 +26,7 @@ type SummaryListCardProps = {
 const SummaryListCard = ({ title, items }: SummaryListCardProps) => {
   return (
     <article className="bg-white p-5">
-      <h3 className="mb-4 text-lg font-semibold">{title}</h3>
+      <Title as="h3" text={title} />
 
       <ul className="space-y-3">
         {items.map((item) => (
@@ -56,9 +57,7 @@ export const IkigaiSummary = ({
 
             <div>
               <p className="text-sm text-slate-500">Synthèse globale</p>
-              <h2 className="text-2xl font-semibold">
-                Votre ikigai en quelques mots
-              </h2>
+              <Title as="h2" text="Votre ikigai en quelques mots" />
             </div>
           </div>
 
@@ -116,7 +115,7 @@ export const IkigaiSummary = ({
 
       <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
         <article className="border border-slate-200 bg-white p-6">
-          <h3 className="mb-4 text-lg font-semibold">Pistes pour avancer</h3>
+          <Title as="h3" text="Pistes pour avancer" />
 
           <ul className="space-y-4">
             {recommendations.actions.map((action, index) => (
@@ -134,7 +133,7 @@ export const IkigaiSummary = ({
         <article className="h-fit border border-rose-200 bg-rose-50/70 p-6">
           <div className="mb-3 flex items-center gap-3 text-rose-700">
             <WarningCircleIcon size={20} weight="fill" />
-            <h3 className="text-lg font-semibold">Point de vigilance</h3>
+            <Title as="h3" text="Point de vigilance" />
           </div>
 
           <p>{recommendations.warning}</p>

@@ -8,6 +8,7 @@ import {
 import { Button, ButtonSizeEnum } from "../UI/Button";
 import clsx from "clsx";
 import { PillarStateEnum } from "@/app/types";
+import { Title } from "../UI/Title";
 
 type PillarIntroductionProps = {
   onClose: () => void;
@@ -40,9 +41,7 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
 
   return (
     <div>
-      <h2 className="font-bold text-3xl mt-5 mb-4">
-        {mainstayInfoFound.title}
-      </h2>
+      <Title as="h2" text={mainstayInfoFound.title} />
 
       <p className={clsx(ikigaiMainstay && "mb-10", "bg-secondary/30 p-5")}>
         {isInProgress
