@@ -9,7 +9,7 @@ import { WhatYouGetSection } from "./components/LandingPage/WhatUGetSection";
 export default function Home() {
   return (
     <MainLayout hasNavbar>
-      <div className="w-full py-12 px-4 max-w-6xl flex flex-col gap-y-18 md:gap-y-26">
+      <div className="w-full py-12 px-8 md:px-10 lg:px-12 max-w-6xl mx-auto flex flex-col gap-y-18 md:gap-y-26 border-4 border-white rounded-sm">
         <HeroSection />
 
         <IntroSection />
