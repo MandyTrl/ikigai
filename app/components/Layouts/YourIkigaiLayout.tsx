@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { MainstayList } from "../MainstayList";
-import { ContainerLayout } from "./ContainerLayout";
 import VennDiagram from "../VennDiagram/VennDiagram";
 import { Button, ButtonSizeEnum } from "../UI/Button";
 import { canAnalyzeIkigai } from "@/app/utils/validateForm";
@@ -15,6 +14,8 @@ import {
   saveAnalysisCache,
 } from "@/app/api/analyze/utils";
 import { Title } from "../UI/Title";
+import Image from "next/image";
+import Link from "next/link";
 
 export const YourIkigaiLayout = () => {
   const router = useRouter();
@@ -73,53 +74,71 @@ export const YourIkigaiLayout = () => {
 
   return (
     <>
-      <ContainerLayout isVennDiagram>
-        <VennDiagram />
-      </ContainerLayout>
+      <div className="flex justify-between px-6 py-8 mb-2">
+        <Link href="/">
+          <Image
+            src={"/assets/logos/logo-variant.svg"}
+            alt="icone du logo d'Ikig-ai"
+            width={50}
+            height={0}
+            priority
+          />
+        </Link>
 
-      <ContainerLayout hasNavbar>
         <Title as="h2" text="Bienvenue dans votre ikigai" />
-        <Title as="h3" text="Comment commencer votre introspection ?" />
+      </div>
 
-        <div className="flex flex-col gap-y-2 mb-4">
-          <p>
-            Dans le panel qui se trouve à gauche vous avez la visualisation de
-            l&apos;ikigai dans son format le plus connu: le diagramme de Venn.
-            Il se compose des{" "}
-            <span className="underline underline-offset-2">4 piliers</span> de
-            l&apos;ikigai:
-          </p>
+      <div className="flex flex-col md:flex-row gap-5 md:gap-10">
+        <VennDiagram />
 
-          <MainstayList />
-
-          <p>
-            Choisissez le pilier par lequel vous voulez débuter, lisez
-            l&apos;explicatif et laissez-vous guider à la prochaine étape.
-          </p>
-        </div>
-        {canAnalyzeIkigai(ikigaiForm) && (
-          <div className="flex flex-col gap-3">
-            <Button
-              title={
-                hasCachedCurrentAnalysis
-                  ? "Voir mon analyse"
-                  : isAnalyzing
-                    ? "Analyse en cours..."
-                    : "Analyser mes réponses"
-              }
-              onClick={handleAnalyze}
-              size={ButtonSizeEnum.S}
-              disabled={isAnalyzing}
-            />
-
-            {error && (
-              <p className="text-sm text-red-600" role="alert">
-                {error}
-              </p>
-            )}
+        <div className="flex flex-col gap-10">
+          <div className="w-fit bg-white p-4 pb-2 border-b border-secondary">
+            <Title as="h3" text="Comment commencer votre introspection ?" />
           </div>
-        )}
-      </ContainerLayout>
+
+          <div className="bg-white p-8 border border-secondary">
+            <div className="flex flex-col gap-y-2">
+              <p>
+                Dans le panel qui se trouve à gauche vous avez la visualisation
+                de l&apos;ikigai dans son format le plus connu: le diagramme de
+                Venn. Il se compose des{" "}
+                <span className="underline underline-offset-2">4 piliers</span>{" "}
+                de l&apos;ikigai:
+              </p>
+
+              <MainstayList />
+
+              <p>
+                Choisissez le pilier par lequel vous voulez débuter, lisez
+                l&apos;explicatif et laissez-vous guider à la prochaine étape.
+              </p>
+            </div>
+          </div>
+
+          {canAnalyzeIkigai(ikigaiForm) && (
+            <div className="flex flex-col gap-3">
+              <Button
+                title={
+                  hasCachedCurrentAnalysis
+                    ? "Voir mon analyse"
+                    : isAnalyzing
+                      ? "Analyse en cours..."
+                      : "Analyser mes réponses"
+                }
+                onClick={handleAnalyze}
+                size={ButtonSizeEnum.M}
+                disabled={isAnalyzing}
+              />
+
+              {error && (
+                <p className="text-sm text-red-600" role="alert">
+                  {error}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 };

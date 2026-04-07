@@ -13,7 +13,7 @@ export const MainLayout = ({
   className,
 }: MainLayoutProps) => {
   return (
-    <div>
+    <div className="relative">
       {hasNavbar && <Navbar />}
 
       <div className={`w-full mx-auto max-w-6xl flex flex-col ${className}`}>

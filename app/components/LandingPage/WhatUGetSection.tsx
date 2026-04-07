@@ -2,7 +2,7 @@ import { Title } from "../UI/Title";
 
 export const WhatYouGetSection = () => {
   return (
-    <section className="bg-accent/70 p-6 md:p-10 rounded-3xl mx-auto text-center flex flex-col gap-6 md:gap-8">
+    <section className="bg-accent/70 p-6 md:p-10 rounded-sm mx-auto text-center flex flex-col gap-6 md:gap-8">
       <Title as="h3" variant="display" text="À la fin du test, vous recevrez" />
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">

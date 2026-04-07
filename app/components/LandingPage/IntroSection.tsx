@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-key */
 import * as motion from "motion/react-client";
 import { AnimatedText } from "../UI/AnimatedText";
-import { ApproximateEqualsIcon } from "@phosphor-icons/react/dist/ssr";
 
 export const IntroSection = () => {
   const firstContent = [
@@ -31,13 +30,11 @@ export const IntroSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="w-full flex flex-col gap-14 px-10"
+      className="w-full flex flex-col gap-18 px-16"
     >
-      <div className="w-full font-light flex flex-col items-center gap-5 text-4xl text-center">
-        <ApproximateEqualsIcon size={32} />
-
+      <div className="w-full font-light flex flex-col gap-3 text-4xl">
         <p>
-          Vos activités, votre travail vous procurent-ils de la{" "}
+          Vos activités, votre travail <p>vous procurent-ils de la </p>
           <span className="underline underline-offset-4 decoration-3 decoration-tertiary">
             joie
           </span>{" "}
@@ -49,7 +46,7 @@ export const IntroSection = () => {
           <span className="underline underline-offset-4 decoration-3 decoration-secondary">
             sens
           </span>{" "}
-          ou en réflexion sur votre avenir professionnel ?
+          <p>ou en réflexion sur votre avenir professionnel ?</p>
         </p>
       </div>
 

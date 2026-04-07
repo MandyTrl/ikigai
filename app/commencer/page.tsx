@@ -21,7 +21,7 @@ export default function YourIkigai() {
   }, [currentStep]);
 
   return (
-    <div className="w-full min-h-[calc(100svh-40px)] flex flex-col md:flex-row gap-10 p-10">
+    <div className="w-full min-h-[calc(100svh-40px)]">
       {currentStep === IkigaiStepEnum.INITIAL ? (
         <YourIkigaiLayout />
       ) : selectedMainstay && !isMainstaySelectionPending ? (
