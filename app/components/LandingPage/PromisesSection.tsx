@@ -7,6 +7,8 @@ import {
 } from "../../utils/datas/ikigaiPromises";
 import { PromiseCard } from "./PromiseCard";
 import { WhatYouGetSection } from "./WhatUGetSection";
+import { Title } from "../UI/Title";
+import Image from "next/image";
 
 export const PromisesSection = () => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
@@ -15,14 +17,30 @@ export const PromisesSection = () => {
     <motion.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-      className="w-full mb-5 flex gap-4 items-stretch"
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="w-full flex flex-col gap-10"
     >
-      <WhatYouGetSection />
+      {/* Section header */}
+      <div className="flex items-end">
+        <Title as="h2" variant="h1" text="Ce que vous apporte" />
 
-      <div className="flex-1 flex gap-x-4">
-        {ikigaiPromises.map((p: IkigaiPromise) => {
-          return (
+        <Image
+          src={"/assets/logos/submark-ikigai.svg"}
+          alt="icone du logo d'Ikig-ai"
+          width={150}
+          height={0}
+          priority
+        />
+      </div>
+
+      {/* Two-column layout */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-16 items-start">
+        {/* Left column: what you get + CTA */}
+        <WhatYouGetSection />
+
+        {/* Right column: promise cards */}
+        <div className="flex flex-col gap-3 md:flex-row md:gap-2 md:h-[480px]">
+          {ikigaiPromises.map((p: IkigaiPromise) => (
             <PromiseCard
               promise={p}
               key={p.promise}
@@ -30,8 +48,8 @@ export const PromisesSection = () => {
               onHoverStart={() => setHoveredCard(p.promise)}
               onHoverEnd={() => setHoveredCard(null)}
             />
-          );
-        })}
+          ))}
+        </div>
       </div>
     </motion.section>
   );

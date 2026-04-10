@@ -1,7 +1,10 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
+import {
+  AsteriskIcon,
+  AsteriskSimpleIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { IkigaiPromise } from "../../utils/datas/ikigaiPromises";
-import { easeInOut } from "motion";
 import clsx from "clsx";
 
 type PromiseCardProps = {
@@ -24,7 +27,7 @@ export const PromiseCard = ({
       transition={{ duration: 0.3, ease: "easeInOut" }}
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
-      className="group relative h-[500px] mx-auto flex-[1_1_0%] overflow-hidden rounded-sm"
+      className="group relative h-[220px] md:h-full flex-none md:flex-[1_1_0%] overflow-hidden rounded-sm"
     >
       <Image
         src={promise.img}
@@ -34,28 +37,19 @@ export const PromiseCard = ({
         className={clsx(
           "object-cover object-bottom transition-[filter,opacity,transform] duration-500 ease-out",
           isDimmed ? "grayscale-[0.9] opacity-55" : "grayscale-0 opacity-100",
-          "group-hover/card:scale-[1.02]",
+          "group-hover:scale-[1.02]",
         )}
       />
 
-      <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-2.1rem)] max-h-[100px] group-hover:max-h-[250px] p-6 overflow-hidden bg-[var(--support)] border-t border-primary/10 flex flex-col justify-start transition-all duration-300">
+      {/* Default: circle icon, always visible */}
+      <span className="absolute bottom-4 right-4 text-white transition-opacity duration-200 group-hover:opacity-0">
+        <AsteriskIcon size={30} />
+      </span>
+
+      {/* Hover: panel slides up from bottom */}
+      <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-6 bg-support border-t-2 border-accent">
         <p className="text-2xl mb-2">{promise.promise}</p>
-
-        <Image
-          src="/assets/svg/shape-circle-cutout-plus-shape.svg"
-          alt=""
-          width={20}
-          height={0}
-          priority
-          aria-hidden
-          className="absolute top-4 right-4"
-        />
-
-        <div className="relative h-[3.5rem] overflow-hidden">
-          <p className="text-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            {promise.details}
-          </p>
-        </div>
+        <p className="text-base leading-6 text-primary/80">{promise.details}</p>
       </div>
     </motion.div>
   );

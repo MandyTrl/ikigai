@@ -19,7 +19,7 @@ export const IntroSection = () => {
       philosophie japonaise
     </span>,
     " à l’",
-    <span className="inline-block bg-accentbis px-2 py-1 my-1 rounded-xl border-primary">
+    <span className="inline-block text-white bg-accentbis px-2 py-1 my-1 rounded-xl border-primary">
       intelligence artificielle
     </span>,
     ".",

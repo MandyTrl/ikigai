@@ -43,8 +43,8 @@ export const NoteCard = ({ pillar }: NoteCardProps) => {
 
       <div className="relative z-10 flex h-full flex-col p-7">
         <div className="max-w-[90%]">
-          <h3 className="text-[2rem] leading-[1.02] tracking-[-0.03em] text-primary">
-            <span className="text-secondary group-hover:text-amber-500 transition-color duration-200 ease-out">
+          <h3 className="text-3xl">
+            <span className="text-secondary font-mono border-b-2 border-transparent group-hover:border-b-secondary transition-color duration-200 ease-out">
               {pillar.highlight}
             </span>{" "}
             {pillar.title}

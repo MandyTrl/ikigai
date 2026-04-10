@@ -43,7 +43,7 @@ export const PillarSection = () => {
   return (
     <section className="mt-10">
       <div className="flex justify-between">
-        <div className="border-l-4 border-[var(--tertiary)] pl-6">
+        <div className="border-l-4 border-tertiary pl-6">
           <Title
             as="h3"
             variant="h1"
@@ -54,12 +54,14 @@ export const PillarSection = () => {
           </p>
         </div>
 
-        <Button
-          title="Commencer le test"
-          isLink
-          href="/commencer"
-          size={ButtonSizeEnum.L}
-        />
+        <div className="shrink-0 self-start">
+          <Button
+            title="Commencer le test"
+            isLink
+            href="/commencer"
+            size={ButtonSizeEnum.L}
+          />
+        </div>
       </div>
 
       <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
