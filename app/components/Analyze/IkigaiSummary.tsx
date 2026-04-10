@@ -1,5 +1,6 @@
-import { WarningCircleIcon, SparkleIcon } from "@phosphor-icons/react/dist/ssr";
+import { WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
 import { PrintPdfButton } from "./PdfButton";
+import { CoherenceSignal } from "./CoherenceSignal";
 import { IkigaiTags } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
 
@@ -18,6 +19,13 @@ type IkigaiSummaryProps = {
   tags: IkigaiTags;
 };
 
+const PILLAR_KANJI: Record<string, string> = {
+  love: "愛",
+  talent: "才",
+  needs: "需",
+  paid: "仕",
+};
+
 type SummaryListCardProps = {
   title: string;
   items: string[];
@@ -25,13 +33,15 @@ type SummaryListCardProps = {
 
 const SummaryListCard = ({ title, items }: SummaryListCardProps) => {
   return (
-    <article className="bg-white p-5">
-      <Title as="h3" text={title} />
+    <article className="bg-transparent p-0">
+      <p className="text-xs tracking-[0.2em] uppercase border-b border-primary/10 pb-2 mb-4 text-secondary/70">
+        {title}
+      </p>
 
       <ul className="space-y-3">
         {items.map((item) => (
           <li key={item} className="flex items-start gap-3 text-sm leading-6">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
+            <span className="mt-1 shrink-0 text-[var(--tertiary)]">–</span>
             <span>{item}</span>
           </li>
         ))}
@@ -49,50 +59,33 @@ export const IkigaiSummary = ({
   return (
     <section className="space-y-6">
       <article id="summary" className="flex gap-10 items-start">
-        <div className="w-fit border border-slate-200 bg-white p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary/30 text-primary">
-              <SparkleIcon size={20} weight="fill" />
-            </div>
-
-            <div>
-              <p className="text-sm text-slate-500">Synthèse globale</p>
-              <Title as="h2" text="Votre ikigai en quelques mots" />
-            </div>
-          </div>
-
-          <p className="max-w-3xl text-sm md:text-base leading-7">
+        <div className="flex-1">
+          <p className="text-xs tracking-[0.2em] uppercase text-secondary/60 mb-2">
+            Synthèse globale
+          </p>
+          <Title as="h2" text="Votre ikigai en quelques mots" />
+          <p className="mt-4 text-sm md:text-base font-[300] leading-8 max-w-3xl">
             {summary.profile}
           </p>
         </div>
 
-        <div className="flex flex-col flex-1 gap-4">
-          <div className="flex flex-col gap-3">
-            <p className="text-2xl px-2 py-3 rounded-full bg-slate-100 whitespace-nowrap">
-              Score de fiabilité*{" "}
-              <span className="text-3xl font-medium font-andika">
-                {confidence}%
-              </span>
-            </p>
-
-            <p className="text-xs text-slate-500">
-              *Basé sur la cohérence de vos réponses
-            </p>
-          </div>
-
+        <div className="flex flex-col gap-4 shrink-0">
+          <CoherenceSignal confidence={confidence} />
           <PrintPdfButton />
         </div>
       </article>
 
       {Object.entries(tags).map(([pillar, values]) => (
         <div key={pillar} className="mb-3">
-          <p className="text-xs text-slate-500 mb-1 capitalize">{pillar}</p>
+          <p className="font-[300] text-base text-secondary/80 mb-2">
+            {PILLAR_KANJI[pillar] ?? pillar}
+          </p>
 
           <div className="flex flex-wrap gap-2">
             {values.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 text-sm rounded-full bg-secondary/30 text-primary"
+                className="px-3 py-1 text-sm rounded-none border border-current/20 text-primary/80"
               >
                 {tag}
               </span>
@@ -130,13 +123,13 @@ export const IkigaiSummary = ({
           </ul>
         </article>
 
-        <article className="h-fit border border-rose-200 bg-rose-50/70 p-6">
-          <div className="mb-3 flex items-center gap-3 text-rose-700">
-            <WarningCircleIcon size={20} weight="fill" />
+        <article className="h-fit border-l-[3px] border-[var(--tertiary)] pl-4 py-2">
+          <div className="mb-3 flex items-center gap-3 text-primary/70">
+            <WarningCircleIcon size={18} weight="fill" />
             <Title as="h3" text="Point de vigilance" />
           </div>
 
-          <p>{recommendations.warning}</p>
+          <p className="text-sm leading-6">{recommendations.warning}</p>
         </article>
       </div>
     </section>

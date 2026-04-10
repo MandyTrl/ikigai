@@ -38,7 +38,7 @@ export const PromiseCard = ({
         )}
       />
 
-      <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-2.1rem)] max-h-[100px] group-hover:max-h-[250px] p-6 rounded-sm overflow-hidden bg-white flex flex-col justify-start transition-all duration-300 shadow-inner">
+      <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 w-[calc(100%-2.1rem)] max-h-[100px] group-hover:max-h-[250px] p-6 overflow-hidden bg-[var(--support)] border-t border-primary/10 flex flex-col justify-start transition-all duration-300">
         <p className="text-2xl mb-2">{promise.promise}</p>
 
         <Image

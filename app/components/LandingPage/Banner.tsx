@@ -1,6 +1,22 @@
-import Link from "next/link";
+"use client";
+
 import * as motion from "motion/react-client";
-import { Title } from "../UI/Title";
+import { KanjiRevealWord } from "../UI/KanjiRevealWord";
+import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
+
+const BannerQuestion = () => {
+  return (
+    <p className="text-6xl text-white tracking-tight leading-snug">
+      {"Quelle est votre "}
+      <KanjiRevealWord word="raison" kanji="理" delay={2200} />
+      {" de vous "}
+      <KanjiRevealWord word="lever" kanji="起" delay={2700} />
+      {" chaque "}
+      <KanjiRevealWord word="matin" kanji="朝" delay={3200} />
+      {"?"}
+    </p>
+  );
+};
 
 export const Banner = () => {
   return (
@@ -15,26 +31,25 @@ export const Banner = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.7, duration: 0.7 }}
+          className="absolute bottom-12 left-10 max-w-[55%]"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="absolute top-7 left-7 bg-white/60 border-b border-secondary max-w-[50%] p-6 pb-4"
-          >
-            <Title
-              variant="display"
-              text="Quelle est votre raison de vous lever chaque matin?"
-            />
-          </motion.div>
-
-          <Link
-            href="/commencer"
-            className="text-3xl absolute bottom-7 left-7 text-white font-bold border-2 border-white rounded-sm px-4 pb-1 pt-2 hover:text-primary/80 hover:border-primary/80 hover:bg-white/60 cursor-pointer transition-colors duration-200 ease-in-out"
-          >
-            Trouver son ikigai
-          </Link>
+          <BannerQuestion />
         </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 0.5 }}
+        className="flex justify-center pt-6"
+      >
+        <Button
+          title="Trouver son ikigai"
+          isLink
+          href="/commencer"
+          size={ButtonSizeEnum.M}
+          variant={ButtonVariantEnum.Outline}
+        />
       </motion.div>
     </section>
   );

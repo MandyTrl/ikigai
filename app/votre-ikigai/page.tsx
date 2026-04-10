@@ -13,7 +13,6 @@ import { IkigaiAnalysisResult } from "../api/analyze/types/response";
 import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
 import { JobCard } from "../components/Analyze/JobCard";
 import { PillarAnalysis } from "../components/Analyze/PillarAnalysis";
-import { Title } from "../components/UI/Title";
 
 export default function IkigaiResultPage() {
   const router = useRouter();
@@ -47,10 +46,12 @@ export default function IkigaiResultPage() {
   return (
     <MainLayout>
       <section className="flex flex-col gap-8 px-4 py-10">
-        <header className="space-y-3">
-          <Title text="Votre Ikigai" />
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
-            Une synthèse de votre profil et de vos pistes métiers
+        <header className="space-y-1">
+          <h1 className="font-arima font-[100] tracking-[-0.04em] leading-none" style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}>
+            Votre Ikigai
+          </h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+            Une synthèse de votre profil
           </p>
         </header>
 
@@ -62,7 +63,7 @@ export default function IkigaiResultPage() {
         />
 
         <section id="top-3-job" className="space-y-4">
-          <Title as="h2" text="Top 3 métiers" />
+          <p className="text-xs uppercase tracking-[0.2em] text-secondary/60">Pistes pour vous</p>
 
           <div className="grid gap-4 lg:grid-cols-3">
             {analysis.jobs.map((job, index) => (

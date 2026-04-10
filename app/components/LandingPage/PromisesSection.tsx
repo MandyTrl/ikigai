@@ -6,7 +6,7 @@ import {
   IkigaiPromise,
 } from "../../utils/datas/ikigaiPromises";
 import { PromiseCard } from "./PromiseCard";
-import { Title } from "../UI/Title";
+import { WhatYouGetSection } from "./WhatUGetSection";
 
 export const PromisesSection = () => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
@@ -16,16 +16,11 @@ export const PromisesSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="w-full mb-5"
+      className="w-full mb-5 flex gap-4 items-stretch"
     >
-      <Title
-        as="h3"
-        variant="h2"
-        text="Ce que vous apporte l'ikigai"
-        className="mb-4"
-      />
+      <WhatYouGetSection />
 
-      <div className="w-full flex gap-x-4">
+      <div className="flex-1 flex gap-x-4">
         {ikigaiPromises.map((p: IkigaiPromise) => {
           return (
             <PromiseCard

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; echo \"$f\" | grep -qE '(app/types\\.ts|app/context/|app/api/analyze/route\\.ts|package\\.json|next\\.config\\.ts|lib/gemini\\.ts)' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"You just modified a key architectural file. If the change affects architecture, commands, environment variables, or user flow, update CLAUDE.md accordingly.\"}}' || true; } 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

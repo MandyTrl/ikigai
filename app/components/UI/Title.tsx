@@ -12,10 +12,10 @@ type TitleProps<T extends ElementType = "h1"> = {
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "children" | "className">;
 
 const variantStyles: Record<TitleVariant, string> = {
-  display: "font-arima text-5xl font-medium leading-tight tracking-tight",
-  h1: "font-arima text-3xl md:text-4xl font-medium leading-tight tracking-tight",
-  h2: "font-arima text-2xl md:text-3xl font-medium leading-tight tracking-tight",
-  h3: "font-arima text-xl md:text-2xl font-medium leading-snug tracking-tight",
+  display: "text-5xl font-medium leading-tight tracking-tight",
+  h1: "text-3xl md:text-4xl font-medium leading-tight tracking-tight",
+  h2: "text-2xl md:text-3xl font-medium leading-tight tracking-tight",
+  h3: "text-xl md:text-2xl font-medium leading-snug tracking-tight",
 };
 
 const defaultTagByVariant: Record<TitleVariant, TitleTag> = {

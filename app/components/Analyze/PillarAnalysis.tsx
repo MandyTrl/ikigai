@@ -1,5 +1,3 @@
-import { Title } from "../UI/Title";
-
 type PillarAnalysisProps = {
   analysis: {
     insights: string[];
@@ -9,23 +7,34 @@ type PillarAnalysisProps = {
 
 export const PillarAnalysis = ({ analysis }: PillarAnalysisProps) => {
   return (
-    <section className="grid gap-4 lg:grid-cols-2">
-      <article className="border border-slate-200 bg-white p-6">
-        <Title as="h2" text="Analyse croisée" />
+    <section className="flex flex-col gap-8">
+      <article>
+        <p className="text-xs tracking-[0.2em] uppercase text-secondary/60 border-b border-primary/10 pb-2 mb-4">
+          Analyse croisée
+        </p>
 
-        <ul className="space-y-3">
+        <ul>
           {analysis.insights.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item} className="border-b border-primary/6 py-3 text-sm leading-6">
+              {item}
+            </li>
           ))}
         </ul>
       </article>
 
-      <article className="border border-slate-200 bg-white p-6">
-        <Title as="h2" text="Points de vigilance" />
+      <article>
+        <p className="text-xs tracking-[0.2em] uppercase text-secondary/60 border-b border-primary/10 pb-2 mb-4">
+          Points de vigilance
+        </p>
 
-        <ul className="space-y-3">
+        <ul>
           {analysis.tensions.map((item) => (
-            <li key={item}>{item}</li>
+            <li
+              key={item}
+              className="border-l-[3px] border-[var(--tertiary)] pl-4 py-2 mb-3 text-sm leading-6"
+            >
+              {item}
+            </li>
           ))}
         </ul>
       </article>

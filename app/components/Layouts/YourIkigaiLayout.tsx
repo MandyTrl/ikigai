@@ -85,7 +85,7 @@ export const YourIkigaiLayout = () => {
           />
         </Link>
 
-        <Title as="h2" text="Bienvenue dans votre ikigai" />
+        <Title as="h2" text="Bienvenue dans votre ikigai" className="font-[200] text-4xl tracking-tight" />
       </div>
 
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
@@ -96,23 +96,21 @@ export const YourIkigaiLayout = () => {
             <Title as="h3" text="Comment commencer votre introspection ?" />
           </div>
 
-          <div className="bg-white p-8 border border-secondary">
-            <div className="flex flex-col gap-y-2">
-              <p>
-                Dans le panel qui se trouve à gauche vous avez la visualisation
-                de l&apos;ikigai dans son format le plus connu: le diagramme de
-                Venn. Il se compose des{" "}
-                <span className="underline underline-offset-2">4 piliers</span>{" "}
-                de l&apos;ikigai:
-              </p>
+          <div className="flex flex-col gap-y-2">
+            <p>
+              Dans le panel qui se trouve à gauche vous avez la visualisation
+              de l&apos;ikigai dans son format le plus connu: le diagramme de
+              Venn. Il se compose des{" "}
+              <span className="underline underline-offset-2">4 piliers</span>{" "}
+              de l&apos;ikigai:
+            </p>
 
-              <MainstayList />
+            <MainstayList />
 
-              <p>
-                Choisissez le pilier par lequel vous voulez débuter, lisez
-                l&apos;explicatif et laissez-vous guider à la prochaine étape.
-              </p>
-            </div>
+            <p>
+              Choisissez le pilier par lequel vous voulez débuter, lisez
+              l&apos;explicatif et laissez-vous guider à la prochaine étape.
+            </p>
           </div>
 
           {canAnalyzeIkigai(ikigaiForm) && (
