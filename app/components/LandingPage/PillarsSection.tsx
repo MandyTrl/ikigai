@@ -41,7 +41,7 @@ export const PillarSection = () => {
   ];
 
   return (
-    <section className="mt-10">
+    <section className="mt-6 md:mt-20">
       <div className="flex justify-between">
         <div className="border-l-4 border-tertiary pl-6">
           <Title
@@ -64,7 +64,7 @@ export const PillarSection = () => {
         </div>
       </div>
 
-      <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-6 md:mt-20 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         {pillars.map((pillar) => (
           <NoteCard key={pillar.title} pillar={pillar} />
         ))}

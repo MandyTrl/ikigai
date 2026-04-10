@@ -18,7 +18,7 @@ export const PromisesSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="w-full flex flex-col gap-10"
+      className="w-full flex flex-col gap-10 mt-6 md:mt-20"
     >
       {/* Section header */}
       <div className="flex items-end">

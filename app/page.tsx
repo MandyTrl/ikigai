@@ -10,7 +10,7 @@ export default function Home() {
     <MainLayout hasNavbar className="gap-5">
       <Banner />
 
-      <div className="w-full py-12 px-8 md:px-10 lg:px-12 max-w-6xl mx-auto flex flex-col gap-y-18 md:gap-y-26 border-4 border-white rounded-sm">
+      <div className="w-full py-8 md:py-20 px-8 md:px-10 lg:px-12 max-w-6xl mx-auto flex flex-col border-4 border-white rounded-sm">
         <IntroSection />
 
         <SelfMomentSection />
