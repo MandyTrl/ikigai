@@ -15,9 +15,10 @@ export const PromisesSection = () => {
 
   return (
     <motion.section
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
       className="w-full flex flex-col gap-10 mt-6 md:mt-20"
     >
       {/* Section header */}
@@ -40,10 +41,11 @@ export const PromisesSection = () => {
 
         {/* Right column: promise cards */}
         <div className="flex flex-col gap-3 md:flex-row md:gap-2 md:h-[480px]">
-          {ikigaiPromises.map((p: IkigaiPromise) => (
+          {ikigaiPromises.map((p: IkigaiPromise, i) => (
             <PromiseCard
               promise={p}
               key={p.promise}
+              index={i}
               isDimmed={hoveredCard !== null && hoveredCard !== p.promise}
               onHoverStart={() => setHoveredCard(p.promise)}
               onHoverEnd={() => setHoveredCard(null)}

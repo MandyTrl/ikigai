@@ -12,6 +12,7 @@ type PromiseCardProps = {
   isDimmed: boolean;
   onHoverStart: () => void;
   onHoverEnd: () => void;
+  index?: number;
 };
 
 export const PromiseCard = ({
@@ -19,12 +20,19 @@ export const PromiseCard = ({
   isDimmed,
   onHoverStart,
   onHoverEnd,
+  index = 0,
 }: PromiseCardProps) => {
   return (
     <motion.div
-      initial={{ flexGrow: 1 }}
+      initial={{ flexGrow: 1, opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       whileHover={{ flexGrow: 3 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{
+        opacity: { duration: 0.45, delay: index * 0.1, ease: "easeOut" },
+        y: { duration: 0.45, delay: index * 0.1, ease: "easeOut" },
+        flexGrow: { duration: 0.3, ease: "easeInOut" },
+      }}
       onHoverStart={onHoverStart}
       onHoverEnd={onHoverEnd}
       className="group relative h-[220px] md:h-full flex-none md:flex-[1_1_0%] overflow-hidden rounded-sm"

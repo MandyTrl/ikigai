@@ -1,3 +1,5 @@
+"use client";
+import * as motion from "motion/react-client";
 import {
   HandCoinsIcon,
   ListHeartIcon,
@@ -5,9 +7,9 @@ import {
   UsersIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { NoteCard } from "./NoteCard";
-import { Title } from "../UI/Title";
-import { Button, ButtonSizeEnum } from "../UI/Button";
-import { AsciiKoi } from "../UI/AsciiKoi";
+import { Title } from "../../UI/Title";
+import { Button, ButtonSizeEnum } from "../../UI/Button";
+import { AsciiKoi } from "../../UI/AsciiKoi";
 
 export const PillarSection = () => {
   const pillars = [
@@ -42,7 +44,13 @@ export const PillarSection = () => {
   ];
 
   return (
-    <section className="mt-6 md:mt-20 flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="mt-6 md:mt-20 flex flex-col lg:flex-row items-start gap-8 lg:gap-12"
+    >
       {/* Header + CTA */}
       <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">
         <div className="flex justify-between items-start gap-6">
@@ -73,8 +81,8 @@ export const PillarSection = () => {
           <div className="flex flex-col gap-4">
             {/* Cards */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {pillars.map((pillar) => (
-                <NoteCard key={pillar.title} pillar={pillar} />
+              {pillars.map((pillar, i) => (
+                <NoteCard key={pillar.title} pillar={pillar} index={i} />
               ))}
             </div>
 
@@ -84,6 +92,6 @@ export const PillarSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };

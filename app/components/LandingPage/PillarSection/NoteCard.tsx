@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
+import * as motion from "motion/react-client";
 
 type NoteCardProps = {
   pillar: {
@@ -8,11 +9,16 @@ type NoteCardProps = {
     title: string;
     description: string;
   };
+  index?: number;
 };
 
-export const NoteCard = ({ pillar }: NoteCardProps) => {
+export const NoteCard = ({ pillar, index = 0 }: NoteCardProps) => {
   return (
-    <article
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
       className={clsx(
         "group relative isolate flex h-[380px] w-full max-w-[360px] overflow-hidden",
         "border-b border-secondary/20",
@@ -64,6 +70,6 @@ export const NoteCard = ({ pillar }: NoteCardProps) => {
           {pillar.icon}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 };

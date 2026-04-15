@@ -1,23 +1,25 @@
 import { MainLayout } from "./components/Layouts/MainLayout";
-import { Banner } from "./components/LandingPage/Banner";
+import { HeroSection } from "./components/LandingPage/HeroSection";
 import { IntroSection } from "./components/LandingPage/IntroSection";
-import { PillarSection } from "./components/LandingPage/PillarsSection";
 import { PromisesSection } from "./components/LandingPage/PromisesSection";
-import { SelfMomentSection } from "./components/LandingPage/SelfMomentSection";
+import { Banner } from "./components/LandingPage/Banner";
+import { PillarSection } from "./components/LandingPage/PillarSection";
+
 export default function Home() {
   return (
-    <MainLayout hasNavbar className="gap-5">
+    <MainLayout
+      hasNavbar
+      className="w-full py-8 md:py-20 max-w-5xl mx-auto flex flex-col"
+    >
+      <HeroSection />
+
+      <IntroSection />
+
       <Banner />
 
-      <div className="relative z-10 w-full py-8 md:py-20 px-8 md:px-10 lg:px-12 max-w-6xl mx-auto flex flex-col border-4 border-white rounded-sm">
-        <IntroSection />
+      <PillarSection />
 
-        <SelfMomentSection />
-
-        <PillarSection />
-
-        <PromisesSection />
-      </div>
+      <PromisesSection />
     </MainLayout>
   );
 }
