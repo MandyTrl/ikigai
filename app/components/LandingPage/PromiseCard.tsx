@@ -35,9 +35,8 @@ export const PromiseCard = ({
         fill
         priority
         className={clsx(
-          "object-cover object-bottom transition-[filter,opacity,transform] duration-500 ease-out",
+          "object-cover object-bottom transition-[filter,opacity] duration-500 ease-out",
           isDimmed ? "grayscale-[0.9] opacity-55" : "grayscale-0 opacity-100",
-          "group-hover:scale-[1.02]",
         )}
       />
 
@@ -49,7 +48,7 @@ export const PromiseCard = ({
       {/* Hover: panel slides up from bottom */}
       <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-6 bg-support border-t-2 border-accent">
         <p className="text-2xl mb-2">{promise.promise}</p>
-        <p className="text-base leading-6 text-primary/80">{promise.details}</p>
+        <p className="text-lg text-primary/80">{promise.details}</p>
       </div>
     </motion.div>
   );
