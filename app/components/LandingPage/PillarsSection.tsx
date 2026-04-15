@@ -7,6 +7,7 @@ import {
 import { NoteCard } from "./NoteCard";
 import { Title } from "../UI/Title";
 import { Button, ButtonSizeEnum } from "../UI/Button";
+import { AsciiKoi } from "../UI/AsciiKoi";
 
 export const PillarSection = () => {
   const pillars = [
@@ -41,38 +42,48 @@ export const PillarSection = () => {
   ];
 
   return (
-    <section className="mt-6 md:mt-20">
-      <div className="flex justify-between">
-        <div className="border-l-4 border-tertiary pl-6">
-          <Title
-            as="h3"
-            variant="h1"
-            text="Explorez les 4 piliers de l’Ikigai"
-          />
-          <p className="mt-3 text-xl text-primary/70">
-            et découvrez ce qui donne du sens à votre vie.
-          </p>
-        </div>
+    <section className="mt-6 md:mt-20 flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
+      {/* Header + CTA */}
+      <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">
+        <div className="flex justify-between items-start gap-6">
+          <div className="border-l-4 border-tertiary pl-6">
+            <Title
+              as="h3"
+              variant="h1"
+              text="Explorez les 4 piliers de l’Ikigai"
+            />
+            <p className="mt-3 text-xl text-primary/70">
+              et découvrez ce qui donne du sens à votre vie.
+            </p>
+          </div>
 
-        <div className="shrink-0 self-start">
-          <Button
-            title="Commencer le test"
-            isLink
-            href="/commencer"
-            size={ButtonSizeEnum.L}
-          />
+          <div className="shrink-0 self-start">
+            <Button
+              title="Commencer le test"
+              isLink
+              href="/commencer"
+              size={ButtonSizeEnum.L}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-2">
+          {/* Carpe Koi */}
+          <AsciiKoi />
+
+          <div className="flex flex-col gap-4">
+            {/* Cards */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {pillars.map((pillar) => (
+                <NoteCard key={pillar.title} pillar={pillar} />
+              ))}
+            </div>
+
+            <p className="font-andika text-xs tracking-widest text-accentbis uppercase text-center">
+              analyse assistée par gemini-2.5-flash
+            </p>
+          </div>
         </div>
       </div>
-
-      <div className="mt-6 md:mt-20 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {pillars.map((pillar) => (
-          <NoteCard key={pillar.title} pillar={pillar} />
-        ))}
-      </div>
-
-      <p className="mt-6 font-andika text-xs tracking-widest text-accentbis uppercase text-center">
-        analyse assistée par gemini-2.5-flash
-      </p>
     </section>
   );
 };

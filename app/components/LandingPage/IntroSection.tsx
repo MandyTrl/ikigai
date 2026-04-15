@@ -30,9 +30,9 @@ export const IntroSection = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="w-full flex flex-col gap-14 px-16"
+      className="w-full flex flex-col gap-14 px-16 pb-8 md:pb-20"
     >
-      <div className="w-full font-light flex flex-col gap-3 text-4xl">
+      <div className="w-full font-light flex flex-col gap-3 text-xl md:text-4xl">
         <p>
           Vos activités, votre travail vous procurent-ils de la{" "}
           <span className="underline underline-offset-4 decoration-3 decoration-tertiary">
@@ -53,6 +53,25 @@ export const IntroSection = () => {
       <div className="w-full flex gap-14 text-xl leading-relaxed">
         <AnimatedText content={firstContent} />
         <AnimatedText content={secondContent} />
+      </div>
+
+      <div className="w-full font-light flex flex-col gap-3 text-xl md:text-4xl">
+        <p>
+          Il peut être difficile dans notre quotidien de faire une{" "}
+          <span className="underline underline-offset-4 decoration-3 decoration-secondary">
+            pause
+          </span>{" "}
+          et de comprendre ce qui nous motive vraiment.
+        </p>
+
+        <p>
+          Pourtant, se poser les bonnes questions est essentiel pour aller dans
+          la{" "}
+          <span className="underline underline-offset-4 decoration-3 decoration-tertiary">
+            bonne direction
+          </span>
+          .
+        </p>
       </div>
     </motion.section>
   );

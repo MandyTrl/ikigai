@@ -1,21 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useMotionValue,
-  useAnimationFrame,
-} from "motion/react";
-
-// Swimming constants
-const SWIM_Y_AMP = 28; // px — vertical oscillation amplitude
-const SWIM_Y_FREQ = 0.4; // Hz — body undulation frequency
-const TAIL_AMP = 6; // deg — tail/skew swing amplitude
-const TAIL_FREQ = 0.8; // Hz — tail beats faster than body
-const ROTATE_AMP = 3.5; // deg — tilt follows body direction
+import { motion, useInView } from "motion/react";
 
 // ─── Koi carp ASCII art — Code Page 437 gradient (█▓▒░) ───
 
@@ -200,49 +186,31 @@ const KOI_ART = `
 `;
 
 export const AsciiKoi = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div
-      ref={containerRef}
-      className="pointer-events-none fixed inset-0 z-[1] overflow-hidden select-none"
-      aria-hidden="true"
-    >
-      {/* Koi fish — continuous autonomous swimming */}
+    <div ref={ref} className="overflow-hidden">
+      {/* Gentle float once revealed */}
       <motion.div
-        className="absolute"
-        style={{ top: "50%", left: "50%" }}
-        animate={{
-          x: ["-52%", "-48%", "-52%"],
-          y: ["-52%", "-48%", "-52%"],
-          rotate: [0, 1.2, -0.8, 1.2, 0],
-        }}
-        transition={{
-          x: { duration: 14, repeat: Infinity, ease: "easeInOut" },
-          y: {
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-            repeatType: "mirror",
-          },
-          rotate: {
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-          },
-        }}
+        animate={{ x: [0, -10, 0] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <pre
-          className="font-mono text-secondary/25 whitespace-pre"
+        <motion.pre
+          className="font-mono text-secondary/40 whitespace-pre pointer-events-none"
           style={{
-            fontSize: "4px",
-            lineHeight: "1.2",
+            fontSize: "3.5px",
+            lineHeight: "1.25",
             letterSpacing: "0.5px",
-            transform: "translate(-50%, -50%)",
           }}
+          initial={{ clipPath: "inset(0 0 100% 0)" }}
+          animate={{
+            clipPath: isInView ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)",
+          }}
+          transition={{ duration: 6.4, ease: [0.5, 1, 0.3, 1] }}
         >
           {KOI_ART}
-        </pre>
+        </motion.pre>
       </motion.div>
     </div>
   );

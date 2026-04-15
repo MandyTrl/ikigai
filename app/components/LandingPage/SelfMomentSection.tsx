@@ -5,19 +5,6 @@ import { Title } from "../UI/Title";
 export const SelfMomentSection = () => {
   return (
     <section className="w-full flex flex-col gap-6 md:gap-14">
-      <p className="px-16 text-xl md:text-4xl mx-auto font-light">
-        Il peut être difficile dans notre quotidien de faire une{" "}
-        <span className="underline underline-offset-4 decoration-3 decoration-secondary">
-          pause
-        </span>{" "}
-        et de comprendre ce qui nous motive vraiment. Pourtant, se poser les
-        bonnes questions est essentiel pour aller dans la{" "}
-        <span className="underline underline-offset-4 decoration-3 decoration-tertiary">
-          bonne direction
-        </span>
-        .
-      </p>
-
       {/* Image with enhanced retro-tech grid overlay */}
       <motion.div
         initial={{ opacity: 0 }}
