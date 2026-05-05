@@ -1,123 +1,129 @@
 "use client";
-import { motion } from "motion/react";
-import Image from "next/image";
+import { useRef, useEffect } from "react";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
+  animate,
+} from "motion/react";
 
 export const Banner = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
+
+  const progress = useMotionValue(0);
+  const smoothProgress = useSpring(progress, { stiffness: 30, damping: 25 });
+  const yPercent = useTransform(smoothProgress, [0, 1], [0, 50]);
+  const objectPosition = useMotionTemplate`50% ${yPercent}%`;
+
+  useEffect(() => {
+    if (isInView) {
+      animate(progress, 1, { duration: 1.8, ease: "easeOut" });
+    }
+  }, [isInView, progress]);
+
   return (
-    <section className="w-full flex flex-col gap-6 md:gap-14">
+    <section className="w-full flex flex-col gap-6 md:gap-14 mt-2">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative w-full h-[480px] overflow-hidden"
+        ref={ref}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative w-full h-[300px] md:h-[350px] overflow-hidden"
       >
-        <Image
+        {/* Image avec pan top -> center */}
+        <motion.img
           src="/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg"
           alt="Une femme japonaise contemplative dans un moment de calme"
-          fill
-          className="object-cover object-center"
-          priority
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition }}
         />
 
-        {/* Texte — centre dans la partie gauche visible de la frame */}
+        {/* Degrade haut — fondu progressif sur 60% de hauteur */}
         <div
-          className="pointer-events-none absolute z-[3] flex items-center justify-center backdrop-blur-xs border border-white"
+          className="pointer-events-none absolute inset-x-0 top-0 z-20"
           style={{
-            right: "320px",
-            top: "88px",
-            width: "800px",
-            height: "100px",
+            height: "20%",
+            background:
+              "linear-gradient(to bottom, bg-body 0%, #f5f2edcc 25%, #f5f2ed20 75%, transparent 100%)",
           }}
-        >
-          <p className="text-white text-2xl font-semibold tracking-wider">
-            Un moment pour soi
-          </p>
-        </div>
+        />
 
-        {/* SVG — grid + bordures uniquement */}
+        {/* Degrade bas — fondu progressif sur 60% de hauteur */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20"
+          style={{
+            height: "20%",
+            background:
+              "linear-gradient(to top, bg-body 0%, #f5f2edcc 25%, #f5f2ed20 75%, transparent 100%)",
+          }}
+        />
+
+        {/* SVG - grid + bordures */}
         <svg
           className="pointer-events-none absolute inset-0 z-10 w-full h-full"
-          viewBox="0 0 1440 480"
+          viewBox="0 0 800 400"
           preserveAspectRatio="xMidYMid slice"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* Masqueess de la grid + frame + clean border */}
             <mask id="maskGrid">
-              <rect width="1440" height="480" fill="white" />
-              <rect x="320" y="88" width="800" height="100" fill="black" />
-              <rect x="720" y="70" width="280" height="380" fill="black" />
+              <rect x="150" y="0" width="600" height="330" fill="white" />
+              <rect x="380" y="70" width="250" height="300" fill="black" />
             </mask>
           </defs>
 
-          {/* Grid */}
-          <g mask="url(#maskGrid)">
+          {/* <g mask="url(#maskGrid)">
             {Array.from({ length: 5 }, (_, i) => (
               <line
                 key={i}
                 x1="0"
-                y1={(i + 1) * 100}
-                x2="1440"
-                y2={(i + 1) * 100}
+                y1={(i + 1) * 90}
+                x2="650"
+                y2={(i + 1) * 90}
                 stroke="rgba(255,255,255,0.8)"
                 strokeWidth="0.8"
               />
             ))}
-            {Array.from({ length: 14 }, (_, i) => (
+
+            {Array.from({ length: 6 }, (_, i) => (
               <line
                 key={i}
-                x1={(i + 1) * 100}
-                y1="40"
-                x2={(i + 1) * 100}
-                y2="400"
+                x1={(i + 1) * 90}
+                y1="80"
+                x2={(i + 1) * 90}
+                y2="430"
                 stroke="rgba(255,255,255,0.8)"
                 strokeWidth="0.8"
               />
             ))}
-          </g>
+          </g> */}
 
-          {/* Border Frame */}
-          <g mask="url(#maskFrame)">
-            <rect
-              x="320"
-              y="88"
-              width="800"
-              height="100"
-              fill="none"
-              stroke="rgba(255,255,255,0.8)"
-              strokeWidth="6"
-            />
-          </g>
-
-          {/* Clean border — 1st plan */}
           <rect
-            x="720"
+            x="380"
             y="70"
-            width="280"
-            height="380"
+            width="250"
+            height="300"
             fill="none"
             stroke="rgba(255,255,255,0.85)"
-            strokeWidth="1"
+            strokeWidth="1.2"
           />
-
-          {/* Corners's clean border*/}
-          <circle cx="720" cy="70" r="2.5" fill="white" opacity="0.9" />
-          <circle cx="1000" cy="70" r="2.5" fill="white" opacity="0.9" />
-          <circle cx="720" cy="450" r="2.5" fill="white" opacity="0.9" />
-          <circle cx="1000" cy="450" r="2.5" fill="white" opacity="0.9" />
+          <circle cx="380" cy="70" r="3.5" fill="white" opacity="0.9" />
+          <circle cx="630" cy="70" r="3.5" fill="white" opacity="0.9" />
+          <circle cx="380" cy="370" r="3.5" fill="white" opacity="0.9" />
+          <circle cx="630" cy="370" r="3.5" fill="white" opacity="0.9" />
         </svg>
 
         {/* Corner markers */}
         <div className="pointer-events-none absolute inset-0 z-10">
-          <div className="absolute top-6 left-6 w-10 h-10 border-t border-l border-white/80" />
-          <div className="absolute top-6 right-6 w-10 h-10 border-t border-r border-white/80" />
-          <div className="absolute bottom-6 left-6 w-10 h-10 border-b border-l border-white/80" />
-          <div className="absolute bottom-6 right-6 w-10 h-10 border-b border-r border-white/80" />
+          <div className="absolute top-7 left-7 w-10 h-10 border-t-[1.2] border-l-[1.2] border-white" />
+          <div className="absolute top-7 right-7 w-10 h-10 border-t-[1.2] border-r-[1.2] border-white" />
+          <div className="absolute bottom-7 left-7 w-10 h-10 border-b-[1.2] border-l-[1.2] border-white" />
+          <div className="absolute bottom-7 right-7 w-10 h-10 border-b-[1.2] border-r-[1.2] border-white" />
         </div>
-
-        {/* Bottom gradient */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-primary/25 to-transparent z-[5]" />
       </motion.div>
     </section>
   );

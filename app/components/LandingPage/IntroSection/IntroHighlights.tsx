@@ -1,10 +1,10 @@
 "use client";
-import { ReactNode } from "react";
 import { motion } from "motion/react";
+import { HighLightText } from "../../UI/HighlightText";
+import { AsciiSakura } from "../../UI/AsciiSakura";
 
 type IntroHighlightsProps = {
   isInView: boolean;
-  children: ReactNode;
 };
 
 const fadeIn = (isInView: boolean, delay: number) => ({
@@ -13,45 +13,32 @@ const fadeIn = (isInView: boolean, delay: number) => ({
   transition: { duration: 0.55, delay, ease: "easeOut" as const },
 });
 
-export const IntroHighlights = ({ isInView, children }: IntroHighlightsProps) => (
-  <>
-    <div className="w-full font-light flex flex-col gap-3 text-xl md:text-4xl">
+export const IntroHighlights = ({ isInView }: IntroHighlightsProps) => (
+  <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 md:gap-12 xl:gap-16 items-center">
+    <div className="w-full font-light flex flex-col gap-5 md:gap-7 text-xl md:text-2xl xl:text-3xl">
       <motion.p {...fadeIn(isInView, 0.6)}>
         Vos activités, votre travail vous procurent-ils de la{" "}
-        <span className="underline underline-offset-4 decoration-3 decoration-tertiary">
-          joie
-        </span>{" "}
-        ?
+        <HighLightText content="joie" mode="tertiary" />?
       </motion.p>
 
       <motion.p {...fadeIn(isInView, 0.75)}>
-        Êtes-vous en quête de{" "}
-        <span className="underline underline-offset-4 decoration-3 decoration-secondary">
-          sens
-        </span>{" "}
+        Êtes-vous en quête de <HighLightText content="sens" mode="secondary" />{" "}
         ou en réflexion sur votre avenir professionnel ?
       </motion.p>
-    </div>
 
-    {children}
-
-    <div className="w-full font-light flex flex-col gap-3 text-xl md:text-4xl">
       <motion.p {...fadeIn(isInView, 1.1)}>
         Il peut être difficile dans notre quotidien de faire une{" "}
-        <span className="underline underline-offset-4 decoration-3 decoration-secondary">
-          pause
-        </span>{" "}
-        et de comprendre ce qui nous motive vraiment.
+        <HighLightText content="pause" mode="tertiary" /> et de comprendre ce
+        qui nous motive vraiment.
       </motion.p>
 
       <motion.p {...fadeIn(isInView, 1.25)}>
-        Pourtant, se poser les bonnes questions est essentiel pour aller dans
-        la{" "}
-        <span className="underline underline-offset-4 decoration-3 decoration-tertiary">
-          bonne direction
-        </span>
-        .
+        Pourtant, se poser les bonnes questions est essentiel pour aller dans la{" "}
+        <HighLightText content="bonne direction" mode="secondary" />.
       </motion.p>
     </div>
-  </>
+    <div className="w-full max-h-[280px] md:max-h-[400px] xl:max-h-[500px] overflow-hidden">
+      <AsciiSakura />
+    </div>
+  </div>
 );

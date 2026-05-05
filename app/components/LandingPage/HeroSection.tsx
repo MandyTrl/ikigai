@@ -5,7 +5,7 @@ import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
 
 export const HeroSection = () => {
   return (
-    <section className="w-full flex items-start justify-between gap-5 mb-8 md:mb-14 xl:mb-20 bg-secondary/10 p-10">
+    <section className="w-full flex items-start justify-between gap-5 mb-8 md:mb-14 xl:mb-20 bg-secondary/10 p-6 md:p-10">
       {/* Left: question */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -26,7 +26,7 @@ export const HeroSection = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.8, duration: 0.5 }}
+        transition={{ delay: 1.8, duration: 0.5 }}
         className="flex shrink-0 flex-col gap-4 md:items-end items-center"
       >
         <Button

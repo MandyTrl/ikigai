@@ -49,7 +49,7 @@ export const PillarSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="mt-6 md:mt-20 flex flex-col lg:flex-row items-start gap-8 lg:gap-12"
+      className="mt-12 md:mt-20 flex flex-col lg:flex-row items-start gap-8 lg:gap-12"
     >
       {/* Header + CTA */}
       <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">

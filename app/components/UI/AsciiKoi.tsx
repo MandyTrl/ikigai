@@ -212,7 +212,7 @@ export const AsciiKoi = () => {
           animate={{
             clipPath: isInView ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)",
           }}
-          transition={{ duration: 5.5, ease: [0.6, 1, 0.3, 1] }}
+          transition={{ duration: 4.5, ease: [0.6, 1, 0.3, 1] }}
         >
           {KOI_ART}
         </motion.pre>
