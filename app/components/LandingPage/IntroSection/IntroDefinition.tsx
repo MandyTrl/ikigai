@@ -1,7 +1,5 @@
 "use client";
 import { motion } from "motion/react";
-import { Banner } from "../Banner";
-import { AsciiSakura } from "../../UI/AsciiSakura";
 
 type IntroDefinitionProps = {
   isInView: boolean;
@@ -14,9 +12,7 @@ const fadeIn = (isInView: boolean, delay: number) => ({
 });
 
 export const IntroDefinition = ({ isInView }: IntroDefinitionProps) => (
-  <div className="flex flex-col gap-4 md:gap-5 text-base md:text-lg max-w-2xl">
-    {/* <Banner /> */}
-
+  <div className="w-screen flex flex-col gap-4 md:gap-5 text-base md:text-xl border border-secondary/10 bg-hero p-28 rounded-sm">
     <motion.p {...fadeIn(isInView, 0.9)} className="leading-relaxed">
       L&apos;ikigai est une <strong>philosophie japonaise</strong> qui repose
       sur l&apos;alignement avec soi-même en identifiant ce qui vous anime

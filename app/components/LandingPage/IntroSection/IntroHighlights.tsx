@@ -37,6 +37,7 @@ export const IntroHighlights = ({ isInView }: IntroHighlightsProps) => (
         <HighLightText content="bonne direction" mode="secondary" />.
       </motion.p>
     </div>
+
     <div className="w-full max-h-[280px] md:max-h-[400px] xl:max-h-[500px] overflow-hidden">
       <AsciiSakura />
     </div>
