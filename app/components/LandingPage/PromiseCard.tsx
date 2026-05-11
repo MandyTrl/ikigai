@@ -1,9 +1,6 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import {
-  AsteriskIcon,
-  AsteriskSimpleIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { AsteriskIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiPromise } from "../../utils/datas/ikigaiPromises";
 import clsx from "clsx";
 

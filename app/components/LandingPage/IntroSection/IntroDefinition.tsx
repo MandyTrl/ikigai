@@ -12,7 +12,7 @@ const fadeIn = (isInView: boolean, delay: number) => ({
 });
 
 export const IntroDefinition = ({ isInView }: IntroDefinitionProps) => (
-  <div className="w-screen flex flex-col gap-4 md:gap-5 text-base md:text-xl border border-secondary/10 bg-hero p-28 rounded-sm">
+  <div className="w-screen flex flex-col gap-4 md:gap-5 text-base md:text-xl border border-secondary/20 p-28 rounded-sm bg-accentbis/10">
     <motion.p {...fadeIn(isInView, 0.9)} className="leading-relaxed">
       L&apos;ikigai est une <strong>philosophie japonaise</strong> qui repose
       sur l&apos;alignement avec soi-même en identifiant ce qui vous anime

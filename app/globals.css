@@ -70,34 +70,6 @@
     }
   }
 
-  .mask-fade-bottom {
-    -webkit-mask-image: linear-gradient(to top, var(--primary), transparent);
-    mask-image: linear-gradient(to top, var(--primary), transparent);
-  }
-
-  .shadow-rainbow {
-    box-shadow:
-      0 -10px 30px var(--secondary),
-      -10px 0 30px var(--tertiary),
-      0 10px 30px var(--accent),
-      10px 0 30px var(--accentbis);
-  }
-
-  .bg-rainbow {
-    background: var(--bg-body);
-  }
-
-  .loader-pulse {
-    animation: shimmer 2s infinite;
-    background: linear-gradient(
-      90deg,
-      var(--support),
-      var(--accent),
-      var(--support)
-    );
-    background-size: 1000px 100%;
-  }
-
   .glow-accent {
     animation: glow 2s ease-in-out infinite;
   }

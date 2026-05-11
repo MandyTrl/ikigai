@@ -9,7 +9,7 @@ export const ikigaiPromises: IkigaiPromise[] = [
     promise: "Plus de clarté",
     details:
       "En ayant une meilleure compréhension de vos envies et de vos forces.",
-    img: "/japanese-illustrations/art-institute-of-chicago-zNXMHFOf6yU-unsplash.jpg",
+    img: "/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg",
   },
   {
     promise: "Une opportunité",

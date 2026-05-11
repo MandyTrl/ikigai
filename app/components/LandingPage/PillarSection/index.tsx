@@ -53,7 +53,7 @@ export const PillarSection = () => {
     >
       {/* Header + CTA */}
       <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">
-        <div className="flex justify-between items-start gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
           <div className="border-l-4 border-tertiary pl-6">
             <Title
               as="h3"
@@ -65,7 +65,7 @@ export const PillarSection = () => {
             </p>
           </div>
 
-          <div className="shrink-0 self-start">
+          <div className="shrink-0 md:self-start">
             <Button
               title="Commencer le test"
               isLink
@@ -74,6 +74,7 @@ export const PillarSection = () => {
             />
           </div>
         </div>
+
         <div className="grid grid-cols-2">
           {/* Carpe Koi */}
           <AsciiKoi />

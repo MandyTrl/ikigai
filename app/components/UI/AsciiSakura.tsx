@@ -125,7 +125,7 @@ export const AsciiSakura = () => {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <div ref={ref} className="overflow-hidden">
+    <div ref={ref} className="overflow-hidden [zoom:0.47] md:[zoom:1]">
       <motion.pre
         className="font-mono whitespace-pre text-secondary/40"
         style={{
