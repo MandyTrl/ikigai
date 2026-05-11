@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Arima, Andika } from "next/font/google";
+import { Arima } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "./context";
 
@@ -8,7 +8,7 @@ const arima = Arima({
   style: ["normal"],
   subsets: ["latin"],
   variable: "--font-arima",
-  display: "swap", // permet d'éviter le FOUT (Flash of Unstyled Text) qui se produit lorsqu'une police met du temps à charger (switch de la police par défaut du navigateur à celle de notre app)
+  display: "swap", // permet d'éviter le FOUT (Flash of Unstyled Text) qui se produit lorsqu'une police met du temps à charger (switch de la police par défaut du navigateur à celle de l'app)
 });
 
 export const metadata: Metadata = {

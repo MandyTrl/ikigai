@@ -8,7 +8,7 @@ export const Navbar = () => {
         <Image
           src={"/assets/logos/submark-ikigai.svg"}
           alt="icone du logo d'Ikig-ai"
-          width={150}
+          width={120}
           height={0}
           priority
         />
