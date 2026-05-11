@@ -28,11 +28,8 @@ export const IntroHighlights = ({ isInView }: IntroHighlightsProps) => (
       <motion.p {...fadeIn(isInView, 1.1)}>
         Il peut être difficile dans notre quotidien de faire une{" "}
         <HighLightText content="pause" mode="tertiary" /> et de comprendre ce
-        qui nous motive vraiment.
-      </motion.p>
-
-      <motion.p {...fadeIn(isInView, 1.25)}>
-        Pourtant, se poser les bonnes questions est essentiel pour aller dans la{" "}
+        qui nous motive vraiment. Pourtant, se poser les bonnes questions est
+        essentiel pour aller dans la{" "}
         <HighLightText content="bonne direction" mode="secondary" />.
       </motion.p>
     </div>

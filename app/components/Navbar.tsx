@@ -9,7 +9,8 @@ export const Navbar = () => {
           src={"/assets/logos/submark-ikigai.svg"}
           alt="icone du logo d'Ikig-ai"
           width={120}
-          height={0}
+          height={43}
+          style={{ height: "auto" }}
           priority
         />
       </Link>

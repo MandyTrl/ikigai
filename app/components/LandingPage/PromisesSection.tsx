@@ -29,7 +29,8 @@ export const PromisesSection = () => {
           src={"/assets/logos/submark-ikigai.svg"}
           alt="icone du logo d'Ikig-ai"
           width={150}
-          height={0}
+          height={54}
+          style={{ height: "auto" }}
           priority
         />
       </div>

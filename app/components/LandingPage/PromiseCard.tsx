@@ -38,6 +38,7 @@ export const PromiseCard = ({
         src={promise.img}
         alt={promise.promise}
         fill
+        sizes="(max-width: 768px) 100vw, 33vw"
         priority
         className={clsx(
           "object-cover object-bottom transition-[filter,opacity] duration-500 ease-out",

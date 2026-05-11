@@ -80,7 +80,8 @@ export const YourIkigaiLayout = () => {
             src={"/assets/logos/logo-variant.svg"}
             alt="icone du logo d'Ikig-ai"
             width={50}
-            height={0}
+            height={50}
+            style={{ height: "auto" }}
             priority
           />
         </Link>
