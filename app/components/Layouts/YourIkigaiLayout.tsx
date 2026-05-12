@@ -86,7 +86,11 @@ export const YourIkigaiLayout = () => {
           />
         </Link>
 
-        <Title as="h2" text="Bienvenue dans votre ikigai" className="font-[200] text-4xl tracking-tight" />
+        <Title
+          as="h2"
+          text="Bienvenue dans votre ikigai"
+          className="font-[200] text-4xl tracking-tight"
+        />
       </div>
 
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
@@ -99,11 +103,11 @@ export const YourIkigaiLayout = () => {
 
           <div className="flex flex-col gap-y-2">
             <p>
-              Dans le panel qui se trouve à gauche vous avez la visualisation
-              de l&apos;ikigai dans son format le plus connu: le diagramme de
-              Venn. Il se compose des{" "}
-              <span className="underline underline-offset-2">4 piliers</span>{" "}
-              de l&apos;ikigai:
+              Dans le panel qui se trouve à gauche vous avez la visualisation de
+              l&apos;ikigai dans son format le plus connu: le diagramme de Venn.
+              Il se compose des{" "}
+              <span className="underline underline-offset-2">4 piliers</span> de
+              l&apos;ikigai:
             </p>
 
             <MainstayList />
@@ -117,7 +121,7 @@ export const YourIkigaiLayout = () => {
           {canAnalyzeIkigai(ikigaiForm) && (
             <div className="flex flex-col gap-3">
               <Button
-                title={
+                label={
                   hasCachedCurrentAnalysis
                     ? "Voir mon analyse"
                     : isAnalyzing

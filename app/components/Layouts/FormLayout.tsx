@@ -29,7 +29,7 @@ export const FormLayout = () => {
 
       <div
         id="form-layout-container"
-        className="flex flex-col gap-4 border border-secondary rounded-xs bg-white"
+        className="flex flex-col gap-8 md:gap-12"
       >
         <FormGuidelines />
         <FormTextArea

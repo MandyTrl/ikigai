@@ -28,9 +28,9 @@ export const FormGuidelines = () => {
   if (!mainstayInfoFound || !selectedMainstay) return null;
 
   return (
-    <div className="flex-5 relative">
+    <div>
       <div
-        className="p-[2.5rem] pb-2"
+        className="pb-1.5"
         style={{
           backgroundImage: isIkigaiPillarStep(mainstayInfoFound.mainstay)
             ? colorMap[mainstayInfoFound.mainstay]
@@ -47,13 +47,13 @@ export const FormGuidelines = () => {
           <Title text={mainstayInfoFound.title} />
         </section>
 
-        <section className="flex text-slate-700 gap-x-5 my-4 text-sm">
+        <section className="flex flex-col sm:flex-row text-slate-600 gap-y-1 sm:gap-x-5 text-xs md:text-sm mt-1">
           <div className="flex items-center gap-x-1">
-            <ClockIcon size={20} color="#62748e" weight="bold" />
+            <ClockIcon size={16} color="#62748e" weight="bold" />
             <p>Temps de lecture: {mainstayInfoFound.readingTime}</p>
           </div>
           <div className="flex items-center gap-x-1">
-            <ClockIcon size={20} color="#62748e" weight="bold" />
+            <ClockIcon size={16} color="#62748e" weight="bold" />
             <p>
               Temps de réflection estimée: {mainstayInfoFound.reflectionTime}
             </p>
@@ -61,7 +61,7 @@ export const FormGuidelines = () => {
         </section>
       </div>
 
-      <p className="text-slate-700 p-[2.5rem] pt-4 pb-0">
+      <p className="text-slate-700 text-sm md:text-base leading-relaxed pt-3">
         {mainstayInfoFound.sectionDescription}
       </p>
     </div>

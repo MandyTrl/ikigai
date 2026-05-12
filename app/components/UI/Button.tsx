@@ -14,7 +14,7 @@ export enum ButtonVariantEnum {
 }
 
 type ButtonProps = {
-  title: string;
+  label: string;
   isLink?: boolean;
   href?: string;
   size?: ButtonSizeEnum;
@@ -24,7 +24,7 @@ type ButtonProps = {
 };
 
 export const Button = ({
-  title,
+  label,
   isLink,
   href,
   size = ButtonSizeEnum.S,
@@ -38,7 +38,7 @@ export const Button = ({
   const isPrimary = variant === ButtonVariantEnum.Primary;
 
   const buttonStyle = clsx(
-    "group relative flex w-fit items-center justify-between overflow-hidden cursor-pointer border rounded-sm",
+    "group relative flex w-fit h-fit items-center justify-between overflow-hidden cursor-pointer border rounded-sm",
     "transition-all duration-400 ease-in-out",
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tertiary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-support",
 
@@ -54,8 +54,8 @@ export const Button = ({
       "active:shadow-none",
     ],
 
-    disabled &&
-      "cursor-not-allowed opacity-40 hover:shadow-none hover:border-primary/30 hover:bg-transparent",
+    disabled && isPrimary && "cursor-not-allowed opacity-40 hover:shadow-none",
+    disabled && !isPrimary && "pointer-events-none cursor-default opacity-40",
   );
 
   const textStyle = clsx(
@@ -83,7 +83,7 @@ export const Button = ({
 
   const buttonContent = (
     <>
-      <span className={textStyle}>{title}</span>
+      <span className={textStyle}>{label}</span>
       <span className={iconWrapperStyle}>
         <CaretRightIcon size={iconSize} weight="thin" className={iconStyle} />
       </span>

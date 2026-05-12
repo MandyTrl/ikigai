@@ -64,7 +64,7 @@ export const PillarIntroduction = ({ onClose }: PillarIntroductionProps) => {
       )}
 
       <Button
-        title={isInProgress ? "Continuer l'exploration" : "Explorer ce pilier"}
+        label={isInProgress ? "Continuer l'exploration" : "Explorer ce pilier"}
         onClick={handleClick}
         size={ButtonSizeEnum.S}
       />

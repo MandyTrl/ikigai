@@ -67,7 +67,7 @@ export const PillarSection = () => {
 
           <div className="shrink-0 md:self-start">
             <Button
-              title="Commencer le test"
+              label="Commencer le test"
               isLink
               href="/commencer"
               size={ButtonSizeEnum.L}

@@ -17,6 +17,7 @@ import {
   isPillarCompleteForAnalysis,
 } from "@/app/utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
+import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
 
 export const EMPTY_ANSWERS = ["", "", ""];
 
@@ -116,67 +117,69 @@ export const FormTextArea = ({
   };
 
   return (
-    <div className="flex flex-col gap-6 p-[2.5rem] pt-0">
-      <div className="flex flex-col gap-1 text-slate-500">
-        <p className="text-lg">{answeredCount}/3 réponses renseignées</p>
-
-        <p className="text-sm">
-          Il faut au moins 2 réponses remplies pour valider ce pilier.
-        </p>
-
-        {isCurrentPillarComplete && (
-          <p className="text-sm text-green-700">
-            Ce pilier est prêt pour l’analyse.
-          </p>
-        )}
-      </div>
-
-      <>
-        <div key={questionIndex} className="flex flex-col gap-2">
-          <div className="flex flex-col gap-1">
-            <label className="text-2xl font-medium">{question.question}</label>
-            <span>{question.details}</span>
-          </div>
-
-          <textarea
-            id={mainstayInfoFound.mainstay}
-            name={mainstayInfoFound.mainstay}
-            value={answers[questionIndex]}
-            onChange={(e) => handleChange(e.target.value)}
-            placeholder="Votre réponse..."
-            rows={6}
-            autoComplete="off"
-            autoCapitalize="sentences"
-            wrap="hard"
-            className="w-full min-h-1/2 h-full p-5 inset-shadow-lg border border-secondary/80 focus:border-secondary focus:outline-none focus:bg-secondary/10 resize-none mt-5 rounded-2xl duration-200 ease-in-out transition-all selection:bg-secondary/40 active::bg-secondary/40"
-          />
-
-          <p
-            className={clsx(
-              errorMsg
-                ? "opacity-100 translate-y-2"
-                : "opacity-0 translate-y-0",
-              "text-red-600 font-andika text-sm min-h-5 ml-2 transition-all duration-300 ease-out",
-            )}
-          >
-            {errorMsg}
-          </p>
+    <div className="flex flex-col gap-6">
+      <div key={questionIndex} className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
+          <label className="text-xl md:text-2xl font-medium leading-snug">
+            {question.question}
+          </label>
+          <span className="text-sm md:text-base text-slate-600">
+            {question.details}
+          </span>
         </div>
 
         {mainstayInfoFound.help[questionIndex] && (
           <Collapse items={[mainstayInfoFound.help[questionIndex]]} />
         )}
 
-        <button
-          onClick={handleNext}
-          className={
-            "mt-4 px-5 py-3 bg-secondary rounded-xl cursor-pointer text-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-auto hover:opacity-85 transition-opacity duration-100 ease-in"
-          }
-          disabled={!isCurrentPillarComplete}
+        <textarea
+          id={mainstayInfoFound.mainstay}
+          name={mainstayInfoFound.mainstay}
+          value={answers[questionIndex]}
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder="Votre réponse..."
+          rows={6}
+          autoComplete="off"
+          autoCapitalize="sentences"
+          wrap="hard"
+          className="w-full p-4 inset-shadow-lg border border-secondary/80 rounded-2xl focus:border-secondary focus:outline-none focus:bg-white/70 resize-none mt-2 duration-200 ease-in-out transition-all bg-white/50 selection:bg-white/70 active::bg-white/70"
+        />
+
+        <p
+          className={clsx(
+            errorMsg ? "opacity-100 translate-y-2" : "opacity-0 translate-y-0",
+            "text-red-600 font-andika text-sm min-h-5 ml-2 transition-all duration-300 ease-out",
+          )}
         >
-          Terminer ce pilier
-        </button>
-      </>
+          {errorMsg}
+        </p>
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-secondary/15">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="font-mono text-xs tracking-widest uppercase text-secondary/85">
+            <span className="text-tertiary">{"// "}</span>
+            {answeredCount}/3 réponses
+          </span>
+
+          {isCurrentPillarComplete && (
+            <span className="flex items-center gap-1 text-sm text-emerald-700">
+              <CheckCircleIcon size={14} weight="fill" />
+              prêt pour l’analyse
+            </span>
+          )}
+        </div>
+
+        <div className="flex justify-end">
+          <Button
+            onClick={handleNext}
+            disabled={!isCurrentPillarComplete}
+            label="Terminer ce pilier"
+            size={ButtonSizeEnum.S}
+            variant={ButtonVariantEnum.Outline}
+          />
+        </div>
+      </div>
     </div>
   );
 };

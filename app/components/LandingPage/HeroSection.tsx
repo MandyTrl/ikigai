@@ -30,7 +30,7 @@ export const HeroSection = () => {
         className="flex shrink-0 flex-col gap-4 items-center"
       >
         <Button
-          title="Trouver son ikigai"
+          label="Trouver son ikigai"
           isLink
           href="/commencer"
           size={ButtonSizeEnum.L}
