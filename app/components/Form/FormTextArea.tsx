@@ -6,7 +6,6 @@ import {
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
 import clsx from "clsx";
-import { Collapse } from "../UI/Collapse";
 import {
   getFilledAnswersCount,
   isPillarCompleteForAnalysis,
@@ -14,6 +13,8 @@ import {
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
 import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
 import { Title } from "../UI/Title";
+import { FormHelp } from "./FormHelp";
+import { Collapse } from "../UI/Collapse";
 
 export const EMPTY_ANSWERS = ["", "", ""];
 
@@ -114,18 +115,21 @@ export const FormTextArea = ({
 
   return (
     <div className="flex flex-col gap-6">
-      <div key={questionIndex} className="flex flex-col gap-2">
+      <div key={questionIndex} className="flex flex-col gap-5">
         <div className="flex flex-col gap-1">
           <Title variant="h3" as="h2" text={question.question} />
 
-          <span className="text-sm md:text-base text-slate-600">
-            {question.details}
-          </span>
+          <span className="text-sm md:text-base">{question.details}</span>
         </div>
 
         {mainstayInfoFound.help[questionIndex] && (
-          <Collapse items={[mainstayInfoFound.help[questionIndex]]} />
+          <FormHelp help={mainstayInfoFound.help[questionIndex]} />
         )}
+
+        <Collapse
+          label="à propos de ce pilier"
+          content={mainstayInfoFound.sectionDescription}
+        />
 
         <textarea
           id={mainstayInfoFound.mainstay}
@@ -137,7 +141,7 @@ export const FormTextArea = ({
           autoComplete="off"
           autoCapitalize="sentences"
           wrap="hard"
-          className="w-full p-4 border border-secondary/25 rounded-sm focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/60 resize-none mt-2 duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35 placeholder:font-mono placeholder:text-sm"
+          className="w-full p-4 border border-secondary/25 rounded-sm focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/50 resize-none mt-2 duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35 placeholder:font-mono placeholder:text-sm"
         />
 
         <p
@@ -150,29 +154,14 @@ export const FormTextArea = ({
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="font-mono text-xs tracking-widest uppercase text-secondary/85">
-            <span className="text-tertiary">{"// "}</span>
-            {answeredCount}/3 réponses
-          </span>
-
-          {isCurrentPillarComplete && (
-            <span className="font-mono text-[10px] tracking-widest uppercase text-neon/80">
-              — complet
-            </span>
-          )}
-        </div>
-
-        <div className="flex justify-end">
-          <Button
-            onClick={handleNext}
-            disabled={!isCurrentPillarComplete}
-            label="Terminer ce pilier"
-            size={ButtonSizeEnum.S}
-            variant={ButtonVariantEnum.Outline}
-          />
-        </div>
+      <div className="flex justify-end">
+        <Button
+          onClick={handleNext}
+          disabled={!isCurrentPillarComplete}
+          label="Terminer ce pilier"
+          size={ButtonSizeEnum.S}
+          variant={ButtonVariantEnum.Outline}
+        />
       </div>
     </div>
   );

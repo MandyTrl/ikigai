@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { FormGuidelines } from "../Form/FormGuidelines";
+import { FormDelay } from "../Form/FormDelay";
 import { EMPTY_ANSWERS, FormTextArea } from "../Form/FormTextArea";
 import { FormHeader } from "../Form/FormHeader";
 import { QuestionSideNav } from "../Form/QuestionSideNav";
@@ -24,7 +24,7 @@ export const FormLayout = () => {
     <div className="max-w-[45rem] mx-auto py-8 md:py-14 px-4">
       <FormHeader />
 
-      {/* Sidenav flotte dans la gouttière gauche, hors du flux du contenu */}
+      {/* Sidenav */}
       <div className="relative">
         <div className="absolute right-full top-0 pr-10 hidden lg:block">
           <QuestionSideNav
@@ -35,7 +35,7 @@ export const FormLayout = () => {
         </div>
 
         <div className="flex flex-col gap-8 md:gap-10">
-          <FormGuidelines />
+          <FormDelay />
 
           <FormTextArea
             questionIndex={questionIndex}

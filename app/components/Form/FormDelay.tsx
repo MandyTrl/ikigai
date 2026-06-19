@@ -1,4 +1,5 @@
 "use client";
+
 import { useContext } from "react";
 import { IkigaiContext, IkigaiForm } from "@/app/context/IkigaiContext";
 import {
@@ -7,7 +8,7 @@ import {
 } from "@/app/utils/datas/ikigaiMainstay";
 import { ClockIcon } from "@phosphor-icons/react/dist/ssr";
 
-export const FormGuidelines = () => {
+export const FormDelay = () => {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
 
   const selectedMainstay: IkigaiForm | undefined = ikigaiForm.find(
@@ -22,23 +23,31 @@ export const FormGuidelines = () => {
 
   return (
     <div>
-      <section className="flex flex-col sm:flex-row text-slate-600 gap-y-1 sm:gap-x-5 text-xs md:text-sm">
+      <section className="flex flex-col sm:flex-row text-accentbis gap-y-1 sm:gap-x-5 text-xs md:text-sm border-b border-secondary/15 pt-4 pb-2">
         <div className="flex items-center gap-x-1">
-          <ClockIcon size={16} color="currentColor" weight="bold" />
-          <p>Temps de lecture: {mainstayInfoFound.readingTime}</p>
+          <ClockIcon
+            size={16}
+            color="currentColor"
+            weight="bold"
+            className="mb-[2px]"
+          />
+          <p className="italic">
+            Temps de lecture: {mainstayInfoFound.readingTime}
+          </p>
         </div>
 
         <div className="flex items-center gap-x-1">
-          <ClockIcon size={16} color="currentColor" weight="bold" />
-          <p>Temps de réflection estimée: {mainstayInfoFound.reflectionTime}</p>
+          <ClockIcon
+            size={16}
+            color="currentColor"
+            weight="bold"
+            className="mb-[2px]"
+          />
+          <p className="italic">
+            Temps de réflexion estimée: {mainstayInfoFound.reflectionTime}
+          </p>
         </div>
       </section>
-
-      <div className="bg-secondary/15 w-full h-px mt-4 mb-5" />
-
-      <p className="text-slate-700 text-sm md:text-base leading-relaxed">
-        {mainstayInfoFound.sectionDescription}
-      </p>
     </div>
   );
 };

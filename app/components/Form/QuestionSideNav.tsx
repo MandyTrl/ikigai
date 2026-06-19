@@ -29,56 +29,61 @@ export const QuestionSideNav = ({
               onClick={() => onQuestionChange(index)}
               aria-current={isActive ? "step" : undefined}
               aria-label={`Question ${index + 1}`}
-              className="group flex items-center gap-2.5 cursor-pointer"
+              className={clsx(
+                "group flex items-center gap-2.5 cursor-pointer rounded px-2 py-1 -mx-2 transition-colors duration-200",
+                isActive ? "bg-accent/50" : "hover:bg-secondary/8",
+              )}
             >
               {/* Number */}
               <span
                 className={clsx(
                   "w-5 text-right shrink-0 transition-colors duration-200",
-                  isActive && "text-secondary",
+                  isActive && "text-neon/80",
                   isCompleted &&
                     !isActive &&
                     "text-emerald-700/70 group-hover:text-emerald-700/90",
                   !isCompleted &&
                     !isActive &&
-                    "text-secondary/45 group-hover:text-secondary/60",
+                    "text-secondary/35 group-hover:text-secondary/50",
                 )}
               >
                 {number}
               </span>
 
               {/* Circle indicator */}
-              <div
-                className={clsx(
-                  "w-2.5 h-2.5 rounded-full shrink-0 border transition-all duration-300",
-                  isActive && "bg-secondary/50 border-transparent",
-                  isCompleted &&
-                    !isActive &&
-                    "bg-emerald-600/60 border-transparent group-hover:bg-emerald-600/80",
-                  !isCompleted &&
-                    !isActive &&
-                    "bg-transparent border-secondary/40 group-hover:border-secondary/40",
-                )}
-              />
+              <div className="relative shrink-0 w-2.5 h-2.5">
+                <div
+                  className={clsx(
+                    "w-2.5 h-2.5 rounded-full border transition-all duration-300",
+                    isActive && "bg-neon border-transparent",
+                    isCompleted &&
+                      !isActive &&
+                      "bg-emerald-600/60 border-transparent group-hover:bg-emerald-600/80",
+                    !isCompleted &&
+                      !isActive &&
+                      "bg-transparent border-secondary/35 group-hover:border-secondary/55",
+                  )}
+                />
+              </div>
 
               {/* Status */}
               <span
                 className={clsx(
                   "inline-flex text-[10px] tracking-widest uppercase items-center gap-1 whitespace-nowrap transition-colors duration-200",
-                  isActive && "text-secondary",
+                  isActive && "text-neon/80",
                   isCompleted &&
                     !isActive &&
                     "text-emerald-700/65 group-hover:text-emerald-700/85",
                   !isCompleted &&
                     !isActive &&
-                    "text-secondary/40 group-hover:text-secondary/55",
+                    "text-secondary/35 group-hover:text-secondary/50",
                 )}
               >
                 {isActive && "en cours"}
                 {isCompleted && !isActive && (
                   <>
                     <CheckIcon size={8} weight="bold" />
-                    remplie
+                    complété
                   </>
                 )}
                 {!isCompleted && !isActive && "à faire"}

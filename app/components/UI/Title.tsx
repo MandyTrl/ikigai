@@ -15,7 +15,7 @@ const variantStyles: Record<TitleVariant, string> = {
   display: "text-5xl font-medium leading-tight tracking-tight",
   h1: "text-3xl md:text-4xl font-medium leading-tight tracking-tight",
   h2: "text-2xl md:text-3xl font-medium leading-tight tracking-tight",
-  h3: "text-xl md:text-2xl font-medium leading-snug tracking-tight",
+  h3: "text-xl md:text-2xl leading-snug tracking-tight",
   formTitle: "text-xl font-bold",
 };
 
