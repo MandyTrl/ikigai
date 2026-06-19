@@ -150,7 +150,7 @@ export const FormTextArea = ({
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-secondary/15">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span className="font-mono text-xs tracking-widest uppercase text-secondary/85">
             <span className="text-tertiary">{"// "}</span>

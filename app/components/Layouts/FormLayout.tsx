@@ -34,15 +34,8 @@ export const FormLayout = () => {
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-8 md:gap-10">
           <FormGuidelines />
-
-          <div className="flex items-center gap-3 my-6 md:my-8">
-            <span className="font-mono text-[10px] tracking-widest text-secondary/40 shrink-0">
-              {"//"}
-            </span>
-            <div className="flex-1 border-t border-secondary/20 border-dashed" />
-          </div>
 
           <FormTextArea
             questionIndex={questionIndex}

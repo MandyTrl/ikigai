@@ -34,7 +34,9 @@ export const FormGuidelines = () => {
         </div>
       </section>
 
-      <p className="text-slate-700 text-sm md:text-base leading-relaxed pt-3">
+      <div className="bg-secondary/15 w-full h-px mt-4 mb-5" />
+
+      <p className="text-slate-700 text-sm md:text-base leading-relaxed">
         {mainstayInfoFound.sectionDescription}
       </p>
     </div>
