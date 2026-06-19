@@ -56,17 +56,17 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
     tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 3 et 5 activités ou tâches qui vous plaisent vraiment.",
     help: [
       {
-        question: "Repensez à votre enfance ou adolescence :",
+        question: "Repensez à votre enfance ou adolescence",
         details:
           "Quelles étaient les activités qui vous passionnaient spontanément ? Aviez-vous des centres d'intérêt que vous avez mis de côté avec le temps ?",
       },
       {
-        question: "Observez votre routine quotidienne : ",
+        question: "Observez votre routine quotidienne",
         details:
           "Y a-t-il des moments que vous appréciez particulièrement, même s’ils semblent anodins ? (Exemple : Vous aimez jardiner avec vos proches ? Ce n'est peut-être pas le jardinage en soi, mais plutôt le fait d’être en extérieur et d’échanger avec les autres.)",
       },
       {
-        question: "Demandez-vous ce qui vous attire chez les autres :",
+        question: "Demandez-vous ce qui vous attire chez les autres",
         details:
           "Parfois, on admire certaines personnes ou métiers sans oser imaginer qu’ils pourraient faire partie de notre propre trajectoire.",
       },
@@ -109,17 +109,17 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
     tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 2 et 4 besoins qui résonnent avec vous.",
     help: [
       {
-        question: "Pensez aux problèmes qui vous frustrent :",
+        question: "Pensez aux problèmes qui vous frustrent",
         details:
           "Quels aspects du quotidien vous semblent inefficaces ou pourraient être améliorés ? Parfois, ce qui nous dérange est aussi une opportunité d’action.",
       },
       {
-        question: "Observez comment vous aidez naturellement :",
+        question: "Observez comment vous aidez naturellement",
         details:
           "Quand on vous demande un service ou un conseil, quel type d’aide donnez-vous instinctivement ?",
       },
       {
-        question: "Réfléchissez à des causes qui vous touchent :",
+        question: "Réfléchissez à des causes qui vous touchent",
         details:
           "Si vous souhaitez aller plus loin, y a-t-il des enjeux sociétaux, culturels, écologiques ou technologiques qui résonnent particulièrement avec vous ?",
       },
@@ -162,17 +162,17 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
     tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 2 et 4 domaines ou compétences qui pourraient vous permettre d’être rémunéré(e).",
     help: [
       {
-        question: "Regardez votre parcours et vos expériences passées :",
+        question: "Regardez votre parcours et vos expériences passées",
         details:
           "Y a-t-il des tâches que vous avez déjà effectuées et qui pourraient être valorisées financièrement ?",
       },
       {
-        question: "Étudiez les tendances du marché :",
+        question: "Étudiez les tendances du marché",
         details:
           "Quels sont les métiers émergents ou les secteurs en croissance qui pourraient correspondre à vos compétences ?",
       },
       {
-        question: "Explorez des modèles alternatifs :",
+        question: "Explorez des modèles alternatifs",
         details:
           "Il existe de nombreuses façons de gagner sa vie (emploi salarié, entrepreneuriat, freelancing, monétisation de contenu, etc.). Quel modèle pourrait vous convenir ?",
       },
@@ -220,17 +220,17 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
           "Y a-t-il des tâches ou des missions que vous avez accomplies facilement et avec succès dans vos expériences passées ?",
       },
       {
-        question: "Demandez à votre entourage :",
+        question: "Demandez à votre entourage",
         details:
           "Parfois, les autres perçoivent mieux nos forces que nous-mêmes. Demandez à des collègues, amis ou proches quelles sont, selon eux, vos compétences naturelles.",
       },
       {
-        question: "Analysez ce pour quoi on fait appel à vous :",
+        question: "Analysez ce pour quoi on fait appel à vous",
         details:
           "Si l’on vient régulièrement vous demander de l’aide sur un sujet précis, c’est peut-être une compétence clé que vous sous-estimez.",
       },
       {
-        question: "Partez de vos qualités personnelles :",
+        question: "Partez de vos qualités personnelles",
         details:
           "Si vous ne trouvez pas de compétences précises, pensez à vos traits de caractère : êtes-vous organisé(e) ? Créatif(ve) ? Empathique ? Ces qualités sont souvent associées à des compétences spécifiques. Essayez d’identifier des situations où elles vous ont aidé à réussir une tâche ou un projet.",
       },

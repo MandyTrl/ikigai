@@ -55,12 +55,18 @@ export const Button = ({
     ],
 
     disabled && isPrimary && "cursor-not-allowed opacity-40 hover:shadow-none",
-    disabled && !isPrimary && "pointer-events-none cursor-default opacity-40",
+    disabled &&
+      !isPrimary &&
+      "pointer-events-none cursor-default border-transparent bg-accent/60",
   );
 
   const textStyle = clsx(
     "font-mono  tracking-[0.12em] transition-[letter-spacing] duration-400 ease-in-out group-hover:tracking-[0.18em]",
-    isPrimary ? "text-support" : "text-primary",
+    isPrimary
+      ? "text-support"
+      : disabled
+        ? "text-secondary/40"
+        : "text-primary",
     size === ButtonSizeEnum.L
       ? "px-6 py-4 text-lg"
       : size === ButtonSizeEnum.M

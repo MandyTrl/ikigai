@@ -5,11 +5,6 @@ import {
   IkigaiMainstay,
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
-import {
-  CheckCircleIcon,
-  LightbulbFilamentIcon,
-  TrashIcon,
-} from "@phosphor-icons/react/dist/ssr";
 import clsx from "clsx";
 import { Collapse } from "../UI/Collapse";
 import {
@@ -18,6 +13,7 @@ import {
 } from "@/app/utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
 import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
+import { Title } from "../UI/Title";
 
 export const EMPTY_ANSWERS = ["", "", ""];
 
@@ -120,9 +116,8 @@ export const FormTextArea = ({
     <div className="flex flex-col gap-6">
       <div key={questionIndex} className="flex flex-col gap-2">
         <div className="flex flex-col gap-1">
-          <label className="text-xl md:text-2xl font-medium leading-snug">
-            {question.question}
-          </label>
+          <Title variant="h3" as="h2" text={question.question} />
+
           <span className="text-sm md:text-base text-slate-600">
             {question.details}
           </span>
@@ -142,7 +137,7 @@ export const FormTextArea = ({
           autoComplete="off"
           autoCapitalize="sentences"
           wrap="hard"
-          className="w-full p-4 inset-shadow-lg border border-secondary/80 rounded-2xl focus:border-secondary focus:outline-none focus:bg-white/70 resize-none mt-2 duration-200 ease-in-out transition-all bg-white/50 selection:bg-white/70 active::bg-white/70"
+          className="w-full p-4 border border-secondary/25 rounded-sm focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/60 resize-none mt-2 duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35 placeholder:font-mono placeholder:text-sm"
         />
 
         <p
@@ -163,9 +158,8 @@ export const FormTextArea = ({
           </span>
 
           {isCurrentPillarComplete && (
-            <span className="flex items-center gap-1 text-sm text-emerald-700">
-              <CheckCircleIcon size={14} weight="fill" />
-              prêt pour l’analyse
+            <span className="font-mono text-[10px] tracking-widest uppercase text-neon/80">
+              — complet
             </span>
           )}
         </div>

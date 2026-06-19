@@ -1,18 +1,11 @@
 "use client";
 import { useContext } from "react";
-import { DynamicIcon } from "../UI/DynamicIcon";
-import {
-  colorMap,
-  IkigaiContext,
-  IkigaiForm,
-  isIkigaiPillarStep,
-} from "@/app/context/IkigaiContext";
+import { IkigaiContext, IkigaiForm } from "@/app/context/IkigaiContext";
 import {
   IkigaiMainstay,
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
 import { ClockIcon } from "@phosphor-icons/react/dist/ssr";
-import { Title } from "../UI/Title";
 
 export const FormGuidelines = () => {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
@@ -29,37 +22,17 @@ export const FormGuidelines = () => {
 
   return (
     <div>
-      <div
-        className="pb-1.5"
-        style={{
-          backgroundImage: isIkigaiPillarStep(mainstayInfoFound.mainstay)
-            ? colorMap[mainstayInfoFound.mainstay]
-            : undefined,
-        }}
-      >
-        <section className="flex items-center gap-3">
-          <DynamicIcon
-            name={mainstayInfoFound.mainstay}
-            size={28}
-            weight="regular"
-            color="primary"
-          />
-          <Title text={mainstayInfoFound.title} />
-        </section>
+      <section className="flex flex-col sm:flex-row text-slate-600 gap-y-1 sm:gap-x-5 text-xs md:text-sm">
+        <div className="flex items-center gap-x-1">
+          <ClockIcon size={16} color="currentColor" weight="bold" />
+          <p>Temps de lecture: {mainstayInfoFound.readingTime}</p>
+        </div>
 
-        <section className="flex flex-col sm:flex-row text-slate-600 gap-y-1 sm:gap-x-5 text-xs md:text-sm mt-1">
-          <div className="flex items-center gap-x-1">
-            <ClockIcon size={16} color="#62748e" weight="bold" />
-            <p>Temps de lecture: {mainstayInfoFound.readingTime}</p>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <ClockIcon size={16} color="#62748e" weight="bold" />
-            <p>
-              Temps de réflection estimée: {mainstayInfoFound.reflectionTime}
-            </p>
-          </div>
-        </section>
-      </div>
+        <div className="flex items-center gap-x-1">
+          <ClockIcon size={16} color="currentColor" weight="bold" />
+          <p>Temps de réflection estimée: {mainstayInfoFound.reflectionTime}</p>
+        </div>
+      </section>
 
       <p className="text-slate-700 text-sm md:text-base leading-relaxed pt-3">
         {mainstayInfoFound.sectionDescription}

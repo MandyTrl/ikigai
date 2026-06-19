@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, ElementType } from "react";
 
-type TitleVariant = "display" | "h1" | "h2" | "h3";
+type TitleVariant = "display" | "h1" | "h2" | "h3" | "formTitle";
 type TitleTag = "h1" | "h2" | "h3" | "p" | "span" | "div";
 
 type TitleProps<T extends ElementType = "h1"> = {
@@ -16,6 +16,7 @@ const variantStyles: Record<TitleVariant, string> = {
   h1: "text-3xl md:text-4xl font-medium leading-tight tracking-tight",
   h2: "text-2xl md:text-3xl font-medium leading-tight tracking-tight",
   h3: "text-xl md:text-2xl font-medium leading-snug tracking-tight",
+  formTitle: "text-xl font-bold",
 };
 
 const defaultTagByVariant: Record<TitleVariant, TitleTag> = {
@@ -23,6 +24,7 @@ const defaultTagByVariant: Record<TitleVariant, TitleTag> = {
   h1: "h1",
   h2: "h2",
   h3: "h3",
+  formTitle: "p",
 };
 
 const variantByTag: Partial<Record<TitleTag, TitleVariant>> = {

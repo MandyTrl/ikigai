@@ -7,6 +7,7 @@
   --accent: #e8d5c4;
   --accentbis: #8b9bb4;
   --support: #f5f2ed;
+  --neon: #ff6b1f;
 
   --bg-body: linear-gradient(135deg, #f5f2ed 0%, #faf8f5 50%, #f0e6d8 100%);
 
@@ -23,6 +24,7 @@
   --color-accent: var(--accent);
   --color-accentbis: var(--accentbis);
   --color-support: var(--support);
+  --color-neon: var(--neon);
   --font-andika: var(--font-andika);
   --font-arima: var(--font-arima);
   --shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;

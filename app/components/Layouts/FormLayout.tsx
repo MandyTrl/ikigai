@@ -1,7 +1,8 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { FormGuidelines } from "../Form/FormGuidelines";
 import { EMPTY_ANSWERS, FormTextArea } from "../Form/FormTextArea";
-import { QuestionTabs } from "../Form/QuestionTabs";
+import { FormHeader } from "../Form/FormHeader";
+import { QuestionSideNav } from "../Form/QuestionSideNav";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 
 export const FormLayout = () => {
@@ -20,22 +21,34 @@ export const FormLayout = () => {
   const answers = currentPillar?.answers ?? EMPTY_ANSWERS;
 
   return (
-    <div id="form-layout" className="max-w-[45rem] mx-auto w-full">
-      <QuestionTabs
-        answers={answers}
-        currentQuestionIndex={questionIndex}
-        onQuestionChange={setQuestionIndex}
-      />
+    <div className="max-w-[45rem] mx-auto py-8 md:py-14 px-4">
+      <FormHeader />
 
-      <div
-        id="form-layout-container"
-        className="flex flex-col gap-8 md:gap-12"
-      >
-        <FormGuidelines />
-        <FormTextArea
-          questionIndex={questionIndex}
-          setQuestionIndex={setQuestionIndex}
-        />
+      {/* Sidenav flotte dans la gouttière gauche, hors du flux du contenu */}
+      <div className="relative">
+        <div className="absolute right-full top-0 pr-10 hidden lg:block">
+          <QuestionSideNav
+            answers={answers}
+            currentQuestionIndex={questionIndex}
+            onQuestionChange={setQuestionIndex}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <FormGuidelines />
+
+          <div className="flex items-center gap-3 my-6 md:my-8">
+            <span className="font-mono text-[10px] tracking-widest text-secondary/40 shrink-0">
+              {"//"}
+            </span>
+            <div className="flex-1 border-t border-secondary/20 border-dashed" />
+          </div>
+
+          <FormTextArea
+            questionIndex={questionIndex}
+            setQuestionIndex={setQuestionIndex}
+          />
+        </div>
       </div>
     </div>
   );
