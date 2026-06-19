@@ -1,12 +1,12 @@
-import { createContext } from "react"
-import { IkigaiStepEnum } from "./IkigaiContext"
+import { createContext } from "react";
+import { IkigaiStepEnum } from "../types";
 
 export type HoverContextProps = {
-	hoveredMainstay: IkigaiStepEnum | null
-	setHoveredMainstay: (mainstay: IkigaiStepEnum | null) => void
-}
+  hoveredMainstay: IkigaiStepEnum | null;
+  setHoveredMainstay: (mainstay: IkigaiStepEnum | null) => void;
+};
 
 export const HoverContext = createContext<HoverContextProps>({
-	hoveredMainstay: null,
-	setHoveredMainstay: () => {},
-})
+  hoveredMainstay: null,
+  setHoveredMainstay: () => {},
+});
