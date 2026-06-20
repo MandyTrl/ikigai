@@ -121,20 +121,27 @@ app/components/
 
 
 ## Art direction
-**Retro-tech · Minimalist · Airy · Calm · Modern**
 
-The interface feels like a serious introspection tool with a discreet Japanese aesthetic: generous white space, thin typography, monospace for all system-like elements, soft pastels for pillar colors. Design tokens (colors, shadows, fonts, background) are defined in `app/globals.css` — always refer to them rather than hardcoding values.
+**Neo-tech · Neo-vintage · Minimalist · Airy · Calm · Modern**
 
-Key visual conventions already established in the codebase:
-- **Monospace for metadata**: counters (`01 / 04`), state labels (`en cours`, `remplie`, `à faire`), comment-style prefixes (`// 2/3 réponses`) — this is the "retro-tech terminal" signature of the project
-- **Thin display weights** for titles (`font-[100]` to `font-[200]`), weight hierarchy comes from spacing, not font-weight
-- **Subtle active states**: amber glow (`tertiary`) on the currently active element, soft green for completed states, muted/faded for inactive
-- **Offset box-shadow on hover** for interactive elements (see `Button.tsx`) — not standard shadow, a directional `4px 4px 0px` offset
-- **Noise texture overlay** on `body::before` via `nnnoise.svg` at 50% opacity — don't fight it with solid backgrounds
-- **Pillar colors from `colorMap`** should be used consistently across any view related to a specific pillar
+Ikig-ai sits at the intersection of two worlds: Japanese tradition and the philosophy of ikigai (slowness, meaning, depth) meets contemporary AI technology (precision, clarity, quiet intelligence). The interface must carry both — never cold like a dashboard, never decorative like a mood board. It should feel like a thoughtful tool that respects the user's time and inner space.
+
+Design tokens (colors, shadows, fonts, background) are defined in `app/globals.css` — always refer to them rather than hardcoding values.
+
+**The visual signature**
+- **Airy before everything**: whitespace is the primary design element. Density signals stress; space signals calm. When in doubt, add space.
+- **One focal point per screen**: the user should never have to scan to find what to do next. Visual hierarchy is achieved through spacing and weight, not decoration.
+- **Neo-vintage through typography**: thin display weights (`font-[100]` to `font-[200]`), warm background gradient — evokes craftsmanship and slowness, not sterility
+- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `remplie`, `à faire`), comment-style prefixes (`// 2/3 réponses`) — precise, terminal-like, a quiet nod to the AI layer underneath
+- **Transitions as breathing**: all state changes animate (150–300 ms, ease-in-out). Nothing snaps. The interface inhales and exhales.
+- **Pillar colors from `colorMap`** used consistently — each pillar has its own pastel identity, applied with restraint (accents, not fills)
+- **Offset box-shadow on hover** for interactive elements (see `Button.tsx`) — directional `4px 4px 0px`, not a standard glow
+- **Noise texture overlay** on `body::before` via `nnnoise.svg` at 50% — gives organic warmth; don't cover it with solid backgrounds
+- **Less is more**: every element must earn its place — nothing exists by default. If removing it doesn't break comprehension, remove it.
 
 
 ## UX/UI senior designer mindset
+
 When creating a new component or redesigning a page, Claude must think as a senior UX/UI designer with a holistic view — not just implement what's asked but reveal the right visual and interaction hierarchy.
 
 **Holistic vision**
@@ -146,6 +153,7 @@ When creating a new component or redesigning a page, Claude must think as a seni
 - The user is doing introspective work: tone must be soft and encouraging, never clinical or urgent
 - Progress must always be perceivable: `QuestionTabs` state indicators, answer counter, pillar counter all reinforce "you're making progress"
 - Empty states should feel welcoming — soft placeholder text, no red by default
+- The experience must be intuitive on first view: if a user needs to figure out what to do, the design has failed
 
 **Design rules to enforce**
 - Generous spacing: elements breathe; dense blocks feel wrong in this product
@@ -155,9 +163,10 @@ When creating a new component or redesigning a page, Claude must think as a seni
 - Never use saturated colors or hard contrasts; everything stays in the calm register of the palette
 
 **What to avoid**
-- Stacking too much information on one screen
+- Stacking too much information on one screen — one action, one focus, one moment at a time
 - Saturated colors or visually loud components
 - Adding UI elements that don't earn their presence — every visible affordance must have a clear reason to exist
+- Decorative complexity: ornaments must be subtle or absent; content and space do the work
 
 
 ## UI

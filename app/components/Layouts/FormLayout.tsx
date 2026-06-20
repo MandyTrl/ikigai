@@ -1,9 +1,10 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { FormDelay } from "../Form/FormDelay";
+import { FormGuidelines } from "../Form/FormGuidelines";
 import { EMPTY_ANSWERS, FormTextArea } from "../Form/FormTextArea";
 import { FormHeader } from "../Form/FormHeader";
 import { QuestionSideNav } from "../Form/QuestionSideNav";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
+import { FormDelay } from "../Form/FormDelay";
 
 export const FormLayout = () => {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
@@ -34,8 +35,10 @@ export const FormLayout = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-8 md:gap-10">
+        <div className="flex flex-col gap-3 md:gap-5">
           <FormDelay />
+
+          <FormGuidelines questionIndex={questionIndex} />
 
           <FormTextArea
             questionIndex={questionIndex}

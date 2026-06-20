@@ -12,9 +12,6 @@ import {
 } from "@/app/utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
 import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
-import { Title } from "../UI/Title";
-import { FormHelp } from "./FormHelp";
-import { Collapse } from "../UI/Collapse";
 
 export const EMPTY_ANSWERS = ["", "", ""];
 
@@ -69,7 +66,6 @@ export const FormTextArea = ({
 
   if (!mainstayInfoFound) return null;
 
-  const question = mainstayInfoFound.instructions[questionIndex];
   const answeredCount = getFilledAnswersCount(answers);
   const isLastQuestion =
     questionIndex === mainstayInfoFound.instructions.length - 1;
@@ -114,45 +110,29 @@ export const FormTextArea = ({
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div key={questionIndex} className="flex flex-col gap-5">
-        <div className="flex flex-col gap-1">
-          <Title variant="h3" as="h2" text={question.question} />
+    <div className="flex flex-col gap-3">
+      <textarea
+        key={questionIndex}
+        id={mainstayInfoFound.mainstay}
+        name={mainstayInfoFound.mainstay}
+        value={answers[questionIndex]}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder="Votre réponse..."
+        rows={6}
+        autoComplete="off"
+        autoCapitalize="sentences"
+        wrap="hard"
+        className="w-full p-4 border border-secondary/25 rounded-sm focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/50 resize-none duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35 placeholder:font-mono placeholder:text-sm"
+      />
 
-          <span className="text-sm md:text-base">{question.details}</span>
-        </div>
-
-        {mainstayInfoFound.help[questionIndex] && (
-          <FormHelp help={mainstayInfoFound.help[questionIndex]} />
+      <p
+        className={clsx(
+          errorMsg ? "opacity-100 translate-y-2" : "opacity-0 translate-y-0",
+          "text-red-600 font-andika text-sm min-h-5 ml-2 transition-all duration-300 ease-out",
         )}
-
-        <Collapse
-          label="à propos de ce pilier"
-          content={mainstayInfoFound.sectionDescription}
-        />
-
-        <textarea
-          id={mainstayInfoFound.mainstay}
-          name={mainstayInfoFound.mainstay}
-          value={answers[questionIndex]}
-          onChange={(e) => handleChange(e.target.value)}
-          placeholder="Votre réponse..."
-          rows={6}
-          autoComplete="off"
-          autoCapitalize="sentences"
-          wrap="hard"
-          className="w-full p-4 border border-secondary/25 rounded-sm focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/50 resize-none mt-2 duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35 placeholder:font-mono placeholder:text-sm"
-        />
-
-        <p
-          className={clsx(
-            errorMsg ? "opacity-100 translate-y-2" : "opacity-0 translate-y-0",
-            "text-red-600 font-andika text-sm min-h-5 ml-2 transition-all duration-300 ease-out",
-          )}
-        >
-          {errorMsg}
-        </p>
-      </div>
+      >
+        {errorMsg}
+      </p>
 
       <div className="flex justify-end">
         <Button

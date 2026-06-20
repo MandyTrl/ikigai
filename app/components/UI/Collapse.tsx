@@ -20,7 +20,7 @@ export const Collapse = ({
         onClick={() => setOpen((prev) => !prev)}
         className="w-full flex items-center justify-between py-2 group cursor-pointer"
       >
-        <span className="font-mono text-xs tracking-widest uppercase text-secondary/85 group-hover:text-secondary transition-colors duration-200">
+        <span className="font-mono text-xs tracking-widest uppercase text-secondary/90 group-hover:text-secondary transition-colors duration-200">
           <span className="text-tertiary">// </span>
           {label}
         </span>

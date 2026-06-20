@@ -87,7 +87,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
         question:
           "Quelles améliorations aimeriez-vous voir dans votre environnement ou votre secteur d’activité ?",
         details:
-          "Sans forcément vouloir 'changer le monde', quelles choses aimeriez-vous voir évoluer ?",
+          "Pensez à votre secteur, votre environnement proche, une façon de travailler, des petites frictions du quotidien aux dynamiques plus larges.",
       },
     ],
     tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 2 et 4 besoins qui résonnent avec vous.",
