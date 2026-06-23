@@ -1,13 +1,38 @@
 "use client";
 import React, { useContext } from "react";
 import { Circle } from "./Circle";
+import { VennProgress } from "./VennProgress";
 import { HoverContext } from "@/app/context/HoverContext";
-import { IkigaiStepEnum } from "@/app/types";
+import { IkigaiContext } from "@/app/context/IkigaiContext";
+import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
+import {
+  canAnalyzeIkigai,
+  isPillarCompleteForAnalysis,
+} from "@/app/utils/validateForm";
 
 const radius = "26%"; //rayon en % pour le responsive
 
 const VennDiagram: React.FC = () => {
   const { hoveredMainstay } = useContext(HoverContext);
+  const { ikigaiForm, updateForm, setStep } = useContext(IkigaiContext);
+
+  // Sélection directe d'un pilier depuis le diagramme (même action que la liste).
+  const handleSelect = (id: IkigaiStepEnum) => {
+    updateForm(id, { progressState: PillarStateEnum.IN_PROGRESS });
+    setStep(id);
+  };
+
+  // Carte de progression : un cercle se remplit dès que son pilier est complété.
+  const completionByMainstay = ikigaiForm.reduce<Record<string, boolean>>(
+    (acc, pillar) => {
+      acc[pillar.mainstay] = isPillarCompleteForAnalysis(pillar);
+      return acc;
+    },
+    {},
+  );
+  const allComplete = canAnalyzeIkigai(ikigaiForm);
+  const completeCount =
+    Object.values(completionByMainstay).filter(Boolean).length;
 
   const baseCircles = [
     {
@@ -67,15 +92,23 @@ const VennDiagram: React.FC = () => {
   });
 
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex w-full flex-col items-center gap-5 md:gap-10 lg:gap-14">
       <div className="w-full flex justify-center items-center max-w-[600px] aspect-square">
         <svg
           viewBox="0 0 100 100"
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-auto"
         >
-          {orderedCircles.map((circle) => (
-            <Circle key={circle.id} {...circle} r={radius} />
+          {orderedCircles.map((circle, index) => (
+            <Circle
+              key={circle.id}
+              {...circle}
+              r={radius}
+              isComplete={completionByMainstay[circle.id] ?? false}
+              allComplete={allComplete}
+              traceDelay={index * 0.18}
+              onSelect={handleSelect}
+            />
           ))}
 
           {!hoveredMainstay && (
@@ -86,7 +119,7 @@ const VennDiagram: React.FC = () => {
               fontSize="0.35vw"
               fontWeight="bold"
               fill="#091C34"
-              opacity={0.5}
+              opacity={0.6}
               className="select-none"
             >
               Ikigai
@@ -94,6 +127,9 @@ const VennDiagram: React.FC = () => {
           )}
         </svg>
       </div>
+
+      {/* Progression : le diagramme se complète à mesure */}
+      <VennProgress completeCount={completeCount} allComplete={allComplete} />
     </div>
   );
 };

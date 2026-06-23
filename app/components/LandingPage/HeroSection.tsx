@@ -1,12 +1,21 @@
 "use client";
 import * as motion from "motion/react-client";
 import { KanjiRevealWord } from "../UI/KanjiRevealWord";
-import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
+import { Button, ButtonSizeEnum } from "../UI/Button";
+import { Eyebrow } from "../UI/Eyebrow";
 
 export const HeroSection = () => {
   return (
-    <section className="w-full flex flex-col items-center justify-between gap-5">
-      {/* Left: question */}
+    <section className="w-full flex flex-col items-center justify-between gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        <Eyebrow text="生き甲斐 — ikigai" withDot />
+      </motion.div>
+
+      {/* question */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -22,22 +31,32 @@ export const HeroSection = () => {
         {"?"}
       </motion.p>
 
-      {/* Right: CTA + label */}
+      {/* sous-titre de ton */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="max-w-xl text-center text-base md:text-lg font-light text-primary/70"
+      >
+        Quelques questions, un moment pour soi, et une lecture de ce qui vous
+        anime — entre philosophie japonaise et intelligence artificielle.
+      </motion.p>
+
+      {/* CTA */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.5 }}
-        className="flex shrink-0 flex-col gap-4 items-center"
+        className="flex shrink-0 flex-col gap-3 items-center"
       >
         <Button
           label="Trouver son ikigai"
           isLink
           href="/commencer"
           size={ButtonSizeEnum.L}
-          variant={ButtonVariantEnum.Outline}
         />
-        <span className="font-mono text-[0.6rem] tracking-[0.3em] text-accentbis uppercase">
-          生き甲斐 — ikigai
+        <span className="font-mono text-[0.6rem] tracking-[0.25em] text-secondary/70 uppercase">
+          ~ 15 min · 4 piliers
         </span>
       </motion.div>
     </section>

@@ -10,6 +10,7 @@ import { NoteCard } from "./NoteCard";
 import { Title } from "../../UI/Title";
 import { Button, ButtonSizeEnum } from "../../UI/Button";
 import { AsciiKoi } from "../../UI/AsciiKoi";
+import { Eyebrow } from "../../UI/Eyebrow";
 
 export const PillarSection = () => {
   const pillars = [
@@ -55,6 +56,7 @@ export const PillarSection = () => {
       <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
           <div className="border-l-4 border-tertiary pl-6">
+            <Eyebrow text="La méthode · 04 piliers" withDot className="mb-3" />
             <Title
               as="h3"
               variant="h1"

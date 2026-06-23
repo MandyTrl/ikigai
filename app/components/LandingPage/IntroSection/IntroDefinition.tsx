@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "motion/react";
+import { Eyebrow } from "../../UI/Eyebrow";
 
 type IntroDefinitionProps = {
   isInView: boolean;
@@ -12,7 +13,9 @@ const fadeIn = (isInView: boolean, delay: number) => ({
 });
 
 export const IntroDefinition = ({ isInView }: IntroDefinitionProps) => (
-  <div className="w-screen flex flex-col gap-4 md:gap-5 text-base md:text-xl border border-secondary/20 p-28 rounded-sm bg-accentbis/10">
+  <div className="w-full max-w-3xl mx-auto flex flex-col gap-5 md:gap-6 text-base md:text-xl rounded-2xl border border-line bg-surface/70 px-7 py-9 md:px-12 md:py-12 shadow-[var(--shadow-soft)]">
+    <Eyebrow text="哲学 — la philosophie" withDot />
+
     <motion.p {...fadeIn(isInView, 0.9)} className="leading-relaxed">
       L&apos;ikigai est une <strong>philosophie japonaise</strong> qui repose
       sur l&apos;alignement avec soi-même en identifiant ce qui vous anime

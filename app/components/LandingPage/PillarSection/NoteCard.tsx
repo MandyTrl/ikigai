@@ -21,8 +21,8 @@ export const NoteCard = ({ pillar, index = 0 }: NoteCardProps) => {
       transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
       className={clsx(
         "group relative isolate flex h-[380px] w-full max-w-[360px] overflow-hidden",
-        "border-b border-secondary/20",
-        "transition-color duration-200 ease-out will-change-transform hover:border-secondary/60",
+        "border-b border-line",
+        "transition-color duration-200 ease-out will-change-transform hover:border-linestrong",
       )}
     >
       {/* ambient halo */}

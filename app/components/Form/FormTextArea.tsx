@@ -67,8 +67,6 @@ export const FormTextArea = ({
   if (!mainstayInfoFound) return null;
 
   const answeredCount = getFilledAnswersCount(answers);
-  const isLastQuestion =
-    questionIndex === mainstayInfoFound.instructions.length - 1;
   const isCurrentPillarComplete = mainstayData
     ? isPillarCompleteForAnalysis(mainstayData)
     : answeredCount >= 2;
@@ -84,20 +82,12 @@ export const FormTextArea = ({
   };
 
   const handleNext = () => {
-    const currentAnswer = answers[questionIndex].trim();
-
-    if (!currentAnswer && !isCurrentPillarComplete) {
-      setErrorMsg("Veuillez écrire une réponse avant de continuer.");
+    if (!isCurrentPillarComplete) {
+      setErrorMsg("Veuillez remplir au moins deux réponses pour ce pilier.");
       return;
     }
 
     setErrorMsg(null);
-
-    if (!isLastQuestion) {
-      setQuestionIndex((prev) => prev + 1);
-      return;
-    }
-
     savePillar(currentStep, answers);
     setStep(IkigaiStepEnum.INITIAL);
   };
@@ -134,13 +124,17 @@ export const FormTextArea = ({
         {errorMsg}
       </p>
 
-      <div className="flex justify-end">
+      <div className="flex items-center justify-end gap-4">
         <Button
           onClick={handleNext}
           disabled={!isCurrentPillarComplete}
           label="Terminer ce pilier"
           size={ButtonSizeEnum.S}
-          variant={ButtonVariantEnum.Outline}
+          variant={
+            isCurrentPillarComplete
+              ? ButtonVariantEnum.Primary
+              : ButtonVariantEnum.Outline
+          }
         />
       </div>
     </div>

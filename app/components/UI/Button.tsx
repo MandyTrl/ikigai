@@ -57,7 +57,7 @@ export const Button = ({
     disabled && isPrimary && "cursor-not-allowed opacity-40 hover:shadow-none",
     disabled &&
       !isPrimary &&
-      "pointer-events-none cursor-default border-transparent bg-accent/60",
+      "pointer-events-none cursor-default border-secondary/20",
   );
 
   const textStyle = clsx(

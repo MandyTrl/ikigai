@@ -9,7 +9,14 @@
   --support: #f5f2ed;
   --neon: #ff6b1f;
 
-  --bg-body: linear-gradient(135deg, #f5f2ed 0%, #faf8f5 50%, #f0e6d8 100%);
+  /* Fond chaud (registre off-white) + grain subtil dans body::before */
+  --bg-body: linear-gradient(135deg, #faf7f1 0%, #f6efe4 55%, #f1e8da 100%);
+
+  /* Système de surface unique — réutilisé pour cards, puces, bandeaux */
+  --surface: #fffdfa;
+  --surface-muted: #f7f2ea;
+  --line: rgba(35, 44, 61, 0.1);
+  --line-strong: rgba(35, 44, 61, 0.18);
 
   /* Shadows minimalistes */
   --shadow-sm: 0 2px 8px rgba(10, 14, 39, 0.04);
@@ -25,9 +32,15 @@
   --color-accentbis: var(--accentbis);
   --color-support: var(--support);
   --color-neon: var(--neon);
+  --color-surface: var(--surface);
+  --color-surfacemuted: var(--surface-muted);
+  --color-line: var(--line);
+  --color-linestrong: var(--line-strong);
   --font-andika: var(--font-andika);
   --font-arima: var(--font-arima);
   --shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
+  --shadow-soft: var(--shadow-sm);
+  --shadow-float: var(--shadow-md);
 }
 
 @layer utilities {
@@ -75,6 +88,23 @@
   .glow-accent {
     animation: glow 2s ease-in-out infinite;
   }
+
+  /* Tracé continu des bordures du Venn quand l'ikigai est complet.
+     dasharray basé sur la circonférence réelle (r=26 → 2π·26 ≈ 164) :
+     un seul trait, donc aucune coupure. */
+  @keyframes vennTrace {
+    from {
+      stroke-dashoffset: 164;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .venn-trace {
+    stroke-dasharray: 164;
+    animation: vennTrace 1.3s ease-in-out forwards;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -98,7 +128,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.035;
 
   background-image: url("/assets/nnnoise.svg");
   background-repeat: repeat;
