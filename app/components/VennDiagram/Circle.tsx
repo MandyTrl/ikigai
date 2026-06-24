@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import clsx from "clsx";
 import { HoverContext } from "@/app/context/HoverContext";
 import { IkigaiStepEnum } from "@/app/types";
@@ -46,6 +46,14 @@ export const Circle = ({
   const { hoveredMainstay, setHoveredMainstay } = useContext(HoverContext);
   const isHovered = hoveredMainstay === id;
 
+  // Une fois le tracé terminé, on verrouille l'état final et retire la classe
+  // d'animation pour qu'aucun re-render (hover, réordonnancement SVG) ne la relance.
+  const [strokeDrawn, setStrokeDrawn] = useState(false);
+
+  useEffect(() => {
+    if (!allComplete) setStrokeDrawn(false);
+  }, [allComplete]);
+
   const cxLabel = isHovered ? hoveredCxLabel : defaultCxLabel;
   const cyLabel = isHovered ? hoveredCyLabel : defaultCyLabel;
 
@@ -53,12 +61,9 @@ export const Circle = ({
 
   const isAnyHovered = hoveredMainstay !== null;
 
-  // On garde le mélange aquarelle (multiply) en permanence : pas d'aplat blanc.
   const circleStyle =
     "transition-all duration-500 ease-in-out mix-blend-multiply";
 
-  // Survol = la teinte se densifie + les AUTRES s'estompent (bordures + labels)
-  // → l'œil va direct au pilier visé, sans aplat blanc ni flou.
   const fillOpacity = isHovered ? 0.4 : isAnyHovered ? 0.3 : 0.3;
   const strokeWidth = isHovered ? 0.4 : isComplete ? 0.35 : 0;
   const strokeOpacity = isHovered
@@ -76,6 +81,15 @@ export const Circle = ({
         ? 0.9
         : 0.8;
 
+  // CSS transform sur le <g> (pas l'attribut SVG transform) pour éviter que
+  // le recalcul de styles SVG ne redémarre l'animation CSS des enfants.
+  const gStyle = {
+    transform: `scale(${scaleValue})`,
+    transformOrigin: `${cx} ${cy}`,
+    transformBox: "fill-box" as const,
+    transition: "transform 0.4s cubic-bezier(0.33, 1, 0.68, 1)",
+  };
+
   return (
     <g
       role="button"
@@ -90,12 +104,8 @@ export const Circle = ({
       }}
       onMouseEnter={() => setHoveredMainstay(id)}
       onMouseLeave={() => setHoveredMainstay(null)}
-      transform={`scale(${scaleValue})`}
       className="cursor-pointer focus:outline-none"
-      style={{
-        transformOrigin: `${cx} ${cy}`,
-        transition: "transform 0.4s cubic-bezier(0.33, 1, 0.68, 1)",
-      }}
+      style={gStyle}
     >
       <circle
         cx={cx}
@@ -106,12 +116,9 @@ export const Circle = ({
         strokeWidth={strokeWidth}
         strokeOpacity={strokeOpacity}
         fillOpacity={fillOpacity}
-        className={clsx(circleStyle, allComplete && !isHovered && "venn-trace")}
-        style={
-          allComplete && !isHovered
-            ? { animationDelay: `${traceDelay}s` }
-            : undefined
-        }
+        className={clsx(circleStyle, allComplete && !strokeDrawn && "venn-trace")}
+        style={allComplete && !strokeDrawn ? { animationDelay: `${0.35 + traceDelay}s` } : undefined}
+        onAnimationEnd={() => setStrokeDrawn(true)}
       />
 
       <text

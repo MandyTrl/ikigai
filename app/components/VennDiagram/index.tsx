@@ -1,5 +1,6 @@
 "use client";
 import React, { useContext } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Circle } from "./Circle";
 import { VennProgress } from "./VennProgress";
 import { HoverContext } from "@/app/context/HoverContext";
@@ -9,20 +10,23 @@ import {
   canAnalyzeIkigai,
   isPillarCompleteForAnalysis,
 } from "@/app/utils/validateForm";
+import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
+import { useIkigaiAnalyze } from "@/app/hooks/useIkigaiAnalyze";
 
-const radius = "26%"; //rayon en % pour le responsive
+const radius = "26%";
 
 const VennDiagram: React.FC = () => {
-  const { hoveredMainstay } = useContext(HoverContext);
+  const { hoveredMainstay, setHoveredMainstay } = useContext(HoverContext);
   const { ikigaiForm, updateForm, setStep } = useContext(IkigaiContext);
+  const { handleAnalyze, isAnalyzing, error, hasCachedCurrentAnalysis } =
+    useIkigaiAnalyze();
 
-  // Sélection directe d'un pilier depuis le diagramme (même action que la liste).
   const handleSelect = (id: IkigaiStepEnum) => {
+    setHoveredMainstay(null);
     updateForm(id, { progressState: PillarStateEnum.IN_PROGRESS });
     setStep(id);
   };
 
-  // Carte de progression : un cercle se remplit dès que son pilier est complété.
   const completionByMainstay = ikigaiForm.reduce<Record<string, boolean>>(
     (acc, pillar) => {
       acc[pillar.mainstay] = isPillarCompleteForAnalysis(pillar);
@@ -84,7 +88,6 @@ const VennDiagram: React.FC = () => {
     },
   ];
 
-  // réorganise les cercles pour que le survolé soit en dernier
   const orderedCircles = [...baseCircles].sort((a, b) => {
     if (a.id === hoveredMainstay) return 1;
     if (b.id === hoveredMainstay) return -1;
@@ -128,8 +131,60 @@ const VennDiagram: React.FC = () => {
         </svg>
       </div>
 
-      {/* Progression : le diagramme se complète à mesure */}
-      <VennProgress completeCount={completeCount} allComplete={allComplete} />
+      {/* Hauteur fixe : évite tout layout shift pendant le swap */}
+      <div className="relative flex h-14 w-full items-start justify-center">
+        <AnimatePresence>
+          {!allComplete && (
+            <motion.div
+              key="progress"
+              className="absolute flex flex-col items-center"
+              exit={{ opacity: 0, transition: { duration: 0.25 } }}
+            >
+              <VennProgress
+                completeCount={completeCount}
+                allComplete={allComplete}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {allComplete && (
+            <motion.div
+              key="button"
+              className="absolute flex flex-col items-center gap-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.3, duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+            >
+              <Button
+                label={
+                  hasCachedCurrentAnalysis
+                    ? "Voir mon analyse"
+                    : isAnalyzing
+                      ? "Analyse en cours..."
+                      : "Analyser mes réponses"
+                }
+                variant={ButtonVariantEnum.Outline}
+                onClick={handleAnalyze}
+                size={ButtonSizeEnum.M}
+                disabled={isAnalyzing}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {allComplete && error && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center text-sm text-red-600"
+          role="alert"
+        >
+          {error}
+        </motion.p>
+      )}
     </div>
   );
 };

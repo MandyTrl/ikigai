@@ -52,6 +52,7 @@ export const MainstayList = () => {
   };
 
   const handleClick = (mainstay: IkigaiStepEnum) => {
+    setHoveredMainstay(null);
     updateForm(mainstay, { progressState: PillarStateEnum.IN_PROGRESS });
     setStep(mainstay);
   };

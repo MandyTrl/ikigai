@@ -31,13 +31,11 @@ export const VennProgress = ({
     </div>
     <span
       className={clsx(
-        "text-xs tracking-wide transition-colors duration-300",
+        "font-mono text-xs tracking-wide transition-colors duration-300",
         allComplete ? "text-emerald-700/80" : "text-secondary/80",
       )}
     >
-      {allComplete
-        ? "Prêt à analyser"
-        : `${completeCount} sur ${total} piliers complétés`}
+      {`${completeCount} / ${total} piliers complétés`}
     </span>
   </div>
 );
