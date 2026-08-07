@@ -130,7 +130,7 @@ export const AsciiSakura = () => {
       className="overflow-hidden [zoom:0.47] md:[zoom:1] absolute top-0 right-0 z-0 pointer-events-none hidden md:block"
     >
       <motion.pre
-        className="font-mono whitespace-pre text-secondary/40"
+        className="font-mono whitespace-pre text-tertiary/30"
         style={{
           fontSize: "4px",
           lineHeight: "1.3",

@@ -1,38 +1,25 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import { AsteriskIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiPromise } from "../../utils/datas/ikigaiPromises";
-import clsx from "clsx";
 
 type PromiseCardProps = {
   promise: IkigaiPromise;
-  isDimmed: boolean;
-  onHoverStart: () => void;
-  onHoverEnd: () => void;
   index?: number;
 };
 
-export const PromiseCard = ({
-  promise,
-  isDimmed,
-  onHoverStart,
-  onHoverEnd,
-  index = 0,
-}: PromiseCardProps) => {
+export const PromiseCard = ({ promise, index = 0 }: PromiseCardProps) => {
   return (
     <motion.div
       initial={{ flexGrow: 1, opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ flexGrow: 3 }}
+      whileHover={{ flexGrow: 2.2 }}
       transition={{
         opacity: { duration: 0.45, delay: index * 0.1, ease: "easeOut" },
         y: { duration: 0.45, delay: index * 0.1, ease: "easeOut" },
-        flexGrow: { duration: 0.3, ease: "easeInOut" },
+        flexGrow: { duration: 0.4, ease: "easeInOut" },
       }}
-      onHoverStart={onHoverStart}
-      onHoverEnd={onHoverEnd}
-      className="group relative h-[220px] md:h-full flex-none md:flex-[1_1_0%] overflow-hidden rounded-sm"
+      className="group relative h-52 md:h-full flex-none md:flex-[1_1_0%] overflow-hidden rounded-sm"
     >
       <Image
         src={promise.img}
@@ -40,21 +27,18 @@ export const PromiseCard = ({
         fill
         sizes="(max-width: 768px) 100vw, 33vw"
         priority
-        className={clsx(
-          "object-cover object-bottom transition-[filter,opacity] duration-500 ease-out",
-          isDimmed ? "grayscale-[0.9] opacity-55" : "grayscale-0 opacity-100",
-        )}
+        className="object-cover object-bottom"
       />
 
-      {/* Default: circle icon, always visible */}
-      <span className="absolute bottom-4 right-4 text-white transition-opacity duration-200 group-hover:opacity-0">
-        <AsteriskIcon size={30} />
-      </span>
+      {/* Scrim + légende toujours visible ; le détail se révèle au survol */}
+      <div className="absolute inset-x-0 bottom-0 p-5 bg-linear-to-t from-primary/75 via-primary/25 to-transparent">
+        <p className="text-xl md:text-2xl font-light text-white">
+          {promise.promise}
+        </p>
 
-      {/* Hover: panel slides up from bottom */}
-      <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-6 bg-support border-t-2 border-accent">
-        <p className="text-2xl mb-2">{promise.promise}</p>
-        <p className="text-lg text-primary/80">{promise.details}</p>
+        <p className="max-h-0 opacity-0 group-hover:max-h-24 group-hover:mt-1.5 group-hover:opacity-100 overflow-hidden text-sm leading-relaxed text-white/85 transition-all duration-300 ease-out">
+          {promise.details}
+        </p>
       </div>
     </motion.div>
   );

@@ -45,7 +45,7 @@ export const TypewriterItem = ({
       >
         ›
       </span>
-      <span className="tracking-wide text-primary/80 min-h-[1.25rem]">
+      <span className="tracking-wide text-primary/80 min-h-5">
         {displayed}
         {typing && !done && (
           <span className="inline-block w-[0.5ch] h-[1em] bg-tertiary ml-0.5 align-middle animate-pulse" />

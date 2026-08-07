@@ -20,7 +20,7 @@ export const NoteCard = ({ pillar, index = 0 }: NoteCardProps) => {
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
       className={clsx(
-        "group relative isolate flex h-[380px] w-full max-w-[360px] overflow-hidden",
+        "group relative isolate flex h-95 w-full max-w-90 overflow-hidden",
         "border-b border-line",
         "transition-color duration-200 ease-out will-change-transform hover:border-linestrong",
       )}
@@ -62,9 +62,9 @@ export const NoteCard = ({ pillar, index = 0 }: NoteCardProps) => {
         <div
           className={clsx(
             "absolute bottom-4.5 right-6 text-accentbis opacity-80",
-            "[&_svg]:h-[96px] [&_svg]:w-[96px]",
+            "[&_svg]:h-24 [&_svg]:w-24",
             "transition-transform duration-200 ease-out will-change-transform",
-            "group-hover:-translate-y-4 group-hover:-rotate-[6deg] group-hover:scale-[1.03]",
+            "group-hover:-translate-y-4 group-hover:-rotate-6 group-hover:scale-[1.03]",
           )}
         >
           {pillar.icon}

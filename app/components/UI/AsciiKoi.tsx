@@ -192,7 +192,7 @@ export const AsciiKoi = () => {
   return (
     <div ref={ref} className="overflow-hidden">
       {/* Gentle float once revealed — starts after the clip-path reveal (~6.4s) */}
-      <motion.div
+      {/* <motion.div
         animate={isInView ? { x: [0, -10, 0] } : { x: 0 }}
         transition={{
           duration: 3.5,
@@ -200,23 +200,23 @@ export const AsciiKoi = () => {
           ease: "easeInOut",
           delay: 6.5,
         }}
+      > */}
+      <motion.pre
+        className="font-mono whitespace-pre text-tertiary/30"
+        style={{
+          fontSize: "3.5px",
+          lineHeight: "1.25",
+          letterSpacing: "0.5px",
+        }}
+        initial={{ clipPath: "inset(0 0 100% 0)" }}
+        animate={{
+          clipPath: isInView ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)",
+        }}
+        transition={{ duration: 4.5, ease: [0.6, 1, 0.3, 1] }}
       >
-        <motion.pre
-          className="font-mono whitespace-pre text-secondary/40"
-          style={{
-            fontSize: "3.5px",
-            lineHeight: "1.25",
-            letterSpacing: "0.5px",
-          }}
-          initial={{ clipPath: "inset(0 0 100% 0)" }}
-          animate={{
-            clipPath: isInView ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)",
-          }}
-          transition={{ duration: 4.5, ease: [0.6, 1, 0.3, 1] }}
-        >
-          {KOI_ART}
-        </motion.pre>
-      </motion.div>
+        {KOI_ART}
+      </motion.pre>
+      {/* </motion.div> */}
     </div>
   );
 };
