@@ -38,8 +38,8 @@ export const Button = ({
   const isPrimary = variant === ButtonVariantEnum.Primary;
 
   const buttonStyle = clsx(
-    "group relative flex w-fit h-fit items-center justify-between overflow-hidden cursor-pointer border rounded-sm",
-    "transition-all duration-400 ease-in-out",
+    "group relative flex w-fit h-fit items-center justify-between overflow-hidden cursor-pointer border rounded-md",
+    "transition-all duration-300 ease-in-out",
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tertiary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-support",
 
     isPrimary && [
@@ -61,14 +61,14 @@ export const Button = ({
   );
 
   const textStyle = clsx(
-    "font-mono  tracking-[0.12em] transition-[letter-spacing] duration-400 ease-in-out group-hover:tracking-[0.18em]",
+    "font-mono transition-[letter-spacing] duration-400 ease-in-out group-hover:tracking-[0.10em]",
     isPrimary
       ? "text-support"
       : disabled
         ? "text-secondary/40"
         : "text-primary",
     size === ButtonSizeEnum.L
-      ? "px-6 py-4 text-lg"
+      ? "px-6 py-2.5 text-lg"
       : size === ButtonSizeEnum.M
         ? "px-5 py-2.5 text-base"
         : "px-3 py-2 text-sm",

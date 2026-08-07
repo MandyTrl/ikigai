@@ -20,7 +20,7 @@ export const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.6 }}
-        className="text-4xl md:text-6xl lg:text-7xl text-center font-medium"
+        className="text-4xl md:text-6xl lg:text-7xl text-center font-semibold"
       >
         {"Quelle est votre "}
         <KanjiRevealWord word="raison" kanji="理" delay={2200} />
@@ -36,10 +36,10 @@ export const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
-        className="max-w-xl text-center text-base md:text-lg font-light text-primary/70"
+        className="max-w-lg text-center text-2xl text-primary/70 font-medium"
       >
         Quelques questions, un moment pour soi, et une lecture de ce qui vous
-        anime — entre philosophie japonaise et intelligence artificielle.
+        anime.
       </motion.p>
 
       {/* CTA */}
@@ -47,7 +47,7 @@ export const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.5 }}
-        className="flex shrink-0 flex-col gap-3 items-center"
+        className="flex shrink-0 flex-col gap-3 items-center mt-3"
       >
         <Button
           label="Trouver son ikigai"
@@ -55,8 +55,8 @@ export const HeroSection = () => {
           href="/commencer"
           size={ButtonSizeEnum.L}
         />
-        <span className="font-mono text-[0.6rem] tracking-[0.25em] text-secondary/70 uppercase">
-          ~ 15 min · 4 piliers
+        <span className="font-mono text-[0.7rem] tracking-[0.25em] text-secondary/80 uppercase">
+          ~15 min · 4 piliers
         </span>
       </motion.div>
     </section>

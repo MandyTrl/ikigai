@@ -20,7 +20,7 @@ export const Eyebrow = ({
 }: EyebrowProps) => (
   <span
     className={clsx(
-      "inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-secondary",
+      "inline-flex items-center gap-2 font-mono text-[0.75rem] uppercase tracking-[0.3em] text-secondary",
       className,
     )}
   >

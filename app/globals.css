@@ -10,7 +10,7 @@
   --neon: #ff6b1f;
 
   /* Fond chaud (registre off-white) + grain subtil dans body::before */
-  --bg-body: linear-gradient(135deg, #faf7f1 0%, #f6efe4 55%, #f1e8da 100%);
+  --bg-body: linear-gradient(135deg, #fffefc 0%, #f7f3ed 55%, #f3eee6 100%);
 
   /* Système de surface unique — réutilisé pour cards, puces, bandeaux */
   --surface: #fffdfa;
@@ -140,33 +140,11 @@ body::before {
   animation: fade 0.5s ease;
 }
 
-/* Works on Chrome, Edge, and Safari */
-::-webkit-scrollbar {
-  width: 18px;
-}
-
-/* Track (fond) */
-::-webkit-scrollbar-track {
-  background: #ffffff;
-  border-radius: 8px;
-}
-
-/* Hide default buttons */
-::-webkit-scrollbar-button {
-  display: none;
-}
-
-/* Scrollbar thumb (barre) */
-::-webkit-scrollbar-thumb {
-  background: var(--secondary);
-  border-radius: 12px;
-  border: 6px solid white;
-}
-
-/* Active/scrolling effect */
-::-webkit-scrollbar-thumb:active {
-  background: var(--secondary);
-  border: 4px solid white;
+/* Standard scrollbar (Chrome 121+, Firefox, Safari 16+)
+   — keeps macOS in overlay mode so the track stays transparent */
+html {
+  scrollbar-color: var(--secondary) transparent;
+  scrollbar-width: thin;
 }
 
 textarea {

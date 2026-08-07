@@ -32,7 +32,7 @@ export const Banner = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative w-full h-[300px] md:h-[350px] overflow-hidden"
+        className="relative w-full h-75 md:h-87.5 overflow-hidden"
       >
         {/* Image avec pan top -> center */}
         <motion.img

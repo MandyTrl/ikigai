@@ -13,7 +13,7 @@ const fadeIn = (isInView: boolean, delay: number) => ({
 });
 
 export const IntroHighlights = ({ isInView }: IntroHighlightsProps) => (
-  <div className="w-[65%] ">
+  <div className="w-[65%]">
     <div className="w-full font-light flex flex-col gap-5 md:gap-7 text-xl md:text-2xl xl:text-3xl">
       <motion.p {...fadeIn(isInView, 0.6)}>
         Vos activités, votre travail vous procurent-ils de la{" "}
