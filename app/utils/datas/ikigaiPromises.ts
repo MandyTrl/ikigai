@@ -1,24 +1,30 @@
 export type IkigaiPromise = {
-  promise: string;
+  /** Petit accent émotionnel en eyebrow */
+  mood: string;
+  /** Le livrable concret */
+  title: string;
   details: string;
   img: string;
 };
 
 export const ikigaiPromises: IkigaiPromise[] = [
   {
-    promise: "Plus de clarté",
+    mood: "clarté",
+    title: "Une synthèse personnalisée",
     details:
-      "En ayant une meilleure compréhension de vos envies et de vos forces.",
+      "Votre profil, vos forces et vos motivations réunis en une lecture claire.",
     img: "/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg",
   },
   {
-    promise: "Une opportunité",
-    details: "De retrouver du sens dans son quotidien et dans ses choix.",
+    mood: "direction",
+    title: "Des pistes de métiers",
+    details: "Des idées concrètes, alignées avec ce qui vous anime.",
     img: "/japanese-illustrations/art-institute-of-chicago-GV1yyMBE2zE-unsplash.jpg",
   },
   {
-    promise: "Un équilibre",
-    details: "En alignant vos aspirations personnelles et professionnelles.",
+    mood: "repère",
+    title: "Un PDF téléchargeable",
+    details: "À garder, relire et partager quand vous le souhaitez.",
     img: "/japanese-illustrations/art-institute-of-chicago-uFawdcrLcfM-unsplash.jpg",
   },
 ];

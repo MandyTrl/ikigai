@@ -2,7 +2,6 @@
 import * as motion from "motion/react-client";
 import { ikigaiPromises } from "../../utils/datas/ikigaiPromises";
 import { PromiseCard } from "./PromiseCard";
-import { WhatYouGetSection } from "./WhatUGetSection";
 import { Title } from "../UI/Title";
 import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
 import Image from "next/image";
@@ -30,16 +29,14 @@ export const PromisesSection = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-12 md:gap-18 items-end justify-between">
-        <WhatYouGetSection />
-
-        <div className="flex flex-col gap-3  md:gap-2 md:h-90 md:flex-row">
-          {ikigaiPromises.map((p, i) => (
-            <PromiseCard promise={p} key={p.promise} index={i} />
-          ))}
-        </div>
+      {/* Une seule série de cards : estampe + livrable concret */}
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
+        {ikigaiPromises.map((p, i) => (
+          <PromiseCard promise={p} key={p.title} index={i} />
+        ))}
       </div>
 
+      {/* Closer — banner douce : le CTA repose dans un cocon */}
       <div className="mt-6 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-6 rounded-2xl border border-line bg-surface/70 px-8 py-8 md:px-12 md:py-10 shadow-(--shadow-soft)">
         <div className="flex flex-col gap-1 text-center md:text-left">
           <p className="text-2xl md:text-3xl font-light">
