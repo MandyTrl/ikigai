@@ -13,7 +13,7 @@ export const ikigaiPromises: IkigaiPromise[] = [
     title: "Une synthèse personnalisée",
     details:
       "Votre profil, vos forces et vos motivations réunis en une lecture claire.",
-    img: "/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg",
+    img: "/japanese-illustrations/art-institute-of-chicago-uFawdcrLcfM-unsplash.jpg",
   },
   {
     mood: "direction",
@@ -25,6 +25,6 @@ export const ikigaiPromises: IkigaiPromise[] = [
     mood: "repère",
     title: "Un PDF téléchargeable",
     details: "À garder, relire et partager quand vous le souhaitez.",
-    img: "/japanese-illustrations/art-institute-of-chicago-uFawdcrLcfM-unsplash.jpg",
+    img: "/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg",
   },
 ];

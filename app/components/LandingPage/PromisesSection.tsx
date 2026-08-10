@@ -3,7 +3,7 @@ import * as motion from "motion/react-client";
 import { ikigaiPromises } from "../../utils/datas/ikigaiPromises";
 import { PromiseCard } from "./PromiseCard";
 import { Title } from "../UI/Title";
-import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
+import { Button, ButtonSizeEnum } from "../UI/Button";
 import Image from "next/image";
 
 export const PromisesSection = () => {
@@ -36,25 +36,22 @@ export const PromisesSection = () => {
         ))}
       </div>
 
-      {/* Closer — banner douce : le CTA repose dans un cocon */}
-      <div className="mt-6 md:mt-10 flex flex-col md:flex-row items-center justify-between gap-6 rounded-2xl border border-line bg-surface/70 px-8 py-8 md:px-12 md:py-10 shadow-(--shadow-soft)">
-        <div className="flex flex-col gap-1 text-center md:text-left">
-          <p className="text-2xl md:text-3xl font-light">
-            Prêt·e à trouver votre ikigai ?
-          </p>
-
-          <p className="font-mono text-[0.7rem] tracking-[0.25em] text-secondary/80 uppercase">
-            gratuit · sans inscription
-          </p>
-        </div>
+      {/* Closer — flotte comme le reste, marqué par un fin séparateur */}
+      <div className="mt-10 md:mt-14 flex flex-col items-center gap-5 border-t border-line pt-10 md:pt-14 text-center">
+        <p className="text-2xl md:text-3xl font-light">
+          Prêt·e à trouver votre ikigai ?
+        </p>
 
         <Button
           label="Commencer le test"
           isLink
           href="/commencer"
           size={ButtonSizeEnum.L}
-          variant={ButtonVariantEnum.Outline}
         />
+
+        <p className="font-mono text-[0.7rem] tracking-[0.25em] text-secondary/80 uppercase">
+          gratuit · sans inscription
+        </p>
       </div>
     </motion.section>
   );
