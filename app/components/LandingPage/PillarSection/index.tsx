@@ -50,13 +50,13 @@ export const PillarSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="mt-12 md:mt-20 flex flex-col lg:flex-row items-start gap-8 lg:gap-12"
+      className="flex flex-col lg:flex-row items-start gap-8 lg:gap-12"
     >
       {/* Header + CTA */}
       <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
           <div className="border-l-4 border-tertiary pl-6">
-            <Eyebrow text="La méthode · 04 piliers" withDot className="mb-3" />
+            <Eyebrow text="道 — la méthode" withDot className="mb-3" />
             <Title
               as="h3"
               variant="h1"
@@ -77,9 +77,11 @@ export const PillarSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2">
-          {/* Carpe Koi */}
-          <AsciiKoi />
+        <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:items-center lg:gap-4">
+          {/* Carpe Koï — dessous sur mobile, à gauche sur desktop, en retrait */}
+          <div className="order-last lg:order-first">
+            <AsciiKoi />
+          </div>
 
           <div className="flex flex-col gap-4">
             {/* Cards */}
@@ -89,7 +91,7 @@ export const PillarSection = () => {
               ))}
             </div>
 
-            <p className="font-andika text-xs tracking-widest text-accentbis uppercase text-center">
+            <p className="font-mono text-[0.7rem] tracking-[0.25em] text-secondary/80 uppercase text-center">
               analyse assistée par gemini-2.5-flash
             </p>
           </div>

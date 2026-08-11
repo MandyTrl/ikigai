@@ -114,6 +114,20 @@
   }
 }
 
+/* Respect du réglage système "Réduire les animations" — neutralise les
+   animations/transitions CSS (glow, venn-trace, view-transition, hovers).
+   Les animations Framer sont gérées via <MotionConfig reducedMotion="user">. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   font-family: var(--font-arima);
   color: var(--primary);

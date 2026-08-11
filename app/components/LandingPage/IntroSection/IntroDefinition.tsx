@@ -17,20 +17,20 @@ export const IntroDefinition = ({ isInView }: IntroDefinitionProps) => (
     <Eyebrow text="哲学 — la philosophie" withDot />
 
     <motion.p {...fadeIn(isInView, 0.9)} className="leading-relaxed">
-      L&apos;ikigai est une <strong>philosophie japonaise</strong> qui repose
-      sur l&apos;alignement avec soi-même en identifiant ce qui vous anime
-      réellement. Une fois trouvé, il procure clarté et joie au quotidien.
+      L&apos;ikigai est une philosophie japonaise qui repose sur
+      l&apos;alignement avec soi-même en identifiant ce qui compte vraiment pour
+      vous. Une fois trouvé, il procure clarté et joie au quotidien.
     </motion.p>
 
     <motion.p {...fadeIn(isInView, 1.05)} className="leading-relaxed">
       <strong>Ikig-</strong>
       <span className="text-secondary font-bold font-andika">ai</span> est un
       outil conçu pour aider à clarifier votre réflexion, en combinant cette{" "}
-      <span className="inline-block bg-accent px-2 py-0.5 my-1 rounded-xl border-primary">
+      <span className="underline decoration-tertiary font-medium">
         philosophie japonaise
       </span>{" "}
       à{" "}
-      <span className="inline-block text-white bg-accentbis px-2 py-0.5 rounded-xl border-primary">
+      <span className="underline decoration-accentbis font-medium">
         l&apos;intelligence artificielle
       </span>
       .

@@ -1,5 +1,6 @@
 "use client";
 import { ReactNode, useCallback, useMemo, useState, useEffect } from "react";
+import { MotionConfig } from "motion/react";
 import { IkigaiContext, IkigaiForm, initialIkigaiForm } from "./IkigaiContext";
 import { getFilledAnswersCount } from "../utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "../types";
@@ -109,10 +110,14 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <IkigaiContext.Provider value={ikigaiContextValue}>
-      <HoverContext.Provider value={hoverContextValue}>
-        {children}
-      </HoverContext.Provider>
-    </IkigaiContext.Provider>
+    // reducedMotion="user" : respecte le réglage système "Réduire les animations"
+    // (Framer garde les fondus d'opacité, coupe les transforms)
+    <MotionConfig reducedMotion="user">
+      <IkigaiContext.Provider value={ikigaiContextValue}>
+        <HoverContext.Provider value={hoverContextValue}>
+          {children}
+        </HoverContext.Provider>
+      </IkigaiContext.Provider>
+    </MotionConfig>
   );
 };

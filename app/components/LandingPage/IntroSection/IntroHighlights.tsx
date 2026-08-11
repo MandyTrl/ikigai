@@ -9,11 +9,11 @@ type IntroHighlightsProps = {
 const fadeIn = (isInView: boolean, delay: number) => ({
   initial: { opacity: 0, y: 12 },
   animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
-  transition: { duration: 0.55, delay, ease: "easeOut" as const },
+  transition: { duration: 0.5, delay, ease: "easeOut" as const },
 });
 
 export const IntroHighlights = ({ isInView }: IntroHighlightsProps) => (
-  <div className="w-[65%]">
+  <div className="w-full max-w-3xl mx-auto">
     <div className="w-full font-light flex flex-col gap-5 md:gap-7 text-xl md:text-2xl xl:text-3xl">
       <motion.p {...fadeIn(isInView, 0.6)}>
         Vos activités, votre travail vous procurent-ils de la{" "}
@@ -26,10 +26,10 @@ export const IntroHighlights = ({ isInView }: IntroHighlightsProps) => (
       </motion.p>
 
       <motion.p {...fadeIn(isInView, 1.1)}>
-        Il peut être difficile dans notre quotidien de faire une{" "}
-        <HighLightText content="pause" mode="tertiary" /> et de comprendre ce
-        qui nous motive vraiment. Pourtant, se poser les bonnes questions est
-        essentiel pour aller dans la{" "}
+        Difficile, au quotidien, de faire une{" "}
+        <HighLightText content="pause" mode="tertiary" /> et de comprendre ce qui
+        nous motive vraiment. Pourtant, se poser les bonnes questions, c&apos;est
+        déjà aller dans la{" "}
         <HighLightText content="bonne direction" mode="secondary" />.
       </motion.p>
     </div>

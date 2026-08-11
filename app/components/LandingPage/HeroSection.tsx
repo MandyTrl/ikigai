@@ -23,11 +23,11 @@ export const HeroSection = () => {
         className="text-4xl md:text-6xl lg:text-7xl text-center font-semibold"
       >
         {"Quelle est votre "}
-        <KanjiRevealWord word="raison" kanji="理" delay={2200} />
+        <KanjiRevealWord word="raison" kanji="理" delay={1600} />
         {" de vous "}
-        <KanjiRevealWord word="lever" kanji="起" delay={2700} />
+        <KanjiRevealWord word="lever" kanji="起" delay={2100} />
         {" chaque "}
-        <KanjiRevealWord word="matin" kanji="朝" delay={3200} />
+        <KanjiRevealWord word="matin" kanji="朝" delay={2600} />
         {"?"}
       </motion.p>
 

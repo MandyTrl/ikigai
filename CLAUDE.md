@@ -48,7 +48,7 @@ The key is loaded in `lib/gemini.ts` and throws at runtime if missing.
 Each `QuestionTab` shows three states: active (amber glow bar, `en cours`), filled (green bar, check + `remplie`), empty (faded, `à faire`). All labels are monospace uppercase.
 
 ### State management
-All form state lives in `app/context/index.tsx` (the `AppProviders` component), which wraps two providers:
+All form state lives in `app/context/index.tsx` (the `AppProviders` component). It wraps everything in `<MotionConfig reducedMotion="user">` (Framer Motion respects the system "reduce motion" setting app-wide; CSS animations are neutralized via a `prefers-reduced-motion` block in `globals.css`), then two providers:
 
 - **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`). Persisted to `localStorage` under the key `"ikigai-form"`.
 - **`HoverContext`** (`app/context/HoverContext.tsx`) — which pillar is currently hovered (used for the Venn diagram to bring the hovered circle to the front).
@@ -111,9 +111,9 @@ Step progression uses `IkigaiStepEnum` (INITIAL → LOVE → NEEDS → PAID → 
 app/components/
   Analyze/         — result display: IkigaiSummary, JobCard, PillarAnalysis, CoherenceSignal, PdfButton
   Form/            — FormGuidelines, FormTextArea, QuestionTabs
-  LandingPage/     — Banner, HeroSection, IntroSection/, PillarSection/, PromisesSection, WhatUGetSection
+  LandingPage/     — Banner, HeroSection, IntroSection/, PillarSection/, PromisesSection
   Layouts/         — MainLayout, FormLayout, YourIkigaiLayout
-  UI/              — Button, Collapse, DynamicIcon, HighlightText, KanjiRevealWord, Title, TypewriterItem, AsciiKoi, AsciiSakura
+  UI/              — Button, Eyebrow, Collapse, DynamicIcon, HighlightText, KanjiRevealWord, Title, AsciiKoi, AsciiSakura
   VennDiagram/     — VennDiagram (SVG, responsive via %), Circle
   Navbar.tsx
   MainstayList.tsx
@@ -132,11 +132,14 @@ Design tokens (colors, shadows, fonts, background) are defined in `app/globals.c
 - **Airy before everything**: whitespace is the primary design element. Density signals stress; space signals calm. When in doubt, add space.
 - **One focal point per screen**: the user should never have to scan to find what to do next. Visual hierarchy is achieved through spacing and weight, not decoration.
 - **Neo-vintage through typography**: thin display weights (`font-[100]` to `font-[200]`), warm background gradient — evokes craftsmanship and slowness, not sterility
-- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `remplie`, `à faire`), comment-style prefixes (`// 2/3 réponses`) — precise, terminal-like, a quiet nod to the AI layer underneath
-- **Transitions as breathing**: all state changes animate (150–300 ms, ease-in-out). Nothing snaps. The interface inhales and exhales.
+- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `remplie`, `à faire`), comment-style prefixes (`// 2/3 réponses`), system microlines (`~15 min · 4 piliers`, `gratuit · sans inscription`, `analyse assistée par gemini-2.5-flash`) — precise, terminal-like, a quiet nod to the AI layer underneath
+- **Section eyebrows** open each landing section in a single format via the `Eyebrow` component: `kanji — français · dot` (e.g. `生き甲斐 — ikigai`, `哲学 — la philosophie`, `道 — la méthode · 04 piliers`, `実り — le résultat`). The kanji carries the authentic Japanese thread.
+- **Warm register, cold reserved for tech**: pastel accents stay warm (`--tertiary` sand is the default accent). The cool blue (`--secondary` / `--accentbis`) is reserved for the "tech/AI" thread only — the monospace microlines and the "l'intelligence artificielle" mention. ASCII art (koï/sakura) is warm ton-sur-ton, never the old cold blue.
+- **Ukiyo-e estampes as atmosphere, not decoration**: use them subtly — a faded full-bleed background behind a section, or an organic-shaped ("galet"/torn-paper) print — kept low enough that text stays legible. Never a plain "stock image in a card".
+- **Transitions as breathing**: all state changes animate (150–300 ms, ease-in-out). Nothing snaps. Motion respects `prefers-reduced-motion` — the app is wrapped in `<MotionConfig reducedMotion="user">` (Framer) and `globals.css` has a `prefers-reduced-motion` block for CSS animations.
 - **Pillar colors from `colorMap`** used consistently — each pillar has its own pastel identity, applied with restraint (accents, not fills)
 - **Offset box-shadow on hover** for interactive elements (see `Button.tsx`) — directional `4px 4px 0px`, not a standard glow
-- **Noise texture overlay** on `body::before` via `nnnoise.svg` at 50% — gives organic warmth; don't cover it with solid backgrounds
+- **Noise texture overlay** on `body::before` via `nnnoise.svg` at ~3.5% opacity — gives organic warmth; don't cover it with solid backgrounds
 - **Less is more**: every element must earn its place — nothing exists by default. If removing it doesn't break comprehension, remove it.
 
 

@@ -6,13 +6,7 @@ import { motion, useInView } from "motion/react";
 // ─── Koi carp ASCII art — Code Page 437 gradient (█▓▒░) ───
 
 const KOI_ART = `
-                                                                                                                                                                             
-                                                                                                                                                                             
-                                                                                                                                                                             
-                                                                                                                                                                             
-                                                                                                                                                                             
-                                                                                                                                                                             
-                                                                                                                                                                             
+                                                                                                                                                              
                                                                                                                       ░░                                                     
                                                                                                                    ░████▒                                                    
                                                                                                                   ░██████                                                    
@@ -202,7 +196,7 @@ export const AsciiKoi = () => {
         }}
       > */}
       <motion.pre
-        className="font-mono whitespace-pre text-tertiary/30"
+        className="font-mono whitespace-pre text-tertiary/20"
         style={{
           fontSize: "3.5px",
           lineHeight: "1.25",
