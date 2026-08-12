@@ -4,7 +4,7 @@ import { EMPTY_ANSWERS, FormTextArea } from "../Form/FormTextArea";
 import { FormHeader } from "../Form/FormHeader";
 import { QuestionSideNav } from "../Form/QuestionSideNav";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
-import { FormDelay } from "../Form/FormDelay";
+import { PillarIdentity } from "../Form/PillarIdentity";
 
 export const FormLayout = () => {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
@@ -22,7 +22,7 @@ export const FormLayout = () => {
   const answers = currentPillar?.answers ?? EMPTY_ANSWERS;
 
   return (
-    <div className="max-w-[45rem] mx-auto py-8 md:py-14 px-4">
+    <div className="max-w-180 mx-auto py-8 md:py-14 px-4">
       <FormHeader />
 
       {/* Sidenav */}
@@ -35,8 +35,8 @@ export const FormLayout = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-3 md:gap-5">
-          <FormDelay />
+        <div className="flex flex-col gap-4 md:gap-6">
+          <PillarIdentity />
 
           <FormGuidelines questionIndex={questionIndex} />
 

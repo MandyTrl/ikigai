@@ -7,6 +7,8 @@ export type InstructionType = {
 
 export type IkigaiMainstay = {
   mainstay: IkigaiStepEnum;
+  /** Kanji du pilier — porte le fil japonais dans l'eyebrow du formulaire. */
+  kanji: string;
   title: string;
   readingTime: string;
   reflectionTime: string;
@@ -19,6 +21,7 @@ export type IkigaiMainstay = {
 export const ikigaiMainstay: IkigaiMainstay[] = [
   {
     mainstay: IkigaiStepEnum.LOVE,
+    kanji: "愛",
     title: "Ce que vous aimez",
     readingTime: "1 min",
     reflectionTime: "5 à 10 min",
@@ -65,6 +68,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   },
   {
     mainstay: IkigaiStepEnum.NEEDS,
+    kanji: "要",
     title: "Ce dont le monde a besoin",
     readingTime: "1 min",
     reflectionTime: "10 à 15 min",
@@ -111,6 +115,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   },
   {
     mainstay: IkigaiStepEnum.PAID,
+    kanji: "稼",
     title: "Ce pourquoi vous pouvez être payé",
     readingTime: "1 min",
     reflectionTime: "10 à 15 min",
@@ -157,6 +162,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   },
   {
     mainstay: IkigaiStepEnum.TALENT,
+    kanji: "才",
     title: "Ce pourquoi vous êtes doué",
     readingTime: "1 min",
     reflectionTime: "15 à 20 min",

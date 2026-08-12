@@ -112,7 +112,7 @@ export const FormTextArea = ({
         autoComplete="off"
         autoCapitalize="sentences"
         wrap="hard"
-        className="w-full p-4 border border-secondary/25 rounded-sm focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/50 resize-none duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35 placeholder:font-mono placeholder:text-sm"
+        className="w-full p-4 border border-secondary/25 rounded-lg focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/50 resize-none duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35"
       />
 
       <p

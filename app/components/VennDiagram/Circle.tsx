@@ -10,12 +10,16 @@ type CircleProps = {
   cy: string;
   r?: string;
   fill: string;
+  /** Teinte foncée du pilier — « encre » du sceau kanji (lisible sur crème). */
+  sealColor?: string;
   defaultCxLabel: string;
   hoveredCxLabel?: string;
   defaultCyLabel: string;
   hoveredCyLabel?: string;
   label: string;
   labelSecondPart?: string;
+  /** Kanji du pilier — scelle le cercle une fois le pilier validé. */
+  kanji?: string;
   /** Le pilier a assez de réponses → bordure de complétion. */
   isComplete?: boolean;
   /** Les 4 piliers sont complets → tracé fin de la bordure (gamification). */
@@ -32,12 +36,14 @@ export const Circle = ({
   cy,
   r,
   fill,
+  sealColor,
   defaultCxLabel,
   hoveredCxLabel,
   defaultCyLabel,
   hoveredCyLabel,
   label,
   labelSecondPart,
+  kanji,
   isComplete = false,
   allComplete = false,
   traceDelay = 0,
@@ -81,6 +87,11 @@ export const Circle = ({
         ? 0.9
         : 0.8;
 
+  // Une fois le pilier validé, le libellé FR se fond en son sceau kanji.
+  // Au survol, on redonne le français pour la lisibilité.
+  const isSealed = isComplete && !!kanji;
+  const showKanji = isSealed && !isHovered;
+
   // CSS transform sur le <g> (pas l'attribut SVG transform) pour éviter que
   // le recalcul de styles SVG ne redémarre l'animation CSS des enfants.
   const gStyle = {
@@ -121,6 +132,7 @@ export const Circle = ({
         onAnimationEnd={() => setStrokeDrawn(true)}
       />
 
+      {/* Libellé FR — présent tant que le pilier n'est pas validé */}
       <text
         x={cxLabel}
         y={cyLabel}
@@ -128,10 +140,10 @@ export const Circle = ({
         dy=".3em"
         fill={"#091C34"}
         fontSize={isHovered ? 3.6 : 3.2}
-        opacity={labelOpacity}
+        opacity={showKanji ? 0 : labelOpacity}
         style={{
           fontFamily: "var(--font-andika)",
-          transition: "opacity 0.3s ease, font-size 0.3s ease",
+          transition: "opacity 0.35s ease, font-size 0.3s ease",
         }}
         className={clsx(
           "cursor-pointer select-none",
@@ -148,6 +160,30 @@ export const Circle = ({
           </tspan>
         )}
       </text>
+
+      {/* Sceau kanji — se pose à la validation du pilier (petit « pop » de tampon) */}
+      {kanji && (
+        <text
+          x={cxLabel}
+          y={cyLabel}
+          textAnchor="middle"
+          dy=".35em"
+          fill={sealColor ?? fill}
+          fontSize={isHovered ? 6.4 : 6}
+          opacity={showKanji ? 1 : 0}
+          style={{
+            transform: showKanji ? "scale(1)" : "scale(0.8)",
+            transformBox: "fill-box",
+            transformOrigin: "center",
+            transition:
+              "opacity 0.35s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            pointerEvents: showKanji ? "auto" : "none",
+          }}
+          className="cursor-pointer select-none font-normal"
+        >
+          {kanji}
+        </text>
+      )}
     </g>
   );
 };

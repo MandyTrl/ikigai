@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Navbar } from "../Navbar";
+import { SiteHeader } from "../SiteHeader";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -14,7 +14,7 @@ export const MainLayout = ({
 }: MainLayoutProps) => {
   return (
     <div className="relative">
-      {hasNavbar && <Navbar />}
+      {hasNavbar && <SiteHeader />}
 
       <div className={`w-full mx-auto max-w-6xl flex flex-col ${className}`}>
         {children}
