@@ -1,5 +1,6 @@
 "use client";
 import { useContext } from "react";
+import { motion } from "motion/react";
 import { IkigaiContext, IkigaiForm } from "@/app/context/IkigaiContext";
 import {
   IkigaiMainstay,
@@ -30,13 +31,20 @@ export const FormGuidelines = ({ questionIndex }: FormGuidelinesProps) => {
   const question = mainstayInfoFound.instructions[questionIndex];
 
   return (
-    <div className="flex flex-col gap-4 md:gap-10">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4 md:gap-12">
+      <motion.div
+        key={questionIndex}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className="flex flex-col gap-2"
+      >
         <Title variant="h3" as="h2" text={question.question} />
         <span className="text-sm md:text-base">{question.details}</span>
-      </div>
+      </motion.div>
 
       <FormTabs
+        accentColor={mainstayInfoFound.accent}
         tabs={[
           ...(mainstayInfoFound.help[questionIndex]
             ? [

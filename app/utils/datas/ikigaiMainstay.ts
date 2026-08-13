@@ -9,6 +9,8 @@ export type IkigaiMainstay = {
   mainstay: IkigaiStepEnum;
   /** Kanji du pilier — porte le fil japonais dans l'eyebrow du formulaire. */
   kanji: string;
+  /** Teinte foncée du pilier (sceau kanji, accents du formulaire). */
+  accent: string;
   title: string;
   readingTime: string;
   reflectionTime: string;
@@ -22,6 +24,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   {
     mainstay: IkigaiStepEnum.LOVE,
     kanji: "愛",
+    accent: "#8189c4",
     title: "Ce que vous aimez",
     readingTime: "1 min",
     reflectionTime: "5 à 10 min",
@@ -69,6 +72,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   {
     mainstay: IkigaiStepEnum.NEEDS,
     kanji: "要",
+    accent: "#d19a63",
     title: "Ce dont le monde a besoin",
     readingTime: "1 min",
     reflectionTime: "10 à 15 min",
@@ -116,6 +120,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   {
     mainstay: IkigaiStepEnum.PAID,
     kanji: "稼",
+    accent: "#6c97cf",
     title: "Ce pourquoi vous pouvez être payé",
     readingTime: "1 min",
     reflectionTime: "10 à 15 min",
@@ -163,6 +168,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
   {
     mainstay: IkigaiStepEnum.TALENT,
     kanji: "才",
+    accent: "#67a88b",
     title: "Ce pourquoi vous êtes doué",
     readingTime: "1 min",
     reflectionTime: "15 à 20 min",
@@ -191,7 +197,7 @@ export const ikigaiMainstay: IkigaiMainstay[] = [
     tips: "Pour tirer le meilleur de cet exercice, essayez d’identifier entre 3 et 5 compétences ou aptitudes dans lesquelles vous vous sentez à l’aise et compétent(e).",
     help: [
       {
-        question: "Observez votre parcours :",
+        question: "Observez votre parcours",
         details:
           "Y a-t-il des tâches ou des missions que vous avez accomplies facilement et avec succès dans vos expériences passées ?",
       },

@@ -2,8 +2,13 @@ import { IkigaiForm } from "../context/IkigaiContext";
 
 const MIN_ANSWERS_REQUIRED_PER_PILLAR = 2;
 
+export const MIN_ANSWER_LENGTH = 40;
+
+export const isAnswerFilled = (answer: string) =>
+  answer.trim().length >= MIN_ANSWER_LENGTH;
+
 export const getFilledAnswersCount = (answers: string[]) => {
-  return answers.filter((answer) => answer.trim().length > 0).length;
+  return answers.filter(isAnswerFilled).length;
 };
 
 export const isPillarCompleteForAnalysis = (pillar: IkigaiForm) => {

@@ -15,7 +15,7 @@ const STATUS_LEGEND = [
     label: "à faire",
     icon: <MinusIcon size={13} className="fill-primary/80" />,
   },
-  { label: "en cours (1/3)", icon: <CheckIcon size={13} color="#ff6b1f" /> },
+  { label: "en cours", icon: <CheckIcon size={13} color="#ff6b1f" /> },
   { label: "validé (2/3)", icon: <CheckIcon size={13} color="#059669" /> },
   { label: "complété (3/3)", icon: <ChecksIcon size={13} color="#059669" /> },
 ];
@@ -35,8 +35,7 @@ export const IkigaiGuide = () => {
       <ol className="flex flex-col gap-8">
         <GuideStep step="01" title="Choisissez un pilier">
           <p className="text-primary/65">
-            N&apos;importe lequel, dans l&apos;ordre que vous voulez (sur le
-            diagramme ou dans la liste).
+            N&apos;importe lequel, dans l&apos;ordre que vous voulez.
           </p>
 
           <MainstayList />
@@ -53,9 +52,12 @@ export const IkigaiGuide = () => {
 
         <GuideStep step="02" title="Répondez à 3 questions guidées">
           <p className="text-primary/65">
-            Comptez 10 à 20 min par pilier. Deux réponses suffisent à le
-            valider, mais plus vous répondez de questions, plus votre analyse
-            sera précise.
+            Comptez 10 à 20 min par pilier.{" "}
+            <span className="font-semibold text-primary">
+              Deux réponses suffisent à le valider
+            </span>
+            , mais plus vous répondez de questions, plus votre analyse sera
+            précise.
           </p>
         </GuideStep>
 

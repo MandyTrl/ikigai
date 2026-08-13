@@ -45,7 +45,6 @@ const VennDiagram: React.FC = () => {
       cx: "50%",
       cy: "30%",
       fill: "#d7defb",
-      sealColor: "#8189c4",
       label: "Ce que vous aimez",
       defaultCyLabel: "19%",
       hoveredCyLabel: "33%",
@@ -57,7 +56,6 @@ const VennDiagram: React.FC = () => {
       cx: "70%",
       cy: "51%",
       fill: "#ffe2ce",
-      sealColor: "#d19a63",
       label: "Ce dont le",
       labelSecondPart: "monde a besoin",
       defaultCxLabel: "82%",
@@ -70,7 +68,6 @@ const VennDiagram: React.FC = () => {
       cx: "50%",
       cy: "72%",
       fill: "#c9def7",
-      sealColor: "#6c97cf",
       label: "Ce pourquoi vous",
       labelSecondPart: "pouvez être payé",
       defaultCxLabel: "50%",
@@ -83,7 +80,6 @@ const VennDiagram: React.FC = () => {
       cx: "30%",
       cy: "51%",
       fill: "#c9eadd",
-      sealColor: "#67a88b",
       label: "Ce pourquoi",
       labelSecondPart: "vous êtes doué",
       defaultCxLabel: "18%",
@@ -113,6 +109,9 @@ const VennDiagram: React.FC = () => {
               {...circle}
               kanji={
                 ikigaiMainstay.find((m) => m.mainstay === circle.id)?.kanji
+              }
+              sealColor={
+                ikigaiMainstay.find((m) => m.mainstay === circle.id)?.accent
               }
               r={radius}
               isComplete={completionByMainstay[circle.id] ?? false}
@@ -144,10 +143,10 @@ const VennDiagram: React.FC = () => {
                 x="50%"
                 y="52.5%"
                 textAnchor="middle"
-                fontSize="0.34vw"
+                fontSize="0.5vw"
                 fontWeight="bold"
                 fill="#091C34"
-                opacity={allComplete ? 0.72 : 0}
+                opacity={allComplete ? 0.82 : 0}
                 style={{
                   transition: "opacity 0.6s ease",
                   transitionDelay: allComplete ? "1.8s" : "0s",

@@ -10,9 +10,10 @@ type FormTab = {
 
 type FormTabsProps = {
   tabs: FormTab[];
+  accentColor?: string;
 };
 
-export const FormTabs = ({ tabs }: FormTabsProps) => {
+export const FormTabs = ({ tabs, accentColor }: FormTabsProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
@@ -37,7 +38,8 @@ export const FormTabs = ({ tabs }: FormTabsProps) => {
               {isActive && (
                 <motion.span
                   layoutId="form-tab-underline"
-                  className="absolute inset-x-0 -bottom-px h-[0.8px] bg-tertiary"
+                  className="absolute inset-x-0 -bottom-px h-[0.8px]"
+                  style={{ backgroundColor: accentColor ?? "var(--tertiary)" }}
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
               )}
@@ -47,12 +49,17 @@ export const FormTabs = ({ tabs }: FormTabsProps) => {
       </div>
 
       <motion.div
-        key={activeIndex}
-        initial={{ opacity: 0, y: 4 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2 }}
+        layout
+        transition={{ layout: { duration: 0.25, ease: [0.4, 0, 0.2, 1] } }}
       >
-        {tabs[activeIndex].content}
+        <motion.div
+          key={activeIndex}
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {tabs[activeIndex].content}
+        </motion.div>
       </motion.div>
     </div>
   );

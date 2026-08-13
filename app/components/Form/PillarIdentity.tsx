@@ -2,7 +2,6 @@
 import { useContext } from "react";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { ikigaiMainstay } from "@/app/utils/datas/ikigaiMainstay";
-
 export const PillarIdentity = () => {
   const { currentStep } = useContext(IkigaiContext);
 
@@ -14,7 +13,8 @@ export const PillarIdentity = () => {
     <p className="flex items-baseline gap-2.5 text-secondary">
       <span
         aria-hidden
-        className="font-arima text-3xl leading-none text-tertiary"
+        className="font-arima text-3xl leading-none"
+        style={{ color: pillar.accent }}
       >
         {pillar.kanji}
       </span>

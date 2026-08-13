@@ -1,17 +1,19 @@
 "use client";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { CSSProperties, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import {
   IkigaiMainstay,
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
-import clsx from "clsx";
 import {
   getFilledAnswersCount,
+  isAnswerFilled,
   isPillarCompleteForAnalysis,
+  MIN_ANSWER_LENGTH,
 } from "@/app/utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
 import { Button, ButtonSizeEnum, ButtonVariantEnum } from "../UI/Button";
+import { AnswerCounter } from "./AnswerCounter";
 
 export const EMPTY_ANSWERS = ["", "", ""];
 
@@ -28,7 +30,7 @@ export const FormTextArea = ({
     useContext(IkigaiContext);
 
   const [answers, setAnswers] = useState<string[]>(EMPTY_ANSWERS);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const mainstayData = useMemo(
     () => ikigaiForm.find((entry) => entry.mainstay === currentStep),
@@ -39,17 +41,21 @@ export const FormTextArea = ({
     (el) => el.mainstay === currentStep,
   );
 
+  // Autofocus : le curseur est prêt à écrire à chaque question / pilier,
+  // sans faire sauter le scroll (readiness façon MBTI).
+  useEffect(() => {
+    textareaRef.current?.focus({ preventScroll: true });
+  }, [questionIndex, currentStep]);
+
   useEffect(() => {
     setAnswers(mainstayData?.answers ?? EMPTY_ANSWERS);
-    setErrorMsg(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep]);
 
-  // auto-save after debounce if it's not changed
+  // Auto-save après un court debounce si la réponse a changé.
   useEffect(() => {
     if (!mainstayData) return;
-
-    if (JSON.stringify(mainstayData.answers) === JSON.stringify(answers))
-      return;
+    if (JSON.stringify(mainstayData.answers) === JSON.stringify(answers)) return;
 
     const timer = setTimeout(() => {
       updateForm(currentStep, {
@@ -71,64 +77,61 @@ export const FormTextArea = ({
     ? isPillarCompleteForAnalysis(mainstayData)
     : answeredCount >= 2;
 
-  const handleChange = (value: string) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[questionIndex] = value;
-    setAnswers(updatedAnswers);
+  const currentLength = answers[questionIndex].trim().length;
 
-    if (errorMsg) {
-      setErrorMsg(null);
-    }
+  const handleChange = (value: string) => {
+    const updated = [...answers];
+    updated[questionIndex] = value;
+    setAnswers(updated);
   };
 
-  const handleNext = () => {
-    if (!isCurrentPillarComplete) {
-      setErrorMsg("Veuillez remplir au moins deux réponses pour ce pilier.");
-      return;
-    }
-
-    setErrorMsg(null);
+  const handleFinish = () => {
     savePillar(currentStep, answers);
     setStep(IkigaiStepEnum.INITIAL);
   };
 
-  const handlePrevious = () => {
-    if (questionIndex === 0) return;
-
-    setErrorMsg(null);
-    setQuestionIndex((prev) => prev - 1);
+  const handleContinue = () => {
+    if (questionIndex < answers.length - 1) {
+      setQuestionIndex(questionIndex + 1);
+      return;
+    }
+    const nextToFill = answers.findIndex((answer) => !isAnswerFilled(answer));
+    if (nextToFill !== -1) setQuestionIndex(nextToFill);
   };
 
   return (
     <div className="flex flex-col gap-3">
       <textarea
         key={questionIndex}
+        ref={textareaRef}
         id={mainstayInfoFound.mainstay}
         name={mainstayInfoFound.mainstay}
         value={answers[questionIndex]}
         onChange={(e) => handleChange(e.target.value)}
         placeholder="Votre réponse..."
-        rows={6}
+        rows={8}
         autoComplete="off"
         autoCapitalize="sentences"
         wrap="hard"
-        className="w-full p-4 border border-secondary/25 rounded-lg focus:border-neon/50 focus:ring-1 focus:ring-tertiary/5 focus:outline-none focus:bg-white/50 resize-none duration-200 ease-in-out transition-all bg-white/40 font-mono text-sm leading-relaxed placeholder:text-secondary/35"
+        style={
+          {
+            "--pillar": mainstayInfoFound.accent,
+            "--pillar-soft": `${mainstayInfoFound.accent}2e`,
+          } as CSSProperties
+        }
+        className="w-full p-4 rounded-2xl border border-line bg-surface resize-none transition-all duration-200 ease-in-out font-mono text-sm leading-relaxed placeholder:text-secondary/35 focus:outline-none focus:border-[var(--pillar)] focus:ring-4 focus:ring-[var(--pillar-soft)]"
       />
 
-      <p
-        className={clsx(
-          errorMsg ? "opacity-100 translate-y-2" : "opacity-0 translate-y-0",
-          "text-red-600 font-andika text-sm min-h-5 ml-2 transition-all duration-300 ease-out",
-        )}
-      >
-        {errorMsg}
-      </p>
+      <AnswerCounter
+        length={currentLength}
+        min={MIN_ANSWER_LENGTH}
+        accentColor={mainstayInfoFound.accent}
+      />
 
       <div className="flex items-center justify-end gap-4">
         <Button
-          onClick={handleNext}
-          disabled={!isCurrentPillarComplete}
-          label="Terminer ce pilier"
+          onClick={isCurrentPillarComplete ? handleFinish : handleContinue}
+          label={isCurrentPillarComplete ? "Terminer ce pilier" : "Continuer"}
           size={ButtonSizeEnum.S}
           variant={
             isCurrentPillarComplete

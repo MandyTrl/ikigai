@@ -7,7 +7,7 @@ type FormHelpProps = {
 export const FormHelp = ({ help }: FormHelpProps) => {
   return (
     <div className="flex flex-col gap-2">
-      <span className="font-mono text-tertiary tracking-wide font-semibold text-sm">
+      <span className="font-mono text-primary/70 tracking-wide font-semibold text-sm">
         {help.question}
       </span>
 

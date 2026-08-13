@@ -22,10 +22,12 @@ export const MainstayList = () => {
 
   const getStatus = (mainstay: IkigaiStepEnum): PillarStatus => {
     const data = ikigaiForm.find((el) => el.mainstay === mainstay);
-    const count = data ? getFilledAnswersCount(data.answers) : 0;
+    const answers = data?.answers ?? [];
+    const count = getFilledAnswersCount(answers);
+    const hasAnyText = answers.some((answer) => answer.trim().length > 0);
     if (count >= 3) return "done";
-    if (count === 2) return "validated";
-    if (count === 1) return "progress";
+    if (count >= 2) return "validated";
+    if (count >= 1 || hasAnyText) return "progress";
     return "todo";
   };
 
@@ -43,11 +45,9 @@ export const MainstayList = () => {
     }
 
     if (status === "progress") {
-      // 1/3 → check simple neon (en cours)
       return <CheckIcon size={15} color="#ff6b1f" className="mr-2 shrink-0" />;
     }
 
-    // à faire → tiret à la couleur du texte
     return <MinusIcon size={15} className="mr-2 shrink-0 fill-primary/80" />;
   };
 
