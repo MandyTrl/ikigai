@@ -33,19 +33,19 @@ The key is loaded in `lib/gemini.ts` and throws at runtime if missing.
 3. **Results** (`app/votre-ikigai/page.tsx`) — AI analysis: summary, job recommendations, tags, confidence score, PDF export via `window.print()`
 
 ### Pillar interaction flow
-1. User clicks a pillar in `MainstayList` → `updateForm(pillar, { progressState: IN_PROGRESS })` + `setStep(pillar)` — directly transitions to `FormLayout`
-2. `FormLayout` renders three stacked sections:
-   - **`QuestionTabs`** — sticky progress header: back arrow (→ INITIAL), pillar counter (`pilier 01 / 04`), and three clickable tab indicators (one per question)
-   - **`FormGuidelines`** — pillar title, icon, reading/reflection time estimate, long description
-   - **`FormTextArea`** — current question label + detail hint, optional help `Collapse`, textarea, answer counter (`// 2/3 réponses`), and the "Terminer ce pilier" action button
-3. **Navigation between questions** is done by clicking tabs in `QuestionTabs` (any order, at any time)
+1. User clicks a pillar in `MainstayList` (or a circle in the Venn) → `updateForm(pillar, { progressState: IN_PROGRESS })` + `setStep(pillar)` — transitions to `FormLayout`
+2. `FormLayout` stacks, in one vertically-centred column (the block animates its `layout` so height changes glide, never snap):
+   - **`FormHeader`** — utility bar only: back arrow (→ INITIAL) + pillar counter (`pilier 01 / 04`). No pillar title here.
+   - **`QuestionNavMobile`** (`< lg`) / **`QuestionSideNav`** (`lg`, absolute left) — clickable per-question progress, tonal mono-pillar: active = accent pill, filled = accent muted, todo = graphite
+   - **`PillarIdentity`** — opens the column with `kanji — pilier` (kanji in the pillar's `accent`). On validation the kanji settles and a calligraphic brush-stroke draws under it (the "seal")
+   - **`FormGuidelines`** — the current question (serif `Title`, keyed fade on change) + detail hint + `FormTabs` (« besoin d'aide ? » / « à propos de ce pilier », animated height)
+   - **`FormTextArea`** — textarea (warm `bg-surface`, focus ring in the pillar `accent`, autofocus on each question/pillar), `AnswerCounter` (pencil + char progress), and the guided action button
+3. **Navigation between questions**: free, via the sidenav / mobile stepper (any order) *or* the guided button below
 4. **Answers auto-save** to context after a 500 ms debounce via `updateForm`
-5. **"Terminer ce pilier" button** (Outline variant) is disabled until ≥ 2 answers are filled:
-   - When NOT on the last question → advances to the next question tab
-   - When on the last question → calls `savePillar()` + `setStep(INITIAL)` → returns to overview
-6. Back in `YourIkigaiLayout`: once all 4 pillars have ≥ 2 answers → "Analyser mes réponses" button appears and triggers the Gemini call
+5. **Guided action button** (non-blocking): pillar not yet valid → **« Continuer »** (Outline) advances to the next question (on the last, jumps to the first still-unfilled — never gated, never a dead-end). Once ≥ 2 answers are valid → **« Terminer ce pilier »** (Primary) calls `savePillar()` + `setStep(INITIAL)`.
+6. Back in `YourIkigaiLayout`: each completed circle seals with its kanji on the Venn; once all 4 are complete → the Venn centre reveals `生き甲斐` and "Analyser mes réponses" triggers the Gemini call.
 
-Each `QuestionTab` shows three states: active (amber glow bar, `en cours`), filled (green bar, check + `remplie`), empty (faded, `à faire`). All labels are monospace uppercase.
+A question only counts as **valid** once its answer reaches `MIN_ANSWER_LENGTH` (40 chars) — the introspective garde-fou. All chrome labels are monospace uppercase.
 
 ### State management
 All form state lives in `app/context/index.tsx` (the `AppProviders` component). It wraps everything in `<MotionConfig reducedMotion="user">` (Framer Motion respects the system "reduce motion" setting app-wide; CSS animations are neutralized via a `prefers-reduced-motion` block in `globals.css`), then two providers:
@@ -58,12 +58,15 @@ Step progression uses `IkigaiStepEnum` (INITIAL → LOVE → NEEDS → PAID → 
 `PillarStateEnum` lifecycle: `NOT_STARTED → IN_PROGRESS → IS_SAVED → FINISHED`
 (`IS_SELECTED` still exists in the enum but is unused — it was tied to the modal, which has been removed.)
 
-`colorMap` in `IkigaiContext.tsx` maps each `IkigaiPillarStep` to its pastel hex color.
+Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `IkigaiContext.tsx` (pastels), the Venn circle `fill`s in `VennDiagram/index.tsx`, and — the single source for the **form + seal accent** — the `accent` field on each entry in `ikigaiMainstay.ts` (a deepened "ink" tone, legible on cream). The form obeys **one pillar, one colour**: the current pillar's `accent` is the only chromatic accent on screen; everything else is ink / graphite / paper.
 
 ### Form validation
 
 `app/utils/validateForm.ts`:
-- `isPillarCompleteForAnalysis(pillar)` — requires ≥ 2 non-empty answers out of 3
+- `MIN_ANSWER_LENGTH` (40) — an answer only "counts" once it reaches this length (introspective garde-fou; stops trivial answers from validating a pillar)
+- `isAnswerFilled(answer)` — `answer.trim().length >= MIN_ANSWER_LENGTH`
+- `getFilledAnswersCount(answers)` — number of answers passing `isAnswerFilled`
+- `isPillarCompleteForAnalysis(pillar)` — requires ≥ 2 valid answers out of 3
 - `canAnalyzeIkigai(form)` — all 4 pillars must be complete (calls above for each)
 
 ### AI integration
@@ -97,7 +100,7 @@ Step progression uses `IkigaiStepEnum` (INITIAL → LOVE → NEEDS → PAID → 
 
 ### Data files
 
-`app/utils/datas/ikigaiMainstay.ts` — static content for each pillar: title, description, 3 guided questions with detail hints, tips, help prompts. Used by `FormGuidelines` and `FormTextArea`.
+`app/utils/datas/ikigaiMainstay.ts` — static content for each pillar: `kanji` (愛 / 要 / 稼 / 才), `accent` (the pillar's ink colour), title, description, 3 guided questions with detail hints, tips, help prompts. Single source consumed by `FormGuidelines`, `FormTextArea`, `PillarIdentity`, the Venn seal, and the question navs.
 
 `app/utils/datas/ikigaiPromises.ts` — static content for the landing page promises section.
 
@@ -110,14 +113,17 @@ Step progression uses `IkigaiStepEnum` (INITIAL → LOVE → NEEDS → PAID → 
 ```
 app/components/
   Analyze/         — result display: IkigaiSummary, JobCard, PillarAnalysis, CoherenceSignal, PdfButton
-  Form/            — FormGuidelines, FormTextArea, QuestionTabs
+  Form/            — FormHeader, PillarIdentity, FormGuidelines, FormTabs, FormHelp, FormTextArea, AnswerCounter, QuestionSideNav (lg), QuestionNavMobile (< lg)
+  IkigaiGuide/     — overview "mode d'emploi": IkigaiGuide, GuideStep
   LandingPage/     — Banner, HeroSection, IntroSection/, PillarSection/, PromisesSection
   Layouts/         — MainLayout, FormLayout, YourIkigaiLayout
   UI/              — Button, Eyebrow, Collapse, DynamicIcon, HighlightText, KanjiRevealWord, Title, AsciiKoi, AsciiSakura
-  VennDiagram/     — VennDiagram (SVG, responsive via %), Circle
-  Navbar.tsx
+  VennDiagram/     — VennDiagram (SVG, responsive via %), Circle (per-pillar kanji seal on completion + `生き甲斐` capstone), VennProgress
+  SiteHeader.tsx   — shared logo-only header (landing + overview); replaced the old Navbar
   MainstayList.tsx
 ```
+
+**File size**: keep component / layout / interface files focused. If one grows past ~150 lines, split it into smaller sub-components (e.g. `AnswerCounter` extracted from `FormTextArea`, `GuideStep` from `IkigaiGuide`). A file that needs scrolling to understand is usually doing too much.
 
 
 ## Art direction
@@ -132,12 +138,13 @@ Design tokens (colors, shadows, fonts, background) are defined in `app/globals.c
 - **Airy before everything**: whitespace is the primary design element. Density signals stress; space signals calm. When in doubt, add space.
 - **One focal point per screen**: the user should never have to scan to find what to do next. Visual hierarchy is achieved through spacing and weight, not decoration.
 - **Neo-vintage through typography**: thin display weights (`font-[100]` to `font-[200]`), warm background gradient — evokes craftsmanship and slowness, not sterility
-- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `remplie`, `à faire`), comment-style prefixes (`// 2/3 réponses`), system microlines (`~15 min · 4 piliers`, `gratuit · sans inscription`, `analyse assistée par gemini-2.5-flash`) — precise, terminal-like, a quiet nod to the AI layer underneath
+- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `complété`, `à faire`), the answer counter (`12 / 40 caractères` → `réponse enregistrée`), system microlines (`~15 min · 4 piliers`, `gratuit · sans inscription`, `analyse assistée par gemini-2.5-flash`) — precise, terminal-like, a quiet nod to the AI layer underneath
 - **Section eyebrows** open each landing section in a single format via the `Eyebrow` component: `kanji — français · dot` (e.g. `生き甲斐 — ikigai`, `哲学 — la philosophie`, `道 — la méthode · 04 piliers`, `実り — le résultat`). The kanji carries the authentic Japanese thread.
 - **Warm register, cold reserved for tech**: pastel accents stay warm (`--tertiary` sand is the default accent). The cool blue (`--secondary` / `--accentbis`) is reserved for the "tech/AI" thread only — the monospace microlines and the "l'intelligence artificielle" mention. ASCII art (koï/sakura) is warm ton-sur-ton, never the old cold blue.
 - **Ukiyo-e estampes as atmosphere, not decoration**: use them subtly — a faded full-bleed background behind a section, or an organic-shaped ("galet"/torn-paper) print — kept low enough that text stays legible. Never a plain "stock image in a card".
 - **Transitions as breathing**: all state changes animate (150–300 ms, ease-in-out). Nothing snaps. Motion respects `prefers-reduced-motion` — the app is wrapped in `<MotionConfig reducedMotion="user">` (Framer) and `globals.css` has a `prefers-reduced-motion` block for CSS animations.
-- **Pillar colors from `colorMap`** used consistently — each pillar has its own pastel identity, applied with restraint (accents, not fills)
+- **One pillar, one colour** — on the form, the current pillar's `accent` (from `ikigaiMainstay.ts`) is the *only* chromatic accent: kanji identity, active nav state, textarea focus ring all share it; ink / graphite / paper for everything else. The overview stays multi-colour — it is the map of all 4 pillars.
+- **The seal ritual (hanko 印)** — completing a pillar is a reward, not a form submit: the identity kanji settles and a calligraphic brush-stroke draws under it; back on the Venn the circle seals with its kanji, and the 4th completion reveals `生き甲斐` at the centre. This "collect the four seals" arc is the engine that makes users want to finish. Keep it in the ink/calligraphy register — never confetti or a green tick.
 - **Offset box-shadow on hover** for interactive elements (see `Button.tsx`) — directional `4px 4px 0px`, not a standard glow
 - **Noise texture overlay** on `body::before` via `nnnoise.svg` at ~3.5% opacity — gives organic warmth; don't cover it with solid backgrounds
 - **Less is more**: every element must earn its place — nothing exists by default. If removing it doesn't break comprehension, remove it.
@@ -154,7 +161,8 @@ When creating a new component or redesigning a page, Claude must think as a seni
 
 **Form UX principles**
 - The user is doing introspective work: tone must be soft and encouraging, never clinical or urgent
-- Progress must always be perceivable: `QuestionTabs` state indicators, answer counter, pillar counter all reinforce "you're making progress"
+- Progress must always be perceivable: the per-question nav (`QuestionSideNav` / `QuestionNavMobile`), the `AnswerCounter`, the pillar counter, and the Venn filling up all reinforce "you're making progress"
+- Momentum without lock-in: the guided **« Continuer »** button leads the user forward (MBTI-style readiness — autofocus, one obvious next action), but never gates — any question can be skipped and revisited, still 2 of 3 in any order
 - Empty states should feel welcoming — soft placeholder text, no red by default
 - The experience must be intuitive on first view: if a user needs to figure out what to do, the design has failed
 
