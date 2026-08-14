@@ -7,7 +7,6 @@ import {
   ikigaiMainstay,
 } from "@/app/utils/datas/ikigaiMainstay";
 import { FormHelp } from "./FormHelp";
-import { FormTabs } from "./FormTabs";
 
 import { Title } from "../UI/Title";
 
@@ -43,25 +42,9 @@ export const FormGuidelines = ({ questionIndex }: FormGuidelinesProps) => {
         <span className="text-sm md:text-base">{question.details}</span>
       </motion.div>
 
-      <FormTabs
-        accentColor={mainstayInfoFound.accent}
-        tabs={[
-          ...(mainstayInfoFound.help[questionIndex]
-            ? [
-                {
-                  label: "besoin d'aide ?",
-                  content: (
-                    <FormHelp help={mainstayInfoFound.help[questionIndex]} />
-                  ),
-                },
-              ]
-            : []),
-          {
-            label: "à propos de ce pilier",
-            content: <p>{mainstayInfoFound.sectionDescription}</p>,
-          },
-        ]}
-      />
+      {mainstayInfoFound.help[questionIndex] && (
+        <FormHelp help={mainstayInfoFound.help[questionIndex]} />
+      )}
     </div>
   );
 };
