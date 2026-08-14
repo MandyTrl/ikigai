@@ -56,7 +56,7 @@ export const HeroSection = () => {
           size={ButtonSizeEnum.L}
         />
         <span className="font-mono text-[0.7rem] tracking-[0.25em] text-secondary/80 uppercase">
-          ~15 min · 4 piliers
+          ~20 min · 4 piliers
         </span>
       </motion.div>
     </section>

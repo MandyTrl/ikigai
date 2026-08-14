@@ -2,7 +2,7 @@ import { IkigaiForm } from "../context/IkigaiContext";
 
 const MIN_ANSWERS_REQUIRED_PER_PILLAR = 2;
 
-export const MIN_ANSWER_LENGTH = 40;
+export const MIN_ANSWER_LENGTH = 60;
 
 export const isAnswerFilled = (answer: string) =>
   answer.trim().length >= MIN_ANSWER_LENGTH;

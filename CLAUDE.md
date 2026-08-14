@@ -45,7 +45,7 @@ The key is loaded in `lib/gemini.ts` and throws at runtime if missing.
 5. **Guided action button** (non-blocking): pillar not yet valid → **« Continuer »** (Outline) advances to the next question (on the last, jumps to the first still-unfilled — never gated, never a dead-end). Once ≥ 2 answers are valid → **« Terminer ce pilier »** (Primary) calls `savePillar()` + `setStep(INITIAL)`.
 6. Back in `YourIkigaiLayout`: each completed circle seals with its kanji on the Venn; once all 4 are complete → the Venn centre reveals `生き甲斐` and "Analyser mes réponses" triggers the Gemini call.
 
-A question only counts as **valid** once its answer reaches `MIN_ANSWER_LENGTH` (40 chars) — the introspective garde-fou. All chrome labels are monospace uppercase.
+A question only counts as **valid** once its answer reaches `MIN_ANSWER_LENGTH` (60 chars) — the introspective garde-fou. All chrome labels are monospace uppercase.
 
 ### State management
 All form state lives in `app/context/index.tsx` (the `AppProviders` component). It wraps everything in `<MotionConfig reducedMotion="user">` (Framer Motion respects the system "reduce motion" setting app-wide; CSS animations are neutralized via a `prefers-reduced-motion` block in `globals.css`), then two providers:
@@ -63,7 +63,7 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 ### Form validation
 
 `app/utils/validateForm.ts`:
-- `MIN_ANSWER_LENGTH` (40) — an answer only "counts" once it reaches this length (introspective garde-fou; stops trivial answers from validating a pillar)
+- `MIN_ANSWER_LENGTH` (60) — an answer only "counts" once it reaches this length (introspective garde-fou; stops trivial answers from validating a pillar)
 - `isAnswerFilled(answer)` — `answer.trim().length >= MIN_ANSWER_LENGTH`
 - `getFilledAnswersCount(answers)` — number of answers passing `isAnswerFilled`
 - `isPillarCompleteForAnalysis(pillar)` — requires ≥ 2 valid answers out of 3
@@ -138,7 +138,7 @@ Design tokens (colors, shadows, fonts, background) are defined in `app/globals.c
 - **Airy before everything**: whitespace is the primary design element. Density signals stress; space signals calm. When in doubt, add space.
 - **One focal point per screen**: the user should never have to scan to find what to do next. Visual hierarchy is achieved through spacing and weight, not decoration.
 - **Neo-vintage through typography**: thin display weights (`font-[100]` to `font-[200]`), warm background gradient — evokes craftsmanship and slowness, not sterility
-- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `complété`, `à faire`), the answer counter (`12 / 40 caractères` → `réponse enregistrée`), system microlines (`~15 min · 4 piliers`, `gratuit · sans inscription`, `analyse assistée par gemini-2.5-flash`) — precise, terminal-like, a quiet nod to the AI layer underneath
+- **Neo-tech through monospace**: counters (`01 / 04`), state labels (`en cours`, `complété`, `à faire`), the answer counter (`12 / 60 caractères` → `réponse enregistrée`), system microlines (`~20 min · 4 piliers`, `gratuit · sans inscription`, `analyse assistée par gemini-2.5-flash`) — precise, terminal-like, a quiet nod to the AI layer underneath
 - **Section eyebrows** open each landing section in a single format via the `Eyebrow` component: `kanji — français · dot` (e.g. `生き甲斐 — ikigai`, `哲学 — la philosophie`, `道 — la méthode · 04 piliers`, `実り — le résultat`). The kanji carries the authentic Japanese thread.
 - **Warm register, cold reserved for tech**: pastel accents stay warm (`--tertiary` sand is the default accent). The cool blue (`--secondary` / `--accentbis`) is reserved for the "tech/AI" thread only — the monospace microlines and the "l'intelligence artificielle" mention. ASCII art (koï/sakura) is warm ton-sur-ton, never the old cold blue.
 - **Ukiyo-e estampes as atmosphere, not decoration**: use them subtly — a faded full-bleed background behind a section, or an organic-shaped ("galet"/torn-paper) print — kept low enough that text stays legible. Never a plain "stock image in a card".
