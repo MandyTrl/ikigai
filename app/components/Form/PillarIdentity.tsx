@@ -49,7 +49,7 @@ export const PillarIdentity = () => {
             {pillar.kanji}
           </motion.span>
 
-          <span className="font-mono text-[0.72rem] uppercase tracking-[0.3em]">
+          <span className="font-mono text-sm uppercase tracking-[0.3em]">
             {pillar.title}
           </span>
         </p>

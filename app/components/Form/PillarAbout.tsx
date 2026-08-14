@@ -42,7 +42,7 @@ export const PillarAbout = ({ description, accentColor }: PillarAboutProps) => {
         aria-label="à propos de ce pilier"
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
-        className="flex cursor-pointer items-center text-secondary/45 transition-colors duration-200 hover:text-secondary/80"
+        className="flex cursor-pointer items-center transition-colors duration-200 text-secondary/50 hover:text-secondary/90"
       >
         <InfoIcon size={22} weight="duotone" />
       </button>
