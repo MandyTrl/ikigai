@@ -36,8 +36,8 @@ The key is loaded in `lib/gemini.ts` and throws at runtime if missing.
 1. User clicks a pillar in `MainstayList` (or a circle in the Venn) → `updateForm(pillar, { progressState: IN_PROGRESS })` + `setStep(pillar)` — transitions to `FormLayout`
 2. `FormLayout` stacks, in one vertically-centred column (the block animates its `layout` so height changes glide, never snap):
    - **`FormHeader`** — utility bar only: back arrow (→ INITIAL) + pillar counter (`pilier 01 / 04`). No pillar title here.
-   - **`QuestionNavMobile`** (`< lg`) / **`QuestionSideNav`** (`lg`, absolute left) — clickable per-question progress, tonal mono-pillar: active = accent pill, filled = accent muted, todo = graphite
    - **`PillarIdentity`** — opens the column with `kanji — pilier` (kanji in the pillar's `accent`). On validation the kanji settles and a calligraphic brush-stroke draws under it (the "seal")
+   - **`QuestionStepper`** (all sizes, under `PillarIdentity`) — numbered tabs (`01 02 03`) with an accent underline that slides under the active one (framer `layoutId`, differentiated from the seal stroke); completed = accent-muted + check, todo = graphite. One mono caption below gives global progress (`2 / 3 complétées`). Replaced the old side rail + mobile stepper (one unified component, both margins freed for the side estampe)
    - **`FormGuidelines`** — the current question (serif `Title`, keyed fade on change) + detail hint + `FormTabs` (« besoin d'aide ? » / « à propos de ce pilier », animated height)
    - **`FormTextArea`** — textarea (warm `bg-surface`, focus ring in the pillar `accent`, autofocus on each question/pillar), `AnswerCounter` (pencil + char progress), and the guided action button
 3. **Navigation between questions**: free, via the sidenav / mobile stepper (any order) *or* the guided button below
@@ -113,7 +113,7 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 ```
 app/components/
   Analyze/         — result display: IkigaiSummary, JobCard, PillarAnalysis, CoherenceSignal, PdfButton
-  Form/            — FormHeader, PillarIdentity, FormGuidelines, FormTabs, FormHelp, FormTextArea, AnswerCounter, QuestionSideNav (lg), QuestionNavMobile (< lg)
+  Form/            — FormHeader, PillarIdentity, QuestionStepper, FormGuidelines, FormTabs, FormHelp, FormTextArea, AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+)
   IkigaiGuide/     — overview "mode d'emploi": IkigaiGuide, GuideStep
   LandingPage/     — Banner, HeroSection, IntroSection/, PillarSection/, PromisesSection
   Layouts/         — MainLayout, FormLayout, YourIkigaiLayout
@@ -161,7 +161,7 @@ When creating a new component or redesigning a page, Claude must think as a seni
 
 **Form UX principles**
 - The user is doing introspective work: tone must be soft and encouraging, never clinical or urgent
-- Progress must always be perceivable: the per-question nav (`QuestionSideNav` / `QuestionNavMobile`), the `AnswerCounter`, the pillar counter, and the Venn filling up all reinforce "you're making progress"
+- Progress must always be perceivable: the per-question nav (`QuestionStepper`), the `AnswerCounter`, the pillar counter, and the Venn filling up all reinforce "you're making progress"
 - Momentum without lock-in: the guided **« Continuer »** button leads the user forward (MBTI-style readiness — autofocus, one obvious next action), but never gates — any question can be skipped and revisited, still 2 of 3 in any order
 - Empty states should feel welcoming — soft placeholder text, no red by default
 - The experience must be intuitive on first view: if a user needs to figure out what to do, the design has failed
