@@ -36,7 +36,7 @@ export const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
-        className="max-w-lg text-center text-2xl text-primary/70 font-medium"
+        className="max-w-lg text-center text-xl md:text-2xl text-primary/70 font-medium"
       >
         Quelques questions, un moment pour soi, et une lecture de ce qui vous
         anime.

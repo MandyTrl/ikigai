@@ -19,7 +19,7 @@ export const NoteCard = ({ pillar, index = 0 }: NoteCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.1, ease: "easeOut" }}
-      className="group relative isolate flex h-90 w-full max-w-90 overflow-hidden"
+      className="group relative isolate flex h-64 sm:h-80 w-full max-w-90 overflow-hidden"
     >
       {/* ambient halo */}
       <div

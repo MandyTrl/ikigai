@@ -6,14 +6,10 @@ type SiteHeaderProps = {
   className?: string;
 };
 
-/**
- * Header minimal partagé (logo seul → accueil), réutilisé par la landing et
- * la vue overview de /commencer. Aucun lien de navigation : le produit est un
- * tunnel unique (landing → commencer → résultat), on préserve le focus.
- */
+
 export const SiteHeader = ({ className }: SiteHeaderProps) => (
   <header
-    className={clsx("mx-auto flex w-full max-w-6xl px-6 py-8", className)}
+    className={clsx("mx-auto flex w-full max-w-6xl px-6 md:px-8 py-8", className)}
   >
     <Link
       href="/"

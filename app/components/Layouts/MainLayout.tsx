@@ -16,7 +16,9 @@ export const MainLayout = ({
     <div className="relative">
       {hasNavbar && <SiteHeader />}
 
-      <div className={`w-full mx-auto max-w-6xl flex flex-col ${className}`}>
+      <div
+        className={`w-full mx-auto max-w-6xl px-6 md:px-8 flex flex-col ${className}`}
+      >
         {children}
       </div>
     </div>

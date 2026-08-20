@@ -37,7 +37,7 @@ export const PromisesSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-      className="relative w-full flex flex-col gap-10 py-12 md:py-20"
+      className="relative w-full flex flex-col gap-10 py-8 md:py-20"
     >
       {/* Estampe en fond, full-bleed (pleine largeur écran) et très subtile */}
       <div className="pointer-events-none absolute inset-y-0 left-1/2 -translate-x-1/2 -z-10 w-screen overflow-hidden">
@@ -55,7 +55,7 @@ export const PromisesSection = () => {
       <div className="flex flex-col items-center gap-3 text-center">
         <Eyebrow text="実り — le résultat" withDot />
 
-        <div className="flex items-end justify-center">
+        <div className="flex flex-col sm:flex-row items-center sm:items-end justify-center gap-1 sm:gap-3">
           <Title as="h2" variant="h1" text="Ce que vous apporte" />
 
           <Image
@@ -69,7 +69,7 @@ export const PromisesSection = () => {
         </div>
       </div>
 
-      <div className="flex flex-col bg-surface/50 p-10 rounded-2xl border border-line">
+      <div className="flex flex-col bg-surface/50 p-6 md:p-10 rounded-2xl border border-line">
         {ikigaiPromises.map((p, i) => (
           <motion.div
             key={p.title}
@@ -77,13 +77,13 @@ export const PromisesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-            className="grid grid-cols-1 gap-3 md:gap-10 py-8 md:grid-cols-5"
+            className="grid grid-cols-1 gap-3 md:gap-10 py-5 md:py-8 md:grid-cols-5"
           >
-            <div className="flex items-start gap-4 col-span-2">
-              <span className="mt-1 text-2xl text-tertiary shrink-0">
+            <div className="flex items-center gap-4 col-span-2">
+              <span className="text-2xl text-tertiary shrink-0">
                 {ICONS[i]}
               </span>
-              <h3 className="text-2xl font-medium text-primary">{p.title}</h3>
+              <h3 className="text-xl md:text-2xl font-medium text-primary">{p.title}</h3>
             </div>
 
             <p className="leading-relaxed text-primary/85 md:text-lg col-span-3">

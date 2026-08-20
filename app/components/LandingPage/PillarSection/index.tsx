@@ -54,32 +54,51 @@ export const PillarSection = () => {
     >
       {/* Header + CTA */}
       <div className="flex flex-col gap-6 md:gap-12 flex-1 min-w-0">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
-          <div className="border-l-4 border-tertiary pl-6">
-            <Eyebrow text="道 — la méthode" withDot className="mb-3" />
-            <Title
-              as="h3"
-              variant="h1"
-              text="Explorez les 4 piliers de l’Ikigai"
-            />
-            <p className="mt-3 text-xl text-primary/70">
-              et découvrez ce qui donne du sens à votre vie.
-            </p>
+        {/* Mobile : titre puis CTA (flex-col).
+            Tablette (md→lg) : grille — koï à gauche, centrée verticalement
+            avec le bloc titre+CTA (items-center).
+            Desktop (lg) : titre à gauche, CTA à droite (flex-row). */}
+        <div
+          className="flex flex-col gap-6
+            md:grid md:grid-cols-[auto_1fr] md:items-center md:gap-x-10
+            lg:flex lg:flex-row lg:justify-between lg:items-start"
+        >
+          {/* Koï — tablette uniquement (md→lg) : colonne gauche, centrée
+              verticalement avec le bloc titre+CTA. Grand format desktop plus bas. */}
+          <div className="hidden md:flex lg:hidden shrink-0 items-center pointer-events-none zoom-[0.35]">
+            <AsciiKoi />
           </div>
 
-          <div className="shrink-0 md:self-start">
-            <Button
-              label="Commencer le test"
-              isLink
-              href="/commencer"
-              size={ButtonSizeEnum.L}
-            />
+          {/* Titre + CTA — groupés (mobile/tablette) pour être centrés en bloc
+              face au koï ; dissous en lg (contents) pour repasser en flex-row
+              justify-between du header. */}
+          <div className="flex flex-col gap-6 md:gap-5 lg:contents">
+            <div className="border-l-4 border-tertiary pl-6 min-w-0">
+              <Eyebrow text="道 — la méthode" withDot className="mb-3" />
+              <Title
+                as="h3"
+                variant="h1"
+                text="Explorez les 4 piliers de l’Ikigai"
+              />
+              <p className="mt-3 text-xl text-primary/70">
+                et découvrez ce qui donne du sens à votre vie.
+              </p>
+            </div>
+
+            <div className="self-center md:self-start mt-3 md:mt-0">
+              <Button
+                label="Commencer le test"
+                isLink
+                href="/commencer"
+                size={ButtonSizeEnum.L}
+              />
+            </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:items-center lg:gap-4">
-          {/* Carpe Koï — dessous sur mobile, à gauche sur desktop, en retrait */}
-          <div className="order-last lg:order-first">
+          {/* Carpe Koï — desktop uniquement (grand format, à gauche des cards) */}
+          <div className="hidden lg:block lg:order-first">
             <AsciiKoi />
           </div>
 
