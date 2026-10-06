@@ -109,7 +109,7 @@ export const FormTextArea = ({
         value={answers[questionIndex]}
         onChange={(e) => handleChange(e.target.value)}
         placeholder="Votre réponse..."
-        rows={8}
+        rows={6}
         autoComplete="off"
         autoCapitalize="sentences"
         wrap="hard"
@@ -119,7 +119,7 @@ export const FormTextArea = ({
             "--pillar-soft": `${mainstayInfoFound.accent}2e`,
           } as CSSProperties
         }
-        className="w-full p-4 rounded-2xl border border-line bg-surface resize-none transition-all duration-200 ease-in-out font-mono text-sm leading-relaxed placeholder:text-secondary/35 focus:outline-none focus:border-[var(--pillar)] focus:ring-4 focus:ring-[var(--pillar-soft)]"
+        className="w-full p-4 rounded-2xl border border-line bg-surface resize-none md:min-h-[13.5rem] transition-all duration-200 ease-in-out font-mono text-sm leading-relaxed placeholder:text-secondary/35 focus:outline-none focus:border-[var(--pillar)] focus:ring-4 focus:ring-[var(--pillar-soft)]"
       />
 
       <AnswerCounter

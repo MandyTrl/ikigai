@@ -30,7 +30,7 @@ export const FormGuidelines = ({ questionIndex }: FormGuidelinesProps) => {
   const question = mainstayInfoFound.instructions[questionIndex];
 
   return (
-    <div className="flex flex-col gap-4 md:gap-12">
+    <div className="flex flex-col gap-6 md:gap-12">
       <motion.div
         key={questionIndex}
         initial={{ opacity: 0, y: 6 }}

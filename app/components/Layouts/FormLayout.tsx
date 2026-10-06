@@ -7,6 +7,7 @@ import { QuestionStepper } from "../Form/QuestionStepper";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { PillarIdentity } from "../Form/PillarIdentity";
 import { FormSideEstampe } from "../Form/FormSideEstampe";
+import { FormBottomEstampe } from "../Form/FormBottomEstampe";
 import { ikigaiMainstay } from "@/app/utils/datas/ikigaiMainstay";
 
 export const FormLayout = () => {
@@ -27,10 +28,13 @@ export const FormLayout = () => {
   const accent = ikigaiMainstay.find((m) => m.mainstay === currentStep)?.accent;
 
   return (
-    <div className="relative mx-auto flex min-h-[calc(100svh-2.5rem)] max-w-180 flex-col px-4 py-8 md:py-10">
+    <div className="relative mx-auto flex min-h-[calc(100svh-2.5rem)] max-w-180 flex-col px-6 md:px-8 py-8 md:py-10">
       {/* Estampe ukiyo-e fanée, marges gauche/droite (xl+) */}
       <FormSideEstampe side="left" />
       <FormSideEstampe side="right" />
+
+      {/* Estampe de fond, bas→haut (mobile/tablette, relais des latérales) */}
+      <FormBottomEstampe />
 
       <div className="relative z-10">
         <FormHeader />
@@ -40,7 +44,7 @@ export const FormLayout = () => {
         <motion.div
           layout
           transition={{ layout: { duration: 0.28, ease: [0.4, 0, 0.2, 1] } }}
-          className="flex flex-col gap-4 md:gap-6"
+          className="flex flex-col gap-6"
         >
           <PillarIdentity />
 

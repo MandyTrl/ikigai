@@ -57,7 +57,7 @@ export const PillarAbout = ({ description, accentColor }: PillarAboutProps) => {
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             style={{ transformOrigin: "top right" }}
-            className="absolute right-0 top-full z-20 mt-3 w-90 rounded-xl border border-secondary/15 bg-surface p-6 shadow-[4px_4px_0px_rgba(10,14,39,0.05)]"
+            className="absolute right-0 top-full z-20 mt-3 w-90 max-w-[calc(100vw-2rem)] rounded-xl border border-secondary/15 bg-surface p-6 shadow-[4px_4px_0px_rgba(10,14,39,0.05)]"
           >
             <span
               className="mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.3em]"

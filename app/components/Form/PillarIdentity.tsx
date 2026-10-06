@@ -12,7 +12,6 @@ import { PillarAbout } from "./PillarAbout";
 const BRUSH_PATH =
   "M4,13 C22,8 44,5 74,7 C104,9 132,6 160,8 C176,9 190,11 197,12 C190,14 176,15 160,15 C132,17 104,15 74,17 C44,19 22,17 4,13 Z";
 
-
 const STROKE_FRACTION: Record<number, number> = { 1: 0.45, 2: 0.72, 3: 1 };
 
 export const PillarIdentity = () => {
@@ -63,7 +62,7 @@ export const PillarIdentity = () => {
       <div className="flex items-center justify-between gap-4">
         <p
           ref={titleRef}
-          className="flex w-fit items-baseline gap-2.5 text-secondary"
+          className="flex w-fit items-center gap-2.5 text-secondary"
         >
           <motion.span
             aria-hidden
@@ -74,7 +73,7 @@ export const PillarIdentity = () => {
             {pillar.kanji}
           </motion.span>
 
-          <span className="font-mono text-sm uppercase tracking-[0.3em]">
+          <span className="font-mono tracking-sm uppercase md:tracking-[0.3em]">
             {pillar.title}
           </span>
         </p>

@@ -20,17 +20,26 @@ export const KanjiRevealWord = ({
   const wordControls = useAnimation();
 
   useEffect(() => {
+    let mounted = true;
+
     const sequence = async () => {
       await new Promise((resolve) => setTimeout(resolve, delay));
+      if (!mounted) return;
       // Phase 1 : kanji apparaît
       await kanjiControls.start({ opacity: 1, transition: { duration: 0.15 } });
+      if (!mounted) return;
       // Phase 2 : kanji reste visible
       await new Promise((resolve) => setTimeout(resolve, 250));
+      if (!mounted) return;
       // Phase 3 : crossfade
       kanjiControls.start({ opacity: 0, transition: { duration: 0.3 } });
       await wordControls.start({ opacity: 1, transition: { duration: 0.3 } });
     };
     sequence();
+
+    return () => {
+      mounted = false;
+    };
   }, [delay, kanjiControls, wordControls]);
 
   return (
