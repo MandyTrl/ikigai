@@ -9,14 +9,23 @@ type GuideStepProps = {
 
 /**
  * Une étape du mode d'emploi : numéro mono + titre + contenu libre.
- * Réutilisable pour chaque section du guide.
+ * Desktop (md+) : numéro en colonne de gauche, contenu indenté.
+ * Mobile : pas d'indentation — le numéro devient un préfixe du titre, le
+ * contenu occupe toute la largeur (évite les retours à la ligne inutiles).
  */
 export const GuideStep = ({ step, title, children }: GuideStepProps) => (
-  <li className="flex gap-5">
-    <span className="shrink-0 font-mono text-tertiary">{step}</span>
+  <li className="md:flex md:gap-5">
+    <span className="hidden shrink-0 font-mono text-tertiary md:block">
+      {step}
+    </span>
 
     <div className="flex w-full flex-col gap-3">
-      <h4 className="text-xl">{title}</h4>
+      <h4 className="text-xl">
+        <span className="mr-3 font-mono text-base text-tertiary md:hidden">
+          {step}
+        </span>
+        {title}
+      </h4>
       {children}
     </div>
   </li>

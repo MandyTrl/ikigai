@@ -127,7 +127,7 @@ const VennDiagram: React.FC = () => {
                 x="50%"
                 y="52.5%"
                 textAnchor="middle"
-                fontSize="0.35vw"
+                fontSize={3}
                 fontWeight="bold"
                 fill="#091C34"
                 opacity={allComplete ? 0 : 0.6}
@@ -143,7 +143,7 @@ const VennDiagram: React.FC = () => {
                 x="50%"
                 y="52.5%"
                 textAnchor="middle"
-                fontSize="0.5vw"
+                fontSize={4}
                 fontWeight="bold"
                 fill="#091C34"
                 opacity={allComplete ? 0.82 : 0}

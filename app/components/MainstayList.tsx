@@ -11,7 +11,7 @@ import { IkigaiStepEnum, PillarStateEnum } from "../types";
 import { getFilledAnswersCount } from "../utils/validateForm";
 
 const listStyle =
-  "w-fit group block flex items-center hover:cursor-pointer transform-all duration-200 ease-in hover:translate-x-1";
+  "group flex w-fit items-start py-1.5 -my-1.5 md:py-0 md:my-0 hover:cursor-pointer transition-all duration-200 ease-in hover:translate-x-1";
 
 // 0 réponse → à faire · 1 → en cours · 2 → validé · 3 → complété
 type PillarStatus = "todo" | "progress" | "validated" | "done";
@@ -36,19 +36,19 @@ export const MainstayList = () => {
 
     if (status === "done") {
       // 3/3 → double check vert
-      return <ChecksIcon size={15} color="#059669" className="mr-2 shrink-0" />;
+      return <ChecksIcon size={15} color="#059669" className="mr-2 mt-1.5 shrink-0" />;
     }
 
     if (status === "validated") {
       // 2/3 → check simple vert
-      return <CheckIcon size={15} color="#059669" className="mr-2 shrink-0" />;
+      return <CheckIcon size={15} color="#059669" className="mr-2 mt-1.5 shrink-0" />;
     }
 
     if (status === "progress") {
-      return <CheckIcon size={15} color="#ff6b1f" className="mr-2 shrink-0" />;
+      return <CheckIcon size={15} color="#ff6b1f" className="mr-2 mt-1.5 shrink-0" />;
     }
 
-    return <MinusIcon size={15} className="mr-2 shrink-0 fill-primary/80" />;
+    return <MinusIcon size={15} className="mr-2 mt-1.5 shrink-0 fill-primary/80" />;
   };
 
   const handleClick = (mainstay: IkigaiStepEnum) => {

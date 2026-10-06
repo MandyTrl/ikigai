@@ -40,7 +40,7 @@ export const IkigaiGuide = () => {
 
           <MainstayList />
 
-          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-primary/55 gap-2 border-t border-line pt-3">
+          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-primary/55 border-t border-line pt-3">
             {STATUS_LEGEND.map(({ label, icon }) => (
               <span key={label} className="inline-flex items-center gap-1">
                 {icon}
