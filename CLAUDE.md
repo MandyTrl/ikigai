@@ -34,13 +34,12 @@ The key is loaded in `lib/gemini.ts` and throws at runtime if missing.
 
 ### Pillar interaction flow
 1. User clicks a pillar in `MainstayList` (or a circle in the Venn) → `updateForm(pillar, { progressState: IN_PROGRESS })` + `setStep(pillar)` — transitions to `FormLayout`
-2. `FormLayout` stacks, in one vertically-centred column (the block animates its `layout` so height changes glide, never snap):
-   - **`FormHeader`** — utility bar only: back arrow (→ INITIAL) + pillar counter (`pilier 01 / 04`). No pillar title here.
-   - **`PillarIdentity`** — opens the column with `kanji — pilier` (kanji in the pillar's `accent`). On validation the kanji settles and a calligraphic brush-stroke draws under it (the "seal")
-   - **`QuestionStepper`** (all sizes, under `PillarIdentity`) — numbered tabs (`01 02 03`) with an accent underline that slides under the active one (framer `layoutId`, differentiated from the seal stroke); completed = accent-muted + check, todo = graphite. One mono caption below gives global progress (`2 / 3 complétées`). Replaced the old side rail + mobile stepper (one unified component, both margins freed for the side estampe)
-   - **`FormGuidelines`** — the current question (serif `Title`, keyed fade on change) + detail hint + `FormTabs` (« besoin d'aide ? » / « à propos de ce pilier », animated height)
-   - **`FormTextArea`** — textarea (warm `bg-surface`, focus ring in the pillar `accent`, autofocus on each question/pillar), `AnswerCounter` (pencil + char progress), and the guided action button
-3. **Navigation between questions**: free, via the sidenav / mobile stepper (any order) *or* the guided button below
+2. `FormLayout` puts a **`FormStepBar`** at the top, then stacks the rest in a vertically-centred column (the block animates its `layout` so height changes glide, never snap):
+   - **`FormStepBar`** (top) — the utility + navigation bar: a back chip (→ INITIAL) then the 3-question multistep nav (one **`FormStep`** per question). The **active** question *deploys* with its « Question N » label (framer `layout` width animation); the others stay compact (number only). Status is read by **colour + outline**: à faire = thin graphite, en cours = dashed accent, validée = thicker solid accent, active = filled accent. Offset box-shadow on hover (like the buttons), a small scale "pop" when a question turns complete, and one muted microline (« ordre libre · 2 réponses suffisent »). **No pillar counter** — the kanji identity below situates the user. The pillar `accent` is passed in and applied via an inline `--accent` CSS var (so `bg-accent` / `border-accent` / `text-accent` resolve to the current pillar's colour).
+   - **`PillarIdentity`** — opens the column with `kanji — pilier` (kanji in the pillar's `accent`, vertically centred when the title wraps). On validation the kanji settles and a calligraphic brush-stroke draws under it (the "seal"). Carries **`PillarAbout`** (info popover « à propos de ce pilier »)
+   - **`FormGuidelines`** — the current question (serif `Title`, keyed fade on change) + detail hint + **`FormHelp`** (« besoin d'aide ? »)
+   - **`FormTextArea`** — textarea (warm `bg-surface`, focus ring in the pillar `accent`, autofocus on each question/pillar; `rows=6` on mobile, taller on desktop), `AnswerCounter` (pencil + char progress), and the guided action button (full-width on mobile)
+3. **Navigation between questions**: free, via the `FormStepBar` (any order) *or* the guided button below
 4. **Answers auto-save** to context after a 500 ms debounce via `updateForm`
 5. **Guided action button** (non-blocking): pillar not yet valid → **« Continuer »** (Outline) advances to the next question (on the last, jumps to the first still-unfilled — never gated, never a dead-end). Once ≥ 2 answers are valid → **« Terminer ce pilier »** (Primary) calls `savePillar()` + `setStep(INITIAL)`.
 6. Back in `YourIkigaiLayout`: each completed circle seals with its kanji on the Venn; once all 4 are complete → the Venn centre reveals `生き甲斐` and "Analyser mes réponses" triggers the Gemini call.
@@ -113,7 +112,7 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 ```
 app/components/
   Analyze/         — result display: IkigaiSummary, JobCard, PillarAnalysis, CoherenceSignal, PdfButton
-  Form/            — FormHeader, PillarIdentity, QuestionStepper, FormGuidelines, FormTabs, FormHelp, FormTextArea, AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+)
+  Form/            — FormStepBar + FormStep (top-bar multistep nav), PillarIdentity + PillarAbout, FormGuidelines + FormHelp, FormTextArea + AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+) + FormBottomEstampe (bottom→up fade, mobile/tablet)
   IkigaiGuide/     — overview "mode d'emploi": IkigaiGuide, GuideStep
   LandingPage/     — Banner, HeroSection, IntroSection/, PillarSection/, PromisesSection
   Layouts/         — MainLayout, FormLayout, YourIkigaiLayout
@@ -161,7 +160,7 @@ When creating a new component or redesigning a page, Claude must think as a seni
 
 **Form UX principles**
 - The user is doing introspective work: tone must be soft and encouraging, never clinical or urgent
-- Progress must always be perceivable: the per-question nav (`QuestionStepper`), the `AnswerCounter`, the pillar counter, and the Venn filling up all reinforce "you're making progress"
+- Progress must always be perceivable: the per-question nav (`FormStepBar`), the `AnswerCounter`, and the Venn filling up all reinforce "you're making progress"
 - Momentum without lock-in: the guided **« Continuer »** button leads the user forward (MBTI-style readiness — autofocus, one obvious next action), but never gates — any question can be skipped and revisited, still 2 of 3 in any order
 - Empty states should feel welcoming — soft placeholder text, no red by default
 - The experience must be intuitive on first view: if a user needs to figure out what to do, the design has failed

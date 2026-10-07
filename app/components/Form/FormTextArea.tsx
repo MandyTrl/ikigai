@@ -133,6 +133,7 @@ export const FormTextArea = ({
           onClick={isCurrentPillarComplete ? handleFinish : handleContinue}
           label={isCurrentPillarComplete ? "Terminer ce pilier" : "Continuer"}
           size={ButtonSizeEnum.S}
+          fullWidth
           variant={
             isCurrentPillarComplete
               ? ButtonVariantEnum.Primary

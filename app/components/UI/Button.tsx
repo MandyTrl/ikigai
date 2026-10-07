@@ -20,6 +20,7 @@ type ButtonProps = {
   size?: ButtonSizeEnum;
   variant?: ButtonVariantEnum;
   disabled?: boolean;
+  fullWidth?: boolean;
   onClick?: () => void;
 };
 
@@ -31,6 +32,7 @@ export const Button = ({
   variant = ButtonVariantEnum.Primary,
   onClick,
   disabled,
+  fullWidth = false,
 }: ButtonProps) => {
   const iconSize =
     size === ButtonSizeEnum.L ? 36 : size === ButtonSizeEnum.M ? 30 : 24;
@@ -38,9 +40,13 @@ export const Button = ({
   const isPrimary = variant === ButtonVariantEnum.Primary;
 
   const buttonStyle = clsx(
-    "group relative flex w-fit h-fit items-center justify-between overflow-hidden cursor-pointer border rounded-md",
+    "group relative flex h-fit items-center overflow-hidden cursor-pointer border rounded-lg",
     "transition-all duration-300 ease-in-out",
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tertiary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-support",
+
+    fullWidth
+      ? "w-full justify-center py-1.5 md:w-fit md:justify-between md:py-0"
+      : "w-fit justify-between",
 
     isPrimary && [
       "bg-primary text-support border-primary",
