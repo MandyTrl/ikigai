@@ -105,6 +105,33 @@
     stroke-dasharray: 164;
     animation: vennTrace 1.3s ease-in-out forwards;
   }
+
+  @keyframes vennLoading {
+    0% {
+      stroke-dashoffset: 164;
+      stroke-opacity: 0;
+    }
+    15% {
+      stroke-opacity: 0.9;
+    }
+    45% {
+      stroke-dashoffset: 0;
+      stroke-opacity: 0.9;
+    }
+    65% {
+      stroke-dashoffset: 0;
+      stroke-opacity: 0;
+    }
+    100% {
+      stroke-dashoffset: 164;
+      stroke-opacity: 0;
+    }
+  }
+
+  .venn-loading {
+    stroke-dasharray: 164;
+    animation: vennLoading 2.4s ease-in-out infinite;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -114,9 +141,6 @@
   }
 }
 
-/* Respect du réglage système "Réduire les animations" — neutralise les
-   animations/transitions CSS (glow, venn-trace, view-transition, hovers).
-   Les animations Framer sont gérées via <MotionConfig reducedMotion="user">. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

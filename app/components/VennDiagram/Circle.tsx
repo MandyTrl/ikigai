@@ -26,6 +26,8 @@ type CircleProps = {
   allComplete?: boolean;
   /** Décalage du tracé pour l'effet en cascade. */
   traceDelay?: number;
+  /** Analyse en cours → bordures animées en boucle, de cercle en cercle. */
+  isAnalyzing?: boolean;
   /** Sélection d'un pilier directement depuis le diagramme. */
   onSelect?: (id: IkigaiStepEnum) => void;
 };
@@ -47,6 +49,7 @@ export const Circle = ({
   isComplete = false,
   allComplete = false,
   traceDelay = 0,
+  isAnalyzing = false,
   onSelect,
 }: CircleProps) => {
   const { hoveredMainstay, setHoveredMainstay } = useContext(HoverContext);
@@ -123,12 +126,22 @@ export const Circle = ({
         cy={cy}
         r={r}
         fill={fill}
-        stroke={fill}
-        strokeWidth={strokeWidth}
-        strokeOpacity={strokeOpacity}
+        stroke={isAnalyzing ? (sealColor ?? fill) : fill}
+        strokeWidth={isAnalyzing ? 0.6 : strokeWidth}
+        strokeOpacity={isAnalyzing ? undefined : strokeOpacity}
         fillOpacity={fillOpacity}
-        className={clsx(circleStyle, allComplete && !strokeDrawn && "venn-trace")}
-        style={allComplete && !strokeDrawn ? { animationDelay: `${0.35 + traceDelay}s` } : undefined}
+        className={clsx(
+          circleStyle,
+          isAnalyzing && "venn-loading",
+          !isAnalyzing && allComplete && !strokeDrawn && "venn-trace",
+        )}
+        style={
+          isAnalyzing
+            ? { animationDelay: `${traceDelay * 3}s` }
+            : allComplete && !strokeDrawn
+              ? { animationDelay: `${0.35 + traceDelay}s` }
+              : undefined
+        }
         onAnimationEnd={() => setStrokeDrawn(true)}
       />
 

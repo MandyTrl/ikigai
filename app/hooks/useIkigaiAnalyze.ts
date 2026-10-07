@@ -39,21 +39,17 @@ export const useIkigaiAnalyze = () => {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => null);
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || "Analyse impossible");
+      if (!response.ok || !result?.success || !result?.data) {
+        throw new Error(result?.error ?? `HTTP ${response.status}`);
       }
 
       saveAnalysisCache(currentSignature, result.data);
       router.push("/votre-ikigai");
     } catch (err) {
       console.error("Erreur lors de l'analyse :", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Une erreur est survenue pendant l'analyse.",
-      );
+      setError("L’analyse n’a pas pu aboutir. Patientez un instant, puis réessayez.");
     } finally {
       setIsAnalyzing(false);
     }

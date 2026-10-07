@@ -116,6 +116,7 @@ const VennDiagram: React.FC = () => {
               r={radius}
               isComplete={completionByMainstay[circle.id] ?? false}
               allComplete={allComplete}
+              isAnalyzing={isAnalyzing}
               traceDelay={index * 0.18}
               onSelect={handleSelect}
             />

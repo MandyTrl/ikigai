@@ -20,7 +20,7 @@ Requires a `.env.local` file with:
 GEMINI_API_KEY=...
 ```
 
-The key is loaded in `lib/gemini.ts` and throws at runtime if missing.
+The key is read lazily by `getGemini()` in `lib/gemini.ts`; if it is missing the call throws **inside the route handler** (caught there), so `/api/analyze` always returns a clean JSON error — never an HTML error page. The client (`useIkigaiAnalyze`) then shows a friendly French message, never the raw error.
 
 ## Architecture
 **Ikigai** is a Next.js 15 (App Router) + React 19 application that guides users through a 4-pillar career discovery framework (Love, Talent, Needs, Paid Work), then calls Gemini AI to generate a personalized career analysis.

@@ -76,7 +76,7 @@ export const Button = ({
     size === ButtonSizeEnum.L
       ? "px-6 py-2.5 text-lg"
       : size === ButtonSizeEnum.M
-        ? "px-5 py-2.5 text-base"
+        ? "px-5 py-3.5 text-base"
         : "px-3 py-2 text-sm",
   );
 
