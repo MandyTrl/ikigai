@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 type CoherenceSignalProps = {
   confidence: number;
 };
@@ -8,31 +10,39 @@ const getLabel = (confidence: number) => {
   return "Profil à enrichir";
 };
 
-const BAR_HEIGHTS = ["h-1", "h-2", "h-3", "h-4"];
+const BAR_HEIGHTS = ["h-2", "h-3", "h-4", "h-5"];
 
 export const CoherenceSignal = ({ confidence }: CoherenceSignalProps) => {
   const filledBars = Math.round(confidence / 25);
 
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-end gap-1">
-        {BAR_HEIGHTS.map((height, i) => (
-          <span
-            key={i}
-            className={`w-1.5 rounded-none ${height} ${
-              i < filledBars
-                ? "bg-[var(--tertiary)]"
-                : "bg-[var(--tertiary)]/20"
-            }`}
-          />
-        ))}
-        <span className="ml-2 text-xs text-secondary/70 self-end pb-0.5">
+    <div className="flex w-fit flex-col gap-2">
+      <div className="flex items-end gap-2.5">
+        <div className="flex items-end gap-1">
+          {BAR_HEIGHTS.map((height, i) => (
+            <span
+              key={i}
+              className={clsx(
+                "w-2 rounded-full",
+                height,
+                i < filledBars ? "bg-tertiary" : "bg-tertiary/20",
+              )}
+            />
+          ))}
+        </div>
+
+        <span className="text-sm font-medium leading-none text-primary/80">
           {getLabel(confidence)}
         </span>
+        <span className="font-mono text-sm leading-none text-tertiary">
+          {confidence}%
+        </span>
       </div>
-      <span className="font-mono text-[0.6rem] tracking-widest text-secondary/50 uppercase">
-        gemini-2.5-flash
-      </span>
+
+      <div className="flex items-center justify-between gap-6 border-t border-line/70 pt-2 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-secondary/50">
+        <span>analyse</span>
+        <span>gemini-2.5-flash</span>
+      </div>
     </div>
   );
 };

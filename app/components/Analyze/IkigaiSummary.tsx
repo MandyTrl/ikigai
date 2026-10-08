@@ -1,8 +1,12 @@
-import { WarningCircleIcon } from "@phosphor-icons/react/dist/ssr";
-import { PrintPdfButton } from "./PdfButton";
-import { CoherenceSignal } from "./CoherenceSignal";
+import { ReactNode } from "react";
+import {
+  MountainsIcon,
+  CompassIcon,
+  PlantIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { IkigaiTags } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
+import { KeywordTags } from "./KeywordTags";
 
 type IkigaiSummaryProps = {
   summary: {
@@ -11,127 +15,64 @@ type IkigaiSummaryProps = {
     motivations: string[];
     work_environment: string[];
   };
-  recommendations: {
-    actions: string[];
-    warning: string;
-  };
-  confidence: number;
   tags: IkigaiTags;
 };
 
-const PILLAR_KANJI: Record<string, string> = {
-  love: "愛",
-  talent: "才",
-  needs: "需",
-  paid: "仕",
-};
-
-type SummaryListCardProps = {
+const SummaryListCard = ({
+  icon,
+  title,
+  items,
+}: {
+  icon: ReactNode;
   title: string;
   items: string[];
-};
+}) => (
+  <article className="flex flex-col gap-4 rounded-2xl border border-line bg-surface/70 p-6 print:bg-surface print:break-inside-avoid">
+    <div className="flex items-center gap-2.5 text-primary">
+      {icon}
+      <p className="font-mono text-base uppercase tracking-[0.15em]">{title}</p>
+    </div>
 
-const SummaryListCard = ({ title, items }: SummaryListCardProps) => {
-  return (
-    <article className="bg-transparent p-0">
-      <p className="text-xs tracking-[0.2em] uppercase border-b border-primary/10 pb-2 mb-4 text-secondary/70">
-        {title}
-      </p>
-
-      <ul className="space-y-3">
-        {items.map((item) => (
-          <li key={item} className="flex items-start gap-3 text-sm leading-6">
-            <span className="mt-1 shrink-0 text-[var(--tertiary)]">–</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </article>
-  );
-};
-
-export const IkigaiSummary = ({
-  summary,
-  recommendations,
-  confidence,
-  tags,
-}: IkigaiSummaryProps) => {
-  return (
-    <section className="space-y-6">
-      <article id="summary" className="flex gap-10 items-start">
-        <div className="flex-1">
-          <p className="text-xs tracking-[0.2em] uppercase text-secondary/60 mb-2">
-            Synthèse globale
-          </p>
-          <Title as="h2" text="Votre ikigai en quelques mots" />
-          <p className="mt-4 text-sm md:text-base font-[300] leading-8 max-w-3xl">
-            {summary.profile}
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-4 shrink-0">
-          <CoherenceSignal confidence={confidence} />
-          <PrintPdfButton />
-        </div>
-      </article>
-
-      {Object.entries(tags).map(([pillar, values]) => (
-        <div key={pillar} className="mb-3">
-          <p className="font-[300] text-base text-secondary/80 mb-2">
-            {PILLAR_KANJI[pillar] ?? pillar}
-          </p>
-
-          <div className="flex flex-wrap gap-2">
-            {values.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 text-sm rounded-none border border-current/20 text-primary/80"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
+    <ul className="flex flex-col gap-2.5">
+      {items.map((item) => (
+        <li key={item} className="flex gap-2.5 text-base font-light leading-snug">
+          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-tertiary" />
+          <span>{item}</span>
+        </li>
       ))}
-      <p className="text-xs text-slate-500 mb-3">
-        Ces mots-clés ont été identifiés à partir de vos réponses
-      </p>
+    </ul>
+  </article>
+);
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <SummaryListCard title="Forces clés" items={summary.key_strengths} />
-        <SummaryListCard title="Motivations" items={summary.motivations} />
-        <SummaryListCard
-          title="Environnement idéal"
-          items={summary.work_environment}
-        />
+export const IkigaiSummary = ({ summary, tags }: IkigaiSummaryProps) => (
+  <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-4">
+        <Title as="h2" text="En quelques mots" className="font-light" />
+        <p className="max-w-[65ch] text-base font-light leading-7 text-primary/90">
+          {summary.profile}
+        </p>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
-        <article className="border border-slate-200 bg-white p-6">
-          <Title as="h3" text="Pistes pour avancer" />
+      <KeywordTags tags={tags} />
+    </div>
 
-          <ul className="space-y-4">
-            {recommendations.actions.map((action, index) => (
-              <li key={action} className="flex items-start gap-4">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent font-medium">
-                  {index + 1}
-                </span>
-
-                <p>{action}</p>
-              </li>
-            ))}
-          </ul>
-        </article>
-
-        <article className="h-fit border-l-[3px] border-[var(--tertiary)] pl-4 py-2">
-          <div className="mb-3 flex items-center gap-3 text-primary/70">
-            <WarningCircleIcon size={18} weight="fill" />
-            <Title as="h3" text="Point de vigilance" />
-          </div>
-
-          <p className="text-sm leading-6">{recommendations.warning}</p>
-        </article>
-      </div>
-    </section>
-  );
-};
+    <div className="grid gap-5 md:grid-cols-3">
+      <SummaryListCard
+        icon={<MountainsIcon size={22} weight="duotone" className="text-tertiary" />}
+        title="Forces clés"
+        items={summary.key_strengths}
+      />
+      <SummaryListCard
+        icon={<CompassIcon size={22} weight="duotone" className="text-tertiary" />}
+        title="Motivations"
+        items={summary.motivations}
+      />
+      <SummaryListCard
+        icon={<PlantIcon size={22} weight="duotone" className="text-tertiary" />}
+        title="Environnement idéal"
+        items={summary.work_environment}
+      />
+    </div>
+  </div>
+);

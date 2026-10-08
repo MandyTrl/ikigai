@@ -10,9 +10,14 @@ import {
   getPayloadSignature,
 } from "@/app/api/analyze/utils";
 import { IkigaiAnalysisResult } from "../api/analyze/types/response";
+import { ResultHeader } from "../components/Analyze/ResultHeader";
+import { ResultEstampe } from "../components/Analyze/ResultEstampe";
+import { ResultSection } from "../components/Analyze/ResultSection";
 import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
 import { JobCard } from "../components/Analyze/JobCard";
-import { PillarAnalysis } from "../components/Analyze/PillarAnalysis";
+import { CrossAnalysis } from "../components/Analyze/CrossAnalysis";
+import { NextSteps } from "../components/Analyze/NextSteps";
+import { VigilancePoint } from "../components/Analyze/VigilancePoint";
 
 export default function IkigaiResultPage() {
   const router = useRouter();
@@ -32,7 +37,7 @@ export default function IkigaiResultPage() {
     const cache = getAnalysisCache();
 
     if (!cache || cache.signature !== signature) {
-      router.replace("/votre-ikigai");
+      router.replace("/commencer");
       return;
     }
 
@@ -40,40 +45,46 @@ export default function IkigaiResultPage() {
   }, [ikigaiForm, router, signature]);
 
   if (!analysis) {
-    return <p>Chargement de votre analyse...</p>;
+    return (
+      <p className="flex min-h-screen items-center justify-center font-mono text-sm uppercase tracking-[0.2em] text-secondary/60">
+        Chargement de votre analyse…
+      </p>
+    );
   }
 
   return (
-    <MainLayout>
-      <section className="flex flex-col gap-8 px-4 py-10">
-        <header className="space-y-1">
-          <h1 className="font-arima font-[100] tracking-[-0.04em] leading-none" style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}>
-            Votre Ikigai
-          </h1>
-          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-            Une synthèse de votre profil
-          </p>
-        </header>
+    <MainLayout className="gap-16 py-12 md:gap-20 md:py-16">
+      <div className="relative">
+        <ResultEstampe />
 
-        <IkigaiSummary
-          summary={analysis.summary}
-          recommendations={analysis.recommendations}
-          confidence={analysis.confidence}
-          tags={analysis.tags}
+        <div className="relative z-10 flex flex-col gap-16 md:gap-20">
+          <ResultHeader confidence={analysis.confidence} />
+
+          <ResultSection index="01" eyebrow="synthèse">
+            <IkigaiSummary summary={analysis.summary} tags={analysis.tags} />
+          </ResultSection>
+        </div>
+      </div>
+
+      <ResultSection index="02" eyebrow="orientations">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {analysis.jobs.map((job, index) => (
+            <JobCard key={job.title} job={job} rank={index + 1} />
+          ))}
+        </div>
+      </ResultSection>
+
+      <div className="flex flex-col gap-10">
+        <div className="grid gap-10 md:gap-14 lg:grid-cols-2">
+          <CrossAnalysis insights={analysis.analysis.insights} />
+          <NextSteps actions={analysis.recommendations.actions} />
+        </div>
+
+        <VigilancePoint
+          warning={analysis.recommendations.warning}
+          tensions={analysis.analysis.tensions}
         />
-
-        <section id="top-3-job" className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.2em] text-secondary/60">Pistes pour vous</p>
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {analysis.jobs.map((job, index) => (
-              <JobCard key={job.title} job={job} rank={index + 1} />
-            ))}
-          </div>
-        </section>
-
-        <PillarAnalysis analysis={analysis.analysis} />
-      </section>
+      </div>
     </MainLayout>
   );
 }

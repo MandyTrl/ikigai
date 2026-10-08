@@ -1,49 +1,24 @@
+"use client";
+import { CSSProperties, useState } from "react";
+import clsx from "clsx";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiJob } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
+import { PILLARS, PillarKey, getDominantPillar } from "./pillars";
 
-type PillarKey = "love" | "talent" | "needs" | "paid";
+const ScoreBar = ({ pillar, value }: { pillar: PillarKey; value: number }) => {
+  const { accent, label } = PILLARS[pillar];
 
-const PILLAR_COLORS: Record<PillarKey, string> = {
-  love: "#b6d4db",
-  talent: "#eed2d7",
-  needs: "#ffefe5",
-  paid: "#c9def7",
-};
-
-const PILLAR_LABELS: Record<PillarKey, string> = {
-  love: "amour",
-  talent: "talent",
-  needs: "utilité",
-  paid: "vocation",
-};
-
-const ROMAN = ["I", "II", "III"];
-
-const getDominantPillar = (scores: IkigaiJob["ikigai_scores"]): PillarKey => {
-  return (Object.entries(scores) as [PillarKey, number][]).reduce((a, b) =>
-    b[1] > a[1] ? b : a
-  )[0];
-};
-
-const ScoreBar = ({
-  label,
-  value,
-  isDominant,
-}: {
-  label: PillarKey;
-  value: number;
-  isDominant: boolean;
-}) => {
-  const color = PILLAR_COLORS[label];
   return (
-    <div className="space-y-1">
-      <span className="font-mono text-[0.6rem] tracking-wide text-secondary/60 uppercase">
-        {PILLAR_LABELS[label]}
+    <div className="flex items-center gap-3">
+      <span className="w-16 shrink-0 font-mono text-[0.6rem] uppercase tracking-wide text-secondary/80">
+        {label}
       </span>
-      <div className={`rounded-none bg-primary/8 ${isDominant ? "h-3" : "h-2"}`}>
+
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-primary/8">
         <div
-          className={`h-full rounded-none transition-all ${isDominant ? "opacity-100" : "opacity-70"}`}
-          style={{ width: `${value}%`, backgroundColor: color }}
+          className="h-full rounded-full"
+          style={{ width: `${value}%`, backgroundColor: accent }}
         />
       </div>
     </div>
@@ -51,42 +26,113 @@ const ScoreBar = ({
 };
 
 export const JobCard = ({ job, rank }: { job: IkigaiJob; rank: number }) => {
+  const [revealed, setRevealed] = useState(false);
   const dominant = getDominantPillar(job.ikigai_scores);
+  const { accent, label, kanji } = PILLARS[dominant];
 
   return (
-    <article className="relative flex flex-col gap-4 border border-slate-200 bg-white p-5 overflow-hidden">
-      <span className="absolute top-3 right-4 text-[3rem] font-[100] text-primary/10 select-none leading-none">
-        {ROMAN[rank - 1]}
-      </span>
-
-      <div className="flex flex-col gap-1 pr-12">
-        <span
-          className="font-mono text-[0.6rem] tracking-widest uppercase"
-          style={{ color: PILLAR_COLORS[dominant] }}
-        >
-          ● {PILLAR_LABELS[dominant]}
-        </span>
-        <Title as="h3" text={job.title} className="font-[300] text-2xl" />
-      </div>
-
-      <div className="space-y-3">
-        {(Object.entries(job.ikigai_scores) as [PillarKey, number][]).map(
-          ([key, value]) => (
-            <ScoreBar
-              key={key}
-              label={key}
-              value={value}
-              isDominant={key === dominant}
-            />
-          )
+    <div className="h-full perspective-[1600px]">
+      <div
+        className={clsx(
+          "relative h-full transform-3d transition-transform duration-500 ease-in-out",
+          revealed && "transform-[rotateY(180deg)]",
+          "print:transform-none",
         )}
-      </div>
+      >
+        <div
+          onClick={() => setRevealed(false)}
+          style={{ borderColor: accent } as CSSProperties}
+          className="relative flex h-full cursor-pointer flex-col gap-6 overflow-hidden rounded-2xl border-2 bg-surfacemuted/40 p-6 backface-hidden transform-[rotateY(180deg)] print:cursor-auto print:break-inside-avoid print:transform-none print:backface-visible"
+        >
+          <span
+            className="absolute right-4 top-3 select-none font-arima text-6xl font-thin leading-none"
+            style={{ color: `${accent}99` }}
+          >
+            {rank}
+          </span>
 
-      <p className="text-sm leading-6">{job.description}</p>
+          <div className="flex flex-col gap-2 pr-12">
+            <span
+              className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest"
+              style={{ color: accent }}
+            >
+              {kanji} {label}
+            </span>
 
-      <div className="border-l-2 border-[var(--tertiary)] pl-4 mt-1 italic font-light text-sm text-primary/80">
-        {job.match_reason}
+            <Title as="h3" text={job.title} className="text-xl font-light" />
+          </div>
+
+          <div className="flex flex-col gap-2.5">
+            {(Object.entries(job.ikigai_scores) as [PillarKey, number][]).map(
+              ([key, value]) => (
+                <ScoreBar key={key} pillar={key} value={value} />
+              ),
+            )}
+          </div>
+
+          <p className="leading-relaxed">{job.description}</p>
+
+          <p
+            className="rounded-lg p-4 text-sm italic leading-relaxed text-primary/90"
+            style={{ backgroundColor: `${accent}1a` }}
+          >
+            {job.match_reason}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setRevealed(true)}
+          style={
+            {
+              backgroundColor: `${accent}1f`,
+              borderColor: `${accent}55`,
+              "--pa": accent,
+            } as CSSProperties
+          }
+          className="group absolute inset-0 flex flex-col items-center justify-center gap-6 overflow-hidden rounded-2xl border p-6 text-center backface-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[4px_4px_0px_var(--pa)] active:shadow-none print:hidden"
+        >
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -bottom-14 -right-6 origin-bottom-right select-none font-arima text-[15rem] leading-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+            style={{ color: `${accent}24` }}
+          >
+            {kanji}
+          </span>
+
+          <span
+            className="flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-widest"
+            style={{ color: accent }}
+          >
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: accent }}
+            />
+            {label} · top {rank}
+          </span>
+
+          <div className="flex flex-col items-center gap-1">
+            <span className="font-arima text-6xl font-thin text-primary/80">
+              {job.score}%
+            </span>
+            <span className="font-mono text-[0.6rem] uppercase tracking-widest text-secondary/80">
+              cohérence
+            </span>
+          </div>
+
+          <span
+            className="flex items-center gap-1.5 rounded-2xl border bg-surface/60 px-4 py-3 font-mono text-xs uppercase tracking-[0.2em] text-primary/80"
+            style={{ borderColor: `${accent}55` }}
+          >
+            découvrez ce métier
+            <ArrowRightIcon
+              size={14}
+              weight="light"
+              className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1"
+            />
+          </span>
+        </button>
       </div>
-    </article>
+    </div>
   );
 };
