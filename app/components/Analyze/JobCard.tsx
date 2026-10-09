@@ -11,7 +11,7 @@ const ScoreBar = ({ pillar, value }: { pillar: PillarKey; value: number }) => {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="w-16 shrink-0 font-mono text-[0.6rem] uppercase tracking-wide text-secondary/80">
+      <span className="w-16 shrink-0 font-mono text-xs uppercase tracking-wide text-secondary/80">
         {label}
       </span>
 
@@ -59,19 +59,20 @@ export const JobCard = ({ job, rank }: { job: IkigaiJob; rank: number }) => {
               {kanji} {label}
             </span>
 
-            <Title as="h3" text={job.title} className="text-xl font-light" />
+            <Title as="h3" text={job.title} className="text-xl" />
           </div>
 
-          <div className="flex flex-col gap-2.5">
-            {(Object.entries(job.ikigai_scores) as [PillarKey, number][]).map(
-              ([key, value]) => (
-                <ScoreBar key={key} pillar={key} value={value} />
-              ),
-            )}
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="w-full flex flex-col gap-3">
+              {(Object.entries(job.ikigai_scores) as [PillarKey, number][]).map(
+                ([key, value]) => (
+                  <ScoreBar key={key} pillar={key} value={value} />
+                ),
+              )}
+            </div>
+
+            <p className="leading-relaxed">{job.description}</p>
           </div>
-
-          <p className="leading-relaxed">{job.description}</p>
-
           <p
             className="rounded-lg p-4 text-sm italic leading-relaxed text-primary/90"
             style={{ backgroundColor: `${accent}1a` }}

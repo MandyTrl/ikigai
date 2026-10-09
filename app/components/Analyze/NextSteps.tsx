@@ -11,11 +11,9 @@ export const NextSteps = ({ actions }: NextStepsProps) => (
     <ol className="flex flex-col gap-5">
       {actions.map((action, index) => (
         <li key={action} className="flex items-start gap-4">
-          <span className="text-accent text-5xl">{index + 1}</span>
+          <span className="text-tertiary text-5xl">{index + 1}</span>
 
-          <p className="pt-1 text-base font-light leading-relaxed text-primary/90">
-            {action}
-          </p>
+          <p className="leading-relaxed">{action}</p>
         </li>
       ))}
     </ol>

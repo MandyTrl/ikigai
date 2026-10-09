@@ -138,8 +138,8 @@ const VennDiagram: React.FC = () => {
                 Ikigai
               </text>
 
-              {/* Capstone : une fois les 4 piliers scellés, le cœur du
-                  diagramme se révèle en 生き甲斐 (ikigai), après le tracé. */}
+              {/* Capstone : une fois les 4 piliers remplis, le cœur du
+                  diagramme se révèle en kanji, après le tracé. */}
               <text
                 x="50%"
                 y="52.5%"
@@ -168,7 +168,7 @@ const VennDiagram: React.FC = () => {
             <motion.div
               key="progress"
               className="absolute flex flex-col items-center"
-              exit={{ opacity: 0, transition: { duration: 0.25 } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
             >
               <VennProgress
                 completeCount={completeCount}
@@ -185,7 +185,11 @@ const VennDiagram: React.FC = () => {
               className="absolute flex flex-col items-center gap-2"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.3, duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+              transition={{
+                delay: 0.8,
+                duration: 0.5,
+                ease: [0.33, 1, 0.68, 1],
+              }}
             >
               <Button
                 label={

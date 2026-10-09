@@ -12,9 +12,7 @@ export const CrossAnalysis = ({ insights }: CrossAnalysisProps) => (
       {insights.map((item) => (
         <li key={item} className="flex gap-4">
           <span className="text-2xl leading-none text-secondary">༄</span>
-          <p className="text-base font-light leading-relaxed text-primary/90">
-            {item}
-          </p>
+          <p className="leading-relaxed">{item}</p>
         </li>
       ))}
     </ul>

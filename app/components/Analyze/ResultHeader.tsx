@@ -28,7 +28,7 @@ export const ResultHeader = ({ confidence }: ResultHeaderProps) => {
         </p>
       </div>
 
-      <div className="flex items-center gap-4 md:flex-col md:items-end">
+      <div className="flex items-start gap-4 flex-col md:items-end">
         <CoherenceSignal confidence={confidence} />
 
         <div className="print:hidden">

@@ -10,7 +10,7 @@ const getLabel = (confidence: number) => {
   return "Profil à enrichir";
 };
 
-const BAR_HEIGHTS = ["h-2", "h-3", "h-4", "h-5"];
+const BAR_HEIGHTS = ["h-3", "h-4", "h-5", "h-6"];
 
 export const CoherenceSignal = ({ confidence }: CoherenceSignalProps) => {
   const filledBars = Math.round(confidence / 25);
@@ -34,7 +34,7 @@ export const CoherenceSignal = ({ confidence }: CoherenceSignalProps) => {
         <span className="text-sm font-medium leading-none text-primary/80">
           {getLabel(confidence)}
         </span>
-        <span className="font-mono text-sm leading-none text-tertiary">
+        <span className="font-mono leading-none text-tertiary">
           {confidence}%
         </span>
       </div>

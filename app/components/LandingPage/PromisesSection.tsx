@@ -19,9 +19,9 @@ const FEATURED_ESTAMPE =
 // Fondu haut/bas du fond pour qu'il se dissolve dans le crème des sections voisines
 const BG_FADE: CSSProperties = {
   maskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)",
+    "linear-gradient(to bottom, transparent 0%, #000 20%, #000 100%, transparent 100%)",
   WebkitMaskImage:
-    "linear-gradient(to bottom, transparent 0%, #000 18%, #000 90%, transparent 100%)",
+    "linear-gradient(to bottom, transparent 0%, #000 20%, #000 100%, transparent 100%)",
 };
 
 const ICONS = [
@@ -47,7 +47,7 @@ export const PromisesSection = () => {
           aria-hidden
           fill
           sizes="100vw"
-          className="object-cover object-center opacity-[0.18]"
+          className="object-cover object-center opacity-[0.2]"
           style={BG_FADE}
         />
       </div>
@@ -83,7 +83,9 @@ export const PromisesSection = () => {
               <span className="text-2xl text-tertiary shrink-0">
                 {ICONS[i]}
               </span>
-              <h3 className="text-xl md:text-2xl font-medium text-primary">{p.title}</h3>
+              <h3 className="text-xl md:text-2xl font-medium text-primary">
+                {p.title}
+              </h3>
             </div>
 
             <p className="leading-relaxed text-primary/85 md:text-lg col-span-3">

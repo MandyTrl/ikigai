@@ -54,20 +54,16 @@ export default function IkigaiResultPage() {
 
   return (
     <MainLayout className="gap-16 py-12 md:gap-20 md:py-16">
-      <div className="relative">
-        <ResultEstampe />
+      <div className="relative z-10 flex flex-col gap-16 md:gap-20">
+        <ResultHeader confidence={analysis.confidence} />
 
-        <div className="relative z-10 flex flex-col gap-16 md:gap-20">
-          <ResultHeader confidence={analysis.confidence} />
-
-          <ResultSection index="01" eyebrow="synthèse">
-            <IkigaiSummary summary={analysis.summary} tags={analysis.tags} />
-          </ResultSection>
-        </div>
+        <ResultSection index="01" eyebrow="synthèse">
+          <IkigaiSummary summary={analysis.summary} tags={analysis.tags} />
+        </ResultSection>
       </div>
 
       <ResultSection index="02" eyebrow="orientations">
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-5">
           {analysis.jobs.map((job, index) => (
             <JobCard key={job.title} job={job} rank={index + 1} />
           ))}
@@ -75,10 +71,15 @@ export default function IkigaiResultPage() {
       </ResultSection>
 
       <div className="flex flex-col gap-10">
-        <div className="grid gap-10 md:gap-14 lg:grid-cols-2">
-          <CrossAnalysis insights={analysis.analysis.insights} />
-          <NextSteps actions={analysis.recommendations.actions} />
+        <div className="relative isolate pb-8">
+          <ResultEstampe />
+
+          <div className="relative z-10 grid gap-10 md:gap-14 lg:grid-cols-2">
+            <CrossAnalysis insights={analysis.analysis.insights} />
+          </div>
         </div>
+
+        <NextSteps actions={analysis.recommendations.actions} />
 
         <VigilancePoint
           warning={analysis.recommendations.warning}

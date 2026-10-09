@@ -1,9 +1,5 @@
 import { ReactNode } from "react";
-import {
-  MountainsIcon,
-  CompassIcon,
-  PlantIcon,
-} from "@phosphor-icons/react/dist/ssr";
+
 import { IkigaiTags } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
 import { KeywordTags } from "./KeywordTags";
@@ -19,23 +15,20 @@ type IkigaiSummaryProps = {
 };
 
 const SummaryListCard = ({
-  icon,
   title,
   items,
 }: {
-  icon: ReactNode;
   title: string;
   items: string[];
 }) => (
-  <article className="flex flex-col gap-4 rounded-2xl border border-line bg-surface/70 p-6 print:bg-surface print:break-inside-avoid">
-    <div className="flex items-center gap-2.5 text-primary">
-      {icon}
-      <p className="font-mono text-base uppercase tracking-[0.15em]">{title}</p>
+  <article className="flex h-full flex-col gap-1 print:break-inside-avoid">
+    <div className="text-primary/80 border-2 border-accent print:bg-surface bg-surface/70 font-semibold rounded-xl px-6 py-3 text-xl">
+      {title}
     </div>
 
-    <ul className="flex flex-col gap-2.5">
+    <ul className="flex flex-1 flex-col gap-2.5 p-6 border border-line rounded-xl print:bg-surface bg-surface/70">
       {items.map((item) => (
-        <li key={item} className="flex gap-2.5 text-base font-light leading-snug">
+        <li key={item} className="flex gap-2.5 leading-snug">
           <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-tertiary" />
           <span>{item}</span>
         </li>
@@ -46,10 +39,10 @@ const SummaryListCard = ({
 
 export const IkigaiSummary = ({ summary, tags }: IkigaiSummaryProps) => (
   <div className="flex flex-col gap-16">
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-14">
       <div className="flex flex-col gap-4">
         <Title as="h2" text="En quelques mots" className="font-light" />
-        <p className="max-w-[65ch] text-base font-light leading-7 text-primary/90">
+        <p className="max-w-[65ch] leading-7 text-primary/90">
           {summary.profile}
         </p>
       </div>
@@ -57,19 +50,10 @@ export const IkigaiSummary = ({ summary, tags }: IkigaiSummaryProps) => (
       <KeywordTags tags={tags} />
     </div>
 
-    <div className="grid gap-5 md:grid-cols-3">
+    <div className="grid items-stretch gap-6 md:grid-cols-3 md:gap-9">
+      <SummaryListCard title="Forces clés" items={summary.key_strengths} />
+      <SummaryListCard title="Motivations" items={summary.motivations} />
       <SummaryListCard
-        icon={<MountainsIcon size={22} weight="duotone" className="text-tertiary" />}
-        title="Forces clés"
-        items={summary.key_strengths}
-      />
-      <SummaryListCard
-        icon={<CompassIcon size={22} weight="duotone" className="text-tertiary" />}
-        title="Motivations"
-        items={summary.motivations}
-      />
-      <SummaryListCard
-        icon={<PlantIcon size={22} weight="duotone" className="text-tertiary" />}
         title="Environnement idéal"
         items={summary.work_environment}
       />

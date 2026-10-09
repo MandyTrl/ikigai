@@ -18,7 +18,7 @@ export const KeywordTags = ({ tags }: KeywordTagsProps) => {
           return (
             <span
               key={key}
-              className="flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-widest text-secondary/90"
+              className="flex items-center gap-3 font-mono text-[0.65rem] uppercase tracking-widest text-secondary/90"
             >
               <span
                 className="flex h-7 w-7 items-center justify-center rounded-md text-base"
@@ -33,7 +33,7 @@ export const KeywordTags = ({ tags }: KeywordTagsProps) => {
         })}
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-2.5">
+      <div className="flex flex-wrap items-center justify-center gap-4">
         {cloud.map(({ tag, accent }, i) => (
           <span
             key={`${tag}-${i}`}
