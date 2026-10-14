@@ -1,7 +1,13 @@
 "use client";
 import { ReactNode, useCallback, useMemo, useState, useEffect } from "react";
 import { MotionConfig } from "motion/react";
-import { IkigaiContext, IkigaiForm, initialIkigaiForm } from "./IkigaiContext";
+import {
+  IkigaiContext,
+  IkigaiEnrichment,
+  IkigaiForm,
+  initialIkigaiEnrichment,
+  initialIkigaiForm,
+} from "./IkigaiContext";
 import { getFilledAnswersCount } from "../utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "../types";
 import { HoverContext } from "./HoverContext";
@@ -13,6 +19,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     IkigaiStepEnum.INITIAL,
   );
   const [isHydrated, setIsHydrated] = useState(false);
+  const [enrichment, setEnrichment] = useState<IkigaiEnrichment>(
+    initialIkigaiEnrichment,
+  );
 
   // get & save ikigaï-form in localStorage
   useEffect(() => {
@@ -49,6 +58,29 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem("ikigai-form", JSON.stringify(ikigaiForm));
   }, [ikigaiForm]);
+
+  // get & save le profil enrichi (facultatif) dans localStorage — survit à resetIkigai, ce n'est pas une progression de pilier
+  useEffect(() => {
+    const saved = localStorage.getItem("ikigai-enrichment");
+
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+
+        if (parsed && typeof parsed === "object") {
+          setEnrichment(parsed);
+        } else {
+          console.warn("Invalid ikigai-enrichment localStorage shape");
+        }
+      } catch {
+        console.warn("Invalid ikigai-enrichment localStorage data");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("ikigai-enrichment", JSON.stringify(enrichment));
+  }, [enrichment]);
 
   // mémoïze fct to prevent recreating between re-renders
   const updateForm = useCallback(
@@ -87,18 +119,33 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     setCurrentStep(IkigaiStepEnum.INITIAL);
   }, []);
 
+  const updateEnrichment = useCallback((field: Partial<IkigaiEnrichment>) => {
+    setEnrichment((prev) => ({ ...prev, ...field }));
+  }, []);
+
   //mémoïze results (objects, array..) to prevent re-renders
   const ikigaiContextValue = useMemo(
     () => ({
       ikigaiForm,
       currentStep,
       isHydrated,
+      enrichment,
       setStep: setCurrentStep,
       updateForm,
       savePillar,
       resetIkigai,
+      updateEnrichment,
     }),
-    [ikigaiForm, currentStep, isHydrated, updateForm, savePillar, resetIkigai],
+    [
+      ikigaiForm,
+      currentStep,
+      isHydrated,
+      enrichment,
+      updateForm,
+      savePillar,
+      resetIkigai,
+      updateEnrichment,
+    ],
   );
 
   const [hoveredMainstay, setHoveredMainstay] = useState<IkigaiStepEnum | null>(

@@ -49,8 +49,10 @@ A question only counts as **valid** once its answer reaches `MIN_ANSWER_LENGTH` 
 ### State management
 All form state lives in `app/context/index.tsx` (the `AppProviders` component). It wraps everything in `<MotionConfig reducedMotion="user">` (Framer Motion respects the system "reduce motion" setting app-wide; CSS animations are neutralized via a `prefers-reduced-motion` block in `globals.css`), then two providers:
 
-- **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`). Persisted to `localStorage` under the key `"ikigai-form"`. Exposes **`isHydrated`** (false until the localStorage read effect has run) — any page-level redirect that depends on `ikigaiForm` (e.g. `/votre-ikigai` bouncing back to `/commencer` when the form is incomplete) must gate on `isHydrated` first, otherwise it fires against the transient empty initial state on every hard refresh, before localStorage has had a chance to populate.
+- **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`), and the optional **`enrichment`** profile (see below). Persisted to `localStorage` under the key `"ikigai-form"` (pillars) and `"ikigai-enrichment"` (profile). Exposes **`isHydrated`** (false until the localStorage read effect has run) — any page-level redirect that depends on `ikigaiForm` (e.g. `/votre-ikigai` bouncing back to `/commencer` when the form is incomplete) must gate on `isHydrated` first, otherwise it fires against the transient empty initial state on every hard refresh, before localStorage has had a chance to populate.
 - **`HoverContext`** (`app/context/HoverContext.tsx`) — which pillar is currently hovered (used for the Venn diagram to bring the hovered circle to the front).
+
+`enrichment` (`updateEnrichment` to patch it) is identity/profile data, not pillar progress — it lives on its own localStorage key and is **never cleared by `resetIkigai()`**.
 
 Step progression uses `IkigaiStepEnum` (INITIAL → LOVE → NEEDS → PAID → TALENT → RESUME). The user can fill pillars in any order.
 
@@ -78,19 +80,31 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 - Returns `{ success: true, data: IkigaiAnalysisResult }` or `{ success: false, error: string }`
 - Client-side caching uses `sessionStorage` (key `"ikigai-analysis-cache"`, signature-based, helpers in `app/api/analyze/utils.ts`)
 
+### Profile enrichment (optional)
+
+An **« enrichir mon profil »** trigger sits in `SiteHeader`'s `endSlot` next to « réinitialiser » (wired in `YourIkigaiLayout`, visible on the INITIAL view of `/commencer`). It opens a generic **`Modal`** (`app/components/UI/Modal.tsx`) driven by the generic **`useModal()`** hook (`app/hooks/useModal.ts`, `{ isOpen, open, close }` — both are reusable beyond this feature, not enrichment-specific).
+
+The modal hosts `EnrichProfileForm` (`app/components/EnrichProfile/`), an **entirely optional** form that densifies the context sent to Gemini: MBTI type (custom `MbtiSelect` listbox, data in `app/utils/datas/mbtiTypes.ts`), DISC behavioral colour (`app/utils/datas/discProfiles.ts`), current job, satisfaction (0–10 slider), age. Every field is optional and nothing here gates analysis — fields auto-save to `IkigaiContext`'s `enrichment` after a 500 ms debounce, same convention as pillar answers.
+
+`buildIkigaiPayload(form, enrichment)` (`app/api/analyze/utils.ts`) folds `enrichment` into the `/api/analyze` payload only when at least one field is filled (`hasEnrichmentData()` in `app/utils/ikigaiEnrichment.ts` — kept outside `IkigaiContext.tsx` so the server route doesn't pull a client-context module into its bundle). `normalizePayload`/`getPayloadSignature` also account for `enrichment`, so the `sessionStorage` analysis cache correctly invalidates when only the enrichment changes. `ikigaiPrompt.ts` instructs Gemini to use these fields to nuance tone/relevance, never to flag their absence.
+
 ### Key types
 
-`app/types.ts` — enums only:
+`app/types.ts` — enums + domain unions:
 - `IkigaiStepEnum` — INITIAL, LOVE, NEEDS, PAID, TALENT, RESUME
 - `IkigaiPillarStep` — `IkigaiStepEnum` minus INITIAL and RESUME
 - `PillarStateEnum` — NOT_STARTED, IS_SELECTED, IN_PROGRESS, IS_SAVED, FINISHED
+- `MbtiType` — union of the 16 4-letter MBTI codes
+- `DiscColor` — `"red" | "yellow" | "green" | "blue"`
 
 `app/context/IkigaiContext.tsx`:
 - `IkigaiForm` — `{ mainstay: IkigaiStepEnum, progressState: PillarStateEnum, answers: string[] }`
-- `IkigaiContextProps` — context shape with `ikigaiForm`, `currentStep`, `isHydrated`, `setStep`, `updateForm`, `savePillar`, `resetIkigai`
+- `IkigaiEnrichment` — `{ mbti?, disc?, currentJob?: string, satisfaction?: number, age?: number }` (optional profile, see above)
+- `IkigaiContextProps` — context shape with `ikigaiForm`, `currentStep`, `isHydrated`, `enrichment`, `setStep`, `updateForm`, `savePillar`, `resetIkigai`, `updateEnrichment`
 
 `app/api/analyze/types/request.ts`:
-- `IkigaiPayload` — `{ love, talent, needs, paid: string[] }`
+- `IkigaiPayload` — `{ love, talent, needs, paid: string[], enrichment?: IkigaiEnrichmentPayload }`
+- `IkigaiEnrichmentPayload` — same shape as `IkigaiEnrichment` but decoupled (plain `string`/`number`), since the API route is a boundary and shouldn't import client-context types
 
 `app/api/analyze/types/response.ts`:
 - `IkigaiAnalysisResult` — `{ summary: { profile, key_strengths, motivations, work_environment }, analysis: { insights, tensions }, jobs: IkigaiJob[], recommendations: { actions, warning }, tags: IkigaiTags, confidence }`
@@ -103,6 +117,8 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 
 `app/utils/datas/ikigaiPromises.ts` — static content for the landing page promises section.
 
+`app/utils/datas/mbtiTypes.ts` / `app/utils/datas/discProfiles.ts` — static options for the optional profile-enrichment form (MBTI codes, DISC colours + muted swatch hexes).
+
 ### Path alias
 
 `@/*` maps to the project root (e.g. `@/app/context/IkigaiContext`).
@@ -112,15 +128,18 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 ```
 app/components/
   Analyze/         — result display: IkigaiSummary, JobCard, PillarAnalysis, CoherenceSignal, PdfButton
+  EnrichProfile/   — EnrichProfileModal (owns useModal + Modal), EnrichProfileForm, MbtiSelect (custom listbox)
   Form/            — FormStepBar + FormStep (top-bar multistep nav), PillarIdentity + PillarAbout, FormGuidelines + FormHelp, FormTextArea + AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+) + FormBottomEstampe (bottom→up fade, mobile/tablet)
   IkigaiGuide/     — overview "mode d'emploi": IkigaiGuide, GuideStep
   LandingPage/     — Banner, HeroSection, IntroSection/, PillarSection/, PromisesSection
   Layouts/         — MainLayout, FormLayout, YourIkigaiLayout
-  UI/              — Button, Eyebrow, Collapse, DynamicIcon, HighlightText, KanjiRevealWord, Title, AsciiKoi, AsciiSakura
+  UI/              — Button, Eyebrow, Collapse, DynamicIcon, EnrichProfileButton, HighlightText, KanjiRevealWord, Modal, Title, AsciiKoi, AsciiSakura
   VennDiagram/     — VennDiagram (SVG, responsive via %), Circle (per-pillar kanji seal on completion + `生き甲斐` capstone), VennProgress
   SiteHeader.tsx   — shared logo-only header (landing + overview); replaced the old Navbar
   MainstayList.tsx
 ```
+
+`app/hooks/` also has **`useModal()`** — generic `{ isOpen, open, close }`, not tied to `EnrichProfile`, reuse it for any future modal.
 
 **File size**: keep component / layout / interface files focused. If one grows past ~150 lines, split it into smaller sub-components (e.g. `AnswerCounter` extracted from `FormTextArea`, `GuideStep` from `IkigaiGuide`). A file that needs scrolling to understand is usually doing too much.
 

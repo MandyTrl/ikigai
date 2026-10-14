@@ -1,5 +1,6 @@
-import { IkigaiForm } from "@/app/context/IkigaiContext";
+import type { IkigaiEnrichment, IkigaiForm } from "@/app/context/IkigaiContext";
 import { IkigaiStepEnum } from "@/app/types";
+import { pickEnrichmentFields } from "@/app/utils/ikigaiEnrichment";
 import { IkigaiPayload } from "./types/request";
 
 export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
@@ -15,13 +16,17 @@ export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
     payload.love.every((item) => typeof item === "string") &&
     payload.talent.every((item) => typeof item === "string") &&
     payload.needs.every((item) => typeof item === "string") &&
-    payload.paid.every((item) => typeof item === "string")
+    payload.paid.every((item) => typeof item === "string") &&
+    (payload.enrichment === undefined || typeof payload.enrichment === "object")
   );
 };
 
 // mapper pour l'envoi au LLM
-export const buildIkigaiPayload = (form: IkigaiForm[]): IkigaiPayload => {
-  return {
+export const buildIkigaiPayload = (
+  form: IkigaiForm[],
+  enrichment?: IkigaiEnrichment,
+): IkigaiPayload => {
+  const base: IkigaiPayload = {
     love:
       form.find((pillar) => pillar.mainstay === IkigaiStepEnum.LOVE)?.answers ??
       [],
@@ -35,6 +40,11 @@ export const buildIkigaiPayload = (form: IkigaiForm[]): IkigaiPayload => {
       form.find((pillar) => pillar.mainstay === IkigaiStepEnum.PAID)?.answers ??
       [],
   };
+
+  const enrichmentPayload = pickEnrichmentFields(enrichment);
+  if (Object.keys(enrichmentPayload).length === 0) return base;
+
+  return { ...base, enrichment: enrichmentPayload };
 };
 
 export const cleanJsonString = (value: string) => {
@@ -51,12 +61,17 @@ export const normalizePayload = (payload: IkigaiPayload): IkigaiPayload => {
   const normalizeArray = (values: string[]) =>
     values.map((value) => value.trim()).filter(Boolean);
 
-  return {
+  const normalized: IkigaiPayload = {
     love: normalizeArray(payload.love),
     talent: normalizeArray(payload.talent),
     needs: normalizeArray(payload.needs),
     paid: normalizeArray(payload.paid),
   };
+
+  const enrichment = pickEnrichmentFields(payload.enrichment);
+  if (Object.keys(enrichment).length > 0) normalized.enrichment = enrichment;
+
+  return normalized;
 };
 
 export const getPayloadSignature = (payload: IkigaiPayload) => {

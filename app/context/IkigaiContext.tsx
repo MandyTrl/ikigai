@@ -1,5 +1,11 @@
 import { createContext } from "react";
-import { IkigaiPillarStep, IkigaiStepEnum, PillarStateEnum } from "../types";
+import {
+  DiscColor,
+  IkigaiPillarStep,
+  IkigaiStepEnum,
+  MbtiType,
+  PillarStateEnum,
+} from "../types";
 
 export const colorMap: Record<IkigaiPillarStep, string> = {
   [IkigaiStepEnum.LOVE]: "#b6d4db",
@@ -25,11 +31,23 @@ export type IkigaiForm = {
   answers: string[];
 };
 
+/** Contexte facultatif qui densifie l'analyse Gemini — ne fait pas partie du cycle de vie des piliers. */
+export type IkigaiEnrichment = {
+  mbti?: MbtiType;
+  disc?: DiscColor;
+  currentJob?: string;
+  satisfaction?: number;
+  age?: number;
+};
+
+export const initialIkigaiEnrichment: IkigaiEnrichment = {};
+
 export type IkigaiContextProps = {
   ikigaiForm: IkigaiForm[];
   currentStep: IkigaiStepEnum;
   /** false tant que le localStorage n'a pas été lu — évite de rediriger avant d'avoir restauré les réponses. */
   isHydrated: boolean;
+  enrichment: IkigaiEnrichment;
   setStep: (step: IkigaiStepEnum) => void;
   updateForm: (
     mainstay: IkigaiStepEnum,
@@ -37,6 +55,7 @@ export type IkigaiContextProps = {
   ) => void;
   savePillar: (mainstay: IkigaiStepEnum, answers: string[]) => void;
   resetIkigai: () => void;
+  updateEnrichment: (field: Partial<IkigaiEnrichment>) => void;
 };
 
 export const initialIkigaiForm = [
@@ -66,8 +85,10 @@ export const IkigaiContext = createContext<IkigaiContextProps>({
   ikigaiForm: initialIkigaiForm,
   currentStep: IkigaiStepEnum.INITIAL,
   isHydrated: true,
+  enrichment: initialIkigaiEnrichment,
   setStep: () => {},
   updateForm: () => {},
   savePillar: () => {},
   resetIkigai: () => {},
+  updateEnrichment: () => {},
 });

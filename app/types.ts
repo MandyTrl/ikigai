@@ -22,3 +22,23 @@ export enum PillarStateEnum {
   IS_SAVED = "is_saved",
   FINISHED = "finished",
 }
+
+export type MbtiType =
+  | "INTJ"
+  | "INTP"
+  | "ENTJ"
+  | "ENTP"
+  | "INFJ"
+  | "INFP"
+  | "ENFJ"
+  | "ENFP"
+  | "ISTJ"
+  | "ISFJ"
+  | "ESTJ"
+  | "ESFJ"
+  | "ISTP"
+  | "ISFP"
+  | "ESTP"
+  | "ESFP";
+
+export type DiscColor = "red" | "yellow" | "green" | "blue";

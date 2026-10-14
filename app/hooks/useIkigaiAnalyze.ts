@@ -13,9 +13,9 @@ import {
 
 export const useIkigaiAnalyze = () => {
   const router = useRouter();
-  const { ikigaiForm } = useContext(IkigaiContext);
+  const { ikigaiForm, enrichment } = useContext(IkigaiContext);
 
-  const payload = buildIkigaiPayload(ikigaiForm);
+  const payload = buildIkigaiPayload(ikigaiForm, enrichment);
   const currentSignature = getPayloadSignature(payload);
 
   const [isAnalyzing, setIsAnalyzing] = useState(false);
