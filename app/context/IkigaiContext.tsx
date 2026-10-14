@@ -28,6 +28,8 @@ export type IkigaiForm = {
 export type IkigaiContextProps = {
   ikigaiForm: IkigaiForm[];
   currentStep: IkigaiStepEnum;
+  /** false tant que le localStorage n'a pas été lu — évite de rediriger avant d'avoir restauré les réponses. */
+  isHydrated: boolean;
   setStep: (step: IkigaiStepEnum) => void;
   updateForm: (
     mainstay: IkigaiStepEnum,
@@ -63,6 +65,7 @@ export const initialIkigaiForm = [
 export const IkigaiContext = createContext<IkigaiContextProps>({
   ikigaiForm: initialIkigaiForm,
   currentStep: IkigaiStepEnum.INITIAL,
+  isHydrated: true,
   setStep: () => {},
   updateForm: () => {},
   savePillar: () => {},

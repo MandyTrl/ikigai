@@ -18,10 +18,12 @@ import { JobCard } from "../components/Analyze/JobCard";
 import { CrossAnalysis } from "../components/Analyze/CrossAnalysis";
 import { NextSteps } from "../components/Analyze/NextSteps";
 import { VigilancePoint } from "../components/Analyze/VigilancePoint";
+import { ResultClosing } from "../components/Analyze/ResultClosing";
+import { SiteHeader } from "../components/SiteHeader";
 
 export default function IkigaiResultPage() {
   const router = useRouter();
-  const { ikigaiForm } = useContext(IkigaiContext);
+  const { ikigaiForm, isHydrated } = useContext(IkigaiContext);
 
   const payload = useMemo(() => buildIkigaiPayload(ikigaiForm), [ikigaiForm]);
   const signature = useMemo(() => getPayloadSignature(payload), [payload]);
@@ -29,6 +31,8 @@ export default function IkigaiResultPage() {
   const [analysis, setAnalysis] = useState<IkigaiAnalysisResult | null>(null);
 
   useEffect(() => {
+    if (!isHydrated) return;
+
     if (!canAnalyzeIkigai(ikigaiForm)) {
       router.replace("/commencer");
       return;
@@ -42,7 +46,7 @@ export default function IkigaiResultPage() {
     }
 
     setAnalysis(cache.result as IkigaiAnalysisResult);
-  }, [ikigaiForm, router, signature]);
+  }, [ikigaiForm, router, signature, isHydrated]);
 
   if (!analysis) {
     return (
@@ -53,8 +57,11 @@ export default function IkigaiResultPage() {
   }
 
   return (
-    <MainLayout className="gap-16 py-12 md:gap-20 md:py-16">
-      <div className="relative z-10 flex flex-col gap-16 md:gap-20">
+    <MainLayout
+      hasNavbar
+      className="w-full pt-4 md:py-16 max-w-5xl mx-auto flex flex-col gap-16 md:gap-24"
+    >
+      <div>
         <ResultHeader confidence={analysis.confidence} />
 
         <ResultSection index="01" eyebrow="synthèse">
@@ -69,23 +76,22 @@ export default function IkigaiResultPage() {
           ))}
         </div>
       </ResultSection>
+      <div className="relative isolate pb-8">
+        <ResultEstampe />
 
-      <div className="flex flex-col gap-10">
-        <div className="relative isolate pb-8">
-          <ResultEstampe />
-
-          <div className="relative z-10 grid gap-10 md:gap-14 lg:grid-cols-2">
-            <CrossAnalysis insights={analysis.analysis.insights} />
-          </div>
+        <div className="relative z-10 grid gap-10 md:gap-14 lg:grid-cols-2">
+          <CrossAnalysis insights={analysis.analysis.insights} />
         </div>
-
-        <NextSteps actions={analysis.recommendations.actions} />
-
-        <VigilancePoint
-          warning={analysis.recommendations.warning}
-          tensions={analysis.analysis.tensions}
-        />
       </div>
+
+      <NextSteps actions={analysis.recommendations.actions} />
+
+      <VigilancePoint
+        warning={analysis.recommendations.warning}
+        tensions={analysis.analysis.tensions}
+      />
+
+      <ResultClosing />
     </MainLayout>
   );
 }

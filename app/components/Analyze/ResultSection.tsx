@@ -14,7 +14,7 @@ export const ResultSection = ({
   children,
   id,
 }: ResultSectionProps) => (
-  <section id={id} className="flex flex-col gap-8">
+  <section id={id} className="flex flex-col gap-6">
     <div className="flex items-baseline gap-4 border-b border-line pb-3">
       <span className="font-mono text-xs tracking-[0.3em] text-secondary/50">
         {index}

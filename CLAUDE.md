@@ -49,7 +49,7 @@ A question only counts as **valid** once its answer reaches `MIN_ANSWER_LENGTH` 
 ### State management
 All form state lives in `app/context/index.tsx` (the `AppProviders` component). It wraps everything in `<MotionConfig reducedMotion="user">` (Framer Motion respects the system "reduce motion" setting app-wide; CSS animations are neutralized via a `prefers-reduced-motion` block in `globals.css`), then two providers:
 
-- **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`). Persisted to `localStorage` under the key `"ikigai-form"`.
+- **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`). Persisted to `localStorage` under the key `"ikigai-form"`. Exposes **`isHydrated`** (false until the localStorage read effect has run) — any page-level redirect that depends on `ikigaiForm` (e.g. `/votre-ikigai` bouncing back to `/commencer` when the form is incomplete) must gate on `isHydrated` first, otherwise it fires against the transient empty initial state on every hard refresh, before localStorage has had a chance to populate.
 - **`HoverContext`** (`app/context/HoverContext.tsx`) — which pillar is currently hovered (used for the Venn diagram to bring the hovered circle to the front).
 
 Step progression uses `IkigaiStepEnum` (INITIAL → LOVE → NEEDS → PAID → TALENT → RESUME). The user can fill pillars in any order.
@@ -87,7 +87,7 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 
 `app/context/IkigaiContext.tsx`:
 - `IkigaiForm` — `{ mainstay: IkigaiStepEnum, progressState: PillarStateEnum, answers: string[] }`
-- `IkigaiContextProps` — context shape with `ikigaiForm`, `currentStep`, `setStep`, `updateForm`, `savePillar`, `resetIkigai`
+- `IkigaiContextProps` — context shape with `ikigaiForm`, `currentStep`, `isHydrated`, `setStep`, `updateForm`, `savePillar`, `resetIkigai`
 
 `app/api/analyze/types/request.ts`:
 - `IkigaiPayload` — `{ love, talent, needs, paid: string[] }`

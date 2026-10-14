@@ -12,35 +12,38 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
   const [currentStep, setCurrentStep] = useState<IkigaiStepEnum>(
     IkigaiStepEnum.INITIAL,
   );
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // get & save ikigaï-form in localStorage
   useEffect(() => {
     const saved = localStorage.getItem("ikigai-form");
 
-    if (!saved) return;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
 
-    try {
-      const parsed = JSON.parse(saved);
+        const isValidForm =
+          Array.isArray(parsed) &&
+          parsed.every(
+            (entry) =>
+              entry &&
+              typeof entry === "object" &&
+              typeof entry.mainstay === "string" &&
+              typeof entry.progressState === "string" &&
+              Array.isArray(entry.answers),
+          );
 
-      const isValidForm =
-        Array.isArray(parsed) &&
-        parsed.every(
-          (entry) =>
-            entry &&
-            typeof entry === "object" &&
-            typeof entry.mainstay === "string" &&
-            typeof entry.progressState === "string" &&
-            Array.isArray(entry.answers),
-        );
-
-      if (isValidForm) {
-        setIkigaiForm(parsed);
-      } else {
-        console.warn("Invalid ikigai localStorage shape");
+        if (isValidForm) {
+          setIkigaiForm(parsed);
+        } else {
+          console.warn("Invalid ikigai localStorage shape");
+        }
+      } catch {
+        console.warn("Invalid ikigai localStorage data");
       }
-    } catch {
-      console.warn("Invalid ikigai localStorage data");
     }
+
+    setIsHydrated(true);
   }, []);
 
   useEffect(() => {
@@ -89,12 +92,13 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     () => ({
       ikigaiForm,
       currentStep,
+      isHydrated,
       setStep: setCurrentStep,
       updateForm,
       savePillar,
       resetIkigai,
     }),
-    [ikigaiForm, currentStep, updateForm, savePillar, resetIkigai],
+    [ikigaiForm, currentStep, isHydrated, updateForm, savePillar, resetIkigai],
   );
 
   const [hoveredMainstay, setHoveredMainstay] = useState<IkigaiStepEnum | null>(

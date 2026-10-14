@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
-
 import { IkigaiTags } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
 import { KeywordTags } from "./KeywordTags";
+import { BrushStroke } from "./BrushStroke";
 
 type IkigaiSummaryProps = {
   summary: {
@@ -21,12 +20,13 @@ const SummaryListCard = ({
   title: string;
   items: string[];
 }) => (
-  <article className="flex h-full flex-col gap-1 print:break-inside-avoid">
-    <div className="text-primary/80 border-2 border-accent print:bg-surface bg-surface/70 font-semibold rounded-xl px-6 py-3 text-xl">
-      {title}
+  <article className="flex h-full flex-col gap-5 rounded-2xl border border-line bg-surface/70 p-6 print:bg-surface print:break-inside-avoid">
+    <div className="flex flex-col gap-2">
+      <Title as="h3" text={title} className="text-xl font-light" />
+      <BrushStroke className="h-2 w-16" />
     </div>
 
-    <ul className="flex flex-1 flex-col gap-2.5 p-6 border border-line rounded-xl print:bg-surface bg-surface/70">
+    <ul className="flex flex-1 flex-col gap-2.5">
       {items.map((item) => (
         <li key={item} className="flex gap-2.5 leading-snug">
           <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-tertiary" />
@@ -38,14 +38,9 @@ const SummaryListCard = ({
 );
 
 export const IkigaiSummary = ({ summary, tags }: IkigaiSummaryProps) => (
-  <div className="flex flex-col gap-16">
+  <div className="flex flex-col gap-14">
     <div className="flex flex-col gap-14">
-      <div className="flex flex-col gap-4">
-        <Title as="h2" text="En quelques mots" className="font-light" />
-        <p className="max-w-[65ch] leading-7 text-primary/90">
-          {summary.profile}
-        </p>
-      </div>
+      <p className="leading-7 text-primary/90">{summary.profile}</p>
 
       <KeywordTags tags={tags} />
     </div>
