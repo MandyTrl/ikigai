@@ -25,9 +25,9 @@ const BG_FADE: CSSProperties = {
 };
 
 const ICONS = [
-  <SparkleIcon key="synthese" size={28} />,
-  <CompassIcon key="pistes" size={28} />,
-  <FilePdfIcon key="pdf" size={28} />,
+  <SparkleIcon key="synthese" size={28} weight="light" />,
+  <CompassIcon key="pistes" size={28} weight="light" />,
+  <FilePdfIcon key="pdf" size={28} weight="light" />,
 ];
 
 export const PromisesSection = () => {

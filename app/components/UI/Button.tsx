@@ -67,7 +67,7 @@ export const Button = ({
   );
 
   const textStyle = clsx(
-    "font-mono transition-[letter-spacing] duration-400 ease-in-out group-hover:tracking-[0.10em]",
+    "font-mono transition-[letter-spacing] duration-400 ease-in-out",
     isPrimary
       ? "text-support"
       : disabled

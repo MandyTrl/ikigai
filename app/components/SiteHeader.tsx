@@ -1,15 +1,20 @@
+import { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
 
 type SiteHeaderProps = {
   className?: string;
+  /** Action secondaire affichée à droite, à l'opposé du logo (ex. réinitialiser). */
+  endSlot?: ReactNode;
 };
 
-
-export const SiteHeader = ({ className }: SiteHeaderProps) => (
+export const SiteHeader = ({ className, endSlot }: SiteHeaderProps) => (
   <header
-    className={clsx("mx-auto flex w-full max-w-6xl px-6 md:px-8 py-8", className)}
+    className={clsx(
+      "mx-auto flex w-full max-w-6xl items-center justify-between px-6 md:px-8 py-8",
+      className,
+    )}
   >
     <Link
       href="/"
@@ -25,5 +30,7 @@ export const SiteHeader = ({ className }: SiteHeaderProps) => (
         priority
       />
     </Link>
+
+    {endSlot}
   </header>
 );
