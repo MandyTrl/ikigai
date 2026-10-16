@@ -21,6 +21,7 @@ type ButtonProps = {
   variant?: ButtonVariantEnum;
   disabled?: boolean;
   fullWidth?: boolean;
+  icon?: boolean;
   onClick?: () => void;
 };
 
@@ -33,6 +34,7 @@ export const Button = ({
   onClick,
   disabled,
   fullWidth = false,
+  icon = true,
 }: ButtonProps) => {
   const iconSize =
     size === ButtonSizeEnum.L ? 36 : size === ButtonSizeEnum.M ? 30 : 24;
@@ -96,9 +98,11 @@ export const Button = ({
   const buttonContent = (
     <>
       <span className={textStyle}>{label}</span>
-      <span className={iconWrapperStyle}>
-        <CaretRightIcon size={iconSize} weight="thin" className={iconStyle} />
-      </span>
+      {icon && (
+        <span className={iconWrapperStyle}>
+          <CaretRightIcon size={iconSize} weight="thin" className={iconStyle} />
+        </span>
+      )}
     </>
   );
 

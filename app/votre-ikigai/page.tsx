@@ -23,9 +23,14 @@ import { SiteHeader } from "../components/SiteHeader";
 
 export default function IkigaiResultPage() {
   const router = useRouter();
-  const { ikigaiForm, isHydrated } = useContext(IkigaiContext);
+  const { ikigaiForm, isHydrated, enrichment } = useContext(IkigaiContext);
 
-  const payload = useMemo(() => buildIkigaiPayload(ikigaiForm), [ikigaiForm]);
+  // enrichment entre dans la signature côté useIkigaiAnalyze : l'omettre ici ferait
+  // échouer la comparaison avec le cache.
+  const payload = useMemo(
+    () => buildIkigaiPayload(ikigaiForm, enrichment),
+    [ikigaiForm, enrichment],
+  );
   const signature = useMemo(() => getPayloadSignature(payload), [payload]);
 
   const [analysis, setAnalysis] = useState<IkigaiAnalysisResult | null>(null);

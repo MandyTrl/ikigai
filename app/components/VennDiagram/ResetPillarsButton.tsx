@@ -1,87 +1,70 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import {
-  ArrowCounterClockwiseIcon,
-  CheckIcon,
-  XIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { useContext } from "react";
+import { ArrowCounterClockwiseIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
-
-const CONFIRM_TIMEOUT_MS = 4000;
+import { useModal } from "@/app/hooks/useModal";
+import { Modal } from "@/app/components/UI/Modal";
+import { Title } from "@/app/components/UI/Title";
+import {
+  Button,
+  ButtonSizeEnum,
+  ButtonVariantEnum,
+} from "@/app/components/UI/Button";
 
 export const ResetPillarsButton = () => {
   const { resetIkigai } = useContext(IkigaiContext);
-  const [isConfirming, setIsConfirming] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (!isConfirming) return;
-
-    timeoutRef.current = setTimeout(
-      () => setIsConfirming(false),
-      CONFIRM_TIMEOUT_MS,
-    );
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [isConfirming]);
+  const { isOpen, open, close } = useModal();
 
   const handleConfirm = () => {
-    setIsConfirming(false);
     resetIkigai();
+    close();
   };
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      {!isConfirming ? (
-        <motion.button
-          key="idle"
-          type="button"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          onClick={() => setIsConfirming(true)}
-          aria-label="Réinitialiser les réponses des 4 piliers"
-          className="group flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap font-mono text-sm tracking-wide text-secondary/50 transition-colors duration-200 hover:text-secondary/80"
-        >
-          <ArrowCounterClockwiseIcon
-            size={15}
-            weight="regular"
-            className="transition-transform duration-300 group-hover:-rotate-45"
-          />
-          réinitialiser
-        </motion.button>
-      ) : (
-        <motion.div
-          key="confirm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="flex shrink-0 items-center gap-2 whitespace-nowrap font-mono text-sm tracking-wide text-secondary/70"
-        >
-          <span>tout effacer ?</span>
-          <button
-            type="button"
-            onClick={handleConfirm}
-            aria-label="Confirmer la réinitialisation"
-            className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full text-primary/70 transition-colors duration-200 hover:bg-primary/8 hover:text-primary"
-          >
-            <CheckIcon size={12} weight="bold" />
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsConfirming(false)}
-            aria-label="Annuler la réinitialisation"
-            className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full text-secondary/50 transition-colors duration-200 hover:bg-secondary/8 hover:text-secondary"
-          >
-            <XIcon size={12} weight="bold" />
-          </button>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <>
+      <button
+        type="button"
+        onClick={open}
+        aria-label="Réinitialiser les réponses des 4 piliers"
+        className="group relative flex shrink-0 cursor-pointer items-center justify-center rounded-full p-2.5 text-primary/70 transition-all duration-200 ease-in-out hover:bg-neon/15 hover:text-neon"
+      >
+        <ArrowCounterClockwiseIcon size={15} weight="bold" />
+      </button>
+
+      <Modal isOpen={isOpen} onClose={close} labelledBy="reset-confirm-title">
+        <div className="flex flex-col gap-6">
+          <div>
+            <Title
+              as="h3"
+              variant="h3"
+              id="reset-confirm-title"
+              text="Réinitialiser vos réponses"
+            />
+            <p className="mt-1.5 leading-relaxed text-secondary">
+              Les réponses aux 4 piliers seront définitivement effacées. Votre
+              profil enrichi (MBTI, DISC, poste, âge) n&rsquo;est pas concerné,
+              il reste tel quel.
+            </p>
+          </div>
+
+          <div className="flex items-center justify-end gap-3">
+            <Button
+              label="Annuler"
+              variant={ButtonVariantEnum.Outline}
+              size={ButtonSizeEnum.S}
+              icon={false}
+              onClick={close}
+            />
+            <Button
+              label="Tout effacer"
+              variant={ButtonVariantEnum.Primary}
+              size={ButtonSizeEnum.S}
+              icon={false}
+              onClick={handleConfirm}
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 };

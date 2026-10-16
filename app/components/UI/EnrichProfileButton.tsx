@@ -1,20 +1,24 @@
 "use client";
-import { FlowerLotusIcon } from "@phosphor-icons/react/dist/ssr";
+import { useHoverUnderline } from "@/app/hooks/useHoverUnderline";
+import { HoverBrushUnderline } from "@/app/components/UI/HoverBrushUnderline";
 
 type EnrichProfileButtonProps = {
   onClick: () => void;
 };
 
 export const EnrichProfileButton = ({ onClick }: EnrichProfileButtonProps) => {
+  const { ref, width, hovered, hoverHandlers } = useHoverUnderline();
+
   return (
     <button
       type="button"
       onClick={onClick}
+      {...hoverHandlers}
       aria-label="Enrichir votre profil pour densifier l'analyse"
-      className="group flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap font-mono text-sm tracking-wide text-primary/80 bg-tertiary/10 py-1 px-2 rounded-md transition-all duration-200 hover:text-secondary hover:bg-tertiary/15 hover:scale-102"
+      className="group relative flex shrink-0 cursor-pointer whitespace-nowrap font-mono text-sm tracking-wide text-primary transition-colors duration-200 hover:text-neon ml-3"
     >
-      <FlowerLotusIcon size={15} weight="duotone" />
-      enrichir mon profil
+      <span ref={ref}>Enrichir mon profil</span>
+      <HoverBrushUnderline active={hovered} width={width} />
     </button>
   );
 };

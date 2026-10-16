@@ -10,6 +10,7 @@ export const EnrichProfileModal = () => {
   return (
     <>
       <EnrichProfileButton onClick={open} />
+
       <Modal isOpen={isOpen} onClose={close} labelledBy="enrich-profile-title">
         <EnrichProfileForm />
       </Modal>

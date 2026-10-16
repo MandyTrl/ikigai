@@ -1,6 +1,10 @@
 import type { IkigaiEnrichment, IkigaiForm } from "@/app/context/IkigaiContext";
 import { IkigaiStepEnum } from "@/app/types";
 import { pickEnrichmentFields } from "@/app/utils/ikigaiEnrichment";
+import {
+  getFilledAnswersCount,
+  MIN_ANSWERS_REQUIRED_PER_PILLAR,
+} from "@/app/utils/validateForm";
 import { IkigaiPayload } from "./types/request";
 
 export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
@@ -18,6 +22,14 @@ export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
     payload.needs.every((item) => typeof item === "string") &&
     payload.paid.every((item) => typeof item === "string") &&
     (payload.enrichment === undefined || typeof payload.enrichment === "object")
+  );
+};
+
+
+export const isCompleteIkigaiPayload = (payload: IkigaiPayload) => {
+  return [payload.love, payload.talent, payload.needs, payload.paid].every(
+    (answers) =>
+      getFilledAnswersCount(answers) >= MIN_ANSWERS_REQUIRED_PER_PILLAR,
   );
 };
 

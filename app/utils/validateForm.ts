@@ -1,6 +1,8 @@
-import { IkigaiForm } from "../context/IkigaiContext";
+// import type : garantit l'effacement à la compilation, pour que la route /api/analyze
+// puisse réutiliser ces règles sans tirer IkigaiContext ("use client") dans son bundle.
+import type { IkigaiForm } from "../context/IkigaiContext";
 
-const MIN_ANSWERS_REQUIRED_PER_PILLAR = 2;
+export const MIN_ANSWERS_REQUIRED_PER_PILLAR = 2;
 
 export const MIN_ANSWER_LENGTH = 60;
 

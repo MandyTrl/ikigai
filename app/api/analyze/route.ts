@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { getGemini } from "@/lib/gemini";
 import { ikigaiPrompt } from "@/app/utils/ikigaiPrompt";
-import { cleanJsonString, isValidIkigaiPayload } from "./utils";
+import { ikigaiResponseSchema } from "./responseSchema";
+import {
+  cleanJsonString,
+  isCompleteIkigaiPayload,
+  isValidIkigaiPayload,
+} from "./utils";
 
 export async function POST(request: Request) {
   try {
@@ -13,7 +18,17 @@ export async function POST(request: Request) {
           success: false,
           error: "Invalid payload",
         },
-        { status: 500 },
+        { status: 400 },
+      );
+    }
+
+    if (!isCompleteIkigaiPayload(body)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Incomplete payload",
+        },
+        { status: 400 },
       );
     }
 
@@ -23,6 +38,11 @@ export async function POST(request: Request) {
     const response = await gemini.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
+      config: {
+        temperature: 0.8,
+        responseMimeType: "application/json",
+        responseSchema: ikigaiResponseSchema,
+      },
     });
 
     const text = response.text;
