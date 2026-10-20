@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <link rel="icon" href="/assets/logos/favicon-ikigai.svg" />
+      <link rel="icon" href="/assets/logos/favicon-venn.svg" />
 
       <AppProviders>
         <body className={`${arima.variable} antialiased max-w-screen`}>

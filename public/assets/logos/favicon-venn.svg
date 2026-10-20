@@ -1,0 +1,17 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .pillar { stroke: #232c3d; }
+    @media (prefers-color-scheme: dark) {
+      .pillar { stroke: #fffdfa; }
+    }
+  </style>
+
+  <g class="pillar" fill="none" stroke-width="3.2">
+    <circle cx="24" cy="14.4" r="12.5"/>
+    <circle cx="33.6" cy="24.5" r="12.5"/>
+    <circle cx="24" cy="34.6" r="12.5"/>
+    <circle cx="14.4" cy="24.5" r="12.5"/>
+  </g>
+
+  <circle cx="24" cy="24" r="3.4" fill="#d4a574"/>
+</svg>
