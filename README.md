@@ -49,6 +49,10 @@ Les règles qui en découlent, à ne pas affaiblir en retouchant le prompt :
 
 Le seuil en dessous duquel l'outil n'a rien produit : **au moins une phrase que la personne n'aurait pas pu écrire elle-même**. Si une phrase de la sortie peut être reconstituée depuis une seule réponse du formulaire, elle paraphrase.
 
+## Données
+
+Cette application envoie les réponses saisies à l'API Gemini de Google (offre gratuite). Selon les conditions de Google, ces contenus peuvent servir à améliorer leurs produits et être relus par des personnes. Ne saisis pas d'informations sensibles même si rien n'est enregistré sur un serveur.
+
 ## Getting Started
 
 First, run the development server:

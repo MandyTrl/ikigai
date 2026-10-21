@@ -209,6 +209,10 @@ const VennDiagram: React.FC = () => {
         </AnimatePresence>
       </div>
 
+      <p className="text-center font-mono text-[0.6rem] uppercase text-secondary/70">
+        analysé par gemini · évitez les infos sensibles
+      </p>
+
       {allComplete && error && (
         <motion.p
           initial={{ opacity: 0 }}

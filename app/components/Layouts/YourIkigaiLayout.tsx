@@ -5,6 +5,7 @@ import { IkigaiGuide } from "../IkigaiGuide";
 import { SiteHeader } from "../SiteHeader";
 import { ResetPillarsButton } from "../VennDiagram/ResetPillarsButton";
 import { EnrichProfileModal } from "../EnrichProfile/EnrichProfileModal";
+import { AboutModal } from "../About/AboutModal";
 
 export const YourIkigaiLayout = () => {
   return (
@@ -13,6 +14,7 @@ export const YourIkigaiLayout = () => {
         endSlot={
           <div className="rounded-full py-2.5 px-3 bg-tertiary/10 flex items-center gap-6">
             <EnrichProfileModal />
+            <AboutModal />
             <ResetPillarsButton />
           </div>
         }

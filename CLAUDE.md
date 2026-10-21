@@ -163,6 +163,7 @@ The modal hosts `EnrichProfileForm` (`app/components/EnrichProfile/`), an **enti
 
 ```
 app/components/
+  About/           — AboutModal + AboutContent (« à propos » in the overview header: what is sent to Gemini, what stays in the browser)
   Analyze/         — result display: Signature (the quotable line, ichigyô-mono rule), IkigaiSummary, JobCard + QuotedText, PillarAnalysis, CoherenceSignal, PdfButton
   EnrichProfile/   — EnrichProfileModal (owns useModal + Modal), EnrichProfileForm, MbtiSelect (custom listbox)
   Form/            — FormStepBar + FormStep (top-bar multistep nav), PillarIdentity + PillarAbout, FormGuidelines + FormHelp, FormTextArea + AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+) + FormBottomEstampe (bottom→up fade, mobile/tablet)
