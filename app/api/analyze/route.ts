@@ -80,6 +80,22 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Gemini analyze route error:", error);
 
+    // 429 quota épuisé et 503 surcharge n'appellent pas la même réponse qu'une vraie panne  le client peut proposer de réessayer, et le harnais de fixtures sait ne pas insister.
+    const status = (error as { status?: number })?.status;
+
+    if (status === 429 || status === 503) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            status === 429
+              ? "Quota Gemini atteint"
+              : "Gemini momentanément surchargé",
+        },
+        { status },
+      );
+    }
+
     return NextResponse.json(
       {
         success: false,
