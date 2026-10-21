@@ -91,7 +91,7 @@ Checking prompt output without filling the form by hand. Everything lives in `sc
 | file | role |
 | --- | --- |
 | `scripts/fixtures.ts` | the 3 personas of the README as `IkigaiPayload`, with deliberately uneven fill levels (`student` 9 valid answers of 12 and no enrichment, `unhappy-employee` 12/12 with all 5 enrichment fields, `curious-explorer` 10/12 with partial enrichment). Skipped answers stay as `""` **at their index** — the prompt pairs `answers[i]` with `instructions[i]`. Each fixture carries a `probe` saying what it puts to the test |
-| `scripts/checks.ts` | text helpers + the 4 check families, returning `Alert[]` with `kind`: **`contrat`** (cardinalities of `responseSchema`, duplicate job titles — `JobCard` keys on `job.title`; a failure here means schema/types/UI diverged, i.e. a bug), **`regle`** (prompt rules: scores off the multiples-of-5 grid, flat pillars, pillar names leaking into the prose, forbidden openings, em dashes), **`vigilance`** (6-word verbatim reuse from the answers, over-long summary items) |
+| `scripts/checks.ts` | text helpers + the 4 check families, returning `Alert[]` with `kind`: **`contrat`** (cardinalities of `responseSchema`, duplicate job titles — the job cards key on `job.title`; a failure here means schema/types/UI diverged, i.e. a bug), **`regle`** (prompt rules: scores off the multiples-of-5 grid, flat pillars, pillar names leaking into the prose, forbidden openings, em dashes), **`vigilance`** (6-word verbatim reuse from the answers, over-long summary items) |
 | `scripts/measures.ts` | `buildMeasures()` turns runs into the uniformity numbers (portrait openings and skeletons, confidence spread, pairwise lexical overlap, jobs proposed to more than one persona, intra-persona variance) + `formatTerminalSummary()` |
 | `scripts/output-store.ts` | one dated folder per run (`scripts/output/2026-10-16_1642/<slug>.json`), so nothing is overwritten and nothing stale mixes in. Gitignored |
 | `scripts/analyze-fixtures.ts` | the CLI. POSTs each fixture to the real `/api/analyze` (no logic duplicated), saves the JSON, prints the summary |
@@ -164,7 +164,7 @@ The modal hosts `EnrichProfileForm` (`app/components/EnrichProfile/`), an **enti
 ```
 app/components/
   About/           — AboutModal + AboutContent (« à propos » in the overview header: what is sent to Gemini, what stays in the browser)
-  Analyze/         — result display: Signature (the quotable line, ichigyô-mono rule), IkigaiSummary, JobCard + QuotedText, PillarAnalysis, CoherenceSignal, PdfButton
+  Analyze/         — result display: Signature (the quotable line, ichigyô-mono rule), IkigaiSummary, JobCardReveal (desktop click reveal) + JobCardMobile (accordion) + QuotedText, PillarAnalysis, CoherenceSignal, PdfButton
   EnrichProfile/   — EnrichProfileModal (owns useModal + Modal), EnrichProfileForm, MbtiSelect (custom listbox)
   Form/            — FormStepBar + FormStep (top-bar multistep nav), PillarIdentity + PillarAbout, FormGuidelines + FormHelp, FormTextArea + AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+) + FormBottomEstampe (bottom→up fade, mobile/tablet)
   IkigaiGuide/     — overview "mode d'emploi": IkigaiGuide, GuideStep

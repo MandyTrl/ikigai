@@ -16,7 +16,7 @@ import { ResultEstampe } from "../components/Analyze/ResultEstampe";
 import { ResultSection } from "../components/Analyze/ResultSection";
 import { Signature } from "../components/Analyze/Signature";
 import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
-import { JobCard } from "../components/Analyze/JobCard";
+import { JobCardReveal } from "../components/Analyze/JobCardReveal";
 import { CrossAnalysis } from "../components/Analyze/CrossAnalysis";
 import { NextSteps } from "../components/Analyze/NextSteps";
 import { VigilancePoint } from "../components/Analyze/VigilancePoint";
@@ -84,7 +84,7 @@ export default function IkigaiResultPage() {
       <ResultSection index="02" eyebrow="orientations">
         <div className="grid gap-5">
           {analysis.jobs.map((job, index) => (
-            <JobCard
+            <JobCardReveal
               key={job.title}
               job={job}
               rank={index + 1}
