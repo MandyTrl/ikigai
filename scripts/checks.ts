@@ -138,6 +138,13 @@ const firstSentence = (value: string) => {
 export const firstWords = (value: string, count = 6) =>
   normalizeSpacing(value).split(" ").slice(0, count).join(" ");
 
+// Les sorties d'avant ANALYSIS_SCHEMA_VERSION 3 ont des insights en texte brut :
+// --report-only sur un ancien dossier doit rester lisible.
+export const insightTexts = (analysis: IkigaiAnalysisResult): string[] =>
+  (analysis.analysis.insights as unknown[]).map((insight) =>
+    typeof insight === "string" ? insight : ((insight as { text?: string }).text ?? ""),
+  );
+
 const countWords = (value: string) =>
   normalizeSpacing(value).split(" ").filter(Boolean).length;
 
@@ -145,7 +152,7 @@ const proseFields = (analysis: IkigaiAnalysisResult): [string, string][] => [
   ["signature", analysis.signature],
   ["summary.profile", analysis.summary.profile],
   ["recommendations.warning", analysis.recommendations.warning],
-  ...analysis.analysis.insights.map((insight, index): [string, string] => [
+  ...insightTexts(analysis).map((insight, index): [string, string] => [
     `insights[${index}]`,
     insight,
   ]),
@@ -160,7 +167,7 @@ const listFields = (analysis: IkigaiAnalysisResult): [string, string[]][] => [
   ["summary.motivations", analysis.summary.motivations],
   ["summary.work_environment", analysis.summary.work_environment],
   ["recommendations.actions", analysis.recommendations.actions],
-  ["analysis.insights", analysis.analysis.insights],
+  ["analysis.insights", insightTexts(analysis)],
   ["analysis.tensions", analysis.analysis.tensions],
   ...PILLARS.map((pillar): [string, string[]] => [
     `tags.${pillar}`,
@@ -205,6 +212,19 @@ const checkContract = (analysis: IkigaiAnalysisResult): Alert[] => {
       detail: "VigilancePoint rendrait un bloc sans texte",
     });
   }
+
+  // MusubiIllustration dessine un nœud par insight entre les fils de ses piliers
+  analysis.analysis.insights.forEach((insight, index) => {
+    const pillars = Array.isArray(insight?.pillars) ? insight.pillars : [];
+    const known = new Set(pillars.filter((p) => (PILLARS as readonly string[]).includes(p)));
+    if (known.size < 2 || known.size !== pillars.length) {
+      alerts.push({
+        kind: "contrat",
+        label: `insights[${index}].pillars`,
+        detail: `${JSON.stringify(insight?.pillars ?? null)} : 2 à 4 clés de pilier distinctes attendues, sinon le nœud n'a pas de fils`,
+      });
+    }
+  });
 
   const titles = jobs.map((job) => normalizeSpacing(job.title).toLowerCase());
   if (new Set(titles).size !== titles.length) {
@@ -335,7 +355,7 @@ const checkWriting = (analysis: IkigaiAnalysisResult): Alert[] => {
   const quoting: [string, string][] = [
     ["signature", analysis.signature ?? ""],
     ["summary.profile", analysis.summary.profile],
-    ...analysis.analysis.insights.map((insight, index): [string, string] => [
+    ...insightTexts(analysis).map((insight, index): [string, string] => [
       `insights[${index}]`,
       insight,
     ]),
@@ -487,7 +507,7 @@ const checkParaphrase = (
   const fields: [string, string][] = [
     ["signature", analysis.signature ?? ""],
     ["summary.profile", analysis.summary.profile],
-    ...analysis.analysis.insights.map((insight, index): [string, string] => [
+    ...insightTexts(analysis).map((insight, index): [string, string] => [
       `insights[${index}]`,
       insight,
     ]),

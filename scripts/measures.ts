@@ -3,6 +3,7 @@ import {
   PILLARS,
   checkAnalysis,
   firstWords,
+  insightTexts,
   meaningfulWords,
   sharedWordRatio,
   wordsInCommon,
@@ -29,7 +30,7 @@ const portraitWords = (analysis: IkigaiAnalysisResult) =>
     [
       analysis.signature ?? "",
       analysis.summary.profile,
-      ...analysis.analysis.insights,
+      ...insightTexts(analysis),
     ].join(" "),
   );
 

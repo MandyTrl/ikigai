@@ -88,7 +88,7 @@ export const normalizePayload = (payload: IkigaiPayload): IkigaiPayload => {
 
 // À incrémenter dès qu'un champ est ajouté au schéma de réponse : une analyse mise en
 // cache avant le changement n'a pas le nouveau champ et doit être rejouée plutôt que rendue.
-const ANALYSIS_SCHEMA_VERSION = 2;
+const ANALYSIS_SCHEMA_VERSION = 3;
 
 export const getPayloadSignature = (payload: IkigaiPayload) => {
   return `v${ANALYSIS_SCHEMA_VERSION}:${JSON.stringify(normalizePayload(payload))}`;

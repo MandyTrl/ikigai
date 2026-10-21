@@ -13,6 +13,14 @@ export type IkigaiJob = {
   ikigai_scores: IkigaiScores;
 };
 
+export type PillarKey = keyof IkigaiScores;
+
+// pillars : les piliers que la phrase relie, dessinés en fils qui se nouent dans la lecture croisée
+export type IkigaiInsight = {
+  pillars: PillarKey[];
+  text: string;
+};
+
 export type IkigaiTags = {
   love: string[];
   talent: string[];
@@ -36,7 +44,7 @@ export type IkigaiAnalysisResult = {
     work_environment: string[];
   };
   analysis: {
-    insights: string[];
+    insights: IkigaiInsight[];
     tensions: string[];
   };
   jobs: IkigaiJob[];

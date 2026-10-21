@@ -23,7 +23,10 @@ export const withoutStrayQuotes = (
     work_environment: analysis.summary.work_environment.map(stripQuotes),
   },
   analysis: {
-    insights: analysis.analysis.insights.map(stripQuotes),
+    insights: analysis.analysis.insights.map((insight) => ({
+      ...insight,
+      text: stripQuotes(insight.text),
+    })),
     tensions: analysis.analysis.tensions.map(stripQuotes),
   },
   jobs: analysis.jobs.map((job) => ({

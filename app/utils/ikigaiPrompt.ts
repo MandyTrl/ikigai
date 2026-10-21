@@ -76,6 +76,7 @@ Quatre types d'insights fonctionnent, du plus fort au plus simple :
 - la distinction entre le métier et le cadre : ce qui fatigue ou motive n'est pas l'activité elle-même mais la manière dont elle est exercée
 Règles :
 - chaque insight croise au moins 2 piliers, et dit quelque chose que l'utilisateur n'a pas formulé lui-même
+- pillars liste les clés des piliers que la phrase relie vraiment (love, talent, needs, paid), ni plus ni moins : l'interface les dessine comme des fils qui se nouent. Varie les croisements d'un insight à l'autre quand les réponses le permettent, mais n'invente jamais un lien pour équilibrer
 - le croisement se lit dans la phrase elle-même : ne signale jamais les piliers par leur nom, ni en clair, ni entre parenthèses, ni par une majuscule. « ce que vous aimez », « ce pour quoi vous êtes doué » s'écrivent dans les mots de la personne, pas sous leur étiquette technique
 - un insight ne nomme jamais un métier (c'est le rôle des orientations) et ne donne jamais de conseil (c'est le rôle des pistes) : il décrit, il relie, il éclaire
 

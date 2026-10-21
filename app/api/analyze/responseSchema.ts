@@ -64,11 +64,32 @@ const analysis: Schema = {
   required: ["insights", "tensions"],
   propertyOrdering: ["insights", "tensions"],
   properties: {
-    insights: stringList(
-      3,
-      4,
-      "Ce qui se tient dans les réponses, 1 à 2 phrases, croise au moins 2 piliers, sans nommer de métier ni donner de conseil. Dit quelque chose que la personne n'a pas formulé elle-même",
-    ),
+    insights: {
+      type: Type.ARRAY,
+      minItems: "3",
+      maxItems: "4",
+      items: {
+        type: Type.OBJECT,
+        required: ["pillars", "text"],
+        // pillars d'abord : le modèle choisit le croisement, puis l'écrit
+        propertyOrdering: ["pillars", "text"],
+        properties: {
+          pillars: {
+            type: Type.ARRAY,
+            description:
+              "Clés des piliers que cet insight relie réellement, 2 au minimum, sans doublon",
+            minItems: "2",
+            maxItems: "4",
+            items: { type: Type.STRING, enum: PILLAR_KEYS },
+          },
+          text: {
+            type: Type.STRING,
+            description:
+              "Ce qui se tient dans les réponses, 1 à 2 phrases, sans nommer de métier ni donner de conseil. Dit quelque chose que la personne n'a pas formulé elle-même",
+          },
+        },
+      },
+    },
     tensions: stringList(
       0,
       3,

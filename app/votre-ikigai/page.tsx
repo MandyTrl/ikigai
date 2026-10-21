@@ -12,12 +12,11 @@ import {
 } from "@/app/api/analyze/utils";
 import { IkigaiAnalysisResult } from "../api/analyze/types/response";
 import { ResultHeader } from "../components/Analyze/ResultHeader";
-import { ResultEstampe } from "../components/Analyze/ResultEstampe";
+import { CrossReading } from "../components/Analyze/CrossReading";
 import { ResultSection } from "../components/Analyze/ResultSection";
 import { Signature } from "../components/Analyze/Signature";
 import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
 import { JobCardReveal } from "../components/Analyze/JobCardReveal";
-import { CrossAnalysis } from "../components/Analyze/CrossAnalysis";
 import { NextSteps } from "../components/Analyze/NextSteps";
 import { VigilancePoint } from "../components/Analyze/VigilancePoint";
 import { ResultClosing } from "../components/Analyze/ResultClosing";
@@ -93,12 +92,8 @@ export default function IkigaiResultPage() {
           ))}
         </div>
       </ResultSection>
-      <div className="relative isolate pb-8">
-        <ResultEstampe />
-
-        <div className="relative z-10 grid gap-10 md:gap-14 lg:grid-cols-2">
-          <CrossAnalysis insights={analysis.analysis.insights} />
-        </div>
+      <div className="pb-8">
+        <CrossReading insights={analysis.analysis.insights} />
       </div>
 
       <NextSteps actions={analysis.recommendations.actions} />
