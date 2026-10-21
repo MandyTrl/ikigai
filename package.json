@@ -6,7 +6,9 @@
 		"dev": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"fixtures": "node scripts/analyze-fixtures.ts",
+		"seed": "node scripts/seed.ts"
 	},
 	"type": "module",
 	"dependencies": {
