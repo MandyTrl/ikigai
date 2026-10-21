@@ -111,7 +111,7 @@ const jobs: Schema = {
       match_reason: {
         type: Type.STRING,
         description:
-          "Pilier dominant nommé, au moins 2 tags cités, et un écho précis aux réponses. Ne paraphrase ni la description ci-dessus ni les mots de la personne. Ton chaleureux mais factuel : tu montres pourquoi ça colle, tu ne vends pas le métier",
+          "Pilier dominant désigné par son contenu dans les mots de la personne, jamais par son étiquette technique (love, talent, needs, paid), au moins 2 tags cités, et un écho précis aux réponses. Ne paraphrase ni la description ci-dessus ni les mots de la personne. Ton chaleureux mais factuel : tu montres pourquoi ça colle, tu ne vends pas le métier",
       },
       ikigai_scores: perPillar(pillarScore),
       score: {
@@ -143,15 +143,60 @@ const recommendations: Schema = {
   },
 };
 
+const signature: Schema = {
+  type: Type.STRING,
+  description:
+    "Une seule phrase, 28 mots au maximum, qui nomme le fil rouge dans les mots de la personne et à partir de ce qu'elle fait concrètement. Citable telle quelle par elle à quelqu'un d'autre, et impossible à appliquer à quelqu'un d'autre. Aucune tournure passe-partout, aucun guillemet",
+};
+
+export const COHERENCE_LEVELS = ["faible", "moyenne", "bonne", "forte"];
+
+// Constats imposés : des faits sur la matière reçue, jamais un jugement sur la personne
+export const COHERENCE_SIGNALS = [
+  "réponses denses et détaillées",
+  "réponses courtes ou expédiées",
+  "exemples concrets nombreux",
+  "peu d'exemples concrets",
+  "formulations générales plus que situées",
+  "piliers inégalement renseignés",
+  "plusieurs questions laissées de côté",
+  "réponses cohérentes entre elles",
+  "contradictions relevées entre piliers",
+  "expérience professionnelle encore limitée",
+];
+
+const coherence: Schema = {
+  type: Type.OBJECT,
+  required: ["signals", "level"],
+  propertyOrdering: ["signals", "level"],
+  properties: {
+    signals: {
+      type: Type.ARRAY,
+      description:
+        "2 à 3 constats sur la matière reçue, pris dans la liste, du plus déterminant au moins déterminant",
+      minItems: "2",
+      maxItems: "3",
+      items: { type: Type.STRING, enum: COHERENCE_SIGNALS },
+    },
+    level: {
+      type: Type.STRING,
+      enum: COHERENCE_LEVELS,
+      description: "Niveau déduit des constats, avant d'en tirer le pourcentage",
+    },
+  },
+};
+
 // Miroir runtime de IkigaiAnalysisResult, à garder synchronisé avec lui.
 export const ikigaiResponseSchema: Schema = {
   type: Type.OBJECT,
   required: [
     "tags",
     "analysis",
+    "signature",
     "summary",
     "jobs",
     "recommendations",
+    "coherence",
     "confidence",
   ],
   // propertyOrdering pilote l'ordre de génération : les tags d'abord, ils servent de
@@ -159,19 +204,23 @@ export const ikigaiResponseSchema: Schema = {
   propertyOrdering: [
     "tags",
     "analysis",
+    "signature",
     "summary",
     "jobs",
     "recommendations",
+    "coherence",
     "confidence",
   ],
   properties: {
     tags: perPillar(
-      stringList(5, 8, "5 à 8 tags de 1 à 3 mots, en minuscules, non redondants"),
+      stringList(4, 5, "4 à 5 tags de 1 à 3 mots, en minuscules, non redondants"),
     ),
     analysis,
+    signature,
     summary,
     jobs,
     recommendations,
+    coherence,
     confidence: {
       type: Type.INTEGER,
       minimum: 40,

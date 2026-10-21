@@ -5,10 +5,17 @@ import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiJob } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
 import { PILLARS, PillarKey, getDominantPillar } from "./pillars";
+import { QuotedText } from "./QuotedText";
 import { ScoreBar } from "./ScoreBar";
 import { JobCardMobile } from "./JobCardMobile";
 
-export const JobCard = ({ job, rank }: { job: IkigaiJob; rank: number }) => {
+type JobCardProps = {
+  job: IkigaiJob;
+  rank: number;
+  tags: string[];
+};
+
+export const JobCard = ({ job, rank, tags }: JobCardProps) => {
   const [revealed, setRevealed] = useState(false);
   const dominant = getDominantPillar(job.ikigai_scores);
   const { accent, label, kanji } = PILLARS[dominant];
@@ -48,22 +55,17 @@ export const JobCard = ({ job, rank }: { job: IkigaiJob; rank: number }) => {
 
             <div className="flex flex-col gap-8 md:flex-row">
               <div className="flex w-full flex-col gap-3">
-                {(Object.entries(job.ikigai_scores) as [PillarKey, number][]).map(
-                  ([key, value]) => (
-                    <ScoreBar key={key} pillar={key} value={value} />
-                  ),
-                )}
+                {(
+                  Object.entries(job.ikigai_scores) as [PillarKey, number][]
+                ).map(([key, value]) => (
+                  <ScoreBar key={key} pillar={key} value={value} />
+                ))}
               </div>
 
               <p className="leading-relaxed">{job.description}</p>
             </div>
 
-            <p
-              className="rounded-lg p-4 text-sm italic leading-relaxed text-primary/90"
-              style={{ backgroundColor: `${accent}1a` }}
-            >
-              {job.match_reason}
-            </p>
+            <QuotedText text={job.match_reason} accent={accent} tags={tags} />
           </div>
 
           <button
@@ -121,7 +123,7 @@ export const JobCard = ({ job, rank }: { job: IkigaiJob; rank: number }) => {
         </div>
       </div>
 
-      <JobCardMobile job={job} rank={rank} dominant={dominant} />
+      <JobCardMobile job={job} rank={rank} dominant={dominant} tags={tags} />
     </>
   );
 };

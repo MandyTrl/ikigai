@@ -20,7 +20,15 @@ export type IkigaiTags = {
   paid: string[];
 };
 
+export type CoherenceLevel = "faible" | "moyenne" | "bonne" | "forte";
+
+export type IkigaiCoherence = {
+  level: CoherenceLevel;
+  signals: string[];
+};
+
 export type IkigaiAnalysisResult = {
+  signature: string;
   summary: {
     profile: string;
     key_strengths: string[];
@@ -37,5 +45,6 @@ export type IkigaiAnalysisResult = {
     warning: string;
   };
   tags: IkigaiTags;
+  coherence: IkigaiCoherence;
   confidence: number;
 };

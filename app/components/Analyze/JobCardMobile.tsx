@@ -5,15 +5,22 @@ import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiJob } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
 import { PILLARS, PillarKey } from "./pillars";
+import { QuotedText } from "./QuotedText";
 import { ScoreBar } from "./ScoreBar";
 
 type JobCardMobileProps = {
   job: IkigaiJob;
   rank: number;
   dominant: PillarKey;
+  tags: string[];
 };
 
-export const JobCardMobile = ({ job, rank, dominant }: JobCardMobileProps) => {
+export const JobCardMobile = ({
+  job,
+  rank,
+  dominant,
+  tags,
+}: JobCardMobileProps) => {
   const [open, setOpen] = useState(false);
   const { accent, label, kanji } = PILLARS[dominant];
 
@@ -42,7 +49,12 @@ export const JobCardMobile = ({ job, rank, dominant }: JobCardMobileProps) => {
               {job.score}%
             </span>
             <span
-              style={{ backgroundColor: `${accent}1f`, color: accent } as CSSProperties}
+              style={
+                {
+                  backgroundColor: `${accent}1f`,
+                  color: accent,
+                } as CSSProperties
+              }
               className={clsx(
                 "flex h-7 w-7 items-center justify-center rounded-full transition-transform duration-300 ease-in-out",
                 open && "rotate-180",
@@ -65,7 +77,9 @@ export const JobCardMobile = ({ job, rank, dominant }: JobCardMobileProps) => {
       <div
         className={clsx(
           "grid px-5 transition-all duration-300 ease-in-out",
-          open ? "grid-rows-[1fr] pb-5 opacity-100" : "grid-rows-[0fr] pb-0 opacity-0",
+          open
+            ? "grid-rows-[1fr] pb-5 opacity-100"
+            : "grid-rows-[0fr] pb-0 opacity-0",
         )}
       >
         <div className="flex flex-col gap-5 overflow-hidden">
@@ -79,12 +93,7 @@ export const JobCardMobile = ({ job, rank, dominant }: JobCardMobileProps) => {
 
           <p className="leading-relaxed">{job.description}</p>
 
-          <p
-            className="rounded-lg p-4 text-sm italic leading-relaxed text-primary/90"
-            style={{ backgroundColor: `${accent}1a` }}
-          >
-            {job.match_reason}
-          </p>
+          <QuotedText text={job.match_reason} accent={accent} tags={tags} />
         </div>
       </div>
     </div>

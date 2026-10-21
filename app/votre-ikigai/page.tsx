@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { MainLayout } from "@/app/components/Layouts/MainLayout";
 import { canAnalyzeIkigai } from "@/app/utils/validateForm";
+import { withoutStrayQuotes } from "@/app/utils/stripQuotes";
 import {
   buildIkigaiPayload,
   getAnalysisCache,
@@ -13,6 +14,7 @@ import { IkigaiAnalysisResult } from "../api/analyze/types/response";
 import { ResultHeader } from "../components/Analyze/ResultHeader";
 import { ResultEstampe } from "../components/Analyze/ResultEstampe";
 import { ResultSection } from "../components/Analyze/ResultSection";
+import { Signature } from "../components/Analyze/Signature";
 import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
 import { JobCard } from "../components/Analyze/JobCard";
 import { CrossAnalysis } from "../components/Analyze/CrossAnalysis";
@@ -50,7 +52,7 @@ export default function IkigaiResultPage() {
       return;
     }
 
-    setAnalysis(cache.result as IkigaiAnalysisResult);
+    setAnalysis(withoutStrayQuotes(cache.result as IkigaiAnalysisResult));
   }, [ikigaiForm, router, signature, isHydrated]);
 
   if (!analysis) {
@@ -66,8 +68,13 @@ export default function IkigaiResultPage() {
       hasNavbar
       className="w-full pt-4 md:py-16 max-w-5xl mx-auto flex flex-col gap-16 md:gap-24"
     >
-      <div>
-        <ResultHeader confidence={analysis.confidence} />
+      <div className="flex flex-col gap-14">
+        <ResultHeader
+          confidence={analysis.confidence}
+          coherence={analysis.coherence}
+        />
+
+        {analysis.signature && <Signature text={analysis.signature} />}
 
         <ResultSection index="01" eyebrow="synthèse">
           <IkigaiSummary summary={analysis.summary} tags={analysis.tags} />
@@ -77,7 +84,12 @@ export default function IkigaiResultPage() {
       <ResultSection index="02" eyebrow="orientations">
         <div className="grid gap-5">
           {analysis.jobs.map((job, index) => (
-            <JobCard key={job.title} job={job} rank={index + 1} />
+            <JobCard
+              key={job.title}
+              job={job}
+              rank={index + 1}
+              tags={Object.values(analysis.tags).flat()}
+            />
           ))}
         </div>
       </ResultSection>
