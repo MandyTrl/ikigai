@@ -14,8 +14,9 @@ Ce qui revient, dans l'ordre où Gemini le rédige :
 
 | Étape | Ce que c'est | Où ça s'affiche |
 | --- | --- | --- |
-| `tags` | 5 à 8 mots-clés par pilier, un index pour rapprocher les piliers | nuage de mots de la synthèse |
+| `tags` | 4 à 5 mots-clés par pilier, un index pour rapprocher les piliers | nuage de mots de la synthèse |
 | `analysis.insights` | lectures qui croisent au moins 2 piliers | « lecture croisée » |
+| `signature` | une phrase, le fil rouge dans les mots de la personne | en grand, en tête de fiche |
 | `analysis.tensions` | contradictions repérées, 0 à 3 | « point de vigilance » |
 | `summary` | portrait, forces, motivations, environnement idéal | « synthèse » |
 | `jobs` | 3 métiers, chacun avec ses 4 scores par pilier | « orientations » |
@@ -41,7 +42,7 @@ Les règles qui en découlent, à ne pas affaiblir en retouchant le prompt :
 | `satisfaction` fixe le registre | 0 à 4, la prudence passe pour de la langue de bois. 7 à 10, personne n'a demandé de rupture. Non renseigné, registre intermédiaire |
 | `confidence` mesure la cohérence de ce qui a été dit, jamais la maturité professionnelle | sinon un lycéen lit une mauvaise note là où il n'y a qu'un manque d'expérience |
 | `insights` montrent ce qui **se tient**, `tensions` ce qui **tire dans deux sens** | sans cette ligne de partage, les deux blocs se ressemblent |
-| La première phrase du portrait doit être citable telle quelle | c'est ce que la personne répètera à quelqu'un d'autre, l'équivalent du code en 4 lettres du MBTI, mais dans ses mots |
+| `signature` doit être citable telle quelle | c'est ce que la personne répètera à quelqu'un d'autre, l'équivalent du code en 4 lettres du MBTI, mais dans ses mots. Elle est écrite avant le portrait, qui la déploie sans jamais la redire |
 | Tous les scores sont des multiples de 5 | on estime en lisant du texte, on ne mesure pas : un 73 ferait croire à un calcul |
 | Chaque score doit être défendable par son `match_reason` | un chiffre que le texte n'explique pas est décoratif |
 | Rien ne reproche à l'utilisateur ce qu'il n'a pas écrit | il ne fera le test qu'une fois, l'analyse doit être close et suffisante |

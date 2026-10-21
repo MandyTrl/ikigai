@@ -9,15 +9,18 @@ yarn dev        # Start dev server with Turbopack
 yarn build      # Production build
 yarn start      # Start production server
 yarn lint       # ESLint
+yarn fixtures   # Run the 4 persona fixtures through /api/analyze (needs yarn dev running)
+yarn seed <persona>  # Open /votre-ikigai with a saved analysis (student | unhappy-employee | minimal | curious-explorer)
 ```
 
-No test suite is configured.
+No test suite is configured. `yarn fixtures` is the closest thing: see **Fixtures & output review** below.
 
 ## Environment
 
 Requires a `.env.local` file with:
 ```
 GEMINI_API_KEY=...
+FIXTURES_DEV_KEY=...   # any value; gates the dev-only /dev routes
 ```
 
 The key is read lazily by `getGemini()` in `lib/gemini.ts`; if it is missing the call throws **inside the route handler** (caught there), so `/api/analyze` always returns a clean JSON error — never an HTML error page. The client (`useIkigaiAnalyze`) then shows a friendly French message, never the raw error.
@@ -74,12 +77,44 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 
 `POST /api/analyze` (`app/api/analyze/route.ts`):
 - Validates the payload in two steps, both `400`: `isValidIkigaiPayload()` for the shape, then `isCompleteIkigaiPayload()` for the content (the same 2-valid-answers-per-pillar rule as the UI, reusing `getFilledAnswersCount` + `MIN_ANSWERS_REQUIRED_PER_PILLAR` from `validateForm.ts`). The second guard matters because `responseSchema` demands 3 jobs and a portrait no matter what: on an empty payload the model would have no choice but to invent a profile. `validateForm.ts` imports `IkigaiForm` with `import type` so the route can reuse these rules without pulling the `"use client"` context into its bundle
-- Builds a prompt via `app/utils/ikigaiPrompt.ts` (French-language system prompt: role, reading rules, 8-step method, tone/writing constraints). The user data block is built by `app/utils/ikigaiPromptData.ts` — **`buildUserDataBlock()` pairs each pillar answer with the question it answers** (`answers[i]` ↔ `instructions[i]` from `ikigaiMainstay.ts`, unanswered ones marked `(non renseignée)`) and resolves the stored enrichment codes into labels (`disc: "green"` → `Stable`, `mbti: "INFP"` → `INFP · Médiateur`). The payload shape never changes, so validation and the cache signature are untouched.
-- The prompt is calibrated on three personas (orientation with no work experience, employed and unsatisfied, curious without urgency) documented in the README. The rules that follow from them and must not be weakened: **`satisfaction` sets the register** (0–4 franchise, 7–10 the 3 jobs become directions to deepen rather than a new path, unfilled = middle ground); `confidence` measures the coherence of what was said and **never professional maturity**, so a pillar left thin by genuine inexperience does not drop it below 65; `insights` show what *holds together* and `tensions` what *pulls apart*, never the same material; the first sentence of `summary.profile` must be quotable as-is; every score is a **multiple of 5** (an estimate, not a measurement) and must be defensible by its `match_reason`; nothing may reproach the user for what they did not write.
-- Calls **Gemini 2.5 Flash** via `@google/genai` at `temperature: 0.8`, with `responseMimeType: "application/json"` + `responseSchema` (`app/api/analyze/responseSchema.ts`) — the runtime mirror of `IkigaiAnalysisResult`. **Keep the two in sync.** The schema carries what prose cannot guarantee: required fields (`warning` is always present, so `VigilancePoint` never renders empty), cardinalities calibrated on the UI (exactly 3 jobs and 3 actions, 3–4 items per `summary` list for the 3-card grid, 5–8 tags per pillar), integer bounds on every score. Its `propertyOrdering` also drives **generation order** (`tags` first since the whole analysis builds on them, `confidence` last) and fixes the `ScoreBar` display order, which otherwise followed whatever key order Gemini returned.
+- Builds a prompt via `app/utils/ikigaiPrompt.ts` (French-language system prompt: role, reading rules, 9-step method, tone/writing constraints). The user data block is built by `app/utils/ikigaiPromptData.ts` — **`buildUserDataBlock()` pairs each pillar answer with the question it answers** (`answers[i]` ↔ `instructions[i]` from `ikigaiMainstay.ts`, unanswered ones marked `(non renseignée)`) and resolves the stored enrichment codes into labels (`disc: "green"` → `Stable`, `mbti: "INFP"` → `INFP · Médiateur`). The payload shape never changes, so validation and the cache signature are untouched.
+- The prompt is calibrated on three personas (orientation with no work experience, employed and unsatisfied, curious without urgency) documented in the README. The rules that follow from them and must not be weakened: **`satisfaction` sets the register** (0–4 franchise, 7–10 the 3 jobs become directions to deepen rather than a new path, unfilled = middle ground); `confidence` measures the coherence of what was said and **never professional maturity**, so a pillar left thin by genuine inexperience does not drop it below 65; `insights` show what *holds together* and `tensions` what *pulls apart*, never the same material; `signature` is the one quotable sentence of the whole analysis (28 words max, generated before `summary` so the portrait deploys it instead of restating it); every score is a **multiple of 5** (an estimate, not a measurement) and must be defensible by its `match_reason`; nothing may reproach the user for what they did not write.
+- Calls **Gemini 2.5 Flash** via `@google/genai` at `temperature: 0.8`, with `responseMimeType: "application/json"` + `responseSchema` (`app/api/analyze/responseSchema.ts`) — the runtime mirror of `IkigaiAnalysisResult`. **Keep the two in sync.** The schema carries what prose cannot guarantee: required fields (`warning` is always present, so `VigilancePoint` never renders empty), cardinalities calibrated on the UI (exactly 3 jobs and 3 actions, 3–4 items per `summary` list for the 3-card grid, 4–5 tags per pillar), integer bounds on every score. Its `propertyOrdering` also drives **generation order** (`tags` first since the whole analysis builds on them, `signature` before `summary` so the portrait knows the thesis is already stated, `confidence` last) and fixes the `ScoreBar` display order, which otherwise followed whatever key order Gemini returned.
 - Parses JSON (`cleanJsonString()` stays as a cheap guard, now that the mime type makes fences unlikely)
 - Returns `{ success: true, data: IkigaiAnalysisResult }` or `{ success: false, error: string }`
 - Client-side caching uses `sessionStorage` (key `"ikigai-analysis-cache"`, signature-based, helpers in `app/api/analyze/utils.ts`)
+
+### Fixtures & output review
+
+Checking prompt output without filling the form by hand. Everything lives in `scripts/` — **outside `app/` on purpose**, so none of it can reach the client bundle.
+
+| file | role |
+| --- | --- |
+| `scripts/fixtures.ts` | the 3 personas of the README as `IkigaiPayload`, with deliberately uneven fill levels (`student` 9 valid answers of 12 and no enrichment, `unhappy-employee` 12/12 with all 5 enrichment fields, `curious-explorer` 10/12 with partial enrichment). Skipped answers stay as `""` **at their index** — the prompt pairs `answers[i]` with `instructions[i]`. Each fixture carries a `probe` saying what it puts to the test |
+| `scripts/checks.ts` | text helpers + the 4 check families, returning `Alert[]` with `kind`: **`contrat`** (cardinalities of `responseSchema`, duplicate job titles — `JobCard` keys on `job.title`; a failure here means schema/types/UI diverged, i.e. a bug), **`regle`** (prompt rules: scores off the multiples-of-5 grid, flat pillars, pillar names leaking into the prose, forbidden openings, em dashes), **`vigilance`** (6-word verbatim reuse from the answers, over-long summary items) |
+| `scripts/measures.ts` | `buildMeasures()` turns runs into the uniformity numbers (portrait openings and skeletons, confidence spread, pairwise lexical overlap, jobs proposed to more than one persona, intra-persona variance) + `formatTerminalSummary()` |
+| `scripts/output-store.ts` | one dated folder per run (`scripts/output/2026-10-16_1642/<slug>.json`), so nothing is overwritten and nothing stale mixes in. Gitignored |
+| `scripts/analyze-fixtures.ts` | the CLI. POSTs each fixture to the real `/api/analyze` (no logic duplicated), saves the JSON, prints the summary |
+
+**Quota**: the Gemini free tier allows **20 `gemini-2.5-flash` requests per day**. A full `yarn fixtures` run costs one call per persona (4 today), so budget ~5 full runs per day. The route maps an upstream 429 to a 429 (`Quota Gemini atteint`) and a 503 to a 503, so the harness can tell a transient spike (it retries 3 times) from an exhausted quota (it stops immediately).
+
+```bash
+yarn fixtures                      # one Gemini call per persona, one new dated folder
+yarn fixtures --only=student       # a single persona
+yarn fixtures --runs=2             # each persona twice, measures intra-persona variance
+yarn fixtures --report-only        # recompute the measures from the latest folder, no API call
+yarn fixtures --base-url=http://localhost:3001
+```
+
+Scripts run under Node's native TypeScript (no `tsx`, no `ts-node`), which requires explicit `.ts` extensions in their relative imports — hence `allowImportingTsExtensions` in `tsconfig.json`. They only ever `import type` from `app/`, so nothing from the client context is loaded at runtime.
+
+**`yarn seed <persona>`** fills the browser cache with a saved analysis and opens the real `/votre-ikigai` page with it — the only way to see how an output actually renders (that is how the `d'« éveil au vivant »` typography bug and the schema-drift crash were found). `localStorage` can only be written from the page itself, so the command opens `/dev/seed`, a route that writes `ikigai-form`, `ikigai-enrichment` and the signed `sessionStorage` cache, then redirects — no UI, you never see it. It takes the latest complete run unless `run=` says otherwise, and a **full page load** is required: `AppProviders` lives in the root layout and only reads localStorage on mount.
+
+Two locks on that route: it 404s when `NODE_ENV === "production"`, and 404s without `?k=` matching `FIXTURES_DEV_KEY` from `.env.local` (compared with `timingSafeEqual`). `yarn seed` reads that key itself.
+
+Quotation marks are stripped at render time by `withoutStrayQuotes()` (`app/utils/stripQuotes.ts`), applied once when `/votre-ikigai` reads the cached analysis — on every prose field **except `match_reason`**, where quoting the user is the point and `QuotedText` styles it. The prompt reserves citation to `match_reason`, but the model keeps quoting elsewhere on the densest profiles; the harness still flags it as a `regle` alert (it signals paraphrase), the interface no longer shows it. Apostrophes are untouched: only `"`, `“`, `”`, `«`, `»` are removed, so `d'"expliquer"` renders as `d'expliquer`.
+
+`getPayloadSignature` prefixes the signature with `ANALYSIS_SCHEMA_VERSION` (`app/api/analyze/utils.ts`): **bump it whenever a field is added to the response schema**, otherwise a visitor's cached analysis from before the deploy renders without the new field. `checkAnalysis` reports a missing field as a `contrat` alert instead of crashing, for the same reason.
 
 ### Profile enrichment (optional)
 
@@ -108,7 +143,7 @@ The modal hosts `EnrichProfileForm` (`app/components/EnrichProfile/`), an **enti
 - `IkigaiEnrichmentPayload` — same shape as `IkigaiEnrichment` but decoupled (plain `string`/`number`), since the API route is a boundary and shouldn't import client-context types
 
 `app/api/analyze/types/response.ts`:
-- `IkigaiAnalysisResult` — `{ summary: { profile, key_strengths, motivations, work_environment }, analysis: { insights, tensions }, jobs: IkigaiJob[], recommendations: { actions, warning }, tags: IkigaiTags, confidence }`
+- `IkigaiAnalysisResult` — `{ signature, summary: { profile, key_strengths, motivations, work_environment }, analysis: { insights, tensions }, jobs: IkigaiJob[], recommendations: { actions, warning }, tags: IkigaiTags, confidence }`
 - `IkigaiJob` — `{ title, description, match_reason, score, ikigai_scores: IkigaiScores }`
 - `IkigaiTags` / `IkigaiScores` — per-pillar string arrays / numbers
 
@@ -128,7 +163,7 @@ The modal hosts `EnrichProfileForm` (`app/components/EnrichProfile/`), an **enti
 
 ```
 app/components/
-  Analyze/         — result display: IkigaiSummary, JobCard, PillarAnalysis, CoherenceSignal, PdfButton
+  Analyze/         — result display: Signature (the quotable line, ichigyô-mono rule), IkigaiSummary, JobCard + QuotedText, PillarAnalysis, CoherenceSignal, PdfButton
   EnrichProfile/   — EnrichProfileModal (owns useModal + Modal), EnrichProfileForm, MbtiSelect (custom listbox)
   Form/            — FormStepBar + FormStep (top-bar multistep nav), PillarIdentity + PillarAbout, FormGuidelines + FormHelp, FormTextArea + AnswerCounter, FormSideEstampe (faded ukiyo-e side print, xl+) + FormBottomEstampe (bottom→up fade, mobile/tablet)
   IkigaiGuide/     — overview "mode d'emploi": IkigaiGuide, GuideStep
