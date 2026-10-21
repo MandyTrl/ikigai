@@ -550,7 +550,7 @@ const checkMaterial = (
   const alerts: Alert[] = [];
 
   if (
-    skipped >= 2 &&
+    skipped >= 4 &&
     !analysis.coherence.signals.includes("plusieurs questions laissées de côté")
   ) {
     alerts.push({

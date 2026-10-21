@@ -55,12 +55,29 @@ const buildProfileBlock = (enrichment: IkigaiPayload["enrichment"]) => {
   return ["[PROFIL COMPLÉMENTAIRE]", ...lines].join("\n");
 };
 
+// Le modèle compte mal les « (non renseignée) » : on lui donne le chiffre plutôt que de le laisser le déduire
+const buildMaterialBlock = (payload: IkigaiPayload) => {
+  const skipped = PILLAR_ORDER.flatMap(({ key }) =>
+    [0, 1, 2]
+      .filter((index) => !payload[key]?.[index]?.trim())
+      .map((index) => `${key.toUpperCase()} Q${index + 1}`),
+  );
+
+  const detail = skipped.length > 0 ? ` (${skipped.join(", ")})` : "";
+
+  return `[MATIÈRE REÇUE]\nquestions laissées vides : ${skipped.length} sur 12${detail}`;
+};
+
 export const buildUserDataBlock = (payload: IkigaiPayload) => {
   const pillars = PILLAR_ORDER.map((pillar) =>
     buildPillarBlock(pillar, payload),
   );
 
-  return [...pillars, buildProfileBlock(payload.enrichment)]
+  return [
+    ...pillars,
+    buildProfileBlock(payload.enrichment),
+    buildMaterialBlock(payload),
+  ]
     .filter(Boolean)
     .join("\n\n---\n\n");
 };
