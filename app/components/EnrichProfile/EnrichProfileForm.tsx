@@ -14,11 +14,6 @@ export const EnrichProfileForm = () => {
   const [form, setForm] = useState<IkigaiEnrichment>(enrichment);
 
   useEffect(() => {
-    setForm(enrichment);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (JSON.stringify(form) === JSON.stringify(enrichment)) return;
 
     const timer = setTimeout(() => updateEnrichment(form), 500);

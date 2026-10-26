@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useContext, useMemo } from "react";
+import { useEffect, useContext, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { MainLayout } from "@/app/components/Layouts/MainLayout";
@@ -39,35 +39,32 @@ export default function IkigaiResultPage() {
   );
   const signature = useMemo(() => getPayloadSignature(payload), [payload]);
 
-  const [analysis, setAnalysis] = useState<IkigaiAnalysisResult | null>(null);
-  const [analyzedAt, setAnalyzedAt] = useState(() => new Date());
-
-  useEffect(() => {
-    if (!isHydrated) return;
-
-    if (!canAnalyzeIkigai(ikigaiForm)) {
-      router.replace("/commencer");
-      return;
-    }
+  // isHydrated reste false au rendu serveur : sessionStorage n'est donc lu que côté client.
+  const cached = useMemo(() => {
+    if (!isHydrated || !canAnalyzeIkigai(ikigaiForm)) return null;
 
     const cache = getAnalysisCache();
+    if (!cache || cache.signature !== signature) return null;
 
-    if (!cache || cache.signature !== signature) {
-      router.replace("/commencer");
-      return;
-    }
+    return {
+      analysis: withoutStrayQuotes(cache.result as IkigaiAnalysisResult),
+      analyzedAt: toAnalysisDate(cache.analyzedAt),
+    };
+  }, [ikigaiForm, signature, isHydrated]);
 
-    setAnalysis(withoutStrayQuotes(cache.result as IkigaiAnalysisResult));
-    setAnalyzedAt(toAnalysisDate(cache.analyzedAt));
-  }, [ikigaiForm, router, signature, isHydrated]);
+  useEffect(() => {
+    if (isHydrated && !cached) router.replace("/commencer");
+  }, [cached, router, isHydrated]);
 
-  if (!analysis) {
+  if (!cached) {
     return (
       <p className="flex min-h-screen items-center justify-center font-mono text-sm uppercase tracking-[0.2em] text-secondary/60">
         Chargement de votre analyse…
       </p>
     );
   }
+
+  const { analysis, analyzedAt } = cached;
 
   return (
     <MainLayout

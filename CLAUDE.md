@@ -5,10 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-yarn dev        # Start dev server with Turbopack
+yarn dev        # Start dev server (Turbopack is the default since Next 16)
 yarn build      # Production build
 yarn start      # Start production server
-yarn lint       # ESLint (eslint.config.mjs resolves plugins from eslint-config-next, see the comment there)
+yarn lint       # ESLint CLI (`next lint` was removed in Next 16); flat config imported straight from eslint-config-next
 yarn fixtures   # Run the 4 persona fixtures through /api/analyze (needs yarn dev running)
 yarn seed <persona>  # Open /votre-ikigai with a saved analysis (student | unhappy-employee | minimal | curious-explorer)
 ```
@@ -26,7 +26,7 @@ FIXTURES_DEV_KEY=...   # any value; gates the dev-only /dev routes
 The key is read lazily by `getGemini()` in `lib/gemini.ts`; if it is missing the call throws **inside the route handler** (caught there), so `/api/analyze` always returns a clean JSON error — never an HTML error page. The client (`useIkigaiAnalyze`) then shows a friendly French message, never the raw error.
 
 ## Architecture
-**Ikigai** is a Next.js 15 (App Router) + React 19 application that guides users through a 4-pillar career discovery framework (Love, Talent, Needs, Paid Work), then calls Gemini AI to generate a personalized career analysis.
+**Ikigai** is a Next.js 16 (App Router) + React 19 application that guides users through a 4-pillar career discovery framework (Love, Talent, Needs, Paid Work), then calls Gemini AI to generate a personalized career analysis.
 
 ### User flow
 1. **Landing page** (`app/page.tsx`) — marketing sections
@@ -52,7 +52,7 @@ A question only counts as **valid** once its answer reaches `MIN_ANSWER_LENGTH` 
 ### State management
 All form state lives in `app/context/index.tsx` (the `AppProviders` component). It wraps everything in `<MotionConfig reducedMotion="user">` (Framer Motion respects the system "reduce motion" setting app-wide; CSS animations are neutralized via a `prefers-reduced-motion` block in `globals.css`), then two providers:
 
-- **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`), and the optional **`enrichment`** profile (see below). Persisted to `localStorage` under the key `"ikigai-form"` (pillars) and `"ikigai-enrichment"` (profile). Exposes **`isHydrated`** (false until the localStorage read effect has run) — any page-level redirect that depends on `ikigaiForm` (e.g. `/votre-ikigai` bouncing back to `/commencer` when the form is incomplete) must gate on `isHydrated` first, otherwise it fires against the transient empty initial state on every hard refresh, before localStorage has had a chance to populate.
+- **`IkigaiContext`** (`app/context/IkigaiContext.tsx`) — form answers for all 4 pillars, current step, pillar state machine (`PillarStateEnum`), and the optional **`enrichment`** profile (see below). Persisted to `localStorage` under the key `"ikigai-form"` (pillars) and `"ikigai-enrichment"` (profile). Exposes **`isHydrated`** (false until the localStorage read effect has run) — any page-level redirect that depends on `ikigaiForm` (e.g. `/votre-ikigai` bouncing back to `/commencer` when the form is incomplete) must gate on `isHydrated` first, otherwise it fires against the transient empty initial state on every hard refresh, before localStorage has had a chance to populate. The two persistence effects (`localStorage.setItem`) are gated on `isHydrated` too: without it, dev StrictMode's double effect run wrote the empty initial state over the saved answers before the second read (that broke `yarn seed`).
 - **`HoverContext`** (`app/context/HoverContext.tsx`) — which pillar is currently hovered (used for the Venn diagram to bring the hovered circle to the front).
 
 `enrichment` (`updateEnrichment` to patch it) is identity/profile data, not pillar progress — it lives on its own localStorage key and is **never cleared by `resetIkigai()`**.

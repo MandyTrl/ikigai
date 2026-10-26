@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { FormGuidelines } from "../Form/FormGuidelines";
 import { EMPTY_ANSWERS, FormTextArea } from "../Form/FormTextArea";
@@ -12,10 +12,6 @@ import { ikigaiMainstay } from "@/app/utils/datas/ikigaiMainstay";
 export const FormLayout = () => {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
   const [questionIndex, setQuestionIndex] = useState(0);
-
-  useEffect(() => {
-    setQuestionIndex(0);
-  }, [currentStep]);
 
   const currentPillar = useMemo(
     () => ikigaiForm.find((entry) => entry.mainstay === currentStep),

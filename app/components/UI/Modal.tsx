@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { XIcon } from "@phosphor-icons/react/dist/ssr";
@@ -11,18 +11,21 @@ type ModalProps = {
   labelledBy?: string;
 };
 
+const subscribeNoop = () => () => {};
+
 export const Modal = ({
   isOpen,
   onClose,
   children,
   labelledBy,
 }: ModalProps) => {
-  const [mounted, setMounted] = useState(false);
+  // false au rendu serveur (pas de document.body pour le portail), true côté client
+  const mounted = useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false,
+  );
   const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!isOpen) return;

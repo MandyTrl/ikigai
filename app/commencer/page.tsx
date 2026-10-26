@@ -19,7 +19,8 @@ export default function YourIkigai() {
       {currentStep === IkigaiStepEnum.INITIAL ? (
         <YourIkigaiLayout />
       ) : selectedMainstay && !isMainstaySelectionPending ? (
-        <FormLayout />
+        // key : changer de pilier remonte le formulaire, donc question et réponses repartent de ce pilier
+        <FormLayout key={currentStep} />
       ) : null}
     </div>
   );

@@ -44,6 +44,8 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
           );
 
         if (isValidForm) {
+          // localStorage n'existe pas au rendu serveur : le lire dans l'état initial casserait l'hydratation
+          // eslint-disable-next-line react-hooks/set-state-in-effect
           setIkigaiForm(parsed);
         } else {
           console.warn("Invalid ikigai localStorage shape");
@@ -56,9 +58,12 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     setIsHydrated(true);
   }, []);
 
+  // Pas d'écriture avant la lecture : sinon l'état initial vide écrase les réponses sauvegardées
+  // (le StrictMode de dev rejoue les effets, la lecture relirait alors ce vide).
   useEffect(() => {
+    if (!isHydrated) return;
     localStorage.setItem("ikigai-form", JSON.stringify(ikigaiForm));
-  }, [ikigaiForm]);
+  }, [ikigaiForm, isHydrated]);
 
   // get & save le profil enrichi (facultatif) dans localStorage — survit à resetIkigai, ce n'est pas une progression de pilier
   useEffect(() => {
@@ -69,6 +74,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
         const parsed = JSON.parse(saved);
 
         if (parsed && typeof parsed === "object") {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- même raison que ikigai-form
           setEnrichment(parsed);
         } else {
           console.warn("Invalid ikigai-enrichment localStorage shape");
@@ -80,8 +86,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    if (!isHydrated) return;
     localStorage.setItem("ikigai-enrichment", JSON.stringify(enrichment));
-  }, [enrichment]);
+  }, [enrichment, isHydrated]);
 
   // mémoïze fct to prevent recreating between re-renders
   const updateForm = useCallback(

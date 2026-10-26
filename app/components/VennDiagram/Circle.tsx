@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import clsx from "clsx";
 import { HoverContext } from "@/app/context/HoverContext";
 import { IkigaiStepEnum } from "@/app/types";
@@ -59,9 +59,12 @@ export const Circle = ({
   // d'animation pour qu'aucun re-render (hover, réordonnancement SVG) ne la relance.
   const [strokeDrawn, setStrokeDrawn] = useState(false);
 
-  useEffect(() => {
+  // Ajusté pendant le rendu plutôt que dans un effet : évite un rendu intermédiaire périmé.
+  const [prevAllComplete, setPrevAllComplete] = useState(allComplete);
+  if (allComplete !== prevAllComplete) {
+    setPrevAllComplete(allComplete);
     if (!allComplete) setStrokeDrawn(false);
-  }, [allComplete]);
+  }
 
   const cxLabel = isHovered ? hoveredCxLabel : defaultCxLabel;
   const cyLabel = isHovered ? hoveredCyLabel : defaultCyLabel;

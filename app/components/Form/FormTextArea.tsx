@@ -29,13 +29,15 @@ export const FormTextArea = ({
   const { currentStep, ikigaiForm, updateForm, savePillar, setStep } =
     useContext(IkigaiContext);
 
-  const [answers, setAnswers] = useState<string[]>(EMPTY_ANSWERS);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const mainstayData = useMemo(
     () => ikigaiForm.find((entry) => entry.mainstay === currentStep),
     [ikigaiForm, currentStep],
   );
+
+  const [answers, setAnswers] = useState<string[]>(
+    () => mainstayData?.answers ?? EMPTY_ANSWERS,
+  );
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const mainstayInfoFound: IkigaiMainstay | undefined = ikigaiMainstay.find(
     (el) => el.mainstay === currentStep,
@@ -46,11 +48,6 @@ export const FormTextArea = ({
   useEffect(() => {
     textareaRef.current?.focus({ preventScroll: true });
   }, [questionIndex, currentStep]);
-
-  useEffect(() => {
-    setAnswers(mainstayData?.answers ?? EMPTY_ANSWERS);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep]);
 
   // Auto-save après un court debounce si la réponse a changé.
   useEffect(() => {
