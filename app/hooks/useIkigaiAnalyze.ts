@@ -11,6 +11,17 @@ import {
   saveAnalysisCache,
 } from "@/app/api/analyze/utils";
 
+const analyzeErrorMessage = (status?: number) => {
+  switch (status) {
+    case 429:
+      return "Les analyses du jour sont toutes utilisées. Vos réponses restent enregistrées sur cet appareil : revenez demain pour lancer la vôtre.";
+    case 503:
+      return "Gemini est très sollicité en ce moment. Vos réponses sont bien enregistrées : réessayez dans quelques minutes.";
+    default:
+      return "L’analyse n’a pas pu aboutir. Vos réponses sont enregistrées, vous pouvez réessayer.";
+  }
+};
+
 export const useIkigaiAnalyze = () => {
   const router = useRouter();
   const { ikigaiForm, enrichment } = useContext(IkigaiContext);
@@ -42,14 +53,17 @@ export const useIkigaiAnalyze = () => {
       const result = await response.json().catch(() => null);
 
       if (!response.ok || !result?.success || !result?.data) {
-        throw new Error(result?.error ?? `HTTP ${response.status}`);
+        console.error("Erreur lors de l'analyse :", result?.error);
+        setError(analyzeErrorMessage(response.status));
+        return;
       }
 
       saveAnalysisCache(currentSignature, result.data);
       router.push("/votre-ikigai");
     } catch (err) {
+      // Pas de réponse du tout (réseau coupé…) : aucun statut à lire
       console.error("Erreur lors de l'analyse :", err);
-      setError("L’analyse n’a pas pu aboutir. Patientez un instant, puis réessayez.");
+      setError(analyzeErrorMessage());
     } finally {
       setIsAnalyzing(false);
     }

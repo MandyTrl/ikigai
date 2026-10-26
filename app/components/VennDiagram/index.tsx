@@ -209,20 +209,22 @@ const VennDiagram: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      <p className="text-center font-mono text-[0.6rem] uppercase text-secondary/70">
-        analysé par gemini · évitez les infos sensibles
-      </p>
+      <div className="flex flex-col items-center gap-2">
+        {allComplete && error && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="max-w-sm text-center text-sm text-[#b4453c]"
+            role="alert"
+          >
+            {error}
+          </motion.p>
+        )}
 
-      {allComplete && error && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center text-sm text-red-600"
-          role="alert"
-        >
-          {error}
-        </motion.p>
-      )}
+        <p className="text-center font-mono text-[0.6rem] uppercase text-secondary/70">
+          analysé par gemini · évitez les infos sensibles
+        </p>
+      </div>
     </div>
   );
 };
