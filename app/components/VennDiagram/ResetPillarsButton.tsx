@@ -25,7 +25,7 @@ export const ResetPillarsButton = () => {
       <button
         type="button"
         onClick={open}
-        aria-label="Réinitialiser les réponses des 4 piliers"
+        aria-label="Réinitialiser les réponses et le profil"
         className="group relative flex shrink-0 cursor-pointer items-center justify-center rounded-full p-2.5 text-primary/70 transition-all duration-200 ease-in-out hover:bg-neon/15 hover:text-neon"
       >
         <ArrowCounterClockwiseIcon size={15} weight="bold" />
@@ -41,9 +41,9 @@ export const ResetPillarsButton = () => {
               text="Réinitialiser vos réponses"
             />
             <p className="mt-1.5 leading-relaxed text-secondary">
-              Les réponses aux 4 piliers seront définitivement effacées. Votre
-              profil enrichi (MBTI, DISC, poste, âge) n&rsquo;est pas concerné,
-              il reste tel quel.
+              Les réponses aux 4 piliers, votre profil enrichi (MBTI, DISC,
+              poste, âge) et la dernière analyse seront définitivement effacés
+              de ce navigateur.
             </p>
           </div>
 

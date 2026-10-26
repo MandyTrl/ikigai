@@ -110,6 +110,9 @@ export const saveAnalysisCache = (signature: string, result: unknown) => {
   sessionStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(cache));
 };
 
+export const clearAnalysisCache = () =>
+  sessionStorage.removeItem(ANALYSIS_STORAGE_KEY);
+
 export const getAnalysisCache = (): AnalysisCache | null => {
   const raw = sessionStorage.getItem(ANALYSIS_STORAGE_KEY);
 

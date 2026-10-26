@@ -8,7 +8,7 @@ const SECTIONS = [
   },
   {
     label: "conservé",
-    text: "Rien n’est enregistré sur un serveur. Vos réponses et votre profil restent dans ce navigateur, sur cet appareil. « Réinitialiser » efface vos réponses ; vider les données du site dans votre navigateur efface tout.",
+    text: "Ikigai n’enregistre rien sur un serveur. Vos réponses et votre profil restent dans ce navigateur, sur cet appareil ; l’analyse n’y est gardée que le temps de l’onglet. « Réinitialiser » efface tout cela, comme vider les données du site dans votre navigateur.",
   },
   {
     label: "conseil",

@@ -10,6 +10,7 @@ import {
   initialIkigaiForm,
 } from "./IkigaiContext";
 import { getFilledAnswersCount } from "../utils/validateForm";
+import { clearAnalysisCache } from "../api/analyze/utils";
 import { IkigaiStepEnum, PillarStateEnum } from "../types";
 import { HoverContext } from "./HoverContext";
 
@@ -60,12 +61,17 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
   // Pas d'écriture avant la lecture : sinon l'état initial vide écrase les réponses sauvegardées
   // (le StrictMode de dev rejoue les effets, la lecture relirait alors ce vide).
+  // L'état initial (même référence, posée par resetIkigai) n'est pas écrit : la clé disparaît.
   useEffect(() => {
     if (!isHydrated) return;
+    if (ikigaiForm === initialIkigaiForm) {
+      localStorage.removeItem("ikigai-form");
+      return;
+    }
     localStorage.setItem("ikigai-form", JSON.stringify(ikigaiForm));
   }, [ikigaiForm, isHydrated]);
 
-  // get & save le profil enrichi (facultatif) dans localStorage — survit à resetIkigai, ce n'est pas une progression de pilier
+  // get & save le profil enrichi (facultatif) dans localStorage
   useEffect(() => {
     const saved = localStorage.getItem("ikigai-enrichment");
 
@@ -87,6 +93,10 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!isHydrated) return;
+    if (enrichment === initialIkigaiEnrichment) {
+      localStorage.removeItem("ikigai-enrichment");
+      return;
+    }
     localStorage.setItem("ikigai-enrichment", JSON.stringify(enrichment));
   }, [enrichment, isHydrated]);
 
@@ -139,7 +149,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 
   const resetIkigai = useCallback(() => {
     setIkigaiForm(initialIkigaiForm);
+    setEnrichment(initialIkigaiEnrichment);
     setCurrentStep(IkigaiStepEnum.INITIAL);
+    clearAnalysisCache();
   }, []);
 
   const updateEnrichment = useCallback((field: Partial<IkigaiEnrichment>) => {
