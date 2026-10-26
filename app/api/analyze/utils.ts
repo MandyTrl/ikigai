@@ -97,10 +97,16 @@ export const getPayloadSignature = (payload: IkigaiPayload) => {
 export type AnalysisCache = {
   signature: string;
   result: unknown;
+  // ISO. Optionnel : un cache écrit avant ce champ retombe sur la date du jour à l'affichage
+  analyzedAt?: string;
 };
 
 export const saveAnalysisCache = (signature: string, result: unknown) => {
-  const cache: AnalysisCache = { signature, result };
+  const cache: AnalysisCache = {
+    signature,
+    result,
+    analyzedAt: new Date().toISOString(),
+  };
   sessionStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(cache));
 };
 

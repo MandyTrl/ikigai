@@ -28,6 +28,12 @@ const toIkigaiForm = (payload: IkigaiPayload) =>
     { mainstay: IkigaiStepEnum.TALENT, answers: payload.talent },
   ].map((pillar) => ({ ...pillar, progressState: PillarStateEnum.IS_SAVED }));
 
+// « 2026-10-21_1653 » → l'instant de l'exécution, pour que la page affiche la vraie date d'analyse
+const runDate = (runDir: string) => {
+  const match = path.basename(runDir).match(/^(\d{4}-\d{2}-\d{2})_(\d{2})(\d{2})/);
+  return match ? new Date(`${match[1]}T${match[2]}:${match[3]}`).toISOString() : undefined;
+};
+
 const errorPage = (message: string) =>
   new Response(`<pre style="font:14px monospace;padding:2rem">${message}</pre>`, {
     status: 404,
@@ -71,6 +77,7 @@ export async function GET(request: Request) {
       JSON.stringify({
         signature: getPayloadSignature(fixture.payload),
         result: analysis,
+        analyzedAt: runDate(runDir),
       }),
     )});
     location.replace("/votre-ikigai");

@@ -1,10 +1,11 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { YourIkigaiLayout } from "../components/Layouts/YourIkigaiLayout";
 import { IkigaiContext } from "../context/IkigaiContext";
 import { FormLayout } from "../components/Layouts/FormLayout";
 import { IkigaiStepEnum, PillarStateEnum } from "../types";
 
+// La transition entre étapes est déclenchée par setStep (AppProviders)
 export default function YourIkigai() {
   const { currentStep, ikigaiForm } = useContext(IkigaiContext);
 
@@ -12,13 +13,6 @@ export default function YourIkigai() {
 
   const isMainstaySelectionPending =
     selectedMainstay?.progressState === PillarStateEnum.IS_SELECTED;
-
-  //génère une transition à chaque changement d'étape
-  useEffect(() => {
-    if ("startViewTransition" in document) {
-      document.startViewTransition(() => {});
-    }
-  }, [currentStep]);
 
   return (
     <div className="w-full min-h-[calc(100svh-40px)]">
