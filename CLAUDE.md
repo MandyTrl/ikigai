@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 yarn dev        # Start dev server with Turbopack
 yarn build      # Production build
 yarn start      # Start production server
-yarn lint       # ESLint
+yarn lint       # ESLint (eslint.config.mjs resolves plugins from eslint-config-next, see the comment there)
 yarn fixtures   # Run the 4 persona fixtures through /api/analyze (needs yarn dev running)
 yarn seed <persona>  # Open /votre-ikigai with a saved analysis (student | unhappy-employee | minimal | curious-explorer)
 ```
@@ -82,7 +82,8 @@ Per-pillar colours live in a few intentionally-distinct places: `colorMap` in `I
 - Calls **Gemini 2.5 Flash** via `@google/genai` at `temperature: 0.8`, with `responseMimeType: "application/json"` + `responseSchema` (`app/api/analyze/responseSchema.ts`) — the runtime mirror of `IkigaiAnalysisResult`. **Keep the two in sync.** The schema carries what prose cannot guarantee: required fields (`warning` is always present, so `VigilancePoint` never renders empty), cardinalities calibrated on the UI (exactly 3 jobs and 3 actions, 3–4 items per `summary` list for the 3-card grid, 4–5 tags per pillar), integer bounds on every score. Its `propertyOrdering` also drives **generation order** (`tags` first since the whole analysis builds on them, `signature` before `summary` so the portrait knows the thesis is already stated, `confidence` last) and fixes the `ScoreBar` display order, which otherwise followed whatever key order Gemini returned.
 - Parses JSON (`cleanJsonString()` stays as a cheap guard, now that the mime type makes fences unlikely)
 - Returns `{ success: true, data: IkigaiAnalysisResult }` or `{ success: false, error: string }`
-- Client-side caching uses `sessionStorage` (key `"ikigai-analysis-cache"`, signature-based, helpers in `app/api/analyze/utils.ts`)
+- Client-side caching uses `sessionStorage` (key `"ikigai-analysis-cache"`, signature-based, helpers in `app/api/analyze/utils.ts`). The cache also stores `analyzedAt` (ISO): `/votre-ikigai` shows it in the header and in the PDF file name, never the viewing date. Optional, so an older cache falls back to today; `/dev/seed` derives it from the run folder name
+- Error copy lives in the client (`analyzeErrorMessage` in `useIkigaiAnalyze`), chosen from the HTTP status (429 quota, 503 overload, default). The route's `error` strings are for developers and never shown
 
 ### Fixtures & output review
 
@@ -138,6 +139,7 @@ Section 03 of `/votre-ikigai`. Each insight is drawn as a **knot** where the thr
 
 - **lg+**: braid in an 18rem right column spanning the full height of the list; each knot sits on the **first line of its sentence**; threads cross over (kanji order reversed at the bottom) and run past the list into the caption `結び · 4 piliers · N croisements`.
 - **< lg**: the braid lies down as a band above the list (`h-33`), knots evenly spaced in reading order, threads end in their own lane (no room to cross over after the last knot).
+- **print**: `MusubiPrint.tsx`, a separate static braid (no measuring, no animation — `useInView` never fires if the user prints without scrolling, and the paper layout can't be measured). It stays exact through CSS instead: in print the list has equal-height rows (`auto-rows-fr`, no gap) with each sentence centred, so knot `i` sits at `(i + 0.5) / n` of the list height. Threads live in a `preserveAspectRatio="none"` SVG stretched to the list (`vector-effect: non-scaling-stroke`), knots and labels are placed in `%` so they stay round. Same `musubiGeometry` as the screen braid. The two screen instances are `print:hidden`.
 - **Interaction**: mouse hover (sentence or knot) highlights the knot's threads and dims the rest, both ways. Touch: tap toggles. Handlers check `pointerType` because a tap also fires an emulated `mouseenter`.
 - Strokes stay smooth and clean — no hand-drawn displacement filter (tried, it read as glitches). Draw-in on view: threads stagger, each knot ties when its threads reach it.
 
@@ -254,9 +256,10 @@ When creating a new component or redesigning a page, Claude must think as a seni
 
 
 ## UI
-- Tailwind CSS 4 with custom fonts: `--font-arima` and `--font-andika` (loaded in `app/layout.tsx`)
+- Tailwind CSS 4 with custom fonts: `--font-arima` and `--font-andika` (loaded in `app/layout.tsx`). **Kanji** use `Noto Serif JP` (`--font-jp`), set as a fallback behind Arima and the mono stack in `globals.css`, so it only renders glyphs those lack — without it kanji relied on the system font and vanished from some printed PDFs
+- **Print / PDF** (`window.print()`, button in the `/votre-ikigai` nav via `MainLayout`'s `navEndSlot`): `@page` A4 portrait and `html { font-size: 12px }` in print (everything is rem, so it all scales to 75%). The paper is narrower than `md`, so desktop compositions are restored with `print:` variants; section headers are `break-after-avoid`, cards and short sections `break-inside-avoid`
 - Icons: `@phosphor-icons/react`
 - Animations: `motion` (Framer Motion)
 - Conditional classnames: `clsx`
 - Language: French throughout (UI strings, AI prompt, `lang="fr"` on `<html>`)
-- View Transitions API used in `/commencer` on step change (`document.startViewTransition`)
+- View Transitions API on `/commencer` step changes: `setStep` (in `AppProviders`) wraps the state change in `document.startViewTransition(() => flushSync(...))`, so the browser captures the old step before the callback and the new one after. Calling it from a `useEffect` (after the DOM already changed) only produced a fade-in. A skipped transition rejects `ready`, which is caught on purpose. CSS: `::view-transition-old` fades out, `::view-transition-new` fades in (`globals.css`)
