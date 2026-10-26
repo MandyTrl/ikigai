@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useRef } from "react";
 import clsx from "clsx";
-import { motion, useInView } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { ikigaiMainstay } from "@/app/utils/datas/ikigaiMainstay";
 import type { PillarKey } from "@/app/api/analyze/types/response";
 import {
@@ -69,6 +69,11 @@ export const MusubiIllustration = ({
   const size = horizontal ? SIZES.horizontal : SIZES.vertical;
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  // reducedMotion="user" ne coupe que les transforms : le tracé (pathLength) et les fondus
+  // continueraient. La tresse s'affiche donc d'emblée, déjà nouée.
+  const reduceMotion = useReducedMotion();
+  const isRevealed = isInView || !!reduceMotion;
+  const from = <T,>(value: T) => (reduceMotion ? false : value);
   const nodes = useMemo(
     () => buildNodes(width, nodeYs, crossings, PILLAR_ORDER),
     [width, nodeYs, crossings],
@@ -95,13 +100,13 @@ export const MusubiIllustration = ({
   });
 
   return (
-    <figure ref={ref} className="relative h-full">
+    // Décorative : la liste porte déjà tout le sens, la légende (kanji compris) ne doit pas être lue
+    <figure ref={ref} className="relative h-full" aria-hidden>
       <svg
         width={svgW}
         height={svgH}
         viewBox={`0 0 ${svgW} ${svgH}`}
         className="overflow-visible"
-        aria-hidden
       >
         {threads.map((d, t) => {
           const pillar = ikigaiMainstay[t];
@@ -121,8 +126,8 @@ export const MusubiIllustration = ({
                   horizontal ? "text-base" : "text-xl",
                 )}
                 fill={pillar.accent}
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
+                initial={from({ opacity: 0 })}
+                animate={isRevealed ? { opacity: 1 } : {}}
                 transition={{ duration: 0.8, delay: t * STAGGER }}
               >
                 {pillar.kanji}
@@ -137,8 +142,8 @@ export const MusubiIllustration = ({
                 strokeWidth={
                   activeThreads && isLit ? size.strokeLit : size.stroke
                 }
-                initial={{ pathLength: 0 }}
-                animate={isInView ? { pathLength: 1 } : {}}
+                initial={from({ pathLength: 0 })}
+                animate={isRevealed ? { pathLength: 1 } : {}}
                 transition={{
                   duration: DRAW,
                   delay: 0.3 + t * STAGGER,
@@ -173,8 +178,8 @@ export const MusubiIllustration = ({
                   "transition-[r,stroke] duration-300 ease-in-out",
                   isActive ? "stroke-primary" : "stroke-secondary/50",
                 )}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+                initial={from({ pathLength: 0, opacity: 0 })}
+                animate={isRevealed ? { pathLength: 1, opacity: 1 } : {}}
                 transition={{ duration: 0.9, delay, ease: "easeOut" }}
               />
 
@@ -183,8 +188,8 @@ export const MusubiIllustration = ({
                 cy={y}
                 r={size.dot}
                 className="fill-primary"
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : {}}
+                initial={from({ scale: 0 })}
+                animate={isRevealed ? { scale: 1 } : {}}
                 transition={{
                   duration: 0.4,
                   delay: delay + 0.5,
@@ -201,8 +206,8 @@ export const MusubiIllustration = ({
                   "font-mono text-xs tracking-[0.2em] transition-[fill] duration-300",
                   isActive ? "fill-primary" : "fill-secondary/60",
                 )}
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
+                initial={from({ opacity: 0 })}
+                animate={isRevealed ? { opacity: 1 } : {}}
                 transition={{ duration: 0.6, delay: delay + 0.6 }}
               >
                 {i + 1}
@@ -215,8 +220,8 @@ export const MusubiIllustration = ({
       {!horizontal && (
         <motion.figcaption
           className="absolute inset-x-0 -bottom-24 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-secondary/60"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          initial={from({ opacity: 0 })}
+          animate={isRevealed ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.7 + DRAW + 1 }}
         >
           結び · 4 piliers · {nodes.length} croisements
