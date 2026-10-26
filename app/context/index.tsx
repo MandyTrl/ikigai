@@ -1,5 +1,6 @@
 "use client";
 import { ReactNode, useCallback, useMemo, useState, useEffect } from "react";
+import { flushSync } from "react-dom";
 import { MotionConfig } from "motion/react";
 import {
   IkigaiContext,
@@ -114,6 +115,21 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
     [updateForm],
   );
 
+  // La View Transition capture l'écran avant son callback, puis après : le changement d'étape
+  // doit donc se faire dedans, et de façon synchrone (flushSync), sinon les deux captures sont identiques.
+  const setStep = useCallback((step: IkigaiStepEnum) => {
+    if (!("startViewTransition" in document)) {
+      setCurrentStep(step);
+      return;
+    }
+
+    // Une transition lancée avant la fin de la précédente l'annule : son `ready` est alors
+    // rejeté (« Transition was skipped »). C'est attendu, donc on l'ignore.
+    document
+      .startViewTransition(() => flushSync(() => setCurrentStep(step)))
+      .ready.catch(() => {});
+  }, []);
+
   const resetIkigai = useCallback(() => {
     setIkigaiForm(initialIkigaiForm);
     setCurrentStep(IkigaiStepEnum.INITIAL);
@@ -130,7 +146,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
       currentStep,
       isHydrated,
       enrichment,
-      setStep: setCurrentStep,
+      setStep,
       updateForm,
       savePillar,
       resetIkigai,
@@ -141,6 +157,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
       currentStep,
       isHydrated,
       enrichment,
+      setStep,
       updateForm,
       savePillar,
       resetIkigai,

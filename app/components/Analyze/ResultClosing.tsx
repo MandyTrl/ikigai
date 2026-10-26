@@ -3,7 +3,7 @@ import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
 import { BrushStroke } from "./BrushStroke";
 
 export const ResultClosing = () => (
-  <div className="flex flex-col items-center gap-6 pb-4">
+  <div className="flex flex-col items-center gap-6 pb-4 print:hidden">
     <BrushStroke className="h-2 w-24" />
 
     <Link

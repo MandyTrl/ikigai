@@ -45,7 +45,7 @@ export const IkigaiSummary = ({ summary, tags }: IkigaiSummaryProps) => (
       <KeywordTags tags={tags} />
     </div>
 
-    <div className="grid items-stretch gap-6 md:grid-cols-3 md:gap-9">
+    <div className="grid items-stretch gap-6 md:grid-cols-3 md:gap-9 print:grid-cols-3 print:break-inside-avoid">
       <SummaryListCard title="Forces clés" items={summary.key_strengths} />
       <SummaryListCard title="Motivations" items={summary.motivations} />
       <SummaryListCard

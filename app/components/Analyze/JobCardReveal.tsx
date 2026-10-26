@@ -53,7 +53,7 @@ export const JobCardReveal = ({ job, rank, tags }: JobCardRevealProps) => {
             <Title as="h3" text={job.title} className="text-xl" />
           </div>
 
-          <div className="flex flex-col gap-8 md:flex-row">
+          <div className="flex flex-col gap-8 md:flex-row print:flex-row">
             <div className="flex w-full flex-col gap-3">
               {(
                 Object.entries(job.ikigai_scores) as [PillarKey, number][]

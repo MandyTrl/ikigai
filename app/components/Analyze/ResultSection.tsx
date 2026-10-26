@@ -15,7 +15,7 @@ export const ResultSection = ({
   id,
 }: ResultSectionProps) => (
   <section id={id} className="flex flex-col gap-6">
-    <div className="flex items-baseline gap-4 border-b border-line pb-3">
+    <div className="flex items-baseline gap-4 border-b border-line pb-3 print:break-after-avoid">
       <span className="font-mono text-xs tracking-[0.3em] text-secondary/50">
         {index}
       </span>
@@ -33,7 +33,7 @@ export const ColumnHeader = ({
   index: string;
   eyebrow: string;
 }) => (
-  <div className="flex items-baseline gap-4 border-b border-line pb-3">
+  <div className="flex items-baseline gap-4 border-b border-line pb-3 print:break-after-avoid">
     <span className="font-mono text-xs tracking-[0.3em] text-secondary/50">
       {index}
     </span>

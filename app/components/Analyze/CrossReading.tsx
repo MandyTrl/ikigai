@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from "react";
 import { ColumnHeader } from "./ResultSection";
 import { CrossReadingList } from "./CrossReadingList";
 import { MusubiIllustration } from "./MusubiIllustration";
+import { MusubiPrint, PRINT_WIDTH } from "./MusubiPrint";
 import { useMusubiLayout } from "./useMusubiLayout";
 import type { IkigaiInsight } from "@/app/api/analyze/types/response";
 
@@ -17,6 +18,7 @@ type CrossReadingProps = {
 // Lecture croisée + 結び : chaque insight est un nœud entre les fils des piliers qu'il relie.
 // lg+ : colonne à droite, chaque nœud aligné sur sa phrase, survol dans les deux sens.
 // < lg : la tresse se couche en bandeau au-dessus de la liste, le tap remplace le survol.
+// print : colonne à droite de la liste, sans mesure ni animation (voir MusubiPrint).
 export const CrossReading = ({ insights }: CrossReadingProps) => {
   const [active, setActive] = useState<number | null>(null);
   const crossings = useMemo(() => insights.map((i) => i.pillars), [insights]);
@@ -36,30 +38,41 @@ export const CrossReading = ({ insights }: CrossReadingProps) => {
   const musubiProps = { crossings, active, onActiveChange: setActive };
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,40rem)_18rem] lg:justify-between">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,40rem)_18rem] lg:justify-between print:break-inside-avoid print:pb-24">
       <div className="flex flex-col gap-6">
         <ColumnHeader index="03" eyebrow="lecture croisée" />
 
-        <div ref={bandRef} className="h-33 w-full lg:hidden">
-          {bandWidth && (
-            <MusubiIllustration
-              width={BAND}
-              height={bandWidth}
-              nodeYs={bandNodes}
-              {...musubiProps}
-              horizontal
-            />
-          )}
+        <div className="print:hidden">
+          <div ref={bandRef} className="h-33 w-full lg:hidden">
+            {bandWidth && (
+              <MusubiIllustration
+                width={BAND}
+                height={bandWidth}
+                nodeYs={bandNodes}
+                {...musubiProps}
+                horizontal
+              />
+            )}
+          </div>
         </div>
 
-        <CrossReadingList
-          {...musubiProps}
-          insights={insights}
-          itemRefs={itemRefs}
-        />
+        <div
+          className="print:grid print:gap-x-10 print:pt-6"
+          style={{ gridTemplateColumns: `minmax(0, 1fr) ${PRINT_WIDTH}px` }}
+        >
+          <CrossReadingList
+            {...musubiProps}
+            insights={insights}
+            itemRefs={itemRefs}
+          />
+
+          <div className="hidden print:block">
+            <MusubiPrint crossings={crossings} />
+          </div>
+        </div>
       </div>
 
-      <div ref={figureRef} className="hidden lg:block">
+      <div ref={figureRef} className="hidden lg:block print:hidden">
         {figureLayout && (
           <MusubiIllustration {...figureLayout} {...musubiProps} />
         )}

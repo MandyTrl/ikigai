@@ -17,7 +17,8 @@ export const CrossReadingList = ({
   onActiveChange,
   itemRefs,
 }: CrossReadingListProps) => (
-  <ul className="flex flex-col gap-5">
+  // print : lignes de hauteur égale, phrase centrée, pour que MusubiPrint tombe au milieu de chacune
+  <ul className="flex flex-col gap-5 print:grid print:auto-rows-fr print:gap-0">
     {insights.map(({ text }, i) => (
       <li
         key={text}
@@ -25,7 +26,7 @@ export const CrossReadingList = ({
           itemRefs.current[i] = el;
         }}
         className={clsx(
-          "flex gap-4 transition-opacity duration-300 ease-in-out",
+          "flex gap-4 transition-opacity duration-300 ease-in-out print:items-center print:py-2.5",
           active !== null && active !== i && "opacity-45",
         )}
         onPointerEnter={(e) => e.pointerType === "mouse" && onActiveChange(i)}
@@ -38,7 +39,7 @@ export const CrossReadingList = ({
         }
       >
         {/* Mini-nœud de la tresse : distingue la phrase des numéros de section (« 03 ») */}
-        <span className="flex h-6.5 shrink-0 items-center gap-1.5 self-start">
+        <span className="flex h-6.5 shrink-0 items-center gap-1.5 self-start print:self-center">
           <svg viewBox="0 0 16 16" className="size-4" aria-hidden>
             <circle
               cx={8}
