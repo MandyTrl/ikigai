@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Arima } from "next/font/google";
+import { Arima, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "./context";
 
@@ -9,6 +9,18 @@ const arima = Arima({
   subsets: ["latin"],
   variable: "--font-arima",
   display: "swap", // permet d'éviter le FOUT (Flash of Unstyled Text) qui se produit lorsqu'une police met du temps à charger (switch de la police par défaut du navigateur à celle de l'app)
+});
+
+// Kanji uniquement : placée en secours derrière Arima et la monospace (globals.css), elle ne sert
+// qu'aux glyphes absents de celles-ci. Sans elle, les kanji dépendaient de la police système et
+// pouvaient disparaître à l'impression. Les tranches japonaises sont chargées à la demande
+// (unicode-range), d'où preload: false.
+const notoSerifJp = Noto_Serif_JP({
+  weight: ["300", "400"],
+  subsets: ["latin"],
+  variable: "--font-jp",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -50,7 +62,9 @@ export default function RootLayout({
       <link rel="icon" href="/assets/logos/favicon-venn.svg" />
 
       <AppProviders>
-        <body className={`${arima.variable} antialiased max-w-screen`}>
+        <body
+          className={`${arima.variable} ${notoSerifJp.variable} antialiased max-w-screen`}
+        >
           <main>{children}</main>
         </body>
       </AppProviders>

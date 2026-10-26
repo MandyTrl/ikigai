@@ -37,7 +37,10 @@
   --color-line: var(--line);
   --color-linestrong: var(--line-strong);
   --font-andika: var(--font-andika);
-  --font-arima: var(--font-arima);
+  --font-arima: var(--font-arima), var(--font-jp);
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace, var(--font-jp);
   --shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
   --shadow-soft: var(--shadow-sm);
   --shadow-float: var(--shadow-md);
@@ -82,6 +85,15 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
     }
   }
 
@@ -141,25 +153,6 @@
   }
 }
 
-@media print {
-  @page {
-    margin: 16mm;
-  }
-
-  body {
-    background: #fff;
-  }
-
-  body::before {
-    display: none;
-  }
-
-  * {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -172,7 +165,7 @@
 }
 
 body {
-  font-family: var(--font-arima);
+  font-family: var(--font-arima), var(--font-jp);
   color: var(--primary);
   position: relative;
   min-height: 100vh;
@@ -192,7 +185,39 @@ body::before {
   background-size: 200px 200px;
 }
 
-::view-transition-old(root),
+/* Après les règles de base de body : à spécificité égale, la dernière déclarée gagne */
+@media print {
+  /* Marges fixes, identiques sur chaque page : papier blanc, le contenu respire dedans */
+  @page {
+    size: A4 portrait;
+    margin: 20mm 16mm 18mm;
+  }
+
+  /* Tailwind est en rem : tout (texte + espacements) passe à 75 % d'un coup.
+     Les breakpoints, eux, restent calculés sur 16px. */
+  html {
+    font-size: 12px;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* Changement d'étape sur /commencer (setStep) : l'ancienne étape s'efface, la nouvelle apparaît */
+::view-transition-old(root) {
+  animation: fadeOut 0.25s ease-in-out both;
+}
+
 ::view-transition-new(root) {
   animation: fade 0.5s ease;
 }
