@@ -7,7 +7,6 @@ import type {
 } from "@/app/api/analyze/types/response";
 import { Eyebrow } from "../UI/Eyebrow";
 import { CoherenceAbout } from "./CoherenceAbout";
-import { PrintPdfButton } from "./PdfButton";
 
 type CoherenceScaleProps = {
   confidence: number;
@@ -39,19 +38,27 @@ export const CoherenceScale = ({
 
   return (
     <div className="flex w-fit max-w-full flex-col gap-6 rounded-2xl border border-line p-5">
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2">
-          <Eyebrow text="cohérence de l'analyse" />
+      <div className="flex items-start gap-6">
+        <p className="flex items-baseline gap-1 font-arima font-thin leading-none tracking-[-0.04em] text-primary text-5xl">
+          {confidence}
+          <span className="font-mono text-xl font-semibold tracking-normal text-tertiary">
+            %
+          </span>
+        </p>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <Eyebrow text="cohérence de l'analyse" />
 
-          <CoherenceAbout level={level} signals={coherence?.signals ?? []} />
+            <CoherenceAbout level={level} signals={coherence?.signals ?? []} />
+          </div>
+
+          <span className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-secondary/70">
+            gemini-2.5-flash
+          </span>
         </div>
-
-        <span className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-secondary/70">
-          gemini-2.5-flash
-        </span>
       </div>
 
-      <div className="grid w-full grid-cols-4 gap-2">
+      <div className="grid w-full grid-cols-4 gap-1">
         {LEVELS.map((step, index) => {
           const isActive = index === reachedIndex;
 
@@ -91,19 +98,6 @@ export const CoherenceScale = ({
             </div>
           );
         })}
-      </div>
-
-      <div className="flex items-center justify-between gap-6">
-        <div className="print:hidden">
-          <PrintPdfButton />
-        </div>
-
-        <p className="flex items-baseline gap-1 font-arima font-thin leading-none tracking-[-0.04em] text-primary text-4xl">
-          {confidence}
-          <span className="font-mono text-xl font-semibold tracking-normal text-tertiary">
-            %
-          </span>
-        </p>
       </div>
     </div>
   );

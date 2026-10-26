@@ -20,7 +20,12 @@ import { JobCardReveal } from "../components/Analyze/JobCardReveal";
 import { NextSteps } from "../components/Analyze/NextSteps";
 import { VigilancePoint } from "../components/Analyze/VigilancePoint";
 import { ResultClosing } from "../components/Analyze/ResultClosing";
-import { SiteHeader } from "../components/SiteHeader";
+import { PrintPdfButton } from "../components/Analyze/PdfButton";
+
+const toAnalysisDate = (iso?: string) => {
+  const date = iso ? new Date(iso) : new Date();
+  return Number.isNaN(date.getTime()) ? new Date() : date;
+};
 
 export default function IkigaiResultPage() {
   const router = useRouter();
@@ -35,6 +40,7 @@ export default function IkigaiResultPage() {
   const signature = useMemo(() => getPayloadSignature(payload), [payload]);
 
   const [analysis, setAnalysis] = useState<IkigaiAnalysisResult | null>(null);
+  const [analyzedAt, setAnalyzedAt] = useState(() => new Date());
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -52,6 +58,7 @@ export default function IkigaiResultPage() {
     }
 
     setAnalysis(withoutStrayQuotes(cache.result as IkigaiAnalysisResult));
+    setAnalyzedAt(toAnalysisDate(cache.analyzedAt));
   }, [ikigaiForm, router, signature, isHydrated]);
 
   if (!analysis) {
@@ -65,10 +72,16 @@ export default function IkigaiResultPage() {
   return (
     <MainLayout
       hasNavbar
+      navEndSlot={
+        <div className="print:hidden">
+          <PrintPdfButton analyzedAt={analyzedAt} />
+        </div>
+      }
       className="w-full pt-4 md:py-16 max-w-5xl mx-auto flex flex-col gap-16 md:gap-24"
     >
       <div className="flex flex-col gap-14">
         <ResultHeader
+          analyzedAt={analyzedAt}
           confidence={analysis.confidence}
           coherence={analysis.coherence}
         />
