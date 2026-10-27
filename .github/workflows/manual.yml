@@ -1,4 +1,5 @@
 name: CI
+run-name: CI de ${{ github.actor }} sur ${{ github.ref_name }}
 
 #repères : `on` (quand) `jobs` (quoi) `steps` (comment)
 
@@ -12,17 +13,7 @@ permissions:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: yarn
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
-
-  typecheck:
+    name: Lint ESLint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,17 +21,37 @@ jobs:
         with:
           node-version: 24
           cache: yarn # Garde en cache les dépendances yarn pour accélérer les prochains runs.
-      - run: yarn install --frozen-lockfile
-      - run: yarn next typegen # next-env.d.ts est gitignoré : sans lui, tsc ne connaît pas les imports d'images (*.webp)
-      - run: yarn tsc --noEmit
+      - name: Installer les dépendances
+        run: yarn install --frozen-lockfile
+      - name: Vérifier le style du code
+        run: yarn lint
 
-  build:
+  typecheck:
     runs-on: ubuntu-latest
+    name: Typecheck TypeScript
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: yarn
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - name: Installer les dépendances
+        run: yarn install --frozen-lockfile
+      - name: Générer les types Next.js
+        run: yarn next typegen # next-env.d.ts est gitignoré : sans lui, tsc ne connaît pas les imports d'images (*.webp)
+      - name: Vérifier les types
+        run: yarn tsc --noEmit
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build Next.js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - name: Installer les dépendances
+        run: yarn install --frozen-lockfile
+      - name: Builder l'application
+        run: yarn build
