@@ -7,19 +7,40 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
-  checks:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
 
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: yarn # Garde en cache les dépendances yarn pour accélérer les prochains runs.
-
       - run: yarn install --frozen-lockfile
-      - run: yarn lint
       - run: yarn next typegen # next-env.d.ts est gitignoré : sans lui, tsc ne connaît pas les imports d'images (*.webp)
       - run: yarn tsc --noEmit
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - run: yarn install --frozen-lockfile
       - run: yarn build
