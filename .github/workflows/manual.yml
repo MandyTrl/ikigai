@@ -20,5 +20,6 @@ jobs:
 
       - run: yarn install --frozen-lockfile
       - run: yarn lint
+      - run: yarn next typegen # next-env.d.ts est gitignoré : sans lui, tsc ne connaît pas les imports d'images (*.webp)
       - run: yarn tsc --noEmit
       - run: yarn build
