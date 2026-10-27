@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: 24
           cache: yarn # Garde en cache les dépendances yarn pour accélérer les prochains runs.
 
       - run: yarn install --frozen-lockfile
