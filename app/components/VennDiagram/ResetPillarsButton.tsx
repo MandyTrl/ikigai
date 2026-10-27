@@ -52,14 +52,12 @@ export const ResetPillarsButton = () => {
               label="Annuler"
               variant={ButtonVariantEnum.Outline}
               size={ButtonSizeEnum.S}
-              icon={false}
               onClick={close}
             />
             <Button
               label="Tout effacer"
               variant={ButtonVariantEnum.Primary}
               size={ButtonSizeEnum.S}
-              icon={false}
               onClick={handleConfirm}
             />
           </div>

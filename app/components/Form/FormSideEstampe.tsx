@@ -45,6 +45,7 @@ export const FormSideEstampe = ({ side }: FormSideEstampeProps) => {
         alt=""
         fill
         sizes="32rem"
+        loading="eager"
         fetchPriority="high"
         onLoad={() => setIsLoaded(true)}
         className="object-cover"

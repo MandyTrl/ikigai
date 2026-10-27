@@ -16,8 +16,6 @@ const LAYOUT_TRANSITION = {
   layout: { duration: 0.28, ease: [0.4, 0, 0.2, 1] as const },
 };
 
-const HOVER_SHADOW = "4px 4px 0px rgba(9, 28, 52, 0.1)";
-
 export const FormStep = ({
   index,
   isActive,
@@ -45,8 +43,6 @@ export const FormStep = ({
     <motion.button
       layout
       transition={LAYOUT_TRANSITION}
-      whileHover={{ boxShadow: HOVER_SHADOW }}
-      whileTap={{ boxShadow: "0px 0px 0px rgba(9, 28, 52, 0)" }}
       type="button"
       onClick={onClick}
       aria-current={isActive ? "step" : undefined}
@@ -55,7 +51,7 @@ export const FormStep = ({
       }`}
       style={{ "--accent": accentColor } as CSSProperties}
       className={clsx(
-        "flex h-14 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border text-sm transition-colors duration-200",
+        "flex h-14 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border text-sm transition-[color,background-color,border-color,box-shadow] duration-200 ease-in-out hover:shadow-offset active:shadow-none",
         isActive ? "px-6 border-accent bg-accent text-support" : "w-14",
         isCompleted &&
           !isActive &&

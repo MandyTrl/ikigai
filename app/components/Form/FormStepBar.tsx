@@ -38,7 +38,7 @@ export const FormStepBar = ({
           type="button"
           onClick={() => setStep(IkigaiStepEnum.INITIAL)}
           aria-label="Revenir aux piliers"
-          className="flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-secondary/25 text-secondary/70 transition-all duration-200 hover:border-secondary/40 hover:text-secondary hover:shadow-[4px_4px_0px_rgba(9,28,52,0.1)] active:shadow-none"
+          className="flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-secondary/25 text-secondary/70 transition-all duration-200 hover:border-secondary/40 hover:text-secondary hover:shadow-offset active:shadow-none"
         >
           <ArrowLeftIcon size={18} weight="regular" />
         </button>
