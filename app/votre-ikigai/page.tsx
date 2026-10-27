@@ -42,7 +42,7 @@ export default function IkigaiResultPage() {
   );
   const signature = useMemo(() => getPayloadSignature(payload), [payload]);
 
-  // isHydrated reste false au rendu serveur : sessionStorage n'est donc lu que côté client.
+  // isHydrated reste false au rendu serveur : localStorage n'est donc lu que côté client.
   const cached = useMemo(() => {
     if (!isHydrated || !canAnalyzeIkigai(ikigaiForm)) return null;
 
