@@ -1,5 +1,12 @@
 "use client";
-import { CSSProperties, useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  CSSProperties,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import {
   IkigaiMainstay,
@@ -42,7 +49,6 @@ export const FormTextArea = ({
     (el) => el.mainstay === currentStep,
   );
 
- 
   useEffect(() => {
     textareaRef.current?.focus({ preventScroll: true });
   }, [questionIndex, currentStep]);
@@ -88,7 +94,9 @@ export const FormTextArea = ({
   // Prochaine question encore à remplir après la courante (en bouclant).
   const nextQuestionIndex = answers
     .map((_, offset) => (questionIndex + 1 + offset) % answers.length)
-    .find((index) => index !== questionIndex && !isAnswerFilled(answers[index]));
+    .find(
+      (index) => index !== questionIndex && !isAnswerFilled(answers[index]),
+    );
   const hasNextQuestion = nextQuestionIndex !== undefined;
 
   const currentLength = answers[questionIndex].trim().length;
@@ -109,7 +117,20 @@ export const FormTextArea = ({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div
+      onClick={(e) => {
+        if (e.target instanceof Element && e.target.closest("button")) return;
+        textareaRef.current?.focus();
+      }}
+      style={
+        {
+          "--pillar": mainstayInfoFound.accent,
+          "--pillar-soft": `${mainstayInfoFound.accent}2e`,
+          "--pillar-scroll": `${mainstayInfoFound.accent}80`,
+        } as CSSProperties
+      }
+      className="flex cursor-text flex-col gap-2 rounded-2xl border border-line bg-surface p-2 transition-[border-color,box-shadow] duration-200 ease-in-out focus-within:border-(--pillar) focus-within:ring-4 focus-within:ring-(--pillar-soft)"
+    >
       <textarea
         key={questionIndex}
         ref={textareaRef}
@@ -122,23 +143,16 @@ export const FormTextArea = ({
         autoComplete="off"
         autoCapitalize="sentences"
         wrap="hard"
-        style={
-          {
-            "--pillar": mainstayInfoFound.accent,
-            "--pillar-soft": `${mainstayInfoFound.accent}2e`,
-          } as CSSProperties
-        }
-        className="w-full p-4 rounded-2xl border border-line bg-surface resize-none md:min-h-[13.5rem] transition-all duration-200 ease-in-out font-mono text-sm leading-relaxed placeholder:text-secondary/35 focus:outline-none focus:border-[var(--pillar)] focus:ring-4 focus:ring-[var(--pillar-soft)]"
+        className="w-full resize-none bg-transparent px-4 py-3 font-mono text-sm leading-relaxed [scrollbar-color:var(--pillar-scroll)_transparent] placeholder:text-secondary/35 focus:outline-none md:min-h-46"
       />
 
-      <AnswerCounter
-        length={currentLength}
-        min={MIN_ANSWER_LENGTH}
-        accentColor={mainstayInfoFound.accent}
-      />
+      <div className="flex flex-col gap-3 border-t border-line/50 px-4 pt-4 pb-2 md:flex-row md:items-center md:justify-between">
+        <AnswerCounter
+          length={currentLength}
+          min={MIN_ANSWER_LENGTH}
+          accentColor={mainstayInfoFound.accent}
+        />
 
-   
-      <div className="flex items-center justify-end gap-4">
         <Button
           onClick={hasNextQuestion ? handleContinue : handleFinish}
           label={hasNextQuestion ? "Question suivante" : "Terminer ce pilier"}
