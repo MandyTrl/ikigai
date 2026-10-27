@@ -1,7 +1,8 @@
 "use client";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import clsx from "clsx";
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiJob } from "@/app/api/analyze/types/response";
 import { Title } from "../UI/Title";
 import { PILLARS, PillarKey, getDominantPillar } from "./pillars";
@@ -17,6 +18,18 @@ type JobCardRevealProps = {
 
 export const JobCardReveal = ({ job, rank, tags }: JobCardRevealProps) => {
   const [revealed, setRevealed] = useState(false);
+  const frontRef = useRef<HTMLButtonElement>(null);
+  const backRef = useRef<HTMLButtonElement>(null);
+
+  // The side being left becomes inert, so focus must follow to the other side
+  // (flushSync: the target is only focusable once the re-render has removed `inert`).
+  const flip = (next: boolean) => {
+    flushSync(() => setRevealed(next));
+    (next ? backRef : frontRef).current?.focus({ preventScroll: true });
+  };
+  const reveal = () => flip(true);
+  const hide = () => flip(false);
+
   const dominant = getDominantPillar(job.ikigai_scores);
   const { accent, label, kanji } = PILLARS[dominant];
 
@@ -24,30 +37,31 @@ export const JobCardReveal = ({ job, rank, tags }: JobCardRevealProps) => {
     <>
       <div className="relative hidden h-full md:block print:block">
         <div
-          onClick={() => setRevealed(false)}
           inert={!revealed}
           style={{ borderColor: accent } as CSSProperties}
           className={clsx(
-            "relative flex h-full cursor-pointer flex-col gap-6 overflow-hidden rounded-2xl border-2 bg-surfacemuted/40 p-6 transition-all duration-300 ease-in-out",
+            "relative flex h-full flex-col gap-6 overflow-hidden rounded-2xl border-2 bg-surfacemuted/40 p-6 transition-all duration-300 ease-in-out",
             revealed
               ? "translate-y-0 opacity-100 delay-100"
               : "translate-y-1 opacity-0",
-            "print:translate-y-0 print:cursor-auto print:break-inside-avoid print:opacity-100",
+            "print:translate-y-0 print:break-inside-avoid print:opacity-100",
           )}
         >
-          <span
-            className="absolute right-4 top-3 select-none font-arima text-6xl font-thin leading-none"
-            style={{ color: `${accent}99` }}
-          >
-            {rank}
-          </span>
+          <div className="absolute right-5 top-4 flex flex-col items-end gap-1">
+            <span className="font-arima text-5xl font-thin leading-none text-primary/80">
+              {job.score}%
+            </span>
+            <span className="font-mono text-[0.6rem] uppercase tracking-widest text-secondary/80">
+              cohérence
+            </span>
+          </div>
 
-          <div className="flex flex-col gap-2 pr-12">
+          <div className="flex flex-col gap-2 pr-28">
             <span
               className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest"
               style={{ color: accent }}
             >
-              {kanji} {label}
+              {kanji} {label} · top {rank}
             </span>
 
             <Title as="h3" text={job.title} className="text-xl" />
@@ -66,11 +80,28 @@ export const JobCardReveal = ({ job, rank, tags }: JobCardRevealProps) => {
           </div>
 
           <QuotedText text={job.match_reason} accent={accent} tags={tags} />
+
+          <div className="mt-auto flex justify-end print:hidden">
+            <button
+              ref={backRef}
+              type="button"
+              onClick={hide}
+              className="group flex cursor-pointer items-center gap-1.5 rounded-sm px-2 py-1 font-mono text-[0.6rem] uppercase tracking-widest text-secondary/70 transition-colors duration-200 ease-in-out hover:text-primary"
+            >
+              <ArrowLeftIcon
+                size={12}
+                weight="light"
+                className="transition-transform duration-300 ease-in-out group-hover:-translate-x-0.5"
+              />
+              retourner la carte
+            </button>
+          </div>
         </div>
 
         <button
+          ref={frontRef}
           type="button"
-          onClick={() => setRevealed(true)}
+          onClick={reveal}
           inert={revealed}
           style={
             {

@@ -12,7 +12,7 @@ export const YourIkigaiLayout = () => {
     <div className="flex min-h-[calc(100svh-40px)] flex-col">
       <SiteHeader
         endSlot={
-          <div className="rounded-full py-2.5 px-3 bg-tertiary/10 flex items-center gap-6">
+          <div className="rounded-2xl py-2.5 px-3 bg-tertiary/15 flex items-center gap-6">
             <EnrichProfileModal />
             <AboutModal />
             <ResetPillarsButton />

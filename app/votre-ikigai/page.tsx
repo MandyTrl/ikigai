@@ -19,7 +19,10 @@ import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
 import { JobCardReveal } from "../components/Analyze/JobCardReveal";
 import { NextSteps } from "../components/Analyze/NextSteps";
 import { VigilancePoint } from "../components/Analyze/VigilancePoint";
-import { ResultClosing } from "../components/Analyze/ResultClosing";
+import {
+  ResultClosing,
+  ReviewAnswersLink,
+} from "../components/Analyze/ResultClosing";
 import { PrintPdfButton } from "../components/Analyze/PdfButton";
 
 const toAnalysisDate = (iso?: string) => {
@@ -39,7 +42,7 @@ export default function IkigaiResultPage() {
   );
   const signature = useMemo(() => getPayloadSignature(payload), [payload]);
 
-  // isHydrated reste false au rendu serveur : sessionStorage n'est donc lu que côté client.
+  // isHydrated reste false au rendu serveur : localStorage n'est donc lu que côté client.
   const cached = useMemo(() => {
     if (!isHydrated || !canAnalyzeIkigai(ikigaiForm)) return null;
 
@@ -70,7 +73,8 @@ export default function IkigaiResultPage() {
     <MainLayout
       hasNavbar
       navEndSlot={
-        <div className="print:hidden">
+        <div className="flex items-center gap-4 sm:gap-6 print:hidden">
+          <ReviewAnswersLink variant="nav" />
           <PrintPdfButton analyzedAt={analyzedAt} />
         </div>
       }

@@ -107,19 +107,23 @@ export const saveAnalysisCache = (signature: string, result: unknown) => {
     result,
     analyzedAt: new Date().toISOString(),
   };
-  sessionStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(cache));
+  // localStorage peut lever une exception (navigation privée stricte, quota plein) :
+  // l'analyse s'affiche quand même, elle ne sera simplement pas réutilisée.
+  try {
+    localStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(cache));
+  } catch {}
 };
 
-export const clearAnalysisCache = () =>
-  sessionStorage.removeItem(ANALYSIS_STORAGE_KEY);
+export const clearAnalysisCache = () => {
+  try {
+    localStorage.removeItem(ANALYSIS_STORAGE_KEY);
+  } catch {}
+};
 
 export const getAnalysisCache = (): AnalysisCache | null => {
-  const raw = sessionStorage.getItem(ANALYSIS_STORAGE_KEY);
-
-  if (!raw) return null;
-
   try {
-    return JSON.parse(raw) as AnalysisCache;
+    const raw = localStorage.getItem(ANALYSIS_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as AnalysisCache) : null;
   } catch {
     return null;
   }

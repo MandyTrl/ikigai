@@ -44,6 +44,8 @@
   --shadow-custom: rgba(0.8, 0.2, 0.2, 0.24) 0px 3px 12px;
   --shadow-soft: var(--shadow-sm);
   --shadow-float: var(--shadow-md);
+  --shadow-offset: 4px 4px 0px rgba(9, 28, 52, 0.1);
+  --shadow-offset-accent: 4px 4px 0px var(--tertiary);
 }
 
 @layer utilities {
@@ -231,11 +233,4 @@ html {
 
 textarea {
   caret-color: var(--secondary);
-}
-
-.hero-bg {
-  background-image: url("/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }

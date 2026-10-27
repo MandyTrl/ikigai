@@ -14,11 +14,7 @@ const simplify = (value: string) =>
     .split(/\s+/)
     .filter(Boolean);
 
-/**
- * Un fragment cité vient soit des réponses de la personne, soit du vocabulaire que le
- * modèle a lui-même produit à l'étape des tags. On le reconnaît en le comparant à la
- * liste des tags : mêmes mots, ou l'un contenu dans l'autre.
- */
+// Un fragment cité vient soit des réponses de la personne, soit du vocabulaire que le modèle a lui-même produit à l'étape des tags. On le reconnaît en le comparant à la liste des tags : mêmes mots, ou l'un contenu dans l'autre.
 const matchesTag = (fragment: string, tags: string[]) => {
   const words = simplify(fragment);
 
@@ -39,7 +35,7 @@ type Props = {
   tags: string[];
 };
 
-// Les mots de la personne ressortent en italique gras, les tags du modèle gardent les guillemets
+// Les mots de la personne ressortent en gras, les tags du modèle se fondent dans la phrase : des guillemets sans source reconnaissable se liraient comme une mise à distance
 export const QuotedText = ({ text, accent, tags }: Props) => {
   const parts: ReactNode[] = [];
   let cursor = 0;
@@ -57,13 +53,14 @@ export const QuotedText = ({ text, accent, tags }: Props) => {
     parts.push(
       matchesTag(fragment, tags) ? (
         <Fragment key={`tag-${start}`}>
-          {`« ${elision?.[1] ?? ""}${fragment} »`}
-        </Fragment>
-      ) : (
-        <em key={`quote-${start}`} className="font-semibold">
           {elision?.[1]}
           {fragment}
-        </em>
+        </Fragment>
+      ) : (
+        <span key={`quote-${start}`} className="font-semibold">
+          {elision?.[1]}
+          {fragment}
+        </span>
       ),
     );
 

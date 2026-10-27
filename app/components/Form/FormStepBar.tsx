@@ -1,9 +1,14 @@
 "use client";
 import { useContext } from "react";
+import { motion } from "motion/react";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
 import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { IkigaiStepEnum } from "@/app/types";
-import { isAnswerFilled } from "@/app/utils/validateForm";
+import {
+  getFilledAnswersCount,
+  isAnswerFilled,
+  MIN_ANSWERS_REQUIRED_PER_PILLAR,
+} from "@/app/utils/validateForm";
 import { FormStep } from "./FormStep";
 
 type FormStepBarProps = {
@@ -20,6 +25,8 @@ export const FormStepBar = ({
   accentColor = "#d4a574",
 }: FormStepBarProps) => {
   const { setStep } = useContext(IkigaiContext);
+  const isSealed =
+    getFilledAnswersCount(answers) >= MIN_ANSWERS_REQUIRED_PER_PILLAR;
 
   return (
     <div className="flex flex-col gap-2.5">
@@ -31,7 +38,7 @@ export const FormStepBar = ({
           type="button"
           onClick={() => setStep(IkigaiStepEnum.INITIAL)}
           aria-label="Revenir aux piliers"
-          className="flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-secondary/25 text-secondary/70 transition-all duration-200 hover:border-secondary/40 hover:text-secondary hover:shadow-[4px_4px_0px_rgba(9,28,52,0.1)] active:shadow-none"
+          className="flex h-14 w-14 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-secondary/25 text-secondary/70 transition-all duration-200 hover:border-secondary/40 hover:text-secondary hover:shadow-offset active:shadow-none"
         >
           <ArrowLeftIcon size={18} weight="regular" />
         </button>
@@ -56,9 +63,17 @@ export const FormStepBar = ({
         </div>
       </nav>
 
-      <p className="pl-1 font-mono text-[10px] tracking-wide text-secondary/50">
-        ordre libre · 2 réponses suffisent
-      </p>
+      <motion.p
+        key={String(isSealed)}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className="pl-1 font-mono text-[10px] tracking-wide text-secondary/50"
+      >
+        {isSealed
+          ? "pilier scellé · vos réponses sont gardées"
+          : "ordre libre · 2 réponses suffisent"}
+      </motion.p>
     </div>
   );
 };

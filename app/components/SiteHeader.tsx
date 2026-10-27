@@ -12,7 +12,7 @@ type SiteHeaderProps = {
 export const SiteHeader = ({ className, endSlot }: SiteHeaderProps) => (
   <header
     className={clsx(
-      "mx-auto flex w-full max-w-6xl items-center justify-between px-6 md:px-8 py-8",
+      "mx-auto flex w-full max-w-6xl items-center justify-between px-6 md:px-8 py-8 print:hidden",
       className,
     )}
   >

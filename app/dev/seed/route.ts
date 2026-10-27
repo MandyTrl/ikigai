@@ -73,7 +73,7 @@ export async function GET(request: Request) {
   const script = `
     localStorage.setItem("ikigai-form", ${JSON.stringify(JSON.stringify(toIkigaiForm(fixture.payload)))});
     localStorage.setItem("ikigai-enrichment", ${JSON.stringify(JSON.stringify(fixture.payload.enrichment ?? {}))});
-    sessionStorage.setItem("ikigai-analysis-cache", ${JSON.stringify(
+    localStorage.setItem("ikigai-analysis-cache", ${JSON.stringify(
       JSON.stringify({
         signature: getPayloadSignature(fixture.payload),
         result: analysis,

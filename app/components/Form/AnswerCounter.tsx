@@ -17,7 +17,7 @@ export const AnswerCounter = ({ length, min, accentColor }: AnswerCounterProps) 
 
   return (
     <div
-      className="ml-1 flex min-h-5 items-start gap-1.5 text-secondary/60 transition-colors duration-300"
+      className="flex min-h-5 items-center gap-1.5 text-secondary/60 transition-colors duration-300"
       style={isReady ? { color: accentColor } : undefined}
     >
       <PencilSimpleLineIcon size={15} />
