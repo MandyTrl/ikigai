@@ -1,0 +1,24 @@
+name: CI
+
+#repères : `on` (quand) `jobs` (quoi) `steps` (comment)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn # Garde en cache les dépendances yarn pour accélérer les prochains runs.
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn tsc --noEmit
+      - run: yarn build
