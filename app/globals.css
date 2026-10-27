@@ -232,10 +232,3 @@ html {
 textarea {
   caret-color: var(--secondary);
 }
-
-.hero-bg {
-  background-image: url("/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}

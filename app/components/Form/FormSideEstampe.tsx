@@ -1,19 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useState } from "react";
 import clsx from "clsx";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
+import estampe from "@/public/japanese-illustrations/art-institute-of-chicago-kQ7_EfwFm_o-unsplash.webp";
 
-const ESTAMPE =
-  "/japanese-illustrations/art-institute-of-chicago-kQ7_EfwFm_o-unsplash.jpg";
 type FormSideEstampeProps = {
   side: "left" | "right";
 };
 
 export const FormSideEstampe = ({ side }: FormSideEstampeProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true });
+  // Le fondu attend l'image : sinon il se joue sur une boîte vide et l'estampe surgit d'un coup
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Fondu horizontal
   const hMask = `linear-gradient(to ${
@@ -26,7 +25,6 @@ export const FormSideEstampe = ({ side }: FormSideEstampeProps) => {
 
   return (
     <motion.div
-      ref={ref}
       aria-hidden
       className={clsx(
         "pointer-events-none fixed top-1/2 z-0 hidden h-[94vh] w-lg -translate-y-1/2 overflow-hidden xl:block",
@@ -39,14 +37,16 @@ export const FormSideEstampe = ({ side }: FormSideEstampeProps) => {
         WebkitMaskComposite: "source-in",
       }}
       initial={{ opacity: 0 }}
-      animate={{ opacity: isInView ? 0.9 : 0 }}
+      animate={{ opacity: isLoaded ? 0.9 : 0 }}
       transition={{ duration: 2.4, ease: "easeOut" }}
     >
       <Image
-        src={ESTAMPE}
+        src={estampe}
         alt=""
         fill
         sizes="32rem"
+        fetchPriority="high"
+        onLoad={() => setIsLoaded(true)}
         className="object-cover"
         style={{
           objectPosition: "right top",

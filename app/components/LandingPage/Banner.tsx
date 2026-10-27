@@ -1,5 +1,6 @@
 "use client";
-import { useRef, useEffect } from "react";
+import Image from "next/image";
+import { useRef, useEffect, useState } from "react";
 import {
   motion,
   useInView,
@@ -9,10 +10,14 @@ import {
   useMotionTemplate,
   animate,
 } from "motion/react";
+import estampe from "@/public/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.webp";
+
+const MotionImage = motion.create(Image);
 
 export const Banner = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -50px 0px" });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const progress = useMotionValue(0);
   const smoothProgress = useSpring(progress, { stiffness: 30, damping: 25 });
@@ -20,10 +25,10 @@ export const Banner = () => {
   const objectPosition = useMotionTemplate`50% ${yPercent}%`;
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && isLoaded) {
       animate(progress, 1, { duration: 1.8, ease: "easeOut" });
     }
-  }, [isInView, progress]);
+  }, [isInView, isLoaded, progress]);
 
   return (
     <section className="w-full flex flex-col gap-6 md:gap-14 mt-2">
@@ -35,10 +40,15 @@ export const Banner = () => {
         className="relative w-full h-75 md:h-87.5 overflow-hidden"
       >
         {/* Image avec pan top -> center */}
-        <motion.img
-          src="/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg"
+        <MotionImage
+          src={estampe}
           alt="Une femme japonaise contemplative dans un moment de calme"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          sizes="100vw"
+          preload
+          placeholder="blur"
+          onLoad={() => setIsLoaded(true)}
+          className="object-cover"
           style={{ objectPosition }}
         />
 

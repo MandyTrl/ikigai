@@ -1,7 +1,8 @@
 "use client";
-import { CSSProperties } from "react";
+import { CSSProperties, useState } from "react";
 import * as motion from "motion/react-client";
 import Image from "next/image";
+import clsx from "clsx";
 import {
   SparkleIcon,
   CompassIcon,
@@ -14,7 +15,7 @@ import { Button, ButtonSizeEnum } from "../UI/Button";
 
 // Estampe en fond de section (full-bleed), très subtile
 const FEATURED_ESTAMPE =
-  "/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.jpg";
+  "/japanese-illustrations/art-institute-of-chicago-hKaKPwumxCI-unsplash.webp";
 
 // Fondu haut/bas du fond pour qu'il se dissolve dans le crème des sections voisines
 const BG_FADE: CSSProperties = {
@@ -31,6 +32,8 @@ const ICONS = [
 ];
 
 export const PromisesSection = () => {
+  const [isEstampeLoaded, setIsEstampeLoaded] = useState(false);
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -47,7 +50,11 @@ export const PromisesSection = () => {
           aria-hidden
           fill
           sizes="100vw"
-          className="object-cover object-center opacity-[0.2]"
+          onLoad={() => setIsEstampeLoaded(true)}
+          className={clsx(
+            "object-cover object-center transition-opacity duration-1000 ease-out",
+            isEstampeLoaded ? "opacity-[0.2]" : "opacity-0",
+          )}
           style={BG_FADE}
         />
       </div>
@@ -64,7 +71,7 @@ export const PromisesSection = () => {
             width={150}
             height={54}
             style={{ height: "auto" }}
-            priority
+            preload
           />
         </div>
       </div>
