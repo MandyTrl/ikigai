@@ -35,7 +35,7 @@ type Props = {
   tags: string[];
 };
 
-// Les mots de la personne ressortent en gras, les tags du modèle gardent les guillemets
+// Les mots de la personne ressortent en gras, les tags du modèle se fondent dans la phrase : des guillemets sans source reconnaissable se liraient comme une mise à distance
 export const QuotedText = ({ text, accent, tags }: Props) => {
   const parts: ReactNode[] = [];
   let cursor = 0;
@@ -53,13 +53,14 @@ export const QuotedText = ({ text, accent, tags }: Props) => {
     parts.push(
       matchesTag(fragment, tags) ? (
         <Fragment key={`tag-${start}`}>
-          {`« ${elision?.[1] ?? ""}${fragment} »`}
-        </Fragment>
-      ) : (
-        <em key={`quote-${start}`} className="font-semibold">
           {elision?.[1]}
           {fragment}
-        </em>
+        </Fragment>
+      ) : (
+        <span key={`quote-${start}`} className="font-semibold">
+          {elision?.[1]}
+          {fragment}
+        </span>
       ),
     );
 
