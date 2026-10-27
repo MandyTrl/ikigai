@@ -19,7 +19,10 @@ import { IkigaiSummary } from "../components/Analyze/IkigaiSummary";
 import { JobCardReveal } from "../components/Analyze/JobCardReveal";
 import { NextSteps } from "../components/Analyze/NextSteps";
 import { VigilancePoint } from "../components/Analyze/VigilancePoint";
-import { ResultClosing } from "../components/Analyze/ResultClosing";
+import {
+  ResultClosing,
+  ReviewAnswersLink,
+} from "../components/Analyze/ResultClosing";
 import { PrintPdfButton } from "../components/Analyze/PdfButton";
 
 const toAnalysisDate = (iso?: string) => {
@@ -70,7 +73,8 @@ export default function IkigaiResultPage() {
     <MainLayout
       hasNavbar
       navEndSlot={
-        <div className="print:hidden">
+        <div className="flex items-center gap-4 sm:gap-6 print:hidden">
+          <ReviewAnswersLink variant="nav" />
           <PrintPdfButton analyzedAt={analyzedAt} />
         </div>
       }
