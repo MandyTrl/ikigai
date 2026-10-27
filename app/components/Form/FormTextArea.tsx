@@ -8,7 +8,6 @@ import {
 import {
   getFilledAnswersCount,
   isAnswerFilled,
-  isPillarCompleteForAnalysis,
   MIN_ANSWER_LENGTH,
 } from "@/app/utils/validateForm";
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
@@ -43,17 +42,23 @@ export const FormTextArea = ({
     (el) => el.mainstay === currentStep,
   );
 
-  // Autofocus : le curseur est prêt à écrire à chaque question / pilier,
-  // sans faire sauter le scroll (readiness façon MBTI).
+ 
   useEffect(() => {
     textareaRef.current?.focus({ preventScroll: true });
   }, [questionIndex, currentStep]);
 
+  // Réponses tapées mais pas encore sauvées par le debounce.
+  const pendingAnswersRef = useRef<string[] | null>(null);
+
   // Auto-save après un court debounce si la réponse a changé.
   useEffect(() => {
     if (!mainstayData) return;
-    if (JSON.stringify(mainstayData.answers) === JSON.stringify(answers)) return;
+    if (JSON.stringify(mainstayData.answers) === JSON.stringify(answers)) {
+      pendingAnswersRef.current = null;
+      return;
+    }
 
+    pendingAnswersRef.current = answers;
     const timer = setTimeout(() => {
       updateForm(currentStep, {
         answers,
@@ -62,17 +67,29 @@ export const FormTextArea = ({
             ? PillarStateEnum.IN_PROGRESS
             : PillarStateEnum.NOT_STARTED,
       });
+      pendingAnswersRef.current = null;
     }, 500);
 
     return () => clearTimeout(timer);
   }, [answers, currentStep, mainstayData, updateForm]);
 
+  // Quitter le formulaire (flèche ←) annule le debounce en cours : on sauve ce
+  // qui reste, sinon les derniers caractères tapés étaient perdus.
+  useEffect(
+    () => () => {
+      const pendingAnswers = pendingAnswersRef.current;
+      if (pendingAnswers) savePillar(currentStep, pendingAnswers);
+    },
+    [currentStep, savePillar],
+  );
+
   if (!mainstayInfoFound) return null;
 
-  const answeredCount = getFilledAnswersCount(answers);
-  const isCurrentPillarComplete = mainstayData
-    ? isPillarCompleteForAnalysis(mainstayData)
-    : answeredCount >= 2;
+  // Prochaine question encore à remplir après la courante (en bouclant).
+  const nextQuestionIndex = answers
+    .map((_, offset) => (questionIndex + 1 + offset) % answers.length)
+    .find((index) => index !== questionIndex && !isAnswerFilled(answers[index]));
+  const hasNextQuestion = nextQuestionIndex !== undefined;
 
   const currentLength = answers[questionIndex].trim().length;
 
@@ -88,12 +105,7 @@ export const FormTextArea = ({
   };
 
   const handleContinue = () => {
-    if (questionIndex < answers.length - 1) {
-      setQuestionIndex(questionIndex + 1);
-      return;
-    }
-    const nextToFill = answers.findIndex((answer) => !isAnswerFilled(answer));
-    if (nextToFill !== -1) setQuestionIndex(nextToFill);
+    if (hasNextQuestion) setQuestionIndex(nextQuestionIndex);
   };
 
   return (
@@ -125,16 +137,17 @@ export const FormTextArea = ({
         accentColor={mainstayInfoFound.accent}
       />
 
+   
       <div className="flex items-center justify-end gap-4">
         <Button
-          onClick={isCurrentPillarComplete ? handleFinish : handleContinue}
-          label={isCurrentPillarComplete ? "Terminer ce pilier" : "Continuer"}
+          onClick={hasNextQuestion ? handleContinue : handleFinish}
+          label={hasNextQuestion ? "Question suivante" : "Terminer ce pilier"}
           size={ButtonSizeEnum.S}
           fullWidth
           variant={
-            isCurrentPillarComplete
-              ? ButtonVariantEnum.Primary
-              : ButtonVariantEnum.Outline
+            hasNextQuestion
+              ? ButtonVariantEnum.Outline
+              : ButtonVariantEnum.Primary
           }
         />
       </div>

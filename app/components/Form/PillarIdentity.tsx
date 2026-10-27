@@ -106,6 +106,7 @@ export const PillarIdentity = () => {
             <motion.path
               d={BRUSH_PATH}
               fill={pillar.accent}
+              initial={false}
               animate={{ fillOpacity: filledCount >= 3 ? 1 : 0.82 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             />
