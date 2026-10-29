@@ -97,15 +97,22 @@ export const getPayloadSignature = (payload: IkigaiPayload) => {
 export type AnalysisCache = {
   signature: string;
   result: unknown;
-  // ISO. Optionnel : un cache écrit avant ce champ retombe sur la date du jour à l'affichage
+
   analyzedAt?: string;
+
+  model?: string;
 };
 
-export const saveAnalysisCache = (signature: string, result: unknown) => {
+export const saveAnalysisCache = (
+  signature: string,
+  result: unknown,
+  model?: string,
+) => {
   const cache: AnalysisCache = {
     signature,
     result,
     analyzedAt: new Date().toISOString(),
+    model,
   };
   // localStorage peut lever une exception (navigation privée stricte, quota plein) :
   // l'analyse s'affiche quand même, elle ne sera simplement pas réutilisée.

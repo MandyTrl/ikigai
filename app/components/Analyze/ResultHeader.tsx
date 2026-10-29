@@ -4,12 +4,14 @@ import { CoherenceScale } from "./CoherenceScale";
 
 type ResultHeaderProps = {
   analyzedAt: Date;
+  model: string;
   confidence: number;
   coherence?: IkigaiCoherence;
 };
 
 export const ResultHeader = ({
   analyzedAt,
+  model,
   confidence,
   coherence,
 }: ResultHeaderProps) => {
@@ -35,7 +37,11 @@ export const ResultHeader = ({
       </div>
 
       <div className="flex w-full justify-start md:w-auto md:justify-end print:w-auto print:justify-end">
-        <CoherenceScale confidence={confidence} coherence={coherence} />
+        <CoherenceScale
+          model={model}
+          confidence={confidence}
+          coherence={coherence}
+        />
       </div>
     </header>
   );

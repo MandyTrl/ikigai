@@ -1,5 +1,6 @@
 import { Title } from "@/app/components/UI/Title";
 import { Eyebrow } from "@/app/components/UI/Eyebrow";
+import { GEMINI_MODEL } from "@/lib/geminiModel";
 
 const SECTIONS = [
   {
@@ -41,7 +42,7 @@ export const AboutContent = () => (
     ))}
 
     <span className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-secondary/70">
-      gemini-2.5-flash · aucun compte · aucune base de données
+      {GEMINI_MODEL} · aucun compte · aucune base de données
     </span>
   </div>
 );

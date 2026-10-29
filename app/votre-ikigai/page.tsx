@@ -5,6 +5,7 @@ import { IkigaiContext } from "@/app/context/IkigaiContext";
 import { MainLayout } from "@/app/components/Layouts/MainLayout";
 import { canAnalyzeIkigai } from "@/app/utils/validateForm";
 import { withoutStrayQuotes } from "@/app/utils/stripQuotes";
+import { LEGACY_GEMINI_MODEL } from "@/lib/geminiModel";
 import {
   buildIkigaiPayload,
   getAnalysisCache,
@@ -52,6 +53,7 @@ export default function IkigaiResultPage() {
     return {
       analysis: withoutStrayQuotes(cache.result as IkigaiAnalysisResult),
       analyzedAt: toAnalysisDate(cache.analyzedAt),
+      model: cache.model ?? LEGACY_GEMINI_MODEL,
     };
   }, [ikigaiForm, signature, isHydrated]);
 
@@ -67,7 +69,7 @@ export default function IkigaiResultPage() {
     );
   }
 
-  const { analysis, analyzedAt } = cached;
+  const { analysis, analyzedAt, model } = cached;
 
   return (
     <MainLayout
@@ -83,6 +85,7 @@ export default function IkigaiResultPage() {
       <div className="flex flex-col gap-14">
         <ResultHeader
           analyzedAt={analyzedAt}
+          model={model}
           confidence={analysis.confidence}
           coherence={analysis.coherence}
         />

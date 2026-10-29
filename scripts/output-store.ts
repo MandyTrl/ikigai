@@ -64,6 +64,37 @@ export const readAnalysis = async (dir: string, name: string) => {
   return JSON.parse(raw) as IkigaiAnalysisResult;
 };
 
+// Le modèle qui a répondu pour chaque sortie (repli possible) : sans lui, on comparerait
+// deux exécutions sans savoir qu'elles viennent de modèles différents
+const MODELS_FILE = "models.json";
+
+export const readModels = async (
+  dir: string,
+): Promise<Record<string, string>> => {
+  const raw = await readFile(path.join(dir, MODELS_FILE), "utf8").catch(
+    () => null,
+  );
+  const parsed: unknown = raw ? JSON.parse(raw) : {};
+
+  if (typeof parsed !== "object" || parsed === null) return {};
+
+  return Object.fromEntries(
+    Object.entries(parsed).filter(
+      (entry): entry is [string, string] => typeof entry[1] === "string",
+    ),
+  );
+};
+
+export const saveModel = async (dir: string, name: string, model: string) => {
+  const models = await readModels(dir);
+
+  await writeFile(
+    path.join(dir, MODELS_FILE),
+    `${JSON.stringify({ ...models, [name]: model }, null, 2)}\n`,
+    "utf8",
+  );
+};
+
 // Les exécutions répétées d'un persona, écrites par --runs sous la forme slug-2.json.
 export const readRepeats = async (dir: string, slug: string) => {
   const files = await readdir(dir).catch(() => []);

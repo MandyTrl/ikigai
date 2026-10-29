@@ -1,16 +1,54 @@
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import type { IkigaiPayload } from "../app/api/analyze/types/request";
 
 export type PayloadFixture = {
   slug: string;
   label: string;
-  /** Ce que cette fixture met à l'épreuve, à relire quand sa sortie surprend. */
   probe: string;
   payload: IkigaiPayload;
 };
 
+// Vraies réponses de personnes réelles : gitignoré, jamais dans le repo
+const LOCAL_FIXTURES_PATH = path.join(
+  process.cwd(),
+  "scripts",
+  "fixtures.local.json",
+);
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null;
+
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === "string");
+
+const isPayloadFixture = (value: unknown): value is PayloadFixture =>
+  isRecord(value) &&
+  typeof value.slug === "string" &&
+  typeof value.label === "string" &&
+  typeof value.probe === "string" &&
+  isRecord(value.payload) &&
+  ["love", "talent", "needs", "paid"].every((pillar) =>
+    isStringArray((value.payload as Record<string, unknown>)[pillar]),
+  );
+
+const readLocalFixtures = (): PayloadFixture[] => {
+  if (!existsSync(LOCAL_FIXTURES_PATH)) return [];
+
+  const parsed: unknown = JSON.parse(readFileSync(LOCAL_FIXTURES_PATH, "utf8"));
+
+  if (!Array.isArray(parsed) || !parsed.every(isPayloadFixture)) {
+    throw new Error(
+      "scripts/fixtures.local.json : un tableau de fixtures { slug, label, probe, payload } est attendu.",
+    );
+  }
+
+  return parsed;
+};
+
 //  Les réponses sautées restent des chaînes vides : ""
 
-export const payloadFixtures: PayloadFixture[] = [
+const sharedFixtures: PayloadFixture[] = [
   {
     slug: "student",
     label: "Student, no work experience",
@@ -136,4 +174,9 @@ export const payloadFixtures: PayloadFixture[] = [
       },
     },
   },
+];
+
+export const payloadFixtures: PayloadFixture[] = [
+  ...sharedFixtures,
+  ...readLocalFixtures(),
 ];

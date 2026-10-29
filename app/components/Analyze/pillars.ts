@@ -21,7 +21,7 @@ const LABELS: Record<PillarKey, string> = {
   love: "passion",
   talent: "talent",
   needs: "utilité",
-  paid: "vocation",
+  paid: "marché",
 };
 
 export const PILLAR_ORDER: PillarKey[] = ["love", "talent", "needs", "paid"];

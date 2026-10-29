@@ -282,11 +282,12 @@ const checkScores = (analysis: IkigaiAnalysisResult): Alert[] => {
     const values = PILLARS.map((pillar) => job.ikigai_scores[pillar]);
     const spread = Math.max(...values) - Math.min(...values);
 
+    // Un métier équilibré peut être juste (c'est le centre de l'ikigai) : à relire, pas une faute
     if (spread < 10) {
       alerts.push({
-        kind: "regle",
+        kind: "vigilance",
         label: "piliers trop plats",
-        detail: `${job.title} : écart de ${spread} points, le pilier dominant doit ressortir de 10 au moins`,
+        detail: `${job.title} : écart de ${spread} points, le match_reason doit justifier cet équilibre`,
       });
     }
 

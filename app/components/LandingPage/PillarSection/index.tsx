@@ -1,5 +1,6 @@
 "use client";
 import * as motion from "motion/react-client";
+import { GEMINI_MODEL } from "@/lib/geminiModel";
 import {
   HandCoinsIcon,
   ListHeartIcon,
@@ -111,7 +112,7 @@ export const PillarSection = () => {
             </div>
 
             <p className="font-mono text-[0.7rem] tracking-[0.25em] text-secondary/80 uppercase text-center">
-              analyse assistée par gemini-2.5-flash
+              analyse assistée par {GEMINI_MODEL}
             </p>
           </div>
         </div>
