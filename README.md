@@ -4,6 +4,8 @@
 
 > Un questionnaire introspectif en 4 piliers, que Gemini transforme en une analyse de carrière personnalisée.
 
+**Démo** : [ikigai-mt.vercel.app](https://ikigai-mt.vercel.app/)
+
 <!-- Capture d'écran à ajouter : docs/screenshots/result.png -->
 
 ## Pourquoi ce projet
@@ -12,7 +14,7 @@ Les tests d'orientation en ligne s'arrêtent souvent à des cases à cocher et �
 
 ## Stack
 
-**Next.js 16** (App Router) · **React 19** · **TypeScript strict** · **Tailwind CSS 4** · **Motion** · **Gemini** (`@google/genai`) · GitHub Actions
+**[Next.js 16](https://nextjs.org/docs)** (App Router) · **[React 19](https://react.dev)** · **[TypeScript strict](https://www.typescriptlang.org/docs/)** · **[Tailwind CSS 4](https://tailwindcss.com/docs)** · **[Motion](https://motion.dev/docs/react)** · **[Gemini](https://ai.google.dev/gemini-api/docs)** ([`@google/genai`](https://github.com/googleapis/js-genai)) · [GitHub Actions](https://docs.github.com/actions)
 
 ## Côté front
 
@@ -64,7 +66,6 @@ yarn dev                     # http://localhost:3000
 - Testé uniquement sur **Chrome**. Safari et Firefox restent à vérifier.
 - Pas de tests unitaires : la CI couvre lint, types et build, et les fixtures couvrent la sortie IA.
 - Offre gratuite de Gemini : 20 analyses par jour et par modèle, et pas d'accès en temps réel au marché de l'emploi.
-- Pas encore de démo en ligne.
 
 ## Données personnelles
 

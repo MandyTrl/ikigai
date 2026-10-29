@@ -58,7 +58,9 @@ export const useIkigaiAnalyze = () => {
         return;
       }
 
-      saveAnalysisCache(currentSignature, result.data);
+      const model =
+        typeof result.model === "string" ? result.model : undefined;
+      saveAnalysisCache(currentSignature, result.data, model);
       router.push("/votre-ikigai");
     } catch (err) {
       // Pas de réponse du tout (réseau coupé…) : aucun statut à lire

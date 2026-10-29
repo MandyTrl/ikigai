@@ -1,5 +1,8 @@
 import { Type, type Schema } from "@google/genai";
 
+// Les descriptions ne portent que la forme (nombre, longueur, champ obligatoire) et renvoient
+// à une section du prompt : le style ne s'écrit qu'à un endroit, sinon les deux divergent.
+
 const PILLAR_KEYS = ["love", "talent", "needs", "paid"];
 
 // L'UI rend les ScoreBar dans l'ordre des clés renvoyées : propertyOrdering le fixe.
@@ -43,18 +46,18 @@ const summary: Schema = {
     profile: {
       type: Type.STRING,
       description:
-        "Portrait au vouvoiement, 3 à 5 phrases, chaleureux mais simple et factuel. La première phrase nomme le fil rouge dans les mots de la personne, citable telle quelle, et ne doit pas pouvoir s'appliquer à quelqu'un d'autre. Aucune ouverture générique du type « vous êtes quelqu'un qui »",
+        "Portrait au vouvoiement, 4 à 6 phrases courtes. Règles d'écriture : voir SYNTHÈSE",
     },
     key_strengths: stringList(
       3,
       4,
-      "Ce que la personne sous-estime, en compétence transférable, 2 à 6 mots",
+      "Forces sous-estimées, 2 à 6 mots chacune. Voir SYNTHÈSE",
     ),
-    motivations: stringList(3, 4, "Le moteur, pas le goût, 2 à 6 mots"),
+    motivations: stringList(3, 4, "Moteurs, 2 à 6 mots chacun. Voir SYNTHÈSE"),
     work_environment: stringList(
       3,
       4,
-      "Conditions dans lesquelles cette personne fonctionne bien, assez précises pour ne pas valoir pour tout le monde",
+      "Conditions de travail, 2 à 6 mots chacune. Voir SYNTHÈSE",
     ),
   },
 };
@@ -85,7 +88,7 @@ const analysis: Schema = {
           text: {
             type: Type.STRING,
             description:
-              "Ce qui se tient dans les réponses, 1 à 2 phrases, sans nommer de métier ni donner de conseil. Dit quelque chose que la personne n'a pas formulé elle-même",
+              "Un insight, 1 à 2 phrases. Règles d'écriture : voir LECTURE CROISÉE",
           },
         },
       },
@@ -93,7 +96,7 @@ const analysis: Schema = {
     tensions: stringList(
       0,
       3,
-      "Ce qui tire dans deux sens, 1 à 2 phrases, jamais un insight déguisé. Tableau vide si aucune",
+      "Tensions, 1 à 2 phrases chacune, tableau vide si aucune. Voir TENSIONS",
     ),
   },
 };
@@ -132,7 +135,7 @@ const jobs: Schema = {
       match_reason: {
         type: Type.STRING,
         description:
-          "Pilier dominant désigné par son contenu dans les mots de la personne, jamais par son étiquette technique (love, talent, needs, paid), au moins 2 tags cités, et un écho précis aux réponses. Ne paraphrase ni la description ci-dessus ni les mots de la personne. Ton chaleureux mais factuel : tu montres pourquoi ça colle, tu ne vends pas le métier",
+          "Pourquoi ce métier correspond à la personne. Règles d'écriture : voir MÉTIERS",
       },
       ikigai_scores: perPillar(pillarScore),
       score: {
@@ -154,12 +157,12 @@ const recommendations: Schema = {
     actions: stringList(
       3,
       3,
-      "3 pistes activables rapidement, de natures différentes, dont une gratuite",
+      "3 pistes. Voir RECOMMANDATIONS",
     ),
     warning: {
       type: Type.STRING,
       description:
-        "Un seul point de vigilance, 1 à 2 phrases, proportionné à la situation, toujours renseigné. Ton d'un repère posé : ni alarmiste, ni moralisateur, et jamais un reproche sur les réponses données",
+        "Un seul point de vigilance, 1 à 2 phrases, toujours renseigné. Voir RECOMMANDATIONS",
     },
   },
 };
@@ -167,7 +170,7 @@ const recommendations: Schema = {
 const signature: Schema = {
   type: Type.STRING,
   description:
-    "Une seule phrase, 28 mots au maximum, qui nomme le fil rouge dans les mots de la personne et à partir de ce qu'elle fait concrètement. Citable telle quelle par elle à quelqu'un d'autre, et impossible à appliquer à quelqu'un d'autre. Aucune tournure passe-partout, aucun guillemet",
+    "Une seule phrase, 28 mots au maximum, sans guillemets. Règles d'écriture : voir SIGNATURE",
 };
 
 export const COHERENCE_LEVELS = ["faible", "moyenne", "bonne", "forte"];
@@ -247,7 +250,7 @@ export const ikigaiResponseSchema: Schema = {
       minimum: 40,
       maximum: 95,
       description:
-        "Fiabilité de l'analyse en pourcentage, multiple de 5. Mesure la cohérence de ce qui a été dit, jamais la maturité professionnelle",
+        "Fiabilité de l'analyse en pourcentage, multiple de 5, déduit du niveau. Voir COHÉRENCE ET CONFIANCE",
     },
   },
 };

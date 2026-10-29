@@ -5,7 +5,12 @@ import { getPayloadSignature } from "@/app/api/analyze/utils";
 import { IkigaiStepEnum, PillarStateEnum } from "@/app/types";
 import type { IkigaiPayload } from "@/app/api/analyze/types/request";
 import { payloadFixtures } from "@/scripts/fixtures";
-import { OUTPUT_ROOT, latestRunDir, readAnalysis } from "@/scripts/output-store";
+import {
+  OUTPUT_ROOT,
+  latestRunDir,
+  readAnalysis,
+  readModels,
+} from "@/scripts/output-store";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +74,9 @@ export async function GET(request: Request) {
     return errorPage(`${fixture.slug}.json absent de ${path.basename(runDir)}`);
   }
 
+  // Une exécution antérieure à models.json n'a pas de modèle noté : la page retombe sur l'ancien
+  const model = (await readModels(runDir))[fixture.slug];
+
   // Le localStorage n'est accessible que depuis la page : on écrit puis on redirige aussitôt
   const script = `
     localStorage.setItem("ikigai-form", ${JSON.stringify(JSON.stringify(toIkigaiForm(fixture.payload)))});
@@ -78,6 +86,7 @@ export async function GET(request: Request) {
         signature: getPayloadSignature(fixture.payload),
         result: analysis,
         analyzedAt: runDate(runDir),
+        model,
       }),
     )});
     location.replace("/votre-ikigai");

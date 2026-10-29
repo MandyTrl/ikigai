@@ -142,12 +142,26 @@ Les 4 piliers gardent toujours le dernier mot. `satisfaction` est le champ le pl
 | Les `insights` montrent ce qui **se tient**, les `tensions` ce qui **tire dans deux sens** | sans cette ligne de partage, les deux blocs se ressemblent                                                 |
 | Les `pillars` d'un insight sont ceux que la phrase relie vraiment                         | la tresse 結び les dessine : un nœud décoratif ferait mentir l'illustration                                |
 | La `signature` (28 mots max.) est citable telle quelle                                    | c'est la phrase que la personne répètera à quelqu'un d'autre                                               |
+| La `signature` dit le **pourquoi**, le portrait en apporte la **preuve**                  | une signature chargée de faits retombe dans la description : la personne n'y reconnaît que son métier      |
+| Un insight relie des faits par du **concret** (même action, même plaisir, même situation) | une qualité abstraite partagée (« le même refus du flou ») permet de relier n'importe quoi à n'importe quoi |
+| Un métier équilibré sur les 4 piliers est permis si le `match_reason` l'explique          | c'est le centre de l'ikigai ; sans explication, des barres toutes au même niveau ne disent rien            |
 | Tous les scores sont des **multiples de 5**                                               | on estime en lisant du texte, on ne mesure pas : un 73 ferait croire à un calcul                           |
 | Chaque score se défend par son `match_reason`                                             | un chiffre que le texte n'explique pas est décoratif                                                       |
 | Les 3 métiers couvrent **au moins 2 familles**, en restant les plus proches des réponses  | jamais deux intitulés pour un même rôle, et pas de variété pour le principe                                |
 | Rien ne reproche à l'utilisateur ce qu'il n'a pas écrit                                   | il ne fera le test qu'une fois, l'analyse doit se suffire à elle-même                                      |
 
 **Le seuil minimal de qualité** : au moins une phrase que la personne n'aurait pas pu écrire elle-même. Si une phrase de la sortie peut être reconstituée à partir d'une seule réponse du formulaire, c'est de la paraphrase.
+
+### La voix
+
+Le prompt ne donne pas de rôle d'« expert » : ce titre tirait le texte vers le rapport (« cette orientation s'enracine dans… »). Il décrit des connaissances (orientation, recrutement, marché de l'emploi), puis une voix formulée **en positif** :
+
+- une idée par phrase, une vingtaine de mots au plus ;
+- les mots de tous les jours (« envie » plutôt que « souhait », « vient de » plutôt que « s'enracine dans ») ;
+- des situations plutôt que des concepts ;
+- le test de la voix haute : la diriez-vous telle quelle à la personne assise en face de vous ?
+
+Les interdits viennent après, comme garde-fous. Une liste de « jamais » seule pousse le modèle vers des synonymes rares, et le texte devient plus soutenu au lieu de plus simple.
 
 ---
 
@@ -181,7 +195,7 @@ Ils sont présentés dans l'**ordre de génération**.
 | `summary.motivations`           | 3–4, 2–6 mots                            | le moteur, pas le goût                                                                 | carte « motivations »          |
 | `summary.work_environment`      | 3–4                                      | conditions de travail favorables, assez précises pour ne pas valoir pour tout le monde | carte « environnement »        |
 | `jobs[].title` / `description`  | exactement 3 métiers                     | métier existant sur le marché francophone, quotidien concret                           | fiches « orientations »        |
-| `jobs[].match_reason`           | —                                        | pourquoi ça colle : ≥ 2 tags, un écho précis aux réponses, seul champ qui cite         | dos de la fiche métier         |
+| `jobs[].match_reason`           | —                                        | pourquoi ça colle, sans formule d'introduction : ≥ 2 tags, un écho précis, seul champ qui cite | dos de la fiche métier         |
 | `jobs[].ikigai_scores`          | 0–100 par pilier, multiples de 5         | correspondance du métier avec chaque pilier                                            | barres de score                |
 | `jobs[].score`                  | 40–95, multiple de 5                     | pertinence globale, générée **après** le détail par pilier                             | score de la fiche              |
 | `recommendations.actions`       | exactement 3                             | pistes activables vite, de natures différentes, dont une gratuite                      | « pistes pour avancer »        |
@@ -194,6 +208,7 @@ Ils sont présentés dans l'**ordre de génération**.
 
 - **Le schéma** (`responseSchema` + `responseMimeType: "application/json"`) garantit la **structure** : champs obligatoires, nombre d'éléments, bornes, valeurs autorisées, ordre de génération.
 - **Le prompt** porte ce qu'un schéma ne peut pas exprimer : le ton, la non-paraphrase, l'interdiction de citer hors `match_reason`, les multiples de 5.
+- **Les `description` du schéma sont aussi du prompt** : le modèle les lit au moment précis où il écrit chaque champ, et elles l'emportent quand elles contredisent le prompt. Une ancienne description (« à partir de ce qu'elle fait concrètement ») gardait la signature descriptive alors que le prompt avait changé. Elles ne portent donc que la **forme** (nombre, longueur, champ obligatoire) et un renvoi vers la section du prompt (« voir SIGNATURE ») : le style ne s'écrit qu'à un seul endroit.
 
 > **Attention** : `responseSchema.ts` et `types/response.ts` décrivent la même forme, modifiez toujours les deux ensemble. Pour tout ajout de champ, incrémentez aussi `ANALYSIS_SCHEMA_VERSION` (`app/api/analyze/utils.ts`) afin d'invalider les analyses en cache.
 

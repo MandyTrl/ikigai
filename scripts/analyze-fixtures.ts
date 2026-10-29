@@ -8,6 +8,7 @@ import {
   readAnalysis,
   readRepeats,
   saveAnalysis,
+  saveModel,
 } from "./output-store.ts";
 import { formatTerminalSummary, type FixtureRun } from "./measures.ts";
 
@@ -58,7 +59,7 @@ const requestAnalysis = async (
   payload: unknown,
   label: string,
   attempt = 1,
-): Promise<IkigaiAnalysisResult> => {
+): Promise<{ analysis: IkigaiAnalysisResult; model: string }> => {
   const url = `${options.baseUrl}/api/analyze`;
   const startedAt = Date.now();
 
@@ -77,7 +78,7 @@ const requestAnalysis = async (
   if (!response.ok || !body?.success) {
     if (response.status === 429) {
       throw new Error(
-        `${label} : quota Gemini atteint (20 requêtes par jour en palier gratuit). Réessaie demain ou change de clé.`,
+        `${label} : quota Gemini atteint sur tous les modèles de repli (20 requêtes par jour chacun en palier gratuit). Réessaie demain ou change de clé.`,
       );
     }
 
@@ -94,11 +95,13 @@ const requestAnalysis = async (
     );
   }
 
+  const model = typeof body.model === "string" ? body.model : "modèle inconnu";
+
   console.log(
-    `  ${label} : analyse reçue en ${((Date.now() - startedAt) / 1000).toFixed(1)} s`,
+    `  ${label} : analyse reçue en ${((Date.now() - startedAt) / 1000).toFixed(1)} s · ${model}`,
   );
 
-  return assertAnalysisShape(body.data, label);
+  return { analysis: assertAnalysisShape(body.data, label), model };
 };
 
 let currentRunDir: string | null = null;
@@ -144,18 +147,24 @@ const main = async () => {
       continue;
     }
 
-    const analysis = await requestAnalysis(fixture.payload, fixture.slug);
+    const { analysis, model } = await requestAnalysis(
+      fixture.payload,
+      fixture.slug,
+    );
     await saveAnalysis(runDir, fixture.slug, analysis);
+    await saveModel(runDir, fixture.slug, model);
 
     const repeats: IkigaiAnalysisResult[] = [];
 
     for (let run = 2; run <= options.runs; run += 1) {
+      const name = `${fixture.slug}-${run}`;
       const repeat = await requestAnalysis(
         fixture.payload,
         `${fixture.slug} #${run}`,
       );
-      await saveAnalysis(runDir, `${fixture.slug}-${run}`, repeat);
-      repeats.push(repeat);
+      await saveAnalysis(runDir, name, repeat.analysis);
+      await saveModel(runDir, name, repeat.model);
+      repeats.push(repeat.analysis);
     }
 
     runs.push({ fixture, analysis, repeats });

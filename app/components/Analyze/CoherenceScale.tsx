@@ -9,6 +9,7 @@ import { Eyebrow } from "../UI/Eyebrow";
 import { CoherenceAbout } from "./CoherenceAbout";
 
 type CoherenceScaleProps = {
+  model: string;
   confidence: number;
   coherence?: IkigaiCoherence;
 };
@@ -30,6 +31,7 @@ const levelFromConfidence = (confidence: number): CoherenceLevel => {
 };
 
 export const CoherenceScale = ({
+  model,
   confidence,
   coherence,
 }: CoherenceScaleProps) => {
@@ -53,7 +55,7 @@ export const CoherenceScale = ({
           </div>
 
           <span className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-secondary/70">
-            gemini-2.5-flash
+            {model}
           </span>
         </div>
       </div>
