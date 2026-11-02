@@ -45,6 +45,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build Next.js
+    needs: [lint, typecheck]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
