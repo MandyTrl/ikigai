@@ -241,7 +241,7 @@ yarn seed student              # affiche le résultat dans la vraie page
 
 | Type de contrôle | Ce qu'il signale                                                                                                                               | Gravité                                          |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| `contrat`        | cardinalités du schéma, intitulés de métier en double, insight relié à moins de 2 piliers, champ manquant                                      | **bug** : schéma, types et UI ne concordent plus |
+| `contrat`        | cardinalités du schéma, intitulés de métier en double, insight relié à moins de 2 piliers, champ manquant, texte sans accents                  | **bug** : schéma, types et UI ne concordent plus |
 | `regle`          | score hors des multiples de 5, piliers à plat, nom de pilier dans la prose, ouverture interdite, tiret cadratin, guillemets hors `match_reason` | le prompt n'est pas respecté                     |
 | `vigilance`      | reprise mot pour mot de 6 mots des réponses, éléments de synthèse trop longs                                                                   | à relire                                         |
 

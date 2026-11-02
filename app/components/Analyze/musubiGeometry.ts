@@ -61,8 +61,7 @@ const homeX = (
   threadX(width, t) +
   (threadX(width, endT(t, invert)) - threadX(width, t)) * (y / bottom);
 
-// Entre deux nœuds, le fil repasse par son propre couloir : deux fils qui partagent
-// plusieurs nœuds s'écartent entre eux au lieu de se fondre en un seul brin.
+// Entre deux nœuds, le fil repasse par son propre couloir : deux fils qui partagent plusieurs nœuds s'écartent entre eux au lieu de se fondre en un seul brin.
 const breathe = (
   width: number,
   bottom: number,

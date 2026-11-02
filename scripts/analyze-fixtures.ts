@@ -67,9 +67,15 @@ const requestAnalysis = async (
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
-  }).catch(() => {
+  }).catch((error: unknown) => {
+    // fetch range la raison réseau dans cause (ECONNREFUSED, socket fermé, délai dépassé…)
+    const cause =
+      error instanceof Error && error.cause instanceof Error
+        ? error.cause.message
+        : String(error);
+
     throw new Error(
-      `${url} injoignable. Lance le serveur avec « yarn dev », ou passe --base-url=…`,
+      `${url} injoignable après ${((Date.now() - startedAt) / 1000).toFixed(1)} s (${cause}). Lance le serveur avec « yarn dev », ou passe --base-url=…`,
     );
   });
 
