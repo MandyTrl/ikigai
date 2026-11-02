@@ -1,6 +1,6 @@
-import { MbtiType } from "@/app/types";
+import { MbtiOption } from "@/app/types";
 
-export const mbtiTypes: { value: MbtiType; label: string }[] = [
+export const mbtiTypes: MbtiOption[] = [
   { value: "INTJ", label: "INTJ · Architecte" },
   { value: "INTP", label: "INTP · Logicien" },
   { value: "ENTJ", label: "ENTJ · Commandant" },

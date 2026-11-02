@@ -54,7 +54,7 @@ sequenceDiagram
 
 ### Le payload (`IkigaiPayload`)
 
-Un tableau de 3 réponses par pilier, **dans l'ordre des questions**. Une question sautée reste `""` à son index. `enrichment` n'est présent que si au moins un champ du profil facultatif est rempli.
+Un tableau de 3 réponses par pilier, **dans l'ordre des questions**. Une question sautée reste `""` à son index. `enrichment` n'est présent que si au moins un champ du profil facultatif est rempli. Sinon la clé est absente, jamais `null` ni `[]` : la route les refuse (400), comme un `mbti` ou un `disc` hors de leur liste, un `currentJob` qui n'est pas du texte, ou un `satisfaction` / `age` qui n'est pas un nombre.
 
 ```jsonc
 {

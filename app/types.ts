@@ -41,4 +41,15 @@ export type MbtiType =
   | "ESTP"
   | "ESFP";
 
+export interface MbtiOption {
+  value: MbtiType;
+  label: string;
+}
+
 export type DiscColor = "red" | "yellow" | "green" | "blue";
+
+export interface DiscProfile {
+  id: DiscColor;
+  label: string;
+  swatch: string;
+}

@@ -1,11 +1,32 @@
 import type { IkigaiEnrichment, IkigaiForm } from "@/app/context/IkigaiContext";
 import { IkigaiStepEnum } from "@/app/types";
+import { discProfiles } from "@/app/utils/datas/discProfiles";
+import { mbtiTypes } from "@/app/utils/datas/mbtiTypes";
 import { pickEnrichmentFields } from "@/app/utils/ikigaiEnrichment";
 import {
   getFilledAnswersCount,
   MIN_ANSWERS_REQUIRED_PER_PILLAR,
 } from "@/app/utils/validateForm";
 import { IkigaiPayload } from "./types/request";
+
+const isPlainObject = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
+
+const isValidEnrichment = (value: unknown) => {
+  if (value === undefined) return true;
+  if (!isPlainObject(value)) return false;
+
+  const { mbti, disc, currentJob, satisfaction, age } = value;
+
+  return (
+    (mbti === undefined || mbtiTypes.some((type) => type.value === mbti)) &&
+    (disc === undefined ||
+      discProfiles.some((profile) => profile.id === disc)) &&
+    (currentJob === undefined || typeof currentJob === "string") &&
+    (satisfaction === undefined || Number.isFinite(satisfaction)) &&
+    (age === undefined || Number.isFinite(age))
+  );
+};
 
 export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
   if (!body || typeof body !== "object") return false;
@@ -21,10 +42,9 @@ export const isValidIkigaiPayload = (body: unknown): body is IkigaiPayload => {
     payload.talent.every((item) => typeof item === "string") &&
     payload.needs.every((item) => typeof item === "string") &&
     payload.paid.every((item) => typeof item === "string") &&
-    (payload.enrichment === undefined || typeof payload.enrichment === "object")
+    isValidEnrichment(payload.enrichment)
   );
 };
-
 
 export const isCompleteIkigaiPayload = (payload: IkigaiPayload) => {
   return [payload.love, payload.talent, payload.needs, payload.paid].every(
@@ -97,9 +117,7 @@ export const getPayloadSignature = (payload: IkigaiPayload) => {
 export type AnalysisCache = {
   signature: string;
   result: unknown;
-
   analyzedAt?: string;
-
   model?: string;
 };
 
