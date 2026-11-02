@@ -42,10 +42,24 @@ jobs:
       - name: Vérifier les types
         run: yarn tsc --noEmit
 
+  test:
+    runs-on: ubuntu-latest
+    name: Tests Vitest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+      - name: Installer les dépendances
+        run: yarn install --frozen-lockfile
+      - name: Lancer les tests unitaires
+        run: yarn vitest run
+
   build:
     runs-on: ubuntu-latest
     name: Build Next.js
-    needs: [lint, typecheck]
+    needs: [lint, typecheck, test]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
