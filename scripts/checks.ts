@@ -239,6 +239,32 @@ const checkContract = (analysis: IkigaiAnalysisResult): Alert[] => {
   return alerts;
 };
 
+// Un français sans accents est un raté de génération (vu sur un run de minimal, dès les tags) :
+// l'interface l'afficherait tel quel. ~3 % des lettres d'un texte français sont accentuées.
+const MIN_ACCENTED_RATIO = 0.005;
+
+const checkAccents = (analysis: IkigaiAnalysisResult): Alert[] => {
+  const text = [
+    ...proseFields(analysis).map(([, value]) => value),
+    ...listFields(analysis).flatMap(([, values]) => values),
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  const letters = text.match(/[a-zàâäéèêëîïôöùûüÿçœ]/g)?.length ?? 0;
+  const accented = text.match(/[àâäéèêëîïôöùûüÿçœ]/g)?.length ?? 0;
+
+  if (letters === 0 || accented / letters >= MIN_ACCENTED_RATIO) return [];
+
+  return [
+    {
+      kind: "contrat",
+      label: "texte sans accents",
+      detail: `${accented} lettre(s) accentuée(s) sur ${letters}, la sortie s'afficherait sans accents`,
+    },
+  ];
+};
+
 // Fourchettes de l'étape 9 du prompt : le pourcentage doit rester dans celle de son niveau
 const CONFIDENCE_BANDS: Record<string, [number, number]> = {
   faible: [40, 60],
@@ -605,6 +631,7 @@ const runChecks = (
   payload: IkigaiPayload,
 ): Alert[] => [
   ...checkContract(analysis),
+  ...checkAccents(analysis),
   ...checkScores(analysis),
   ...checkWriting(analysis),
   ...checkParaphrase(analysis, payload),
