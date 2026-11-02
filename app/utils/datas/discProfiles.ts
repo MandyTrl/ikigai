@@ -1,10 +1,4 @@
-import { DiscColor } from "@/app/types";
-
-export type DiscProfile = {
-  id: DiscColor;
-  label: string;
-  swatch: string;
-};
+import { DiscProfile } from "@/app/types";
 
 export const discProfiles: DiscProfile[] = [
   { id: "red", label: "Dominant", swatch: "#c97b6a" },
