@@ -9,11 +9,12 @@ yarn dev        # Start dev server (Turbopack is the default since Next 16)
 yarn build      # Production build
 yarn start      # Start production server
 yarn lint       # ESLint CLI (`next lint` was removed in Next 16); flat config imported straight from eslint-config-next
+yarn test       # Vitest in watch mode (`yarn vitest run` for a single pass, as in CI)
 yarn fixtures   # Run the 4 persona fixtures (+ any local ones) through /api/analyze (needs yarn dev running)
 yarn seed <persona>  # Open /votre-ikigai with a saved analysis (student | unhappy-employee | minimal | curious-explorer | any local slug)
 ```
 
-No test suite is configured. `yarn fixtures` is the closest thing: see **Fixtures & output review** below.
+Unit tests (Vitest) live in `__tests__/` and cover `isValidIkigaiPayload` and `getPayloadSignature`. The AI output is checked by `yarn fixtures` instead: see **Fixtures & output review** below.
 
 ## Environment
 

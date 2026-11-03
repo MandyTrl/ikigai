@@ -35,7 +35,8 @@ Les tests d'orientation en ligne s'arrêtent souvent à des cases à cocher et �
 
 ## Qualité
 
-- **CI GitHub Actions** sur chaque PR et chaque push sur `main` : lint, typecheck, build.
+- **CI GitHub Actions** sur chaque PR et chaque push sur `main` : lint, typecheck, tests, build.
+- **Des tests unitaires (Vitest)** sur la logique critique côté serveur et cache : la validation du payload de `/api/analyze` et la signature qui indexe le cache d'analyse.
 - **Un harnais de fixtures** pour tester une sortie qui n'est pas déterministe : 4 personas passent par la vraie route, et leurs résultats sont contrôlés automatiquement (respect du schéma, règles du prompt, paraphrase, uniformité entre profils). Détails dans [docs/ia.md](docs/ia.md#vérifier-la-sortie).
 
 ## Démarrer
@@ -48,14 +49,15 @@ cp .env.example .env.local   # puis renseignez GEMINI_API_KEY
 yarn dev                     # http://localhost:3000
 ```
 
-| Commande                                 | Rôle                                                                 |
-| ---------------------------------------- | -------------------------------------------------------------------- |
-| `yarn dev`                               | serveur de développement                                             |
-| `yarn build` / `yarn start`              | build et serveur de production                                       |
-| `yarn lint`                              | ESLint                                                               |
-| `yarn next typegen && yarn tsc --noEmit` | typecheck (identique à la CI)                                        |
-| `yarn fixtures`                          | envoie les personas de test à l'API (nécessite `yarn dev`)           |
-| `yarn seed <persona>`                    | ouvre la page de résultat avec une analyse déjà générée, sans appel IA |
+| Commande                                 | Rôle                                                                            |
+| ---------------------------------------- | ------------------------------------------------------------------------------- |
+| `yarn dev`                               | serveur de développement                                                        |
+| `yarn build` / `yarn start`              | build et serveur de production                                                  |
+| `yarn lint`                              | ESLint                                                                          |
+| `yarn test`                              | tests unitaires Vitest (en mode watch ; `yarn vitest run` pour un seul passage) |
+| `yarn next typegen && yarn tsc --noEmit` | typecheck (identique à la CI)                                                   |
+| `yarn fixtures`                          | envoie les personas de test à l'API (nécessite `yarn dev`)                      |
+| `yarn seed <persona>`                    | ouvre la page de résultat avec une analyse déjà générée, sans appel IA          |
 
 ## Documentation
 
@@ -64,7 +66,7 @@ yarn dev                     # http://localhost:3000
 ## Limites connues
 
 - Testé uniquement sur **Chrome**. Safari et Firefox restent à vérifier.
-- Pas de tests unitaires : la CI couvre lint, types et build, et les fixtures couvrent la sortie IA.
+- Tests unitaires limités à la validation du payload et à la signature du cache : pas encore de tests de composants.
 - Offre gratuite de Gemini : 20 analyses par jour et par modèle, et pas d'accès en temps réel au marché de l'emploi.
 
 ## Données personnelles
