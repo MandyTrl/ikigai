@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { meaningfulWords } from "@/scripts/checks";
+import { meaningfulWords, sharedWordRatio } from "@/scripts/checks";
 
 // level 1: test helpers
 describe("meaningfulWords", () => {
@@ -23,9 +23,23 @@ describe("meaningfulWords", () => {
 });
 
 describe("sharedWordRatio", () => {
-  it.todo("Returns 0 when one list is empty");
-  it.todo("Returns 1 when both lists are identical");
-  it.todo("Returns the share of distinct words in common when the lists partly overlap");
+  it("Returns 0 when one list is empty", () => {
+    expect(sharedWordRatio(["word"], [])).toBe(0);
+  });
+  it("Returns 0 when both lists are empty", () => {
+    expect(sharedWordRatio([], [])).toBe(0);
+  });
+  it("Returns 1 when both lists are identical", () => {
+    expect(sharedWordRatio(["word"], ["word"])).toBe(1);
+  });
+  it("Returns the share of distinct words in common when the lists partly overlap", () => {
+    expect(
+      sharedWordRatio(
+        ["word", "test", "ikigai"],
+        ["test", "ikigai", "documentation", "vitest"],
+      ),
+    ).toBeCloseTo(0.4);
+  });
 });
 
 describe("wordsInCommon", () => {
@@ -40,5 +54,7 @@ describe("firstWords", () => {
 
 describe("insightTexts", () => {
   it.todo("Returns the text of each insight when insights are objects");
-  it.todo("Returns the insight itself when it is a plain string (legacy format)");
+  it.todo(
+    "Returns the insight itself when it is a plain string (legacy format)",
+  );
 });
