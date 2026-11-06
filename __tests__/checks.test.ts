@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { meaningfulWords, sharedWordRatio } from "@/scripts/checks";
+import {
+  meaningfulWords,
+  sharedWordRatio,
+  wordsInCommon,
+} from "@/scripts/checks";
 
 // level 1: test helpers
 describe("meaningfulWords", () => {
@@ -40,11 +44,31 @@ describe("sharedWordRatio", () => {
       ),
     ).toBeCloseTo(0.4);
   });
+  it("Returns 1 when the lists only differ by repeated words", () => {
+    expect(sharedWordRatio(["velo", "velo"], ["velo"])).toBe(1);
+  });
 });
 
 describe("wordsInCommon", () => {
-  it.todo("Returns each shared word once when it appears several times");
-  it.todo("Returns an empty array when no word is shared");
+  it("Returns each shared word once when it appears several times", () => {
+    expect(
+      wordsInCommon(
+        ["art", "culture", "jeux", "culture"],
+        ["culture", "lecture", "randonnée"],
+      ),
+    ).toEqual(["culture"]);
+  });
+  it("Returns an empty array when no word is shared", () => {
+    expect(
+      wordsInCommon(
+        ["art", "culture", "jeux"],
+        ["videoclub", "lecture", "randonnee"],
+      ),
+    ).toEqual([]);
+  });
+  it("Returns no match when words only differ by case (expects normalized words)", () => {
+    expect(wordsInCommon(["Culture"], ["culture"])).toEqual([]);
+  });
 });
 
 describe("firstWords", () => {
