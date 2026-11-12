@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
+import type { IkigaiAnalysisResult } from "@/app/api/analyze/types/response";
 import {
+  firstWords,
+  insightTexts,
   meaningfulWords,
   sharedWordRatio,
   wordsInCommon,
@@ -72,13 +75,44 @@ describe("wordsInCommon", () => {
 });
 
 describe("firstWords", () => {
-  it.todo("Returns the first 6 words when no count is given");
-  it.todo("Returns the first N words when a count is given");
+  it("Returns the first 6 words when no count is given", () => {
+    expect(
+      firstWords("Vous aimez réparer des vélos le week-end avec vos amis"),
+    ).toBe("Vous aimez réparer des vélos le");
+  });
+  it("Returns the first N words when a count is given", () => {
+    expect(
+      firstWords("Vous aimez réparer des vélos le week-end avec vos amis", 3),
+    ).toBe("Vous aimez réparer");
+  });
 });
 
+const withInsights = (insights: unknown[]) =>
+  ({ analysis: { insights } }) as unknown as IkigaiAnalysisResult;
+
 describe("insightTexts", () => {
-  it.todo("Returns the text of each insight when insights are objects");
-  it.todo(
-    "Returns the insight itself when it is a plain string (legacy format)",
-  );
+  it("Returns the text of each insight when insights are objects", () => {
+    expect(
+      insightTexts(
+        withInsights([
+          {
+            pillars: ["love", "talent"],
+            text: "Réparer et expliquer vont ensemble.",
+          },
+          {
+            pillars: ["needs", "paid"],
+            text: "Les ateliers payés répondent au besoin du quartier.",
+          },
+        ]),
+      ),
+    ).toEqual([
+      "Réparer et expliquer vont ensemble.",
+      "Les ateliers payés répondent au besoin du quartier.",
+    ]);
+  });
+  it("Returns the insight itself when it is a plain string (legacy format)", () => {
+    expect(
+      insightTexts(withInsights(["Réparer et expliquer vont ensemble."])),
+    ).toEqual(["Réparer et expliquer vont ensemble."]);
+  });
 });
