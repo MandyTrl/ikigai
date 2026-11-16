@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { IkigaiAnalysisResult } from "@/app/api/analyze/types/response";
 import {
+  checkAnalysis,
   firstWords,
   insightTexts,
   meaningfulWords,
   sharedWordRatio,
   wordsInCommon,
 } from "@/scripts/checks";
+import { buildAnalysis, buildPayload } from "./factories/analysis";
 
 // level 1: test helpers
 describe("meaningfulWords", () => {
@@ -114,5 +116,82 @@ describe("insightTexts", () => {
     expect(
       insightTexts(withInsights(["Réparer et expliquer vont ensemble."])),
     ).toEqual(["Réparer et expliquer vont ensemble."]);
+  });
+});
+
+// level 1: checkAnalysis
+describe("checkAnalysis", () => {
+  it("Returns no alert when the analysis is valid", () => {
+    expect(checkAnalysis(buildAnalysis(), buildPayload())).toEqual([]);
+  });
+
+  describe("missing fields", () => {
+    it("Returns only the missing field alert when the signature is absent", () => {
+      expect(
+        checkAnalysis(buildAnalysis({ signature: "" }), buildPayload()),
+      ).toEqual([
+        expect.objectContaining({
+          kind: "contrat",
+          label: "champ signature absent",
+        }),
+      ]);
+    });
+    it("Returns only the missing field alert when coherence is absent (legacy output)", () => {
+      // the cast simulates an output from before coherence was added to the schema
+      const legacy = {
+        ...buildAnalysis(),
+        coherence: undefined,
+      } as unknown as IkigaiAnalysisResult;
+
+      expect(checkAnalysis(legacy, buildPayload())).toEqual([
+        expect.objectContaining({
+          kind: "contrat",
+          label: "champ coherence absent",
+        }),
+      ]);
+    });
+  });
+
+  describe("schema contract", () => {
+    it.todo("Returns a contract alert when there are not exactly 3 jobs");
+    it.todo("Returns a contract alert when an insight links fewer than 2 pillars");
+    it.todo("Returns a contract alert when the warning is empty");
+    it.todo("Returns a contract alert when two jobs share the same title");
+  });
+
+  describe("accents", () => {
+    it.todo("Returns a contract alert when the text has almost no accents");
+  });
+
+  describe("scores", () => {
+    it.todo("Returns a rule alert when a score is not a multiple of 5");
+    it.todo("Returns a rule alert when confidence is outside its coherence band");
+    it.todo("Returns a rule alert when two jobs are less than 5 points apart");
+    it.todo("Returns a vigilance alert when the pillar scores of a job are too flat");
+  });
+
+  describe("writing", () => {
+    it.todo("Returns a rule alert when a text contains an em dash");
+    it.todo("Returns a rule alert when a text contains markdown");
+    it.todo("Returns a rule alert when a text mentions the answers");
+    it.todo("Returns a rule alert when a pillar name leaks into a text");
+    it.todo("Returns a rule alert when a text outside match_reason contains quotes");
+    it.todo("Returns a rule alert when a match_reason quotes in the first person");
+    it.todo("Returns a rule alert when the portrait uses a forbidden opening");
+    it.todo("Returns a rule alert when the portrait opens with a character trait");
+    it.todo("Returns a rule alert when the signature is longer than 28 words");
+    it.todo("Returns a rule alert when the signature has several sentences");
+    it.todo("Returns a rule alert when the portrait repeats the signature");
+    it.todo("Returns a rule alert when a list contains the same item twice");
+    it.todo("Returns a vigilance alert when a summary item is longer than 6 words");
+  });
+
+  describe("paraphrase", () => {
+    it.todo("Returns a vigilance alert when a text reuses 6 words of an answer verbatim");
+  });
+
+  describe("answer material", () => {
+    it.todo("Returns a rule alert when 4 answers are skipped and coherence does not say so");
+    it.todo("Returns a rule alert when confidence is above 70 on thin answers");
   });
 });
