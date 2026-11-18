@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { IkigaiAnalysisResult } from "@/app/api/analyze/types/response";
 import {
+  type Alert,
   checkAnalysis,
   firstWords,
   insightTexts,
@@ -10,7 +11,7 @@ import {
 } from "@/scripts/checks";
 import { buildAnalysis, buildPayload } from "./factories/analysis";
 
-// level 1: test helpers
+// helpers
 describe("meaningfulWords", () => {
   it("Returns lowercase words without accents when the text has capitals and accents", () => {
     expect(
@@ -119,8 +120,13 @@ describe("insightTexts", () => {
   });
 });
 
-// level 1: checkAnalysis
+// checkAnalysis
+// compare analyze and results
 describe("checkAnalysis", () => {
+  // matches an alert by kind and label, ignoring detail (its wording changes with the data)
+  const alert = (kind: Alert["kind"], label: string) =>
+    expect.objectContaining({ kind, label });
+
   it("Returns no alert when the analysis is valid", () => {
     expect(checkAnalysis(buildAnalysis(), buildPayload())).toEqual([]);
   });
@@ -129,12 +135,7 @@ describe("checkAnalysis", () => {
     it("Returns only the missing field alert when the signature is absent", () => {
       expect(
         checkAnalysis(buildAnalysis({ signature: "" }), buildPayload()),
-      ).toEqual([
-        expect.objectContaining({
-          kind: "contrat",
-          label: "champ signature absent",
-        }),
-      ]);
+      ).toEqual([alert("contrat", "champ signature absent")]);
     });
     it("Returns only the missing field alert when coherence is absent (legacy output)", () => {
       // the cast simulates an output from before coherence was added to the schema
@@ -144,17 +145,16 @@ describe("checkAnalysis", () => {
       } as unknown as IkigaiAnalysisResult;
 
       expect(checkAnalysis(legacy, buildPayload())).toEqual([
-        expect.objectContaining({
-          kind: "contrat",
-          label: "champ coherence absent",
-        }),
+        alert("contrat", "champ coherence absent"),
       ]);
     });
   });
 
   describe("schema contract", () => {
     it.todo("Returns a contract alert when there are not exactly 3 jobs");
-    it.todo("Returns a contract alert when an insight links fewer than 2 pillars");
+    it.todo(
+      "Returns a contract alert when an insight links fewer than 2 pillars",
+    );
     it.todo("Returns a contract alert when the warning is empty");
     it.todo("Returns a contract alert when two jobs share the same title");
   });
@@ -164,10 +164,42 @@ describe("checkAnalysis", () => {
   });
 
   describe("scores", () => {
-    it.todo("Returns a rule alert when a score is not a multiple of 5");
-    it.todo("Returns a rule alert when confidence is outside its coherence band");
-    it.todo("Returns a rule alert when two jobs are less than 5 points apart");
-    it.todo("Returns a vigilance alert when the pillar scores of a job are too flat");
+    it("Returns a rule alert when a score is not a multiple of 5", () => {
+      expect(
+        checkAnalysis(buildAnalysis({ confidence: 72 }), buildPayload()),
+      ).toContainEqual(alert("regle", "score hors grille"));
+    });
+    it("Returns a rule alert when confidence is outside its coherence band", () => {
+      expect(
+        checkAnalysis(buildAnalysis({ confidence: 90 }), buildPayload()),
+      ).toContainEqual(alert("regle", "confiance hors fourchette"));
+    });
+    it("Returns a rule alert when two jobs are less than 5 points apart", () => {
+      const { jobs } = buildAnalysis();
+      const analysis = buildAnalysis({
+        jobs: [jobs[0], { ...jobs[1], score: 85 }, jobs[2]],
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toContainEqual(
+        alert("regle", "métiers trop serrés"),
+      );
+    });
+    it("Returns a vigilance alert when the pillar scores of a job are too flat", () => {
+      const { jobs } = buildAnalysis();
+      const analysis = buildAnalysis({
+        jobs: [
+          jobs[0],
+          {
+            ...jobs[1],
+            ikigai_scores: { love: 85, talent: 80, needs: 80, paid: 85 },
+          },
+        ],
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toContainEqual(
+        alert("vigilance", "piliers trop plats"),
+      );
+    });
   });
 
   describe("writing", () => {
@@ -175,23 +207,35 @@ describe("checkAnalysis", () => {
     it.todo("Returns a rule alert when a text contains markdown");
     it.todo("Returns a rule alert when a text mentions the answers");
     it.todo("Returns a rule alert when a pillar name leaks into a text");
-    it.todo("Returns a rule alert when a text outside match_reason contains quotes");
-    it.todo("Returns a rule alert when a match_reason quotes in the first person");
+    it.todo(
+      "Returns a rule alert when a text outside match_reason contains quotes",
+    );
+    it.todo(
+      "Returns a rule alert when a match_reason quotes in the first person",
+    );
     it.todo("Returns a rule alert when the portrait uses a forbidden opening");
-    it.todo("Returns a rule alert when the portrait opens with a character trait");
+    it.todo(
+      "Returns a rule alert when the portrait opens with a character trait",
+    );
     it.todo("Returns a rule alert when the signature is longer than 28 words");
     it.todo("Returns a rule alert when the signature has several sentences");
     it.todo("Returns a rule alert when the portrait repeats the signature");
     it.todo("Returns a rule alert when a list contains the same item twice");
-    it.todo("Returns a vigilance alert when a summary item is longer than 6 words");
+    it.todo(
+      "Returns a vigilance alert when a summary item is longer than 6 words",
+    );
   });
 
   describe("paraphrase", () => {
-    it.todo("Returns a vigilance alert when a text reuses 6 words of an answer verbatim");
+    it.todo(
+      "Returns a vigilance alert when a text reuses 6 words of an answer verbatim",
+    );
   });
 
   describe("answer material", () => {
-    it.todo("Returns a rule alert when 4 answers are skipped and coherence does not say so");
+    it.todo(
+      "Returns a rule alert when 4 answers are skipped and coherence does not say so",
+    );
     it.todo("Returns a rule alert when confidence is above 70 on thin answers");
   });
 });

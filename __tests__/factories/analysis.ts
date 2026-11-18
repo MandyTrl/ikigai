@@ -1,6 +1,7 @@
 import type { IkigaiPayload } from "@/app/api/analyze/types/request";
 import type { IkigaiAnalysisResult } from "@/app/api/analyze/types/response";
 
+// user's answer
 // 12 answers of 60+ characters: enough material for a "bonne" coherence
 export const buildPayload = (
   overrides: Partial<IkigaiPayload> = {},
@@ -28,6 +29,7 @@ export const buildPayload = (
   ...overrides,
 });
 
+// analyze in Gemini format
 // An analysis that triggers no alert in checkAnalysis(analysis, buildPayload()):
 // each test overrides one field to break one rule
 export const buildAnalysis = (
