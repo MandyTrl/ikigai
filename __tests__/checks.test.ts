@@ -160,7 +160,18 @@ describe("checkAnalysis", () => {
   });
 
   describe("accents", () => {
-    it.todo("Returns a contract alert when the text has almost no accents");
+    it("Returns a contract alert when the text has almost no accents", () => {
+      // strips the accents from every string of the analysis, like the generation glitch it guards against
+      const analysis: IkigaiAnalysisResult = JSON.parse(
+        JSON.stringify(buildAnalysis())
+          .normalize("NFD")
+          .replace(/[̀-ͯ]/g, ""),
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toContainEqual(
+        alert("contrat", "texte sans accents"),
+      );
+    });
   });
 
   describe("scores", () => {
@@ -227,15 +238,44 @@ describe("checkAnalysis", () => {
   });
 
   describe("paraphrase", () => {
-    it.todo(
-      "Returns a vigilance alert when a text reuses 6 words of an answer verbatim",
-    );
+    it("Returns a vigilance alert when a text reuses 6 words of an answer verbatim", () => {
+      const { summary } = buildAnalysis();
+      const analysis = buildAnalysis({
+        summary: {
+          ...summary,
+          profile:
+            "Réparer des vélos le week-end vous occupe des heures entières.",
+        },
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toContainEqual(
+        alert("vigilance", "reprise mot à mot"),
+      );
+    });
   });
 
   describe("answer material", () => {
-    it.todo(
-      "Returns a rule alert when 4 answers are skipped and coherence does not say so",
-    );
-    it.todo("Returns a rule alert when confidence is above 70 on thin answers");
+    it("Returns a rule alert when 4 answers are skipped and coherence does not say so", () => {
+      const { love, talent } = buildPayload();
+      const payload = buildPayload({
+        love: [love[0], "", ""],
+        talent: [talent[0], "", ""],
+      });
+
+      expect(checkAnalysis(buildAnalysis(), payload)).toContainEqual(
+        alert("regle", "constat manquant"),
+      );
+    });
+    it("Returns a rule alert when confidence is above 70 on thin answers", () => {
+      const { needs } = buildPayload();
+      const payload = buildPayload({
+        needs: [needs[0], needs[1], "Je ne sais pas."],
+        paid: ["Pas encore.", "Rien pour l'instant.", "Je ne sais pas."],
+      });
+
+      expect(checkAnalysis(buildAnalysis(), payload)).toEqual([
+        alert("regle", "confiance élevée sur matière mince"),
+      ]);
+    });
   });
 });
