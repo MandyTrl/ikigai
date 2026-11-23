@@ -151,12 +151,48 @@ describe("checkAnalysis", () => {
   });
 
   describe("schema contract", () => {
-    it.todo("Returns a contract alert when there are not exactly 3 jobs");
-    it.todo(
-      "Returns a contract alert when an insight links fewer than 2 pillars",
-    );
-    it.todo("Returns a contract alert when the warning is empty");
-    it.todo("Returns a contract alert when two jobs share the same title");
+    it("Returns a contract alert when there are not exactly 3 jobs", () => {
+      const { jobs } = buildAnalysis();
+      const analysis = buildAnalysis({ jobs: [jobs[0], jobs[1]] });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("contrat", "cardinalité jobs"),
+      ]);
+    });
+    it("Returns a contract alert when an insight links fewer than 2 pillars", () => {
+      const { analysis: crossReading } = buildAnalysis();
+      const [first, ...others] = crossReading.insights;
+      const analysis = buildAnalysis({
+        analysis: {
+          ...crossReading,
+          insights: [{ ...first, pillars: ["love"] }, ...others],
+        },
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("contrat", "insights[0].pillars"),
+      ]);
+    });
+    it("Returns a contract alert when the warning is empty", () => {
+      const { recommendations } = buildAnalysis();
+      const analysis = buildAnalysis({
+        recommendations: { ...recommendations, warning: "" },
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("contrat", "warning vide"),
+      ]);
+    });
+    it("Returns a contract alert when two jobs share the same title", () => {
+      const { jobs } = buildAnalysis();
+      const analysis = buildAnalysis({
+        jobs: [jobs[0], { ...jobs[1], title: jobs[0].title }, jobs[2]],
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("contrat", "intitulés de métier en doublon"),
+      ]);
+    });
   });
 
   describe("accents", () => {
@@ -165,7 +201,7 @@ describe("checkAnalysis", () => {
       const analysis: IkigaiAnalysisResult = JSON.parse(
         JSON.stringify(buildAnalysis())
           .normalize("NFD")
-          .replace(/[̀-ͯ]/g, ""),
+          .replace(/[\u0300-\u036f]/g, ""),
       );
 
       expect(checkAnalysis(analysis, buildPayload())).toContainEqual(
@@ -204,6 +240,7 @@ describe("checkAnalysis", () => {
             ...jobs[1],
             ikigai_scores: { love: 85, talent: 80, needs: 80, paid: 85 },
           },
+          jobs[2],
         ],
       });
 
@@ -214,13 +251,65 @@ describe("checkAnalysis", () => {
   });
 
   describe("writing", () => {
-    it.todo("Returns a rule alert when a text contains an em dash");
-    it.todo("Returns a rule alert when a text contains markdown");
-    it.todo("Returns a rule alert when a text mentions the answers");
-    it.todo("Returns a rule alert when a pillar name leaks into a text");
-    it.todo(
-      "Returns a rule alert when a text outside match_reason contains quotes",
-    );
+    // the warning is a prose field checked by every writing rule, and no other rule reads it
+    const withWarning = (warning: string) => {
+      const { recommendations } = buildAnalysis();
+      return buildAnalysis({
+        recommendations: { ...recommendations, warning },
+      });
+    };
+
+    it("Returns a rule alert when a text contains an em dash", () => {
+      const analysis = withWarning(
+        "Garder du temps pour bricoler — sinon l'envie de transmettre risque de s'épuiser.",
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "tiret cadratin"),
+      ]);
+    });
+    it("Returns a rule alert when a text contains markdown", () => {
+      const analysis = withWarning(
+        "**Garder du temps** pour bricoler, sinon l'envie de transmettre risque de s'épuiser.",
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "markdown dans une valeur"),
+      ]);
+    });
+    it("Returns a rule alert when a text mentions the answers", () => {
+      const analysis = withWarning(
+        "D'après vos réponses, l'envie de transmettre risque de s'épuiser sans temps pour bricoler.",
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "mention du processus"),
+      ]);
+    });
+    it("Returns a rule alert when a pillar name leaks into a text", () => {
+      const analysis = withWarning(
+        "Garder du temps pour bricoler (love), sinon l'envie de transmettre risque de s'épuiser.",
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "nom de pilier en clair"),
+      ]);
+    });
+    it("Returns a rule alert when a text outside match_reason contains quotes", () => {
+      const { analysis: crossReading } = buildAnalysis();
+      const analysis = buildAnalysis({
+        analysis: {
+          ...crossReading,
+          tensions: [
+            "Le goût du « concret » peut s'user dans un poste trop administratif.",
+          ],
+        },
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "citation hors match_reason"),
+      ]);
+    });
     it.todo(
       "Returns a rule alert when a match_reason quotes in the first person",
     );
