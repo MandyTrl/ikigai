@@ -310,20 +310,117 @@ describe("checkAnalysis", () => {
         alert("regle", "citation hors match_reason"),
       ]);
     });
-    it.todo(
-      "Returns a rule alert when a match_reason quotes in the first person",
-    );
-    it.todo("Returns a rule alert when the portrait uses a forbidden opening");
-    it.todo(
-      "Returns a rule alert when the portrait opens with a character trait",
-    );
-    it.todo("Returns a rule alert when the signature is longer than 28 words");
-    it.todo("Returns a rule alert when the signature has several sentences");
-    it.todo("Returns a rule alert when the portrait repeats the signature");
-    it.todo("Returns a rule alert when a list contains the same item twice");
-    it.todo(
-      "Returns a vigilance alert when a summary item is longer than 6 words",
-    );
+    it("Returns a rule alert when a match_reason quotes in the first person", () => {
+      const { jobs } = buildAnalysis();
+      const analysis = buildAnalysis({
+        jobs: [
+          {
+            ...jobs[0],
+            match_reason:
+              "Vous animez déjà des ateliers payés et vous l'écrivez : « j'aime démonter pour comprendre ».",
+          },
+          jobs[1],
+          jobs[2],
+        ],
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "citation à la première personne"),
+      ]);
+    });
+
+    // the portrait is read by several rules: each test below changes only its opening or its end
+    const withProfile = (profile: string) => {
+      const { summary } = buildAnalysis();
+      return buildAnalysis({ summary: { ...summary, profile } });
+    };
+    const { profile } = buildAnalysis().summary;
+
+    it("Returns a rule alert when the portrait uses a forbidden opening", () => {
+      const analysis = withProfile(
+        `Vous êtes quelqu'un qui aime comprendre. ${profile}`,
+      );
+
+      // "vous êtes" is also a character trait opening, so both rules fire
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "ouverture interdite"),
+        alert("regle", "portrait qui caractérise"),
+      ]);
+    });
+    it("Returns a rule alert when the portrait opens with a character trait", () => {
+      const analysis = withProfile(
+        `Votre curiosité vous pousse à tout démonter. ${profile}`,
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "portrait qui caractérise"),
+      ]);
+    });
+    it("Returns a rule alert when the portrait repeats the signature", () => {
+      const analysis = withProfile(
+        `${profile} Au fond, vous aimez la rendre simple pour les autres.`,
+      );
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "signature répétée dans le portrait"),
+      ]);
+    });
+
+    it("Returns a rule alert when the signature is longer than 28 words", () => {
+      // 33 words, in a single sentence so that only the length rule fires
+      const analysis = buildAnalysis({
+        signature:
+          "Vous comprenez une chose en la démontant pièce par pièce, puis vous prenez le temps de la rendre simple, claire et utile pour tous ceux qui débutent à côté de vous chaque jour.",
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "signature hors format"),
+      ]);
+    });
+    it("Returns a rule alert when the signature has several sentences", () => {
+      const analysis = buildAnalysis({
+        signature:
+          "Vous comprenez une chose en la démontant. Puis vous aimez la rendre simple pour les autres.",
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "signature en plusieurs phrases"),
+      ]);
+    });
+
+    it("Returns a rule alert when a list contains the same item twice", () => {
+      const { summary } = buildAnalysis();
+      const analysis = buildAnalysis({
+        summary: {
+          ...summary,
+          key_strengths: [
+            "Expliquer simplement",
+            "Expliquer simplement",
+            "Patience avec les débutants",
+          ],
+        },
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("regle", "doublon dans un tableau"),
+      ]);
+    });
+    it("Returns a vigilance alert when a summary item is longer than 6 words", () => {
+      const { summary } = buildAnalysis();
+      const analysis = buildAnalysis({
+        summary: {
+          ...summary,
+          motivations: [
+            "Comprendre comment les choses marchent de l'intérieur",
+            ...summary.motivations.slice(1),
+          ],
+        },
+      });
+
+      expect(checkAnalysis(analysis, buildPayload())).toEqual([
+        alert("vigilance", "items de synthèse longs"),
+      ]);
+    });
   });
 
   describe("paraphrase", () => {
