@@ -142,7 +142,9 @@ export const firstWords = (value: string, count = 6) =>
 // --report-only sur un ancien dossier doit rester lisible.
 export const insightTexts = (analysis: IkigaiAnalysisResult): string[] =>
   (analysis.analysis.insights as unknown[]).map((insight) =>
-    typeof insight === "string" ? insight : ((insight as { text?: string }).text ?? ""),
+    typeof insight === "string"
+      ? insight
+      : ((insight as { text?: string }).text ?? ""),
   );
 
 const countWords = (value: string) =>
@@ -175,7 +177,9 @@ const listFields = (analysis: IkigaiAnalysisResult): [string, string[]][] => [
   ]),
 ];
 
-// Les nombres sont recopiés de responseSchema.ts (3 métiers, 4 à 5 tags…). Si on changes un élément là-bas il faut changer ici, sinon ce contrôle valide une sortie devenue hors contrat.
+// Ces bornes sont recopiées à la main de responseSchema.ts (minItems / maxItems).
+// Si tu modifies une borne là-bas, modifie-la ici aussi : sinon le contrôle vérifie l'ancien contrat
+// (ex. le schéma passe à 4 métiers, mais ce contrôle en attend toujours 3).
 
 const checkContract = (analysis: IkigaiAnalysisResult): Alert[] => {
   const { summary, jobs, recommendations, tags } = analysis;
@@ -216,7 +220,9 @@ const checkContract = (analysis: IkigaiAnalysisResult): Alert[] => {
   // MusubiIllustration dessine un nœud par insight entre les fils de ses piliers
   analysis.analysis.insights.forEach((insight, index) => {
     const pillars = Array.isArray(insight?.pillars) ? insight.pillars : [];
-    const known = new Set(pillars.filter((p) => (PILLARS as readonly string[]).includes(p)));
+    const known = new Set(
+      pillars.filter((p) => (PILLARS as readonly string[]).includes(p)),
+    );
     if (known.size < 2 || known.size !== pillars.length) {
       alerts.push({
         kind: "contrat",
@@ -239,8 +245,6 @@ const checkContract = (analysis: IkigaiAnalysisResult): Alert[] => {
   return alerts;
 };
 
-// Un français sans accents est un raté de génération (vu sur un run de minimal, dès les tags) :
-// l'interface l'afficherait tel quel. ~3 % des lettres d'un texte français sont accentuées.
 const MIN_ACCENTED_RATIO = 0.005;
 
 const checkAccents = (analysis: IkigaiAnalysisResult): Alert[] => {
@@ -460,12 +464,14 @@ const checkWriting = (analysis: IkigaiAnalysisResult): Alert[] => {
     alerts.push({
       kind: "regle",
       label: "signature en plusieurs phrases",
-      detail: "une seule phrase est attendue, elle s'affiche seule en tête de page",
+      detail:
+        "une seule phrase est attendue, elle s'affiche seule en tête de page",
     });
   }
 
   const echoed = sequencesOf(allWords(analysis.signature ?? ""), 5).filter(
-    (sequence) => allWords(analysis.summary.profile).join(" ").includes(sequence),
+    (sequence) =>
+      allWords(analysis.summary.profile).join(" ").includes(sequence),
   );
   const closeness = sharedWordRatio(
     meaningfulWords(analysis.signature ?? ""),
@@ -517,10 +523,6 @@ const checkWriting = (analysis: IkigaiAnalysisResult): Alert[] => {
   return alerts;
 };
 
-/**
- * Le seuil du README : une phrase reconstituable depuis une seule réponse paraphrase.
- * Les guillemets de match_reason sont voulus, le portrait et les insights non.
- */
 const checkParaphrase = (
   analysis: IkigaiAnalysisResult,
   payload: IkigaiPayload,
@@ -600,8 +602,6 @@ const checkMaterial = (
   return alerts;
 };
 
-// Une sortie produite par un schéma antérieur n'a pas les champs récents : on le constate
-// et on s'arrête là, les contrôles suivants supposent tous le contrat à jour.
 const missingFields = (analysis: IkigaiAnalysisResult): Alert[] =>
   [
     ["signature", analysis.signature],
