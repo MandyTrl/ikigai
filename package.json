@@ -10,7 +10,7 @@
     "test": "vitest",
     "fixtures": "node scripts/analyze-fixtures.ts",
     "seed": "node scripts/seed.ts",
-    "docker:up": "docker compose up --build",
+    "docker:up": "docker compose up -d --build",
     "docker:down": "docker compose down"
   },
   "type": "module",
