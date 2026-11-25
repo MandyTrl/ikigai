@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "test": "vitest",
     "fixtures": "node scripts/analyze-fixtures.ts",
-    "seed": "node scripts/seed.ts"
+    "seed": "node scripts/seed.ts",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down"
   },
   "type": "module",
   "dependencies": {
@@ -17,7 +19,7 @@
     "@phosphor-icons/react": "^2.1.7",
     "clsx": "^2.1.1",
     "motion": "^12.6.2",
-    "next": "^16.4.3",
+    "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "ts-node": "^10.9.2"
@@ -31,7 +33,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.2.1",
     "eslint": "^9",
-    "eslint-config-next": "^16.4.3",
+    "eslint-config-next": "^16.4.6",
     "jsdom": "^30.1.3",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
